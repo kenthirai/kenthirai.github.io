@@ -7,7 +7,7 @@
   <meta name="description" content="Kenthir-AI sedang dalam pengembangan. Pantau perkembangan kami dan dapatkan informasi terbaru tentang peluncuran fitur-fitur canggih kami.">
   <meta name="keywords" content="Kenthir-AI, AI, Pengembangan, Teknologi, Fitur Unggulan, Peluncuran">
   <link rel="icon" type="image/png" href="favicon.png">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <meta property="og:title" content="Kenthir-AI Under Construction">
@@ -15,77 +15,373 @@
   <meta property="og:image" content="https://kenthir.my.id/trial.png">
   <meta property="og:url" content="https://kenthir.my.id">
   <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Custom CSS -->
+  <style>
+    /* Animasi */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .animate-slideIn {
+      animation: slideIn 1s ease-out;
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .animate-pulse {
+      animation: pulse 1.5s infinite;
+    }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0d6efd; /* Bootstrap primary color */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      z-index: 1000;
+    }
+
+    #loading-screen .progress-container {
+      width: 50%;
+      height: 20px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    #loading-screen #progress {
+      height: 100%;
+      background-color: white;
+      width: 0%;
+      transition: width 0.1s;
+    }
+
+    /* Under Construction Page */
+    #under-construction {
+      display: none;
+      padding: 3rem 0;
+      background-color: #f8f9fa; /* Bootstrap light color */
+      min-height: 100vh;
+    }
+
+    #under-construction h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #0d6efd; /* Bootstrap primary color */
+    }
+
+    #under-construction p {
+      font-size: 1.25rem;
+      color: #6c757d; /* Bootstrap secondary color */
+    }
+
+    /* Countdown Timer */
+    #countdown {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap; /* Agar item bisa wrap ke baris baru di layar kecil */
+    }
+
+    #countdown div {
+      background-color: white;
+      padding: 1rem; /* Mengurangi padding untuk layar kecil */
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s;
+      text-align: center;
+      flex: 1 1 100px; /* Flexbox untuk responsif */
+      max-width: 120px; /* Lebar maksimum untuk layar kecil */
+    }
+
+    #countdown div:hover {
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #countdown span {
+      font-size: 2rem; /* Mengurangi ukuran font untuk layar kecil */
+      font-weight: bold;
+      color: #0d6efd; /* Bootstrap primary color */
+    }
+
+    /* Media Query untuk Layar Kecil (Mobile) */
+    @media (max-width: 576px) {
+      #countdown {
+        gap: 0.5rem; /* Mengurangi jarak antar item */
+      }
+
+      #countdown div {
+        padding: 0.75rem; /* Padding lebih kecil untuk layar kecil */
+        max-width: 80px; /* Lebar lebih kecil untuk layar kecil */
+      }
+
+      #countdown span {
+        font-size: 1.5rem; /* Ukuran font lebih kecil untuk layar kecil */
+      }
+    }
+
+    /* Progress Bar */
+    .progress {
+      height: 1.5rem;
+      background-color: #e9ecef; /* Bootstrap light color */
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background-color: #0d6efd; /* Bootstrap primary color */
+      text-align: center;
+      line-height: 1.5rem;
+      color: white;
+    }
+
+    /* Social Media Icons */
+    .social-icons a {
+      color: #0d6efd; /* Bootstrap primary color */
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .social-icons a:hover {
+      opacity: 0.8;
+    }
+
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: #0d6efd; /* Bootstrap primary color */
+      color: white;
+      padding: 0.75rem;
+      border-radius: 50%;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s;
+      display: none;
+    }
+
+    #backToTop:hover {
+      background-color: #0b5ed7; /* Bootstrap primary dark color */
+    }
+
+    /* Cookie Consent Banner */
+    #cookieConsent {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #f8f9fa; /* Bootstrap light color */
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+
+    #cookieConsent p {
+      color: #6c757d; /* Bootstrap secondary color */
+    }
+
+    #cookieConsent a {
+      color: #0d6efd; /* Bootstrap primary color */
+      text-decoration: none;
+    }
+
+    #cookieConsent a:hover {
+      text-decoration: underline;
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #1a1a1a;
+      color: #ffffff;
+    }
+
+    .dark-mode #under-construction {
+      background-color: #1a1a1a;
+    }
+
+    .dark-mode #under-construction h1 {
+      color: #ffffff;
+    }
+
+    .dark-mode #under-construction p {
+      color: #cccccc;
+    }
+
+    .dark-mode #countdown div {
+      background-color: #333333;
+      color: #ffffff;
+    }
+
+    .dark-mode #countdown span {
+      color: #ffffff;
+    }
+
+    .dark-mode .progress {
+      background-color: #444444;
+    }
+
+    .dark-mode .progress-bar {
+      background-color: #0d6efd;
+    }
+
+    .dark-mode .social-icons a {
+      color: #ffffff;
+    }
+
+    .dark-mode #cookieConsent {
+      background-color: #333333;
+      color: #ffffff;
+    }
+
+    .dark-mode #cookieConsent p {
+      color: #cccccc;
+    }
+
+    .dark-mode #cookieConsent a {
+      color: #0d6efd;
+    }
+
+    /* Dark Mode Toggle Button */
+    #darkModeToggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background-color: #0d6efd;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .dark-mode #darkModeToggle {
+      background-color: #ffffff;
+      color: #1a1a1a;
+    }
+  </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-light">
+  <!-- Dark Mode Toggle Button -->
+  <button id="darkModeToggle" onclick="toggleDarkMode()">
+    <i class="fas fa-moon"></i> Dark Mode
+  </button>
+
   <!-- Loading Screen -->
-  <div id="loading-screen" class="fixed inset-0 bg-blue-600 flex flex-col justify-center items-center text-white z-[1000]">
-    <h1 class="text-2xl mb-4 animate-pulse">Loading...</h1>
-    <div class="w-1/2 h-5 bg-blue-800 rounded-full overflow-hidden">
-      <div id="progress" class="h-full bg-white transition-width duration-100"></div>
+  <div id="loading-screen">
+    <h1 class="display-4 mb-4 animate-pulse">Loading...</h1>
+    <div class="progress-container">
+      <div id="progress"></div>
     </div>
-    <p id="loading-percentage" class="mt-2">0%</p>
+    <p id="loading-percentage">0%</p>
   </div>
 
   <!-- Halaman Under Construction -->
-  <div id="under-construction" class="hidden py-12 bg-gray-50 min-h-screen">
-    <div class="container mx-auto px-4 text-center">
-      <h1 class="text-5xl font-bold text-blue-600 mb-4 animate-slideIn">Kenthir-AI Sedang Dalam Pengembangan</h1>
-      <p class="text-lg text-gray-700 mb-8">Kami sedang bekerja keras untuk menyelesaikan Kenthir-AI ini. Silakan kembali lagi nanti!</p>
+  <div id="under-construction">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-4 animate-slideIn">Kenthir-AI Sedang Dalam Pengembangan</h1>
+      <p class="lead mb-5">Kami sedang bekerja keras untuk menyelesaikan Kenthir-AI ini. Silakan kembali lagi nanti!</p>
+
+      <!-- Dua Icon di Atas Countdown Timer -->
+      <div class="d-flex justify-content-center gap-4 mb-4">
+        <i class="fas fa-rocket fa-3x text-primary"></i>
+        <i class="fas fa-cogs fa-3x text-primary"></i>
+      </div>
 
       <!-- Countdown Timer Interaktif -->
-		<div id="countdown" class="flex justify-center space-x-4 mb-12 px-6">
-		  <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-			<span id="days" class="text-4xl font-bold text-blue-600">00</span>
-			<span class="block text-gray-600">Hari</span>
-		  </div>
-		  <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-			<span id="hours" class="text-4xl font-bold text-blue-600">00</span>
-			<span class="block text-gray-600">Jam</span>
-		  </div>
-		  <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-			<span id="minutes" class="text-4xl font-bold text-blue-600">00</span>
-			<span class="block text-gray-600">Menit</span>
-		  </div>
-		  <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-			<span id="seconds" class="text-4xl font-bold text-blue-600">00</span>
-			<span class="block text-gray-600">Detik</span>
-		  </div>
-		</div>
-      <!-- Progress Bar Pengembangan -->
-      <div class="mb-12 animate-fadeInUp">
-        <h3 class="text-3xl font-bold text-gray-800 mb-6">Progress Pengembangan</h3>
-        <div class="w-full bg-blue-200 rounded-full h-6 overflow-hidden">
-          <div class="bg-blue-600 h-6 text-center text-white" style="width: 75%">75%</div>
+      <div id="countdown">
+        <div>
+          <span id="days">00</span>
+          <span class="d-block text-secondary">Hari</span>
         </div>
-        <p class="text-gray-700 mt-2">Kami telah menyelesaikan 75% dari pengembangan Kenthir-AI.</p>
+        <div>
+          <span id="hours">00</span>
+          <span class="d-block text-secondary">Jam</span>
+        </div>
+        <div>
+          <span id="minutes">00</span>
+          <span class="d-block text-secondary">Menit</span>
+        </div>
+        <div>
+          <span id="seconds">00</span>
+          <span class="d-block text-secondary">Detik</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar Pengembangan -->
+      <div class="mb-5 animate-fadeInUp">
+        <h3 class="display-5 fw-bold mb-4">Progress Pengembangan</h3>
+        <div class="progress">
+          <div class="progress-bar" style="width: 75%;">75%</div>
+        </div>
+        <p class="text-secondary mt-2">Kami telah menyelesaikan 75% dari pengembangan Kenthir-AI.</p>
       </div>
 
       <!-- Media Sosial -->
-      <div class="mb-12 animate-fadeInUp">
-        <h3 class="text-3xl font-bold text-gray-800 mb-6">Ikuti Kami</h3>
-        <div class="flex justify-center space-x-6">
-          <a href="https://twitter.com" target="_blank" aria-label="Twitter" class="text-blue-600 hover:text-blue-800 transition-colors duration-300"><i class="fab fa-x-twitter text-2xl"></i></a>
-          <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="text-blue-600 hover:text-blue-800 transition-colors duration-300"><i class="fab fa-facebook text-2xl"></i></a>
-          <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="text-blue-600 hover:text-blue-800 transition-colors duration-300"><i class="fab fa-instagram text-2xl"></i></a>
+      <div class="mb-5 animate-fadeInUp">
+        <h3 class="display-5 fw-bold mb-4">Ikuti Kami</h3>
+        <div class="social-icons d-flex justify-content-center gap-4">
+          <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter fa-2x"></i></a>
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook fa-2x"></i></a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram fa-2x"></i></a>
         </div>
       </div>
 
       <!-- Footer -->
       <footer class="animate-fadeInUp">
-        <p class="text-gray-700">&copy; <span id="year"></span> Kenthir-AI. All rights reserved | dibuat dengan ❤️ didesain oleh <a href="https://ariftirtana.com" target="_blank" class="text-blue-600 hover:text-blue-800">ariftirtana.com</a></p>
+        <p class="text-secondary">&copy; <span id="year"></span> Kenthir-AI. All rights reserved | dibuat dengan ❤️ didesain oleh <a href="https://ariftirtana.com" target="_blank">ariftirtana.com</a></p>
       </footer>
     </div>
   </div>
 
   <!-- Back to Top Button -->
-  <button id="backToTop" class="hidden fixed bottom-5 right-5 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300">↑</button>
+  <button id="backToTop">↑</button>
 
   <!-- Cookie Consent Banner -->
-  <div id="cookieConsent" class="hidden fixed bottom-0 left-0 right-0 bg-gray-100 p-4 text-center shadow-lg">
-    <p class="text-gray-700">Kami menggunakan cookie untuk meningkatkan pengalaman Anda. <a href="/privacy-policy" class="text-blue-600 hover:text-blue-800">Pelajari lebih lanjut</a>.</p>
+  <div id="cookieConsent">
+    <p>Kami menggunakan cookie untuk meningkatkan pengalaman Anda. <a href="/privacy-policy">Pelajari lebih lanjut</a>.</p>
     <div class="mt-2">
-      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300" onclick="acceptCookies()">Setuju</button>
-      <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors duration-300" onclick="rejectCookies()">Tolak</button>
+      <button class="btn btn-primary me-2" onclick="acceptCookies()">Setuju</button>
+      <button class="btn btn-secondary" onclick="rejectCookies()">Tolak</button>
     </div>
   </div>
 
@@ -105,13 +401,13 @@
 
       if (progress >= 100) {
         clearInterval(interval);
-        loadingScreen.classList.add('hidden');
-        underConstruction.classList.remove('hidden');
+        loadingScreen.style.display = 'none';
+        underConstruction.style.display = 'block';
 
         // Tampilkan Cookie Consent Banner setelah 5 detik jika belum ada preferensi
         if (!localStorage.getItem('cookieConsent')) {
           setTimeout(() => {
-            cookieConsent.classList.remove('hidden');
+            cookieConsent.style.display = 'block';
           }, 5000);
         }
       }
@@ -137,9 +433,9 @@
       if (distance < 0) {
         clearInterval(countdownFunction);
         document.getElementById('countdown').innerHTML = `
-          <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg">
-            <span class="text-4xl font-bold">Kenthir-AI Sudah Live!</span>
-            <a href='https://kenthir-ai.com' class="mt-4 inline-block bg-white text-green-500 px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300">Kunjungi Sekarang</a>
+          <div class="bg-success text-white p-4 rounded shadow">
+            <span class="display-4 fw-bold">Kenthir-AI Sudah Live!</span>
+            <a href='https://kenthir-ai.com' class="btn btn-white text-success mt-3">Kunjungi Sekarang</a>
           </div>
         `;
       }
@@ -155,22 +451,22 @@
 
     window.addEventListener('scroll', () => {
       if (window.scrollY > 300) {
-        document.getElementById('backToTop').classList.remove('hidden');
+        document.getElementById('backToTop').style.display = 'block';
       } else {
-        document.getElementById('backToTop').classList.add('hidden');
+        document.getElementById('backToTop').style.display = 'none';
       }
     });
 
     // Fungsi untuk Cookie Consent
     function acceptCookies() {
       localStorage.setItem('cookieConsent', 'accepted');
-      cookieConsent.classList.add('hidden');
+      cookieConsent.style.display = 'none';
       console.log("Cookies diterima.");
     }
 
     function rejectCookies() {
       localStorage.setItem('cookieConsent', 'rejected');
-      cookieConsent.classList.add('hidden');
+      cookieConsent.style.display = 'none';
       console.log("Cookies ditolak.");
     }
 
@@ -178,9 +474,22 @@
     document.addEventListener('DOMContentLoaded', () => {
       const consent = localStorage.getItem('cookieConsent');
       if (consent) {
-        cookieConsent.classList.add('hidden');
+        cookieConsent.style.display = 'none';
       }
     });
+
+    // Fungsi untuk Dark Mode
+    function toggleDarkMode() {
+      const body = document.body;
+      body.classList.toggle('dark-mode');
+
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      if (body.classList.contains('dark-mode')) {
+        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+      } else {
+        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+      }
+    }
   </script>
 </body>
 </html>
