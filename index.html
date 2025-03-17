@@ -96,13 +96,78 @@
       to { opacity: 1; }
     }
 
-    .card {
+    .feature-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .feature-list li {
+      background-color: #fff;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    .feature-list li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .progress-section {
+      margin: 20px 0;
+    }
+
+    .progress-section h3 {
+      margin-bottom: 15px;
+    }
+
+    .progress {
+      height: 25px;
+      margin-bottom: 10px;
+    }
+
+    .technology-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .technology-list li {
+      display: inline-block;
+      margin: 5px;
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 20px;
+      font-size: 0.9em;
+    }
+
+    .roadmap {
+      margin: 20px 0;
+    }
+
+    .roadmap h3 {
+      margin-bottom: 15px;
+    }
+
+    .roadmap ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .roadmap ul li {
+      background-color: #fff;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .roadmap ul li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
     .social-links a {
@@ -169,80 +234,51 @@
       <p class="lead mb-4">Kami sedang bekerja keras untuk menyelesaikan Kenthir-AI ini. Silakan kembali lagi nanti!</p>
       <div id="countdown" class="mb-5"></div>
 
-      <!-- Card Deskripsi -->
-      <div class="row justify-content-center mb-5">
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 fadeInUp">
-            <div class="card-body">
-              <i class="fas fa-cogs fa-3x mb-3 text-primary"></i>
-              <h5 class="card-title">Fitur Unggulan</h5>
-              <p class="card-text">Kenthir-AI ini akan dilengkapi dengan fitur-fitur canggih untuk pengalaman pengguna yang lebih baik.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 fadeInUp">
-            <div class="card-body">
-              <i class="fas fa-users fa-3x mb-3 text-primary"></i>
-              <h5 class="card-title">Tim Profesional</h5>
-              <p class="card-text">Dikembangkan oleh tim profesional yang berdedikasi untuk memberikan hasil terbaik.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 fadeInUp">
-            <div class="card-body">
-              <i class="fas fa-rocket fa-3x mb-3 text-primary"></i>
-              <h5 class="card-title">Peluncuran Segera</h5>
-              <p class="card-text">Kenthir-AI akan segera diluncurkan. Pantau terus perkembangan kami!</p>
-            </div>
-          </div>
-        </div>
+      <!-- Daftar Fitur -->
+      <div class="mb-5 fadeInUp">
+        <h3 class="mb-4">Fitur Unggulan</h3>
+        <ul class="feature-list">
+          <li>Analisis Data Real-Time</li>
+          <li>Integrasi dengan Platform Populer</li>
+          <li>Antarmuka Pengguna yang Ramah</li>
+          <li>Keamanan Data Tingkat Tinggi</li>
+          <li>Dukungan 24/7</li>
+        </ul>
       </div>
 
-      <!-- Formulir Newsletter -->
-      <div class="newsletter-form mb-5 fadeInUp">
-        <h4 class="mb-3">Dapatkan Pembaruan Terbaru</h4>
-        <form>
-          <div class="input-group">
-            <input type="email" class="form-control" placeholder="Masukkan email Anda" required>
-            <button class="btn btn-primary" type="submit">Daftar</button>
-          </div>
-        </form>
+      <!-- Progress Bar Pengembangan -->
+      <div class="progress-section fadeInUp">
+        <h3>Progress Pengembangan</h3>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+        </div>
+        <p>Kami telah menyelesaikan 75% dari pengembangan Kenthir-AI.</p>
       </div>
 
-      <!-- Testimoni -->
-      <div class="testimonials mb-5 fadeInUp">
-        <h4 class="mb-4">Apa Kata Mereka?</h4>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <p class="card-text">"Kenthir-AI sangat menjanjikan. Kami tidak sabar menunggu peluncurannya!"</p>
-                <footer class="blockquote-footer">John Doe</footer>
-              </div>
-            </div>
-          </div>
-          <!-- Tambahkan lebih banyak testimoni di sini -->
-		  <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <p class="card-text">"Kenthir-AI sangat menjanjikan. Kami tidak sabar menunggu peluncurannya!"</p>
-                <footer class="blockquote-footer">John Doe</footer>
-              </div>
-            </div>
-          </div>
-          <!-- Tambahkan lebih banyak testimoni di sini -->
-		  <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <p class="card-text">"Kenthir-AI sangat menjanjikan. Kami tidak sabar menunggu peluncurannya!"</p>
-                <footer class="blockquote-footer">John Doe</footer>
-              </div>
-            </div>
-          </div>
-          <!-- Tambahkan lebih banyak testimoni di sini -->
-        </div>
+      <!-- Daftar Teknologi yang Digunakan -->
+      <div class="mb-5 fadeInUp">
+        <h3 class="mb-4">Teknologi yang Digunakan</h3>
+        <ul class="technology-list">
+          <li>HTML5</li>
+          <li>CSS3</li>
+          <li>JavaScript</li>
+          <li>Bootstrap 5</li>
+          <li>Node.js</li>
+          <li>React</li>
+          <li>MongoDB</li>
+        </ul>
+      </div>
+
+      <!-- Roadmap Pengembangan -->
+      <div class="roadmap fadeInUp">
+        <h3>Roadmap Pengembangan</h3>
+        <ul>
+          <li>Q1 2024: Riset dan Perencanaan</li>
+          <li>Q2 2024: Pengembangan Fitur Inti</li>
+          <li>Q3 2024: Pengujian dan Perbaikan</li>
+          <li>Q4 2024: Peluncuran Beta</li>
+          <li>Q1 2025: Peluncuran Resmi</li>
+        </ul>
       </div>
 
       <!-- Media Sosial -->
@@ -252,12 +288,9 @@
         <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
       </div>
 
-      <!-- Tombol Call to Action -->
-      <a href="mailto:info@kenthir-ai.com" class="btn btn-primary btn-lg mb-5 fadeInUp">Hubungi Kami</a>
-
       <!-- Footer -->
       <footer class="fadeInUp">
-        &copy; <span id="year"></span> Nama Perusahaan. All rights reserved.
+        &copy; <span id="year"></span> Kenthir-AI. All rights reserved | dibuat dengan ❤️ didesain oleh <a href="https://ariftirtana.com" target"_blank">ariftirtana.com</a>
       </footer>
     </div>
   </div>
@@ -295,10 +328,12 @@
         loadingScreen.style.display = 'none';
         underConstruction.style.display = 'block';
 
-        // Tampilkan Cookie Consent Banner setelah 5 detik
-        setTimeout(() => {
-          cookieConsent.style.display = 'block';
-        }, 5000); // 5000 milidetik = 5 detik
+        // Tampilkan Cookie Consent Banner setelah 5 detik jika belum ada preferensi
+        if (!localStorage.getItem('cookieConsent')) {
+          setTimeout(() => {
+            cookieConsent.style.display = 'block';
+          }, 5000); // 5000 milidetik = 5 detik
+        }
       }
     }, 50); // Sesuaikan kecepatan loading
 
@@ -342,16 +377,24 @@
 
     // Fungsi untuk Cookie Consent
     function acceptCookies() {
+      localStorage.setItem('cookieConsent', 'accepted');
       cookieConsent.style.display = 'none';
-      // Set cookie atau simpan preferensi pengguna
       console.log("Cookies diterima.");
     }
 
     function rejectCookies() {
+      localStorage.setItem('cookieConsent', 'rejected');
       cookieConsent.style.display = 'none';
-      // Tindakan jika pengguna menolak cookies
       console.log("Cookies ditolak.");
     }
+
+    // Cek preferensi cookie saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', () => {
+      const consent = localStorage.getItem('cookieConsent');
+      if (consent) {
+        cookieConsent.style.display = 'none'; // Sembunyikan banner jika sudah ada preferensi
+      }
+    });
   </script>
 </body>
 </html>
