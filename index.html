@@ -7,7 +7,7 @@
   <meta name="description" content="Kenthir-AI sedang dalam pengembangan. Pantau perkembangan kami dan dapatkan informasi terbaru tentang peluncuran fitur-fitur canggih kami.">
   <meta name="keywords" content="Kenthir-AI, AI, Pengembangan, Teknologi, Fitur Unggulan, Peluncuran">
   <link rel="icon" type="image/png" href="favicon.png">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <meta property="og:title" content="Kenthir-AI Under Construction">
@@ -15,312 +15,80 @@
   <meta property="og:image" content="https://kenthir.my.id/trial.png">
   <meta property="og:url" content="https://kenthir.my.id">
   <meta name="twitter:card" content="summary_large_image">
-  <style>
-    /* Gaya untuk loading screen */
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #007BFF;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: white;
-      z-index: 1000;
-    }
-
-    #loading-screen h1 {
-      margin-bottom: 20px;
-      font-size: 2em;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    #progress-bar {
-      width: 50%;
-      height: 20px;
-      background-color: #0056b3;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    #progress {
-      width: 0;
-      height: 100%;
-      background-color: white;
-      transition: width 0.1s linear;
-    }
-
-    /* Gaya untuk halaman under construction */
-    #under-construction {
-      display: none;
-      padding: 50px 0;
-      background-color: #f9f9f9;
-      min-height: 100vh;
-    }
-
-    #under-construction h1 {
-      font-size: 3em;
-      color: #007BFF;
-      animation: slideIn 1s ease-out;
-    }
-
-    @keyframes slideIn {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    #countdown {
-      font-size: 2em;
-      margin: 20px 0;
-      color: #333;
-      animation: fadeIn 2s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .feature-list {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .feature-list li {
-      background-color: #fff;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .feature-list li:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .progress-section {
-      margin: 20px 0;
-    }
-
-    .progress-section h3 {
-      margin-bottom: 15px;
-    }
-
-    .progress {
-      height: 25px;
-      margin-bottom: 10px;
-    }
-
-    .technology-list {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .technology-list li {
-      display: inline-block;
-      margin: 5px;
-      padding: 10px 15px;
-      background-color: #007BFF;
-      color: white;
-      border-radius: 20px;
-      font-size: 0.9em;
-    }
-
-    .roadmap {
-      margin: 20px 0;
-    }
-
-    .roadmap h3 {
-      margin-bottom: 15px;
-    }
-
-    .roadmap ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .roadmap ul li {
-      background-color: #fff;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .roadmap ul li:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .social-links a {
-      margin: 0 10px;
-      font-size: 1.5em;
-      color: #007BFF;
-      transition: color 0.3s ease;
-    }
-
-    .social-links a:hover {
-      color: #0056b3;
-    }
-
-    .fadeInUp {
-      animation: fadeInUp 1s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    #backToTop {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 99;
-    }
-
-    /* Gaya untuk Cookie Consent Banner */
-    #cookieConsent {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: #f8f9fa;
-      padding: 15px;
-      text-align: center;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      display: none;
-    }
-
-    #cookieConsent button {
-      margin: 0 5px;
-    }
-
-    /* Skip to Content Link */
-    .skip-to-content {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: #007BFF;
-      color: white;
-      padding: 10px;
-      z-index: 1001;
-      transition: top 0.3s;
-    }
-
-    .skip-to-content:focus {
-      top: 0;
-    }
-  </style>
 </head>
-<body>
-  <!-- Skip to Content Link -->
-  <a href="#main-content" class="skip-to-content">Lompat ke Konten</a>
-
+<body class="bg-gray-50">
   <!-- Loading Screen -->
-  <div id="loading-screen">
-    <h1>Loading...</h1>
-    <div id="progress-bar">
-      <div id="progress"></div>
+  <div id="loading-screen" class="fixed inset-0 bg-blue-600 flex flex-col justify-center items-center text-white z-[1000]">
+    <h1 class="text-2xl mb-4 animate-pulse">Loading...</h1>
+    <div class="w-1/2 h-5 bg-blue-800 rounded-full overflow-hidden">
+      <div id="progress" class="h-full bg-white transition-width duration-100"></div>
     </div>
-    <p id="loading-percentage">0%</p>
+    <p id="loading-percentage" class="mt-2">0%</p>
   </div>
 
   <!-- Halaman Under Construction -->
-  <div id="under-construction" class="text-center">
-    <div class="container">
-      <h1 class="mb-4">Kenthir-AI Sedang Dalam Pengembangan</h1>
-      <p class="lead mb-4">Kami sedang bekerja keras untuk menyelesaikan Kenthir-AI ini. Silakan kembali lagi nanti!</p>
-      <div id="countdown" class="mb-5"></div>
+  <div id="under-construction" class="hidden py-12 bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-5xl font-bold text-blue-600 mb-4 animate-slideIn">Kenthir-AI Sedang Dalam Pengembangan</h1>
+      <p class="text-lg text-gray-700 mb-8">Kami sedang bekerja keras untuk menyelesaikan Kenthir-AI ini. Silakan kembali lagi nanti!</p>
 
-      <!-- Daftar Fitur -->
-      <div class="mb-5 fadeInUp">
-        <h3 class="mb-4">Fitur Unggulan</h3>
-        <ul class="feature-list">
-          <li>Analisis Data Real-Time</li>
-          <li>Integrasi dengan Platform Populer</li>
-          <li>Antarmuka Pengguna yang Ramah</li>
-          <li>Keamanan Data Tingkat Tinggi</li>
-          <li>Dukungan 24/7</li>
-        </ul>
+      <!-- Countdown Timer Interaktif -->
+      <div id="countdown" class="flex justify-center space-x-4 mb-12">
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <span id="days" class="text-4xl font-bold text-blue-600">00</span>
+          <span class="block text-gray-600">Hari</span>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <span id="hours" class="text-4xl font-bold text-blue-600">00</span>
+          <span class="block text-gray-600">Jam</span>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <span id="minutes" class="text-4xl font-bold text-blue-600">00</span>
+          <span class="block text-gray-600">Menit</span>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <span id="seconds" class="text-4xl font-bold text-blue-600">00</span>
+          <span class="block text-gray-600">Detik</span>
+        </div>
       </div>
 
       <!-- Progress Bar Pengembangan -->
-      <div class="progress-section fadeInUp">
-        <h3>Progress Pengembangan</h3>
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+      <div class="mb-12 animate-fadeInUp">
+        <h3 class="text-3xl font-bold text-gray-800 mb-6">Progress Pengembangan</h3>
+        <div class="w-full bg-blue-200 rounded-full h-6 overflow-hidden">
+          <div class="bg-blue-600 h-6 text-center text-white" style="width: 75%">75%</div>
         </div>
-        <p>Kami telah menyelesaikan 75% dari pengembangan Kenthir-AI.</p>
-      </div>
-
-      <!-- Daftar Teknologi yang Digunakan -->
-      <div class="mb-5 fadeInUp">
-        <h3 class="mb-4">Teknologi yang Digunakan</h3>
-        <ul class="technology-list">
-          <li>HTML5</li>
-          <li>CSS3</li>
-          <li>JavaScript</li>
-          <li>Bootstrap 5</li>
-          <li>Node.js</li>
-          <li>React</li>
-          <li>MongoDB</li>
-        </ul>
-      </div>
-
-      <!-- Roadmap Pengembangan -->
-      <div class="roadmap fadeInUp">
-        <h3>Roadmap Pengembangan</h3>
-        <ul>
-          <li>Q1 2024: Riset dan Perencanaan</li>
-          <li>Q2 2024: Pengembangan Fitur Inti</li>
-          <li>Q3 2024: Pengujian dan Perbaikan</li>
-          <li>Q4 2024: Peluncuran Beta</li>
-          <li>Q1 2025: Peluncuran Resmi</li>
-        </ul>
+        <p class="text-gray-700 mt-2">Kami telah menyelesaikan 75% dari pengembangan Kenthir-AI.</p>
       </div>
 
       <!-- Media Sosial -->
-      <div class="social-links mb-5 fadeInUp">
-        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-        <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <div class="mb-12 animate-fadeInUp">
+        <h3 class="text-3xl font-bold text-gray-800 mb-6">Ikuti Kami</h3>
+        <div class="flex justify-center space-x-6">
+          <a href="https://twitter.com" target="_blank" aria-label="Twitter" class="text-blue-600 hover:text-blue-800 transition-colors duration-300"><i class="fab fa-x-twitter text-2xl"></i></a>
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="text-blue-600 hover:text-blue-800 transition-colors duration-300"><i class="fab fa-facebook text-2xl"></i></a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="text-blue-600 hover:text-blue-800 transition-colors duration-300"><i class="fab fa-instagram text-2xl"></i></a>
+        </div>
       </div>
 
       <!-- Footer -->
-      <footer class="fadeInUp">
-        &copy; <span id="year"></span> Kenthir-AI. All rights reserved | dibuat dengan ❤️ didesain oleh <a href="https://ariftirtana.com" target="_blank">ariftirtana.com</a>
+      <footer class="animate-fadeInUp">
+        <p class="text-gray-700">&copy; <span id="year"></span> Kenthir-AI. All rights reserved | dibuat dengan ❤️ didesain oleh <a href="https://ariftirtana.com" target="_blank" class="text-blue-600 hover:text-blue-800">ariftirtana.com</a></p>
       </footer>
     </div>
   </div>
 
   <!-- Back to Top Button -->
-  <button id="backToTop" class="btn btn-primary" title="Kembali ke Atas">↑</button>
+  <button id="backToTop" class="hidden fixed bottom-5 right-5 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300">↑</button>
 
   <!-- Cookie Consent Banner -->
-  <div id="cookieConsent" class="alert alert-info text-center">
-    <p>Kami menggunakan cookie untuk meningkatkan pengalaman Anda. <a href="/privacy-policy">Pelajari lebih lanjut</a>.</p>
-    <button class="btn btn-primary" onclick="acceptCookies()">Setuju</button>
-    <button class="btn btn-secondary" onclick="rejectCookies()">Tolak</button>
+  <div id="cookieConsent" class="hidden fixed bottom-0 left-0 right-0 bg-gray-100 p-4 text-center shadow-lg">
+    <p class="text-gray-700">Kami menggunakan cookie untuk meningkatkan pengalaman Anda. <a href="/privacy-policy" class="text-blue-600 hover:text-blue-800">Pelajari lebih lanjut</a>.</p>
+    <div class="mt-2">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300" onclick="acceptCookies()">Setuju</button>
+      <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors duration-300" onclick="rejectCookies()">Tolak</button>
+    </div>
   </div>
-
-  <!-- Bootstrap 5 JS dan Dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
   <script>
     // Fungsi untuk loading screen
@@ -338,13 +106,13 @@
 
       if (progress >= 100) {
         clearInterval(interval);
-        loadingScreen.style.display = 'none';
-        underConstruction.style.display = 'block';
+        loadingScreen.classList.add('hidden');
+        underConstruction.classList.remove('hidden');
 
         // Tampilkan Cookie Consent Banner setelah 5 detik jika belum ada preferensi
         if (!localStorage.getItem('cookieConsent')) {
           setTimeout(() => {
-            cookieConsent.style.display = 'block';
+            cookieConsent.classList.remove('hidden');
           }, 5000);
         }
       }
@@ -362,13 +130,19 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      document.getElementById('countdown').innerHTML = `
-        ${days} Hari ${hours} Jam ${minutes} Menit ${seconds} Detik
-      `;
+      document.getElementById('days').textContent = days.toString().padStart(2, '0');
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
 
       if (distance < 0) {
         clearInterval(countdownFunction);
-        document.getElementById('countdown').innerHTML = "Kenthir-AI Sudah Live! <a href='https://kenthir-ai.com'>Kunjungi Sekarang</a>";
+        document.getElementById('countdown').innerHTML = `
+          <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg">
+            <span class="text-4xl font-bold">Kenthir-AI Sudah Live!</span>
+            <a href='https://kenthir-ai.com' class="mt-4 inline-block bg-white text-green-500 px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-300">Kunjungi Sekarang</a>
+          </div>
+        `;
       }
     }, 1000);
 
@@ -382,22 +156,22 @@
 
     window.addEventListener('scroll', () => {
       if (window.scrollY > 300) {
-        document.getElementById('backToTop').style.display = 'block';
+        document.getElementById('backToTop').classList.remove('hidden');
       } else {
-        document.getElementById('backToTop').style.display = 'none';
+        document.getElementById('backToTop').classList.add('hidden');
       }
     });
 
     // Fungsi untuk Cookie Consent
     function acceptCookies() {
       localStorage.setItem('cookieConsent', 'accepted');
-      cookieConsent.style.display = 'none';
+      cookieConsent.classList.add('hidden');
       console.log("Cookies diterima.");
     }
 
     function rejectCookies() {
       localStorage.setItem('cookieConsent', 'rejected');
-      cookieConsent.style.display = 'none';
+      cookieConsent.classList.add('hidden');
       console.log("Cookies ditolak.");
     }
 
@@ -405,7 +179,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       const consent = localStorage.getItem('cookieConsent');
       if (consent) {
-        cookieConsent.style.display = 'none';
+        cookieConsent.classList.add('hidden');
       }
     });
   </script>
