@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <!-- Bagian head tetap sama seperti sebelumnya -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kenthir-AI Under Construction</title>
-  <meta name="description" content="Kenthir-AI sedang dalam pengembangan. Pantau perkembangan kami dan dapatkan informasi terbaru tentang peluncuran fitur-fitur canggih kami.">
-  <meta name="keywords" content="Kenthir-AI, AI, Pengembangan, Teknologi, Fitur Unggulan, Peluncuran">
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <meta property="og:title" content="Kenthir-AI Under Construction">
-  <meta property="og:description" content="Kenthir-AI sedang dalam pengembangan. Pantau perkembangan kami dan dapatkan informasi terbaru tentang peluncuran fitur-fitur canggih kami.">
-  <meta property="og:image" content="https://kenthir.my.id/trial.png">
-  <meta property="og:url" content="https://kenthir.my.id">
-  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Meta Tag SEO -->
+  <meta name="description" content="Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
+  <meta name="keywords" content="Kenthir AI, AI, Gambar AI, Teknologi AI, Solusi Inovatif, Pengembangan AI, KenthirAi tools">
+  <meta name="author" content="Kenthir AI">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Under Construction - Kenthir AI">
 
+  <meta property="og:description" content="Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
+
+  <meta property="og:image" content="trial.png"> <!-- Ganti dengan URL gambar Anda -->
+  <meta property="og:url" content="https://kenthir.my.id"> <!-- Ganti dengan URL website Anda -->
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Under Construction - Kenthir AI">
+  <meta name="twitter:description" content="Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
+  <meta name="twitter:image" content="https://kenthir.my.id/trial.png"> <!-- Ganti dengan URL gambar Anda -->
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://kenthir.my.id"> <!-- Ganti dengan URL website Anda -->
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"> <!-- Ganti dengan URL favicon Anda -->
+  	
+  <title>Kenthir AI Tools</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Font Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <!-- Custom CSS -->
   <style>
     body {
@@ -259,6 +282,57 @@
       background-color: #cc0000;
     }
 
+    /* Dropdown, Textarea, dan Tombol Generate */
+    .ai-generator {
+      max-width: 600px;
+      width: 90%;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .ai-generator label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .ai-generator select,
+    .ai-generator textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      margin-bottom: 15px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .ai-generator textarea {
+      resize: vertical; /* Biarkan pengguna mengubah tinggi textarea */
+      min-height: 100px;
+    }
+
+    .ai-generator button {
+      width: 100%;
+      padding: 10px;
+      background-color: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: not-allowed; /* Kursor tidak diperbolehkan karena tombol nonaktif */
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .ai-generator button i {
+      font-size: 18px;
+    }
+
     /* Media Query untuk perangkat mobile */
     @media (max-width: 767.98px) {
       /* Sembunyikan teks pada tombol dark mode */
@@ -351,7 +425,7 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <h1 id="main-title">Dalam Perbaikan <i style="color: #0d6efd" class="fas fa-laptop-code"></i></h1>
+    <h1 id="main-title">Dalam Perbaikan <i class="fas fa-laptop-code"></i></h1>
     <p class="lead" id="main-description">Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan.</p>
     <p id="main-commitment">Kami berkomitmen untuk menghadirkan teknologi AI yang mudah digunakan dan bermanfaat bagi semua orang. Tunggu kehadiran kami! 🚀</p>
     <div id="countdown" class="mt-4">
@@ -373,6 +447,35 @@
           <small>Detik</small>
         </div>
       </div>
+    </div>
+
+    <!-- Toggle Button for AI Generate Image -->
+    <button id="toggle-ai-generator" class="btn btn-primary mt-4">
+      <i class="fas fa-robot"></i> AI Tools V6
+    </button>
+
+    <!-- AI Generator Section (Hidden by Default) -->
+    <div id="ai-generator-section" class="ai-generator mt-4" style="display: none;">
+      <h2>AI Generate Image V6</h2>
+      <label for="ai-model">Pilih Model AI:</label>
+      <select id="ai-model">
+        <option value="dalle3">DALL-E 3</option>
+        <option value="leonardo">LEONARDO</option>
+        <option value="midjourney">MIDJOURNEY V6</option>
+        <option value="flux-pro">FLUX [PRO]</option>
+        <option value="flux-dev">FLUX [Dev]</option>
+        <option value="imagen3">Imagen 3</option>
+        <option value="bing">Bing</option>
+        <option value="tensor-art">Tensor Art</option>
+        <option value="recraft-v3">Recraft V3</option>
+      </select>
+
+      <label for="ai-prompt">Masukkan Prompt:</label>
+      <textarea disabled id="ai-prompt" placeholder="Masukkan deskripsi atau prompt di sini..."></textarea>
+
+      <button style="background-color: #a1a1a1; color: #707070;" disabled>
+        <i class="fas fa-wand-magic-sparkles"></i> GENERATE <i class="fas fa-lock"></i>
+      </button>
     </div>
   </div>
 
@@ -577,6 +680,18 @@
       mainTitle.textContent = translations[selectedLanguage].title;
       mainDescription.textContent = translations[selectedLanguage].description;
       mainCommitment.textContent = translations[selectedLanguage].commitment;
+    });
+
+    // Toggle AI Generator Section
+    const toggleAIGeneratorButton = document.getElementById('toggle-ai-generator');
+    const aiGeneratorSection = document.getElementById('ai-generator-section');
+
+    toggleAIGeneratorButton.addEventListener('click', () => {
+      if (aiGeneratorSection.style.display === 'none') {
+        aiGeneratorSection.style.display = 'block';
+      } else {
+        aiGeneratorSection.style.display = 'none';
+      }
     });
 
     // Sesuaikan tema cookies consent dengan dark mode
