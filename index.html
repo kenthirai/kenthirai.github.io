@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Bagian head tetap sama seperti sebelumnya -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -13,7 +12,7 @@
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Under Construction - Kenthir AI">
+  <meta property="og:title" content="Kenthir AI Tools">
   <meta property="og:description" content="Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
   <meta property="og:image" content="trial.png"> <!-- Ganti dengan URL gambar Anda -->
   <meta property="og:url" content="https://kenthir.my.id"> <!-- Ganti dengan URL website Anda -->
@@ -333,6 +332,14 @@
     .ai-generator button i {
       font-size: 18px;
     }
+    /* Styling untuk teks "Klik Saya" */
+.klik-saya-text {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
 
     /* Media Query untuk perangkat mobile */
     @media (max-width: 767.98px) {
@@ -389,6 +396,20 @@
       }
     }}
   }
+  /* Styling untuk Tombol Switch */
+.form-switch .form-check-input {
+  width: 5em;
+  height: 2.5em;
+  margin-left: 0;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+.form-check-label {
+	color: #eb4034;
+	}
   </style>
 </head>
 <body>
@@ -449,23 +470,39 @@
           <small>Detik</small>
         </div>
       </div>
-    </div>
-
+    </div>    
     <!-- Toggle Button for AI Generate Image -->
     <button id="toggle-ai-generator" class="btn btn-primary mt-4">
-      <i class="fas fa-robot"></i> AI Tools V6
+      <i class="fas fa-robot"></i> Kenthir AI Tools V6
     </button>
 
-<!-- AI Generator Section (Hidden by Default) -->
-<div id="ai-generator-section" class="ai-generator mt-4" style="display: none;">
-  <h2>AI Generate Image</h2>
+<div id="ai-generator-section" class="ai-generator mt-4" style="display: none;">      
+  <h2>Kenthir AI Image</h2>
+  <label for="ai-model">Pilih Model AI:</label>
+      <select id="ai-model">
+        <option value="dalle3">DALL-E 3</option>
+        <option value="leonardo">LEONARDO</option>
+        <option value="midjourney">MIDJOURNEY V6</option>
+        <option value="flux-pro">FLUX [PRO]</option>
+        <option value="flux-dev">FLUX [Dev]</option>
+        <option value="imagen3">Imagen 3</option>
+        <option value="bing">Bing</option>
+        <option value="tensor-art">Tensor Art</option>
+        <option value="recraft-v3">Recraft V3</option>
+      </select>
   <label for="ai-prompt">Masukkan Prompt:</label>
-  <textarea id="ai-prompt" placeholder="Masukkan deskripsi atau prompt di sini..."></textarea>
+  <textarea id="ai-prompt" placeholder="Tulis prompt di sini [pastikan dengan bahasa Inggris]..."></textarea>
 
+  <!-- Tombol Generate -->
   <button id="generate-button">
     <i class="fas fa-wand-magic-sparkles"></i> GENERATE
   </button>
-
+  <!-- Tombol Switch On/Off -->
+<div class="form-check form-switch mt-3">
+  <input class="form-check-input" type="checkbox" id="deepai-switch">
+  <label class="form-check-label" for="deepai-switch">Aktifkan NSFW Content</label>
+</div>
+  
   <!-- Hasil Gambar -->
   <div id="generated-image-container" class="mt-4" style="display: none;">
     <img id="generated-image" src="" alt="Generated Image" class="img-fluid">
@@ -533,7 +570,7 @@
         // Tampilkan cookies consent setelah 5 detik
         setTimeout(showCookiesConsent, 5000); // 5000ms = 5 detik
       }
-    }, 50); // Update setiap 50ms untuk animasi yang lebih smooth
+    }, 30); // Update setiap 50ms untuk animasi yang lebih smooth
 
     // Countdown Timer
     const countdownDays = document.getElementById('countdown-days');
@@ -687,7 +724,6 @@ const generatedImage = document.getElementById('generated-image');
 generateButton.addEventListener('click', async () => {
   const prompt = aiPrompt.value.trim();
 
-  // Validasi prompt
   if (!prompt) {
     Swal.fire({
       icon: 'error',
@@ -697,7 +733,6 @@ generateButton.addEventListener('click', async () => {
     return;
   }
 
-  // Tampilkan loading SweetAlert2
   Swal.fire({
     title: 'Generating Image...',
     text: 'Mohon tunggu sebentar...',
@@ -708,7 +743,7 @@ generateButton.addEventListener('click', async () => {
   });
 
   try {
-    const apiKey = '785ecd2b-196b-4ee3-a7e7-b3f41b8e5bfb'; // Ganti dengan API key Anda
+    const apiKey = '7469d816-9c98-4560-9162-ae6519137926'; // Ganti dengan API key Anda
     const url = 'https://api.deepai.org/api/text2img';
 
     const response = await fetch(url, {
@@ -721,20 +756,18 @@ generateButton.addEventListener('click', async () => {
     });
 
     const data = await response.json();
+    console.log('API Response:', data); // Log response dari API
 
     if (data.output_url) {
-      // Tampilkan gambar yang dihasilkan
       generatedImage.src = data.output_url;
       generatedImageContainer.style.display = 'block';
 
-      // Tampilkan pesan sukses
       Swal.fire({
         icon: 'success',
         title: 'Berhasil!',
         text: 'Gambar berhasil dihasilkan.',
       });
     } else {
-      // Tampilkan pesan error jika tidak ada output_url
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -743,7 +776,6 @@ generateButton.addEventListener('click', async () => {
     }
   } catch (error) {
     console.error('Error:', error);
-    // Tampilkan pesan error jika terjadi kesalahan
     Swal.fire({
       icon: 'error',
       title: 'Error',
@@ -751,7 +783,6 @@ generateButton.addEventListener('click', async () => {
     });
   }
 });
-
 
     // Toggle AI Generator Section
     const toggleAIGeneratorButton = document.getElementById('toggle-ai-generator');
@@ -769,6 +800,44 @@ generateButton.addEventListener('click', async () => {
     if (isDarkMode) {
       cookiesConsent.classList.add('dark-mode');
     }
+    
+// Event Listener untuk Tombol Switch
+document.getElementById('deepai-switch').addEventListener('change', function() {
+  if (this.checked) {
+    Swal.fire({
+      title: 'PERINGATAN NSFW ⚠️',
+      html: `
+        <p>Konten ini mengandung materi yang mungkin tidak pantas atau tidak sesuai untuk semua usia. Materi dapat bersifat eksplisit, konten dewasa, atau hal-hal yang sensitif.</p>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="agree-terms">
+          <label class="form-check-label" for="agree-terms">Saya telah berusia 18+</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="agree-privacy">
+          <label class="form-check-label" for="agree-privacy">Saya memahami dan bertanggung jawab atas risiko dalam mengakses konten ini.</label>
+        </div>
+      `,
+      icon: 'info',
+      confirmButtonText: 'Mengerti',
+      confirmButtonColor: '#eb3437',
+      preConfirm: () => {
+        const agreeTerms = document.getElementById('agree-terms').checked;
+        const agreePrivacy = document.getElementById('agree-privacy').checked;
+
+        if (!agreeTerms || !agreePrivacy) {
+          Swal.showValidationMessage('Anda harus menyetujui semua syarat dan ketentuan.');
+          return false;
+        }
+        return true;
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Lakukan sesuatu jika pengguna menyetujui
+        Swal.fire('Berhasil!', 'Anda telah menyetujui syarat dan ketentuan.', 'success');
+      }
+    });
+  }
+});
   </script>
 </body>
 </html>
