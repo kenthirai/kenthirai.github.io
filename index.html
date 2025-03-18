@@ -18,477 +18,570 @@
 
   <!-- Custom CSS -->
   <style>
-    /* Animasi */
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.5;
-      }
-    }
-
-    .animate-slideIn {
-      animation: slideIn 1s ease-out;
-    }
-
-    .animate-fadeInUp {
-      animation: fadeInUp 1s ease-out;
-    }
-
-    .animate-pulse {
-      animation: pulse 1.5s infinite;
+    body {
+      font-family: 'Poppins', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+      margin: 0;
+      padding: 0;
+      height: 100vh; /* Pastikan body mengambil tinggi penuh viewport */
+      display: grid;
+      place-items: center; /* Pusatkan konten secara vertikal dan horizontal */
+      background-color: #f0f0f0; /* Warna latar belakang default */
     }
 
     /* Loading Screen */
-    #loading-screen {
+    .loading-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #0d6efd; /* Bootstrap primary color */
+      background-color: #0d6efd;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       color: white;
-      z-index: 1000;
+      z-index: 1001; /* Pastikan loading screen di atas top bar */
     }
 
-    #loading-screen .progress-container {
-      width: 50%;
-      height: 20px;
-      background-color: rgba(255, 255, 255, 0.3);
-      border-radius: 10px;
+    .loading-screen.hidden {
+      display: none;
+    }
+
+    .loading-screen .spinner-border {
+      width: 3rem;
+      height: 3rem;
+      border-width: 0.25em;
+    }
+
+    .loading-screen .progress {
+      width: 300px;
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
       overflow: hidden;
     }
 
-    #loading-screen #progress {
-      height: 100%;
-      background-color: yellow;
-      width: 0%;
-      transition: width 0.1s;
+    .loading-screen .progress-bar {
+      background-color: #fab802;
+      transition: width 0.3s ease;
     }
 
-    /* Under Construction Page */
-    #under-construction {
-      display: none;
-      padding: 3rem 0;
-      background-color: #f8f9fa; /* Bootstrap light color */
-      min-height: 100vh;
+    .loading-screen .loading-info {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
     }
 
-    #under-construction h1 {
-      font-size: 3rem;
-      font-weight: bold;
-      color: #0d6efd; /* Bootstrap primary color */
+    /* Dark Mode */
+    .dark-mode {
+      background-color: #121212;
+      color: #ffffff;
     }
 
-    #under-construction p {
-      font-size: 1.25rem;
-      color: #6c757d; /* Bootstrap secondary color */
+    .dark-mode .modal-content {
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+
+    .dark-mode .modal-header {
+      border-bottom: 1px solid #333;
+    }
+
+    .dark-mode .modal-title {
+      color: #ffffff;
+    }
+
+    .dark-mode .btn-close {
+      filter: invert(1);
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #ddd;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000; /* Pastikan top bar di bawah loading screen */
+      height: 60px; /* Tinggi tetap untuk top bar */
+    }
+
+    .top-bar.dark-mode {
+      background-color: #1e1e1e;
+      border-bottom: 1px solid #333;
+    }
+
+    .top-bar .language-selector {
+      margin-right: auto;
+    }
+
+    .top-bar .language-selector select {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    .top-bar .dark-mode-toggle {
+      margin-right: 10px;
+    }
+
+    .top-bar .settings-button {
+      margin-right: 10px;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 600px; /* Batasi lebar konten */
+      width: 90%; /* Lebar konten 90% dari parent (untuk responsif) */
+      padding: 20px;
+      background-color: white; /* Warna latar belakang konten */
+      color: #232323;
+      border-radius: 10px; /* Tambahkan sudut melengkung */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan */
+      text-align: center; /* Pusatkan teks */
+      margin-top: 80px; /* Beri jarak dari top bar */
     }
 
     /* Countdown Timer */
-    #countdown {
+    .countdown-container {
       display: flex;
       justify-content: center;
-      gap: 1rem;
-      margin-bottom: 3rem;
-      flex-wrap: wrap; /* Agar item bisa wrap ke baris baru di layar kecil */
+      gap: 15px; /* Jarak antara elemen countdown */
+      margin-top: 20px;
     }
 
-    #countdown div {
-      background-color: white;
-      padding: 1rem; /* Mengurangi padding untuk layar kecil */
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: box-shadow 0.3s;
-      text-align: center;
-      flex: 1 1 100px; /* Flexbox untuk responsif */
-      max-width: 120px; /* Lebar maksimum untuk layar kecil */
-    }
-
-    #countdown div:hover {
-      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    #countdown span {
-      font-size: 2rem; /* Mengurangi ukuran font untuk layar kecil */
-      font-weight: bold;
-      color: #0d6efd; /* Bootstrap primary color */
-    }
-
-    /* Media Query untuk Layar Kecil (Mobile) */
-    @media (max-width: 576px) {
-      #countdown {
-        gap: 0.5rem; /* Mengurangi jarak antar item */
-      }
-
-      #countdown div {
-        padding: 0.75rem; /* Padding lebih kecil untuk layar kecil */
-        max-width: 80px; /* Lebar lebih kecil untuk layar kecil */
-      }
-
-      #countdown span {
-        font-size: 1.5rem; /* Ukuran font lebih kecil untuk layar kecil */
-      }
-    }
-
-    /* Progress Bar */
-    .progress {
-      height: 1.5rem;
-      background-color: #e9ecef; /* Bootstrap light color */
-      border-radius: 0.75rem;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      background-color: #0d6efd; /* Bootstrap primary color */
-      text-align: center;
-      line-height: 1.5rem;
+    .countdown-item {
+      background-color: #0d6efd; /* Warna latar belakang countdown */
       color: white;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 80px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    /* Social Media Icons */
-    .social-icons a {
-      color: #0d6efd; /* Bootstrap primary color */
-      text-decoration: none;
-      transition: opacity 0.3s;
+    .countdown-item:hover {
+      transform: translateY(-5px); /* Efek hover naik sedikit */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Bayangan lebih besar saat hover */
     }
 
-    .social-icons a:hover {
-      opacity: 0.8;
+    .countdown-item span {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 600;
     }
 
-    /* Back to Top Button */
-    #backToTop {
+    .countdown-item small {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Floating Facebook Button */
+    .floating-facebook-button {
       position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      background-color: #0d6efd; /* Bootstrap primary color */
+      bottom: 20px;
+      left: 20px;
+      background-color: #1877f2; /* Warna Facebook */
       color: white;
-      padding: 0.75rem;
-      border-radius: 50%;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s;
-      display: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%; /* Membuat tombol bulat */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
+      z-index: 1000; /* Pastikan tombol di atas konten lain */
+      transition: background-color 0.3s ease;
     }
 
-    #backToTop:hover {
-      background-color: #0b5ed7; /* Bootstrap primary dark color */
+    .floating-facebook-button:hover {
+      background-color: #165dbb; /* Warna Facebook saat hover */
     }
 
-    /* Cookie Consent Banner */
-    #cookieConsent {
+    /* Dark Mode untuk Floating Button */
+    .dark-mode .floating-facebook-button {
+      background-color: #1877f2; /* Tetap biru di dark mode */
+    }
+
+    .dark-mode .floating-facebook-button:hover {
+      background-color: #165dbb; /* Warna hover di dark mode */
+    }
+
+    /* Cookies Consent Banner */
+    .cookies-consent {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background-color: #f8f9fa; /* Bootstrap light color */
-      padding: 1rem;
+      background-color: #0d6efd;
+      color: white;
+      padding: 15px;
       text-align: center;
-      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
       display: none;
     }
 
-    #cookieConsent p {
-      color: #6c757d; /* Bootstrap secondary color */
-    }
-
-    #cookieConsent a {
-      color: #0d6efd; /* Bootstrap primary color */
-      text-decoration: none;
-    }
-
-    #cookieConsent a:hover {
-      text-decoration: underline;
-    }
-
-    /* Dark Mode Styles */
-    body.dark-mode {
-      background-color: #1a1a1a;
+    .cookies-consent.dark-mode {
+      background-color: #1e1e1e;
       color: #ffffff;
     }
 
-    .dark-mode #under-construction {
-      background-color: #1a1a1a;
-    }
-
-    .dark-mode #under-construction h1 {
-      color: #ffffff;
-    }
-
-    .dark-mode #under-construction p {
-      color: #cccccc;
-    }
-
-    .dark-mode #countdown div {
-      background-color: #333333;
-      color: #ffffff;
-    }
-
-    .dark-mode #countdown span {
-      color: #ffffff;
-    }
-
-    .dark-mode .progress {
-      background-color: #444444;
-    }
-
-    .dark-mode .progress-bar {
-      background-color: #0d6efd;
-    }
-
-    .dark-mode .social-icons a {
-      color: #ffffff;
-    }
-
-    .dark-mode #cookieConsent {
-      background-color: #333333;
-      color: #ffffff;
-    }
-
-    .dark-mode #cookieConsent p {
-      color: #cccccc;
-    }
-
-    .dark-mode #cookieConsent a {
-      color: #0d6efd;
-    }
-
-    /* Dark Mode Toggle Button */
-    #darkModeToggle {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      background-color: #232323;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
+    .cookies-consent button {
+      background-color: #fab802;
       border: none;
+      padding: 8px 16px;
+      margin-left: 10px;
       cursor: pointer;
-      z-index: 1000;
+      color: #000;
+      border-radius: 5px;
     }
 
-    .dark-mode #darkModeToggle {
-      background-color: #ffff00;
-      color: #232323;
+    .cookies-consent button:hover {
+      background-color: #e0a800;
+    }
+
+    .cookies-consent button.reject {
+      background-color: #ff4444;
+      color: white;
+    }
+
+    .cookies-consent button.reject:hover {
+      background-color: #cc0000;
+    }
+
+    /* Media Query untuk perangkat mobile */
+    @media (max-width: 767.98px) {
+      /* Sembunyikan teks pada tombol dark mode */
+      #dark-mode-toggle span {
+        display: none;
+      }
+
+      /* Sembunyikan teks pada tombol pengaturan tema */
+      .settings-button .text {
+        display: none;
+      }
+
+      /* Sesuaikan padding dan ukuran tombol agar lebih proporsional */
+      #dark-mode-toggle,
+      .settings-button {
+        padding: 5px 10px;
+      }
+
+      /* Sesuaikan ukuran ikon agar lebih sesuai */
+      #dark-mode-toggle i,
+      .settings-button i {
+        font-size: 1.2rem;
+      }
+
+      /* Sesuaikan warna tombol dark mode pada mode gelap */
+      .dark-mode #dark-mode-toggle {
+        color: #ffffff; /* Warna teks dan ikon putih */
+        border-color: #ffffff; /* Warna border putih */
+      }
+
+      .dark-mode #dark-mode-toggle:hover {
+        color: #000000; /* Warna teks dan ikon hitam saat hover */
+        background-color: #ffffff; /* Warna latar belakang putih saat hover */
+      }
+
+      /* Sesuaikan margin-top untuk konten utama di mobile */
+      .main-content {
+        margin-top: 70px; /* Sesuaikan jarak dari top bar */
+      }
+
+      /* Sesuaikan ukuran countdown di mobile */
+      .countdown-item {
+        min-width: 60px;
+        padding: 10px;
+      }
+
+      .countdown-item span {
+        font-size: 1.2rem;
+      }
+
+      .countdown-item small {
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
-<body class="bg-light">
-  <!-- Dark Mode Toggle Button -->
-  <button id="darkModeToggle" onclick="toggleDarkMode()">
-    <i class="fas fa-moon"></i> Dark Mode
-  </button>
-
+<body>
   <!-- Loading Screen -->
-  <div id="loading-screen">
-    <h1 class="display-4 mb-4 animate-pulse">Loading...</h1>
-    <div class="progress-container">
-      <div id="progress"></div>
+  <div class="loading-screen">
+    <div class="spinner-border text-light" role="status"></div>
+    <div class="progress mt-4">
+      <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;"></div>
     </div>
-    <p id="loading-percentage">0%</p>
-  </div>
-
-  <!-- Halaman Under Construction -->
-  <div id="under-construction">
-    <div class="container text-center">
-      <h1 class="display-4 fw-bold mb-4 animate-slideIn">Kenthir-AI Sedang Dalam Pengembangan</h1>
-      <p class="lead mb-5">Kami sedang bekerja keras untuk menyelesaikan Kenthir-AI ini. Silakan kembali lagi nanti!</p>
-
-      <!-- Dua Icon di Atas Countdown Timer -->
-      <div class="d-flex justify-content-center gap-4 mb-4">
-        <i class="fas fa-rocket fa-3x text-primary"></i>
-        <i class="fas fa-cogs fa-3x text-primary"></i>
-      </div>
-
-      <!-- Countdown Timer Interaktif -->
-      <div id="countdown">
-        <div>
-          <span id="days">00</span>
-          <span class="d-block text-secondary">Hari</span>
-        </div>
-        <div>
-          <span id="hours">00</span>
-          <span class="d-block text-secondary">Jam</span>
-        </div>
-        <div>
-          <span id="minutes">00</span>
-          <span class="d-block text-secondary">Menit</span>
-        </div>
-        <div>
-          <span id="seconds">00</span>
-          <span class="d-block text-secondary">Detik</span>
-        </div>
-      </div>
-
-      <!-- Progress Bar Pengembangan -->
-      <div class="mb-5 animate-fadeInUp">
-        <h3 class="display-5 fw-bold mb-4">Progress Pengembangan</h3>
-        <div class="progress">
-          <div class="progress-bar" style="width: 75%;">75%</div>
-        </div>
-        <p class="text-secondary mt-2">Kami telah menyelesaikan 75% dari pengembangan Kenthir-AI.</p>
-      </div>
-
-      <!-- Media Sosial -->
-      <div class="mb-5 animate-fadeInUp">
-        <h3 class="display-5 fw-bold mb-4">Ikuti Kami</h3>
-        <div class="social-icons d-flex justify-content-center gap-4">
-          <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter fa-2x"></i></a>
-          <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-          <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram fa-2x"></i></a>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer class="animate-fadeInUp">
-        <p class="text-secondary">&copy; <span id="year"></span> Kenthir-AI. All rights reserved | dibuat dengan ❤️ didesain oleh <a href="https://ariftirtana.com" target="_blank">ariftirtana.com</a></p>
-      </footer>
+    <div class="loading-info mt-3">
+      <p id="progress-text">0%</p>
+      <p>Memuat Kenthir AI...</p>
     </div>
   </div>
 
-  <!-- Back to Top Button -->
-  <button id="backToTop">↑</button>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <select id="language-select">
+        <option value="id">Bahasa Indonesia</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <!-- Dark Mode Toggle -->
+    <button id="dark-mode-toggle" class="btn btn-outline-dark dark-mode-toggle">
+      <i class="fas fa-moon"></i>
+      <span>Dark Mode</span>
+    </button>
+    <!-- Settings Button -->
+    <button class="btn btn-primary settings-button" data-bs-toggle="modal" data-bs-target="#settingsModal" title="Pengaturan Tema">
+      <i class="fas fa-tools"></i>
+      <span class="text">Pengaturan Tema</span>
+    </button>
+  </div>
 
-  <!-- Cookie Consent Banner -->
-  <div id="cookieConsent">
-    <p>Kami menggunakan cookie untuk meningkatkan pengalaman Anda. <a href="/privacy-policy">Pelajari lebih lanjut</a>.</p>
-    <div class="mt-2">
-      <button class="btn btn-primary me-2" onclick="acceptCookies()">Setuju</button>
-      <button class="btn btn-secondary" onclick="rejectCookies()">Tolak</button>
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1 id="main-title">Dalam Perbaikan <i style="color: #0d6efd" class="fas fa-laptop-code"></i></h1>
+    <p class="lead" id="main-description">Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan.</p>
+    <p id="main-commitment">Kami berkomitmen untuk menghadirkan teknologi AI yang mudah digunakan dan bermanfaat bagi semua orang. Tunggu kehadiran kami! 🚀</p>
+    <div id="countdown" class="mt-4">
+      <div class="countdown-container">
+        <div class="countdown-item">
+          <span id="countdown-days">0</span>
+          <small>Hari</small>
+        </div>
+        <div class="countdown-item">
+          <span id="countdown-hours">0</span>
+          <small>Jam</small>
+        </div>
+        <div class="countdown-item">
+          <span id="countdown-minutes">0</span>
+          <small>Menit</small>
+        </div>
+        <div class="countdown-item">
+          <span id="countdown-seconds">0</span>
+          <small>Detik</small>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Floating Facebook Button -->
+  <a href="https://web.facebook.com/groups/2790873117754989/" class="floating-facebook-button" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Modal Settings -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="settingsModalLabel">Pengaturan Tema</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label for="color-picker">Pilih Warna Tema:</label>
+          <input type="color" id="color-picker" value="#0d6efd" class="form-control">
+          <button id="reset-color" class="btn btn-secondary btn-sm mt-3">Reset Warna</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center mt-5 py-3">
+    <p>&copy; <span id="year"></span> Kenthir AI. Made with ♥️</p>
+  </footer>
+
+  <!-- Cookies Consent Banner -->
+  <div id="cookies-consent" class="cookies-consent">
+    <p>Kami menggunakan cookies untuk meningkatkan pengalaman Anda. Dengan melanjutkan, Anda setuju dengan penggunaan cookies kami.</p>
+    <button id="accept-cookies">Setuju</button>
+    <button id="reject-cookies" class="reject">Tolak</button>
+  </div>
+
+  <!-- Bootstrap 5 JS and Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <!-- Custom JS -->
   <script>
-    // Fungsi untuk loading screen
+    // Loading Screen
+    const loadingScreen = document.querySelector('.loading-screen');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
     let progress = 0;
-    const progressBar = document.getElementById('progress');
-    const loadingPercentage = document.getElementById('loading-percentage');
-    const loadingScreen = document.getElementById('loading-screen');
-    const underConstruction = document.getElementById('under-construction');
-    const cookieConsent = document.getElementById('cookieConsent');
 
     const interval = setInterval(() => {
       progress += 1;
       progressBar.style.width = `${progress}%`;
-      loadingPercentage.textContent = `${progress}%`;
-
+      progressText.textContent = `${progress}%`;
       if (progress >= 100) {
         clearInterval(interval);
-        loadingScreen.style.display = 'none';
-        underConstruction.style.display = 'block';
-
-        // Tampilkan Cookie Consent Banner setelah 5 detik jika belum ada preferensi
-        if (!localStorage.getItem('cookieConsent')) {
-          setTimeout(() => {
-            cookieConsent.style.display = 'block';
-          }, 5000);
-        }
+        loadingScreen.classList.add('hidden');
+        // Tampilkan cookies consent setelah 5 detik
+        setTimeout(showCookiesConsent, 5000); // 5000ms = 5 detik
       }
-    }, 50);
+    }, 50); // Update setiap 50ms untuk animasi yang lebih smooth
 
-    // Fungsi untuk countdown
-    const countdownDate = new Date('2025-04-11T10:59:59').getTime();
+    // Countdown Timer
+    const countdownDays = document.getElementById('countdown-days');
+    const countdownHours = document.getElementById('countdown-hours');
+    const countdownMinutes = document.getElementById('countdown-minutes');
+    const countdownSeconds = document.getElementById('countdown-seconds');
+    const targetDate = new Date('2025-05-25T00:00:00').getTime();
 
-    const countdownFunction = setInterval(() => {
+    const updateCountdown = () => {
       const now = new Date().getTime();
-      const distance = countdownDate - now;
+      const distance = targetDate - now;
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      document.getElementById('days').textContent = days.toString().padStart(2, '0');
-      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      countdownDays.textContent = days;
+      countdownHours.textContent = hours;
+      countdownMinutes.textContent = minutes;
+      countdownSeconds.textContent = seconds;
 
       if (distance < 0) {
-        clearInterval(countdownFunction);
-        document.getElementById('countdown').innerHTML = `
-          <div class="bg-success text-white p-4 rounded shadow">
-            <span class="display-4 fw-bold">Kenthir-AI Sudah Live!</span>
-            <a href='https://kenthir-ai.com' class="btn btn-white text-success mt-3">Kunjungi Sekarang</a>
-          </div>
-        `;
+        clearInterval(countdownInterval);
+        document.getElementById('countdown').innerHTML = '<h2>Website Sudah Live!</h2>';
       }
-    }, 1000);
+    };
 
-    // Fungsi untuk tahun dinamis di footer
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
 
-    // Fungsi untuk Back to Top Button
-    document.getElementById('backToTop').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+    const topBar = document.querySelector('.top-bar');
+    let isDarkMode = false;
 
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        document.getElementById('backToTop').style.display = 'block';
-      } else {
-        document.getElementById('backToTop').style.display = 'none';
-      }
-    });
-
-    // Fungsi untuk Cookie Consent
-    function acceptCookies() {
-      localStorage.setItem('cookieConsent', 'accepted');
-      cookieConsent.style.display = 'none';
-      console.log("Cookies diterima.");
-    }
-
-    function rejectCookies() {
-      localStorage.setItem('cookieConsent', 'rejected');
-      cookieConsent.style.display = 'none';
-      console.log("Cookies ditolak.");
-    }
-
-    // Cek preferensi cookie saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', () => {
-      const consent = localStorage.getItem('cookieConsent');
-      if (consent) {
-        cookieConsent.style.display = 'none';
-      }
-    });
-
-    // Fungsi untuk Dark Mode
-    function toggleDarkMode() {
-      const body = document.body;
+    darkModeToggle.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
       body.classList.toggle('dark-mode');
-
-      const darkModeToggle = document.getElementById('darkModeToggle');
-      if (body.classList.contains('dark-mode')) {
-        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+      topBar.classList.toggle('dark-mode');
+      if (isDarkMode) {
+        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
+        body.style.backgroundColor = '#121212'; // Warna gelap default
+        body.style.color = '#ffffff';
+        darkModeToggle.style.color = '#ffffff'; // Warna teks dan ikon putih
+        darkModeToggle.style.borderColor = '#ffffff'; // Warna border putih
       } else {
-        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+        applyUserColor(userColor); // Kembalikan ke warna yang dipilih pengguna
+        darkModeToggle.style.color = '#000000'; // Warna teks dan ikon hitam
+        darkModeToggle.style.borderColor = '#000000'; // Warna border hitam
       }
+    });
+
+    // Color Picker
+    const colorPicker = document.getElementById('color-picker');
+    const resetColorButton = document.getElementById('reset-color');
+    let userColor = '#f5f5f5'; // Warna default
+
+    colorPicker.addEventListener('input', (e) => {
+      userColor = e.target.value;
+      applyUserColor(userColor);
+    });
+
+    resetColorButton.addEventListener('click', () => {
+      userColor = '#f5f5f5'; // Reset ke warna default
+      colorPicker.value = userColor;
+      applyUserColor(userColor);
+    });
+
+    // Fungsi untuk menerapkan warna yang dipilih pengguna
+    function applyUserColor(color) {
+      if (!isDarkMode) {
+        body.style.backgroundColor = color;
+        body.style.color = getContrastColor(color);
+      }
+      darkModeToggle.style.borderColor = getContrastColor(color);
+      darkModeToggle.style.color = getContrastColor(color);
+    }
+
+    // Fungsi untuk menentukan warna kontras
+    function getContrastColor(hexColor) {
+      const r = parseInt(hexColor.slice(1, 3), 16);
+      const g = parseInt(hexColor.slice(3, 5), 16);
+      const b = parseInt(hexColor.slice(5, 7), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      return brightness > 128 ? '#000000' : '#ffffff';
+    }
+
+    // Dynamic Year in Footer
+    const year = document.getElementById('year');
+    year.textContent = new Date().getFullYear();
+
+    // Cookies Consent Banner
+    const cookiesConsent = document.getElementById('cookies-consent');
+    const acceptCookiesButton = document.getElementById('accept-cookies');
+    const rejectCookiesButton = document.getElementById('reject-cookies');
+
+    // Fungsi untuk menampilkan cookies consent
+    function showCookiesConsent() {
+      if (!localStorage.getItem('cookies-consent')) {
+        cookiesConsent.style.display = 'block';
+      }
+    }
+
+    // Tambahkan event listener untuk tombol setuju
+    acceptCookiesButton.addEventListener('click', () => {
+      localStorage.setItem('cookies-consent', 'accepted');
+      cookiesConsent.style.display = 'none';
+    });
+
+    // Tambahkan event listener untuk tombol tolak
+    rejectCookiesButton.addEventListener('click', () => {
+      localStorage.setItem('cookies-consent', 'rejected');
+      cookiesConsent.style.display = 'none';
+    });
+
+    // Multi Bahasa
+    const languageSelect = document.getElementById('language-select');
+    const mainTitle = document.getElementById('main-title');
+    const mainDescription = document.getElementById('main-description');
+    const mainCommitment = document.getElementById('main-commitment');
+
+    const translations = {
+      id: {
+        title: "Dalam Perbaikan",
+        description: "Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan.",
+        commitment: "Kami berkomitmen untuk menghadirkan teknologi AI yang mudah digunakan dan bermanfaat bagi semua orang. Tunggu kehadiran kami! 🚀",
+      },
+      en: {
+        title: "Under Construction",
+        description: "Kenthir AI is under development. We are focusing on Image AI technology to provide innovative solutions in the future.",
+        commitment: "We are committed to delivering AI technology that is easy to use and beneficial for everyone. Stay tuned for our launch! 🚀",
+      },
+    };
+
+    languageSelect.addEventListener('change', (e) => {
+      const selectedLanguage = e.target.value;
+      mainTitle.textContent = translations[selectedLanguage].title;
+      mainDescription.textContent = translations[selectedLanguage].description;
+      mainCommitment.textContent = translations[selectedLanguage].commitment;
+    });
+
+    // Sesuaikan tema cookies consent dengan dark mode
+    if (isDarkMode) {
+      cookiesConsent.classList.add('dark-mode');
     }
   </script>
 </body>
