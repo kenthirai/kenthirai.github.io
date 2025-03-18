@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Meta Tag SEO -->
-  <meta name="description" content="Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
+  <meta name="description" content="Kenthir AI Tools sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
   <meta name="keywords" content="Kenthir AI, AI, Gambar AI, Teknologi AI, Solusi Inovatif, Pengembangan AI, KenthirAi tools">
   <meta name="author" content="Kenthir AI">
   <meta name="robots" content="index, follow">
@@ -13,7 +13,7 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Kenthir AI Tools">
-  <meta property="og:description" content="Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
+  <meta property="og:description" content="Kenthir AI Tools sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
   <meta property="og:image" content="trial.png"> <!-- Ganti dengan URL gambar Anda -->
   <meta property="og:url" content="https://kenthir.my.id"> <!-- Ganti dengan URL website Anda -->
   
@@ -317,8 +317,8 @@
     .ai-generator button {
       width: 100%;
       padding: 10px;
-      background-color: #0d6efd;
-      color: white;
+      background-color: #b8b8b8;
+      color: #777; 
       border: none;
       border-radius: 5px;
       cursor: not-allowed; /* Kursor tidak diperbolehkan karena tombol nonaktif */
@@ -333,13 +333,13 @@
       font-size: 18px;
     }
     /* Styling untuk teks "Klik Saya" */
-.klik-saya-text {
-  text-align: center;
-  margin-top: 50px;
-  font-size: 14px;
-  color: #666;
-  font-weight: 500;
-}
+	.klik-saya-text {
+	  text-align: center;
+	  margin-top: 50px;
+	  font-size: 14px;
+	  color: #666;
+	  font-weight: 500;
+	}
 
     /* Media Query untuk perangkat mobile */
     @media (max-width: 767.98px) {
@@ -409,6 +409,54 @@
 }
 .form-check-label {
 	color: #eb4034;
+	}
+	
+/* Styling untuk slider range */
+#quality-slider {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  -webkit-appearance: none; /* Hilangkan gaya default browser */
+  appearance: none;
+  background: transparent; /* Latar belakang transparan */
+}
+
+/* Styling untuk track (jalur slider) */
+#quality-slider::-webkit-slider-runnable-track {
+  height: 8px;
+  background: linear-gradient(to right, #ff4444 var(--fill-percentage), #ddd var(--fill-percentage)); /* Warna merah mengisi secara progresif */
+  border-radius: 5px; 
+}
+
+#quality-slider::-moz-range-track {
+  height: 8px;
+  background: linear-gradient(to right, #ff4444 var(--fill-percentage), #ddd var(--fill-percentage)); /* Warna merah mengisi secara progresif */
+  border-radius: 5px;
+}
+
+/* Styling untuk thumb (tombol geser) */
+#quality-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Hilangkan gaya default browser */
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #eb4034; /* Warna merah untuk thumb */
+  border: 2px solid #cc0000; /* Border merah gelap */
+  border-radius: 50%; /* Bentuk bulat */
+  cursor: pointer;
+  margin-top: -6px; /* Sesuaikan posisi thumb */
+}
+
+#quality-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #eb4034; /* Warna merah untuk thumb */
+  border: 2px solid #cc0000; /* Border merah gelap */
+  border-radius: 50%; /* Bentuk bulat */
+  cursor: pointer;
+}
+#quality-label {
+	padding-bottom: 50px; 
 	}
   </style>
 </head>
@@ -482,20 +530,34 @@
       <select id="ai-model">
         <option value="dalle3">DALL-E 3</option>
         <option value="leonardo">LEONARDO</option>
-        <option value="midjourney">MIDJOURNEY V6</option>
+        <option disabled value="midjourney">MIDJOURNEY V6</option>
         <option value="flux-pro">FLUX [PRO]</option>
         <option value="flux-dev">FLUX [Dev]</option>
         <option value="imagen3">Imagen 3</option>
         <option value="bing">Bing</option>
         <option value="tensor-art">Tensor Art</option>
+                <option value="tensor-art">Stable Diffusion XL</option>
         <option value="recraft-v3">Recraft V3</option>
+                <option value="playground-ai">Playground AI</option>
       </select>
+        <label for="ai-resolusi">Resolusi:</label>
+      <select disabled id="ai-resolusi">
+        <option value="square">1024X1024</option>
+        <option value="portrait">1792x1024</option>
+        <option value="landscape">1024x1792</option>
+      </select>
+      
+      <!-- Tambahkan di bawah dropdown resolusi -->
+<label for="quality-slider">Kualitas Gambar:</label>
+<input type="range" id="quality-slider" min="1" max="3" step="1" value="1">
+<div id="quality-label">Standar</div>
+
   <label for="ai-prompt">Masukkan Prompt:</label>
   <textarea id="ai-prompt" placeholder="Tulis prompt di sini [pastikan dengan bahasa Inggris]..."></textarea>
-
+<p>Sementara saya disable dulu! 😁</p>
   <!-- Tombol Generate -->
-  <button id="generate-button">
-    <i class="fas fa-wand-magic-sparkles"></i> GENERATE
+  <button disabled id="generate-button">
+    <i class="fas fa-lock"></i> GENERATE
   </button>
   <!-- Tombol Switch On/Off -->
 <div class="form-check form-switch mt-3">
@@ -838,6 +900,42 @@ document.getElementById('deepai-switch').addEventListener('change', function() {
     });
   }
 });
+
+// Slider Kualitas Gambar
+const qualitySlider = document.getElementById('quality-slider');
+const qualityLabel = document.getElementById('quality-label');
+
+qualitySlider.addEventListener('input', () => {
+  const value = qualitySlider.value;
+  const max = qualitySlider.max;
+  const min = qualitySlider.min;
+  
+  // Hitung persentase pengisian warna
+  const fillPercentage = ((value - min) / (max - min)) * 100 + '%';
+  
+  // Terapkan persentase pengisian ke CSS variable
+  qualitySlider.style.setProperty('--fill-percentage', fillPercentage);
+
+  // Update teks kualitas
+  let qualityText;
+  switch (value) {
+    case '1':
+      qualityText = '<strong>Standar</strong>';
+      break;
+    case '2':
+      qualityText = '<strong>HD</strong>';
+      break;
+    case '3':
+      qualityText = '<strong>Ultra</strong>';
+      break;
+    default:
+      qualityText = '<strong>Standar</strong>';
+  }
+  qualityLabel.innerHTML = qualityText;
+});
+
+// Inisialisasi nilai awal
+qualitySlider.dispatchEvent(new Event('input'));
   </script>
 </body>
 </html>
