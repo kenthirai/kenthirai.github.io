@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Gambar - Kenthir.my.id</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .gallery-item {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .gallery-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .description {
+            display: none;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Galeri Gambar</h1>
+        <div class="row">
+            <!-- Gambar 1 -->
+            <div class="col-md-3 gallery-item">
+                <img src="assets/1.jpeg" class="img-fluid" alt="Gambar 1">
+                <button class="btn btn-primary mt-2 toggle-description" data-id="desc1">
+                    <i class="fas fa-lock"></i> Tampilkan Deskripsi
+                </button>
+                <div class="description" id="desc1">
+                    <p>Ini adalah deskripsi untuk Gambar 1.</p>
+                </div>
+            </div>
+            <!-- Gambar 2 -->
+            <div class="col-md-3 gallery-item">
+                <img src="assets/2.jpeg" class="img-fluid" alt="Gambar 2">
+                <button class="btn btn-primary mt-2 toggle-description" data-id="desc2">
+                    <i class="fas fa-lock"></i> Tampilkan Deskripsi
+                </button>
+                <div class="description" id="desc2">
+                    <p>Ini adalah deskripsi untuk Gambar 2.</p>
+                </div>
+            </div>
+            <!-- Gambar 3 -->
+            <div class="col-md-3 gallery-item">
+                <img src="assets/3.jpeg" class="img-fluid" alt="Gambar 3">
+                <button class="btn btn-primary mt-2 toggle-description" data-id="desc3">
+                    <i class="fas fa-lock"></i> Tampilkan Deskripsi
+                </button>
+                <div class="description" id="desc3">
+                    <p>Ini adalah deskripsi untuk Gambar 3.</p>
+                </div>
+            </div>
+            <!-- Gambar 4 -->
+            <div class="col-md-3 gallery-item">
+                <img src="assets/4.jpeg" class="img-fluid" alt="Gambar 4">
+                <button class="btn btn-primary mt-2 toggle-description" data-id="desc4">
+                    <i class="fas fa-lock"></i> Tampilkan Deskripsi
+                </button>
+                <div class="description" id="desc4">
+                    <p>Ini adalah deskripsi untuk Gambar 4.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk memasukkan kunci -->
+    <div class="modal fade" id="keyModal" tabindex="-1" aria-labelledby="keyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="keyModalLabel">Masukkan Kunci</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="keyInput" placeholder="Masukkan kunci...">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" id="submitKey">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let currentDescription = null;
+
+            // Event listener untuk tombol "Tampilkan Deskripsi"
+            $('.toggle-description').click(function() {
+                const descId = $(this).data('id'); // Ambil ID deskripsi
+                currentDescription = $(this).siblings('.description'); // Temukan elemen deskripsi
+
+                // Ambil kunci dari backend di ariftirtana.com
+                $.get('http://ariftirtana.com/backend/api.php', { id: descId }, function(response) {
+                    if (response.success) {
+                        $('#keyModal').modal('show'); // Tampilkan modal
+
+                        // Event listener untuk tombol "Submit" di modal
+                        $('#submitKey').off('click').on('click', function() {
+                            const enteredKey = $('#keyInput').val(); // Ambil nilai input
+                            if (enteredKey === response.key) {
+                                currentDescription.slideToggle(); // Tampilkan/sembunyikan deskripsi
+                                $('#keyModal').modal('hide'); // Sembunyikan modal
+                            } else {
+                                alert('Kunci salah!');
+                            }
+                        });
+                    } else {
+                        alert('Deskripsi tidak ditemukan!');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
