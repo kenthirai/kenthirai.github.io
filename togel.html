@@ -117,6 +117,66 @@
       color: #ffffff; /* Warna teks info */
       line-height: 20px; /* Sesuaikan dengan tinggi progress bar */
     }
+   /* Spinner Dotted */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .spinner-dotted {
+      border: 8px dotted #ffc107; /* Warna kuning */
+      border-top: 8px dotted transparent; /* Transparan di bagian atas */
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1.5s linear infinite;
+      animation-timing-function: ease-in-out; /* Animasi lebih halus */
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 50%; /* Lebar progress bar */
+      background-color: #333; /* Warna background gelap */
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .progress-bar {
+      height: 20px;
+      background-color: #ffc107; /* Warna kuning */
+      border-radius: 10px;
+      width: 0%; /* Mulai dari 0% */
+      transition: width 0.5s ease-in-out; /* Animasi progres */
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 10px;
+      color: #ffffff; /* Warna teks putih */
+    }
+
+    /* Transisi */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #121212;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    #mainContent {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
     .stats-card {
       background-color: #1f1f1f; /* Warna latar kartu statistik */
       border: 1px solid #333; /* Warna border kartu */
@@ -239,6 +299,17 @@
   </style>
 </head>
 <body>
+	<!-- Loading Screen -->
+<div id="loadingScreen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #121212; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000;">
+  <div class="spinner-dotted"></div>
+  <div class="progress-container" style="width: 50%; margin-top: 20px;">
+    <div class="progress-bar"></div>
+  </div>
+  <div class="progress-text">Mohon tunggu...</div>
+</div>
+
+<!-- Konten Utama (Sembunyikan sementara) -->
+<div id="mainContent" style="display: none;">
   <div class="container mt-5">
     <!-- Judul dengan Ikon Koin -->
     <h1 class="text-center">
@@ -464,8 +535,46 @@
       <input type="date" id="endDate">
       <button id="filterButton" class="btn btn-secondary">Filter</button>
     </div>
+    </div>
 
     <script>
+ // Fungsi untuk mensimulasikan loading
+    function simulateLoading() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      const mainContent = document.getElementById('mainContent');
+      const progressBar = document.querySelector('.progress-bar');
+      const progressText = document.querySelector('.progress-text');
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        // Logika progres: lebih cepat di awal, melambat di akhir
+        if (progress < 80) {
+          progress += 10; // Naikkan 10% setiap 300ms di awal
+        } else if (progress < 95) {
+          progress += 3; // Naikkan 3% setiap 300ms di tengah
+        } else {
+          progress += 1; // Naikkan 1% setiap 300ms di akhir
+        }
+
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `Mohon tunggu... ${progress}%`;
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          // Tambahkan efek fade out untuk loading screen
+          loadingScreen.style.opacity = '0';
+          setTimeout(() => {
+            loadingScreen.style.display = 'none'; // Sembunyikan loading screen
+            mainContent.style.display = 'block';  // Tampilkan konten utama
+            mainContent.style.opacity = '1';      // Efek fade in untuk konten utama
+          }, 500); // Tunggu 500ms untuk transisi fade out
+        }
+      }, 300); // Update setiap 300ms
+    }
+
+    // Jalankan simulasi loading saat halaman dimuat
+    window.onload = simulateLoading;
+
       // Inisialisasi Chart
       const ctx = document.getElementById('combinedChart').getContext('2d');
       let combinedChart = new Chart(ctx, {
@@ -768,24 +877,30 @@
         combinedChart.update();
       });
 
-      // Modal untuk Detail Data
-      document.querySelectorAll('#historyBody tr').forEach(row => {
-        row.addEventListener('click', () => {
-          const time = row.cells[0].textContent;
-          const sgp = row.cells[1].textContent;
-          const ird = row.cells[2].textContent;
-          const ght = row.cells[3].textContent;
-          const rtx = row.cells[4].textContent;
-          document.getElementById('detailContent').innerHTML = `
-            <p>Waktu: ${time}</p>
-            <p>SGP: ${sgp}</p>
-            <p>IRD: ${ird}</p>
-            <p>GHT: ${ght}</p>
-            <p>RTX: ${rtx}</p>
-          `;
-          new bootstrap.Modal(document.getElementById('detailModal')).show();
-        });
-      });
+      // Fungsi untuk menampilkan detail data di modal
+document.querySelectorAll('#historyBody tr').forEach(row => {
+  row.addEventListener('click', () => {
+    // Ambil data dari baris yang diklik
+    const time = row.cells[0].textContent;
+    const sgp = row.cells[1].textContent;
+    const ird = row.cells[2].textContent;
+    const ght = row.cells[3].textContent;
+    const rtx = row.cells[4].textContent;
+
+    // Isi konten modal dengan detail data
+    document.getElementById('detailContent').innerHTML = `
+      <p><strong>Waktu:</strong> ${time}</p>
+      <p><strong>SGP:</strong> ${sgp}</p>
+      <p><strong>IRD:</strong> ${ird}</p>
+      <p><strong>GHT:</strong> ${ght}</p>
+      <p><strong>RTX:</strong> ${rtx}</p>
+    `;
+
+    // Tampilkan modal menggunakan Bootstrap
+    const detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+    detailModal.show();
+  });
+});
 
       // Animasi Loading saat Memuat Data
       function updateChartWithLoading() {
