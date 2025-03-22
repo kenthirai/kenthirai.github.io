@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Toto Online - Simulasi">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toto Online Singapore!</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Toastr CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Toastr JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <style>
+    /* Tema Hitam dengan Aksen Kuning */
+    body {
+      background-color: #121212; /* Warna latar belakang hitam */
+      color: #ffffff; /* Warna teks putih */
+      padding-bottom: 120px; /* Untuk memberi ruang bagi bottom navigation dan notifikasi */
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1f1f1f; /* Warna latar bottom navigation */
+      padding: 10px;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-around;
+    }
+    .bottom-nav a {
+      color: #ffc107; /* Warna aksen kuning untuk ikon */
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+    .notification-container {
+      position: fixed;
+      bottom: 60px; /* Letakkan di atas bottom navigation */
+      right: 20px;
+      z-index: 1000;
+    }
+    .history-table {
+      margin-top: 20px;
+    }
+    .button-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .red-number {
+      color: #ffc107; /* Warna aksen kuning untuk angka acak */
+      font-weight: bold;
+    }
+    .modal-content {
+      background-color: #1f1f1f; /* Warna latar modal */
+      color: #ffffff; /* Warna teks modal */
+    }
+    .modal-header {
+      border-bottom: 1px solid #333; /* Garis pemisah header modal */
+    }
+    .modal-footer {
+      border-top: 1px solid #333; /* Garis pemisah footer modal */
+    }
+    .btn-warning {
+      background-color: #ffc107; /* Warna kuning untuk tombol */
+      border-color: #ffc107;
+      color: #121212; /* Warna teks hitam */
+    }
+    .btn-primary {
+      background-color: #1f1f1f; /* Warna latar tombol */
+      border-color: #ffc107; /* Warna border kuning */
+      color: #ffc107; /* Warna teks kuning */
+    }
+    .btn-secondary {
+      background-color: #333; /* Warna latar tombol sekunder */
+      border-color: #333;
+      color: #ffffff; /* Warna teks putih */
+    }
+    .alert-info {
+      background-color: #1f1f1f; /* Warna latar notifikasi */
+      border-color: #ffc107; /* Warna border kuning */
+      color: #ffc107; /* Warna teks kuning */
+    }
+    .table {
+      color: #ffffff; /* Warna teks tabel */
+    }
+    .table-bordered {
+      border-color: #333; /* Warna border tabel */
+    }
+    .table thead th {
+      border-color: #333; /* Warna border header tabel */
+    }
+    .table tbody td {
+      border-color: #333; /* Warna border body tabel */
+    }
+    .progress {
+      background-color: #333; /* Warna latar progress bar */
+      height: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      position: relative;
+    }
+    .progress-bar {
+      background-color: #ffc107; /* Warna kuning untuk progress bar */
+      transition: width 0.5s ease-in-out; /* Animasi progress bar */
+    }
+    .progress-info {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      color: #ffffff; /* Warna teks info */
+      line-height: 20px; /* Sesuaikan dengan tinggi progress bar */
+    }
+    .stats-card {
+      background-color: #1f1f1f; /* Warna latar kartu statistik */
+      border: 1px solid #333; /* Warna border kartu */
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .stats-card h5 {
+      color: #ffc107; /* Warna teks judul kartu */
+    }
+    .stats-card p {
+      color: #ffffff; /* Warna teks konten kartu */
+      font-size: 1.2rem;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <!-- Judul dengan Ikon Koin -->
+    <h1 class="text-center">
+      <i class="fas fa-coins" style="color: #ffc107;"></i> Toto Online Singapura 
+    </h1>
+    <div class="row">
+      <div class="col-md-12">
+        <canvas id="combinedChart"></canvas>
+        <p class="text-center mt-2">
+          Update /5 detik: 
+          <span id="count1" class="red-number">0</span> (SGP), 
+          <span id="count2" class="red-number">0</span> (IRD), 
+          <span id="count3" class="red-number">0</span> (GHT)
+        </p>
+      </div>
+    </div>
+
+    <!-- Progress Bar dengan Info -->
+    <div class="progress">
+      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      <div id="progressInfo" class="progress-info">Loading data...</div>
+    </div>
+
+    <!-- Tombol Pause dan Refresh -->
+    <div class="button-container">
+      <button id="pauseButton" class="btn btn-warning"><i class="fas fa-pause"></i> Pause</button>
+      <button id="refreshButton" class="btn btn-primary"><i class="fas fa-sync"></i> Refresh</button>
+    </div>
+
+    <!-- Tabel Riwayat -->
+    <div class="row history-table">
+      <div class="col-md-12">
+        <h4>Riwayat Angka</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>SGP</th>
+              <th>IRD</th>
+              <th>GHT</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody">
+            <!-- Riwayat akan ditampilkan di sini -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+      <!-- Statistik Ringkas -->
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="stats-card">
+          <h5>Total Data</h5>
+          <p id="totalData">0</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stats-card">
+          <h5>Rata-rata</h5>
+          <p id="averageData">0</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stats-card">
+          <h5>Nilai Tertinggi</h5>
+          <p id="maxData">0</p>
+        </div>
+      </div>
+    </div>
+
+  <!-- Notification Container -->
+  <div class="notification-container"></div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="#" data-bs-toggle="modal" data-bs-target="#homeModal"><i class="fas fa-home"></i></a>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#chartModal"><i class="fas fa-chart-line"></i></a>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#notifModal"><i class="fas fa-bell"></i></a>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user"></i></a>
+  </div>
+
+  <!-- Modal untuk Home -->
+  <div class="modal fade" id="homeModal" tabindex="-1" aria-labelledby="homeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="homeModalLabel"><i class="fas fa-home"></i> Home</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Selamat datang di halaman utama! Di sini Anda dapat melihat grafik dan data real-time.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal untuk Chart -->
+  <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="chartModalLabel"><i class="fas fa-chart-line"></i> Chart</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Grafik ini menampilkan data real-time untuk SGP, IRD, dan GHT. Anda dapat melihat perubahan data setiap 5 detik.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal untuk Notifikasi -->
+  <div class="modal fade" id="notifModal" tabindex="-1" aria-labelledby="notifModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="notifModalLabel"><i class="fas fa-bell"></i> Notifikasi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Notifikasi akan muncul setiap 5 detik untuk memberikan informasi terbaru tentang data SGP, IRD, dan GHT.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal untuk User -->
+  <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalLabel"><i class="fas fa-user"></i> Profil Pengguna</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Anda dapat mengelola profil pengguna di sini. Fitur ini masih dalam pengembangan.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Inisialisasi Chart
+    const ctx = document.getElementById('combinedChart').getContext('2d');
+    let combinedChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['1', '2', '3', '4', '5', '6', '7'],
+        datasets: [
+          {
+            label: 'SGP',
+            data: [], // Data awal kosong
+            borderColor: '#ffc107', // Warna kuning untuk SGP
+            borderWidth: 2,
+            fill: false
+          },
+          {
+            label: 'IRD',
+            data: [], // Data awal kosong
+            borderColor: '#17a2b8', // Warna biru untuk IRD
+            borderWidth: 2,
+            fill: false
+          },
+          {
+            label: 'GHT',
+            data: [], // Data awal kosong
+            borderColor: '#dc3545', // Warna merah untuk GHT
+            borderWidth: 2,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: '#333', // Warna grid sumbu Y
+            },
+            ticks: {
+              color: '#ffffff', // Warna teks sumbu Y
+            }
+          },
+          x: {
+            grid: {
+              color: '#333', // Warna grid sumbu X
+            },
+            ticks: {
+              color: '#ffffff', // Warna teks sumbu X
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: '#ffffff', // Warna teks legenda
+            }
+          }
+        }
+      }
+    });
+
+    // Fungsi untuk menghasilkan 4 digit angka acak (antara 1000 dan 9999)
+    function generateRandom4Digit() {
+      return Math.floor(Math.random() * 9000 + 1000); // Angka antara 1000 dan 9999
+    }
+
+    // Fungsi untuk menghasilkan total 4 digit (antara 1000 dan 9999)
+    function generateTotal4Digit() {
+      return Math.floor(Math.random() * 9000 + 1000); // Angka antara 1000 dan 9999
+    }
+
+    // Fungsi untuk menginisialisasi data acak
+    function initializeRandomData() {
+      combinedChart.data.datasets.forEach(dataset => {
+        dataset.data = Array.from({ length: 7 }, () => generateRandom4Digit());
+      });
+      combinedChart.update();
+    }
+
+    // Fungsi untuk menambahkan riwayat ke tabel
+    function addHistory(sgp, ird, ght) {
+      const historyBody = document.getElementById('historyBody');
+      const newRow = document.createElement('tr');
+      const time = new Date().toLocaleTimeString(); // Waktu saat ini
+
+      newRow.innerHTML = `
+        <td>${time}</td>
+        <td><span class="red-number">${sgp}</span></td>
+        <td><span class="red-number">${ird}</span></td>
+        <td><span class="red-number">${ght}</span></td>
+      `;
+
+      // Tambahkan baris baru ke tabel
+      historyBody.prepend(newRow);
+
+      // Jika riwayat lebih dari 10 baris, hapus baris terakhir
+      if (historyBody.children.length > 10) {
+        historyBody.removeChild(historyBody.lastChild);
+      }
+    }
+
+    // Fungsi untuk mengupdate statistik ringkas
+    function updateStats() {
+      const counts = [
+        parseInt(document.getElementById('count1').textContent),
+        parseInt(document.getElementById('count2').textContent),
+        parseInt(document.getElementById('count3').textContent)
+      ];
+      const total = counts.reduce((a, b) => a + b, 0); // Total data
+      const average = (total / counts.length).toFixed(2); // Rata-rata
+      const max = Math.max(...counts); // Nilai tertinggi
+
+      // Update elemen statistik
+      document.getElementById('totalData').textContent = total;
+      document.getElementById('averageData').textContent = average;
+      document.getElementById('maxData').textContent = max;
+    }
+
+    // Fungsi untuk mengupdate progress bar dan info
+    function updateProgressBar() {
+      const progressBar = document.getElementById('progressBar');
+      const progressInfo = document.getElementById('progressInfo');
+      const counts = [
+        parseInt(document.getElementById('count1').textContent),
+        parseInt(document.getElementById('count2').textContent),
+        parseInt(document.getElementById('count3').textContent)
+      ];
+      const total = counts.reduce((a, b) => a + b, 0); // Total dari SGP, IRD, dan GHT
+      const progress = (total / 30000) * 100; // Hitung persentase progress (maksimal 30000)
+      progressBar.style.width = `${progress}%`;
+      progressBar.setAttribute('aria-valuenow', progress);
+
+      // Update info progress bar
+      if (progress < 100) {
+        progressInfo.textContent = `Memproses data... ${Math.round(progress)}%`;
+      } else {
+        progressInfo.textContent = `Data telah sepenuhnya diproses!`;
+      }
+    }
+
+    // Variabel untuk kontrol pembaruan data
+    let isPaused = false;
+    let updateInterval = setInterval(updateChart, 5000);
+
+    // Fungsi untuk mengupdate data chart
+    function updateChart() {
+      if (isPaused) return; // Jika di-pause, hentikan pembaruan
+
+      const counts = [];
+      combinedChart.data.datasets.forEach((dataset, index) => {
+        const newData = dataset.data.map(() => generateRandom4Digit());
+        dataset.data = newData;
+
+        // Hitung total data per menit (4 digit)
+        const total = generateTotal4Digit(); // Total acak 4 digit
+        document.getElementById(`count${index + 1}`).textContent = total;
+        counts.push(total);
+      });
+      combinedChart.update();
+
+      // Tambahkan riwayat ke tabel
+      addHistory(counts[0], counts[1], counts[2]);
+
+      // Update progress bar
+      updateProgressBar();
+
+      // Update statistik ringkas
+      updateStats();
+    }
+
+    // Inisialisasi data acak pertama kali
+    initializeRandomData();
+
+    // Fungsi untuk pause/resume pembaruan data
+    document.getElementById('pauseButton').addEventListener('click', () => {
+      isPaused = !isPaused;
+      const pauseButton = document.getElementById('pauseButton');
+      if (isPaused) {
+        pauseButton.innerHTML = '<i class="fas fa-play"></i> Resume';
+        pauseButton.classList.remove('btn-warning');
+        pauseButton.classList.add('btn-success');
+      } else {
+        pauseButton.innerHTML = '<i class="fas fa-pause"></i> Pause';
+        pauseButton.classList.remove('btn-success');
+        pauseButton.classList.add('btn-warning');
+      }
+    });
+
+    // Fungsi untuk refresh data
+    document.getElementById('refreshButton').addEventListener('click', () => {
+      initializeRandomData(); // Inisialisasi ulang data acak
+      document.getElementById('historyBody').innerHTML = ''; // Kosongkan riwayat
+      updateProgressBar(); // Reset progress bar
+      updateStats(); // Reset statistik
+    });
+
+    // Fungsi untuk menampilkan notifikasi relevan setiap 5 detik
+    function showRelevantNotification() {
+      const messages = [
+        "Data terbaru telah diperbarui!",
+        "Perubahan signifikan terdeteksi pada data!",
+        "Pembaruan data berhasil dilakukan!",
+        "Data SGP, IRD, dan GHT telah diupdate!",
+        "Sistem memastikan data selalu akurat!"
+      ];
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)]; // Pilih pesan acak
+
+      const notification = document.createElement('div');
+      notification.className = 'alert alert-info';
+      notification.innerHTML = `${randomMessage} <span class="float-end"><i class="fas fa-times"></i></span>`;
+      document.querySelector('.notification-container').appendChild(notification);
+
+      // Hapus notifikasi setelah 3 detik
+      setTimeout(() => notification.remove(), 3000);
+    }
+    setInterval(showRelevantNotification, 5000);
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
