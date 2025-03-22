@@ -147,8 +147,94 @@
       background-color: #28a745; /* Warna hijau untuk status online */
     }
     .status-text {
-      color: #28a745; /* Warna hijau untuk teks status */
+      color: #fff; /* Warna hijau untuk teks status */
       font-size: 0.9rem;
+    }
+
+    /* Warna kuning untuk checkbox */
+    input[type="checkbox"] {
+      accent-color: #ffc107; /* Warna kuning */
+    }
+
+    /* Slider dengan background gelap dan warna progresif kuning */
+    input[type="range"] {
+      -webkit-appearance: none; /* Menghilangkan tampilan default */
+      width: 100%;
+      height: 8px;
+      background: #333; /* Warna background gelap */
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    input[type="range"]:hover {
+      opacity: 1; /* Lebih terang saat dihover */
+    }
+
+    /* Warna progresif kuning */
+    input[type="range"]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      background: #333; /* Warna background gelap */
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #ffc107; /* Warna kuning */
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff; /* Border putih */
+      margin-top: -6px; /* Sesuaikan posisi thumb */
+    }
+
+    /* Untuk Firefox */
+    input[type="range"]::-moz-range-track {
+      width: 100%;
+      height: 8px;
+      background: #333; /* Warna background gelap */
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #ffc107; /* Warna kuning */
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff; /* Border putih */
+    }
+
+    /* Untuk Microsoft Edge */
+    input[type="range"]::-ms-track {
+      width: 100%;
+      height: 8px;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
+    }
+
+    input[type="range"]::-ms-fill-lower {
+      background: #ffc107; /* Warna kuning untuk bagian terisi */
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-ms-fill-upper {
+      background: #333; /* Warna background gelap */
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-ms-thumb {
+      width: 20px;
+      height: 20px;
+      background: #ffc107; /* Warna kuning */
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff; /* Border putih */
     }
   </style>
 </head>
@@ -165,6 +251,23 @@
           <div class="status-dot" id="statusDot"></div>
           <span class="status-text" id="statusText">Online</span>
         </div>
+            <!-- Dropdown untuk Memilih Tipe Grafik -->
+    <div class="mt-3">
+      <label for="chartType">Pilih Tipe Grafik:</label>
+      <select id="chartType" class="form-select">
+        <option value="line">Line Chart</option>
+        <option value="bar">Bar Chart</option>
+        <option value="pie">Pie Chart</option>
+      </select>
+    </div>
+    
+        <!-- Toggle untuk Menampilkan/Menyembunyikan Dataset -->
+    <div class="mt-3">
+      <input type="checkbox" id="toggleSGP" checked> <label for="toggleSGP">SGP</label>
+      <input type="checkbox" id="toggleIRD" checked> <label for="toggleIRD">IRD</label>
+      <input type="checkbox" id="toggleGHT" checked> <label for="toggleGHT">GHT</label>
+      <input type="checkbox" id="toggleRTX" checked> <label for="toggleRTX">RTX</label>
+    </div>
         <canvas id="combinedChart"></canvas>
         <p class="text-center mt-2">
           Update /<span id="updateIntervalText">5</span> Detik: 
@@ -181,6 +284,12 @@
       <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
       <div id="progressInfo" class="progress-info">Loading data...</div>
     </div>
+        <!-- Slider untuk Mengatur Interval Pembaruan Data -->
+    <div class="mt-3">
+      <label for="intervalSlider">Interval Pembaruan Data (detik):</label>
+      <input type="range" id="intervalSlider" min="1" max="10" value="5" class="form-range">
+      <span id="intervalValue">5</span> detik
+    </div>
 
     <!-- Tooltip untuk Tombol Pause -->
     <div class="button-container">
@@ -190,31 +299,6 @@
       <button id="refreshButton" class="btn btn-primary">
         <i class="fas fa-sync"></i> Refresh
       </button>
-    </div>
-
-    <!-- Dropdown untuk Memilih Tipe Grafik -->
-    <div class="mt-3">
-      <label for="chartType">Pilih Tipe Grafik:</label>
-      <select id="chartType" class="form-select">
-        <option value="line">Line Chart</option>
-        <option value="bar">Bar Chart</option>
-        <option value="pie">Pie Chart</option>
-      </select>
-    </div>
-
-    <!-- Slider untuk Mengatur Interval Pembaruan Data -->
-    <div class="mt-3">
-      <label for="intervalSlider">Interval Pembaruan Data (detik):</label>
-      <input type="range" id="intervalSlider" min="1" max="10" value="5" class="form-range">
-      <span id="intervalValue">5</span> detik
-    </div>
-
-    <!-- Toggle untuk Menampilkan/Menyembunyikan Dataset -->
-    <div class="mt-3">
-      <input type="checkbox" id="toggleSGP" checked> <label for="toggleSGP">SGP</label>
-      <input type="checkbox" id="toggleIRD" checked> <label for="toggleIRD">IRD</label>
-      <input type="checkbox" id="toggleGHT" checked> <label for="toggleGHT">GHT</label>
-      <input type="checkbox" id="toggleRTX" checked> <label for="toggleRTX">RTX</label>
     </div>
 
     <!-- Tabel Riwayat -->
@@ -631,9 +715,9 @@
         document.querySelector('.notification-container').appendChild(notification);
 
         // Hapus notifikasi setelah 3 detik
-        setTimeout(() => notification.remove(), 3000);
+        setTimeout(() => notification.remove(), 5000);
       }
-      setInterval(showRelevantNotification, 6000);
+      setInterval(showRelevantNotification, 10000);
 
       // Inisialisasi tooltip
       $(document).ready(function(){
@@ -646,14 +730,25 @@
         combinedChart.update();
       });
 
-      // Slider untuk Mengatur Interval Pembaruan Data
+      // Fungsi untuk mengupdate progres slider
+      function updateSliderProgress() {
+        const slider = document.getElementById('intervalSlider');
+        const progress = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+        slider.style.setProperty('--progress', `${progress}%`);
+      }
+
+      // Event listener untuk slider
       document.getElementById('intervalSlider').addEventListener('input', function() {
+        updateSliderProgress();
         const interval = this.value;
         document.getElementById('intervalValue').textContent = interval;
         document.getElementById('updateIntervalText').textContent = interval; // Update teks interval
         clearInterval(updateInterval);
         updateInterval = setInterval(updateChart, interval * 1000);
       });
+
+      // Inisialisasi progres slider saat halaman dimuat
+      updateSliderProgress();
 
       // Toggle untuk Menampilkan/Menyembunyikan Dataset
       document.getElementById('toggleSGP').addEventListener('change', function() {
