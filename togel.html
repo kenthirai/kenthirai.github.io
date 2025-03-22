@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="description" content="Toto Online - Simulasi">
+ <meta charset="UTF-8">
+  <meta name="description" content="Toto Online - Singapura">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toto Online Singapore!</title>
   <!-- Bootstrap 5 CSS -->
@@ -132,22 +132,46 @@
       font-size: 1.2rem;
       margin: 0;
     }
+    .status-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #28a745; /* Warna hijau untuk status online */
+    }
+    .status-text {
+      color: #28a745; /* Warna hijau untuk teks status */
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
   <div class="container mt-5">
     <!-- Judul dengan Ikon Koin -->
     <h1 class="text-center">
-      <i class="fas fa-coins" style="color: #ffc107;"></i> Toto Online Singapura 
+      <i class="fas fa-coins" style="color: #ffc107;"></i> Toto Online Singapura
     </h1>
     <div class="row">
       <div class="col-md-12">
+        <!-- Status Online -->
+        <div class="status-indicator">
+          <div class="status-dot" id="statusDot"></div>
+          <span class="status-text" id="statusText">Online</span>
+        </div>
         <canvas id="combinedChart"></canvas>
         <p class="text-center mt-2">
-          Update /5 detik: 
+          Update /5 Detik: 
           <span id="count1" class="red-number">0</span> (SGP), 
           <span id="count2" class="red-number">0</span> (IRD), 
-          <span id="count3" class="red-number">0</span> (GHT)
+          <span id="count3" class="red-number">0</span> (GHT),
+          <span id="count4" class="red-number">0</span> (RTX)
         </p>
       </div>
     </div>
@@ -175,6 +199,7 @@
               <th>SGP</th>
               <th>IRD</th>
               <th>GHT</th>
+              <th>RTX</th>
             </tr>
           </thead>
           <tbody id="historyBody">
@@ -187,22 +212,28 @@
   
       <!-- Statistik Ringkas -->
     <div class="row mt-4">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="stats-card">
           <h5>Total Data</h5>
           <p id="totalData">0</p>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="stats-card">
           <h5>Rata-rata</h5>
           <p id="averageData">0</p>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="stats-card">
           <h5>Nilai Tertinggi</h5>
           <p id="maxData">0</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card">
+          <h5>Nilai Terendah</h5>
+          <p id="minData">0</p>
         </div>
       </div>
     </div>
@@ -245,7 +276,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Grafik ini menampilkan data real-time untuk SGP, IRD, dan GHT. Anda dapat melihat perubahan data setiap 5 detik.</p>
+          <p>Grafik ini menampilkan data real-time untuk SGP, IRD, GHT, dan RTX. Anda dapat melihat perubahan data setiap 5 detik.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -263,7 +294,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Notifikasi akan muncul setiap 5 detik untuk memberikan informasi terbaru tentang data SGP, IRD, dan GHT.</p>
+          <p>Notifikasi akan muncul setiap 6 detik untuk memberikan informasi terbaru tentang data SGP, IRD, GHT, dan RTX.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -318,6 +349,13 @@
             borderColor: '#dc3545', // Warna merah untuk GHT
             borderWidth: 2,
             fill: false
+          },
+          {
+            label: 'RTX',
+            data: [], // Data awal kosong
+            borderColor: '#6f42c1', // Warna ungu untuk RTX
+            borderWidth: 2,
+            fill: false
           }
         ]
       },
@@ -370,7 +408,7 @@
     }
 
     // Fungsi untuk menambahkan riwayat ke tabel
-    function addHistory(sgp, ird, ght) {
+    function addHistory(sgp, ird, ght, RTX) {
       const historyBody = document.getElementById('historyBody');
       const newRow = document.createElement('tr');
       const time = new Date().toLocaleTimeString(); // Waktu saat ini
@@ -380,6 +418,7 @@
         <td><span class="red-number">${sgp}</span></td>
         <td><span class="red-number">${ird}</span></td>
         <td><span class="red-number">${ght}</span></td>
+        <td><span class="red-number">${RTX}</span></td>
       `;
 
       // Tambahkan baris baru ke tabel
@@ -396,16 +435,19 @@
       const counts = [
         parseInt(document.getElementById('count1').textContent),
         parseInt(document.getElementById('count2').textContent),
-        parseInt(document.getElementById('count3').textContent)
+        parseInt(document.getElementById('count3').textContent),
+        parseInt(document.getElementById('count4').textContent)
       ];
       const total = counts.reduce((a, b) => a + b, 0); // Total data
       const average = (total / counts.length).toFixed(2); // Rata-rata
       const max = Math.max(...counts); // Nilai tertinggi
+      const min = Math.min(...counts); // Nilai terendah
 
       // Update elemen statistik
       document.getElementById('totalData').textContent = total;
       document.getElementById('averageData').textContent = average;
       document.getElementById('maxData').textContent = max;
+      document.getElementById('minData').textContent = min;
     }
 
     // Fungsi untuk mengupdate progress bar dan info
@@ -415,10 +457,11 @@
       const counts = [
         parseInt(document.getElementById('count1').textContent),
         parseInt(document.getElementById('count2').textContent),
-        parseInt(document.getElementById('count3').textContent)
+        parseInt(document.getElementById('count3').textContent),
+        parseInt(document.getElementById('count4').textContent)
       ];
-      const total = counts.reduce((a, b) => a + b, 0); // Total dari SGP, IRD, dan GHT
-      const progress = (total / 30000) * 100; // Hitung persentase progress (maksimal 30000)
+      const total = counts.reduce((a, b) => a + b, 0); // Total dari SGP, IRD, GHT, dan RTX
+      const progress = (total / 40000) * 100; // Hitung persentase progress (maksimal 40000)
       progressBar.style.width = `${progress}%`;
       progressBar.setAttribute('aria-valuenow', progress);
 
@@ -428,6 +471,14 @@
       } else {
         progressInfo.textContent = `Data telah sepenuhnya diproses!`;
       }
+    }
+
+    // Fungsi untuk mengupdate status online
+    function updateOnlineStatus() {
+      const statusDot = document.getElementById('statusDot');
+      const statusText = document.getElementById('statusText');
+      statusDot.style.backgroundColor = '#28a745'; // Warna hijau untuk online
+      statusText.textContent = 'Online';
     }
 
     // Variabel untuk kontrol pembaruan data
@@ -451,13 +502,16 @@
       combinedChart.update();
 
       // Tambahkan riwayat ke tabel
-      addHistory(counts[0], counts[1], counts[2]);
+      addHistory(counts[0], counts[1], counts[2], counts[3]);
 
       // Update progress bar
       updateProgressBar();
 
       // Update statistik ringkas
       updateStats();
+
+      // Update status online
+      updateOnlineStatus();
     }
 
     // Inisialisasi data acak pertama kali
@@ -471,10 +525,14 @@
         pauseButton.innerHTML = '<i class="fas fa-play"></i> Resume';
         pauseButton.classList.remove('btn-warning');
         pauseButton.classList.add('btn-success');
+        document.getElementById('statusDot').style.backgroundColor = '#dc3545'; // Warna merah untuk offline
+        document.getElementById('statusText').textContent = 'Offline';
       } else {
         pauseButton.innerHTML = '<i class="fas fa-pause"></i> Pause';
         pauseButton.classList.remove('btn-success');
         pauseButton.classList.add('btn-warning');
+        document.getElementById('statusDot').style.backgroundColor = '#28a745'; // Warna hijau untuk online
+        document.getElementById('statusText').textContent = 'Online';
       }
     });
 
@@ -492,8 +550,18 @@
         "Data terbaru telah diperbarui!",
         "Perubahan signifikan terdeteksi pada data!",
         "Pembaruan data berhasil dilakukan!",
-        "Data SGP, IRD, dan GHT telah diupdate!",
-        "Sistem memastikan data selalu akurat!"
+        "Data SGP, IRD, GHT, dan RTX telah diupdate!",
+        "Sistem memastikan data selalu akurat!",
+        "Data real-time telah diproses dengan sukses!",
+        "Tren terbaru terdeteksi pada grafik!",
+        "Pembaruan otomatis berjalan lancar!",
+        "Data terkini tersedia untuk analisis!",
+        "Sistem berhasil memvalidasi data terbaru!",
+        "Analisis data terbaru telah selesai!",
+        "Grafik telah diperbarui dengan data terkini!",
+        "Sistem sedang memproses data dengan cepat!",
+        "Data historis telah disimpan dengan aman!",
+        "Pembaruan grafik berhasil dijalankan!"
       ];
       const randomMessage = messages[Math.floor(Math.random() * messages.length)]; // Pilih pesan acak
 
@@ -505,7 +573,7 @@
       // Hapus notifikasi setelah 3 detik
       setTimeout(() => notification.remove(), 3000);
     }
-    setInterval(showRelevantNotification, 5000);
+    setInterval(showRelevantNotification, 6000);
   </script>
 
   <!-- Bootstrap JS -->
