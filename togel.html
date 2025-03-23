@@ -82,9 +82,9 @@
       color: #ffffff; /* Warna teks putih */
     }
     .alert-info {
-      background-color: #1f1f1f; /* Warna latar notifikasi */
-      border-color: #ffc107; /* Warna border kuning */
-      color: #ffc107; /* Warna teks kuning */
+      background-color: #ffc107; /* Warna latar notifikasi */
+      border-color: #000; /* Warna border kuning */
+      color: #232323; /* Warna teks kuning */
     }
     .table {
       color: #ffffff; /* Warna teks tabel */
@@ -296,6 +296,15 @@
       cursor: pointer;
       border: 2px solid #fff; /* Border putih */
     }
+    .time-container {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #ffffff; /* Warna teks putih */
+}
+
+.time-container p {
+  margin: 5px 0;
+}
   </style>
 </head>
 <body>
@@ -370,6 +379,12 @@
       <button id="refreshButton" class="btn btn-primary">
         <i class="fas fa-sync"></i> Refresh
       </button>
+      <div class="time-container">
+  <p><strong>Waktu Indonesia:</strong> <span id="timeIndonesia"></span></p>
+  <p><strong>Waktu Singapura:</strong> <span id="timeSingapore"></span></p>
+  <p><strong>Waktu Hongkong:</strong> <span id="timeHongkong"></span></p>
+  <p><strong>Waktu Sidney:</strong> <span id="timeSydney"></span></p> <!-- Waktu Sidney -->
+</div>
     </div>
 
     <!-- Tabel Riwayat -->
@@ -824,7 +839,7 @@
         document.querySelector('.notification-container').appendChild(notification);
 
         // Hapus notifikasi setelah 3 detik
-        setTimeout(() => notification.remove(), 5000);
+        setTimeout(() => notification.remove(), 3000);
       }
       setInterval(showRelevantNotification, 10000);
 
@@ -918,6 +933,41 @@ document.querySelectorAll('#historyBody tr').forEach(row => {
         // Lakukan filter data berdasarkan tanggal
         alert(`Filter data dari ${startDate} hingga ${endDate}`);
       });
+      // Fungsi untuk mengupdate waktu
+function updateTime() {
+  const options = {
+    timeZone: 'Asia/Jakarta',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  };
+
+  // Waktu Indonesia (WIB)
+  const timeIndonesia = new Date().toLocaleTimeString('id-ID', options);
+  document.getElementById('timeIndonesia').textContent = timeIndonesia;
+
+  // Waktu Singapura (SGT)
+  options.timeZone = 'Asia/Singapore';
+  const timeSingapore = new Date().toLocaleTimeString('en-SG', options);
+  document.getElementById('timeSingapore').textContent = timeSingapore;
+
+  // Waktu Hongkong (HKT)
+  options.timeZone = 'Asia/Hong_Kong';
+  const timeHongkong = new Date().toLocaleTimeString('en-HK', options);
+  document.getElementById('timeHongkong').textContent = timeHongkong;
+
+  // Waktu Sidney (AEST)
+  options.timeZone = 'Australia/Sydney';
+  const timeSydney = new Date().toLocaleTimeString('en-AU', options);
+  document.getElementById('timeSydney').textContent = timeSydney; // Tambahkan ini
+}
+
+// Update waktu setiap detik
+setInterval(updateTime, 1000);
+
+// Panggil fungsi pertama kali untuk menampilkan waktu segera
+updateTime();
     </script>
 
     <!-- Bootstrap JS -->
