@@ -513,12 +513,16 @@
                 startLoadingProcess();
             });
             
-            // Event listener untuk tombol Batal
-            cancelBtn.addEventListener('click', function() {
-                if (confirm('Anda yakin ingin membatalkan inisialisasi sistem?')) {
-                    window.location.href = 'cancel.html'; // Atau redirect ke halaman lain
+ // Event listener untuk tombol Batal (diubah untuk menutup tab/window)
+        cancelBtn.addEventListener('click', function() {
+            if (confirm('Anda yakin ingin membatalkan inisialisasi sistem?')) {
+                // Coba tutup window
+                if (!window.close()) {
+                    // Jika tidak berhasil, redirect ke halaman kosong
+                    window.location.href = 'about:blank';
                 }
-            });
+            }
+        });
             
             // Fungsi untuk memulai proses loading
             function startLoadingProcess() {
