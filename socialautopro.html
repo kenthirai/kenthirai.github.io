@@ -513,12 +513,16 @@
                 startLoadingProcess();
             });
             
-            // Event listener untuk tombol Batal
-            cancelBtn.addEventListener('click', function() {
-                if (confirm('Anda yakin ingin membatalkan inisialisasi sistem?')) {
-                    window.location.href = 'cancel.html'; // Atau redirect ke halaman lain
+ // Event listener untuk tombol Batal (diubah untuk menutup tab/window)
+        cancelBtn.addEventListener('click', function() {
+            if (confirm('Anda yakin ingin membatalkan inisialisasi sistem?')) {
+                // Coba tutup window
+                if (!window.close()) {
+                    // Jika tidak berhasil, redirect ke halaman kosong
+                    window.location.href = 'about:blank';
                 }
-            });
+            }
+        });
             
             // Fungsi untuk memulai proses loading
             function startLoadingProcess() {
@@ -549,4 +553,75 @@
                     { text: "Menghubungkan ke Facebook API...", type: "info", delay: 19000 },
                     { text: "Koneksi Facebook berhasil", type: "info", delay: 20000 },
                     { text: "Memuat template konten...", type: "info", delay: 21000 },
-        
+                    { text: "Memulai scheduler...", type: "info", delay: 22000 },
+                    { text: "Sistem siap digunakan!", type: "info", delay: 23000 },
+                    { text: "PROSES INISIALISASI SELESAI", type: "system", delay: 23500 }
+                ];
+                
+                // Add console messages with delay
+                consoleMessages.forEach(msg => {
+                    setTimeout(() => {
+                        const line = document.createElement('div');
+                        line.className = `console-line ${msg.type}`;
+                        line.textContent = `> ${msg.text}`;
+                        consoleElement.appendChild(line);
+                        consoleElement.scrollTop = consoleElement.scrollHeight;
+                        
+                        // Update progress based on message index
+                        progress = Math.min(100, Math.floor((consoleMessages.indexOf(msg) + 1) / consoleMessages.length * 100));
+                        updateProgress(progress);
+                        
+                        // Update steps
+                        if (progress >= 20 && currentStep < 1) completeStep(0);
+                        if (progress >= 40 && currentStep < 2) completeStep(1);
+                        if (progress >= 60 && currentStep < 3) completeStep(2);
+                        if (progress >= 80 && currentStep < 4) completeStep(3);
+                        if (progress >= 100 && currentStep < 5) completeStep(4);
+                        
+                    }, msg.delay);
+                });
+            }
+            
+            // Update progress bar
+            function updateProgress(value) {
+                progressFill.style.width = `${value}%`;
+                progressPercent.textContent = `${value}%`;
+                
+                if (value < 30) {
+                    progressStatus.textContent = "Memulai proses...";
+                } else if (value < 60) {
+                    progressStatus.textContent = "Mengunduh komponen...";
+                } else if (value < 90) {
+                    progressStatus.textContent = "Menyiapkan sistem...";
+                } else {
+                    progressStatus.textContent = "Menyelesaikan...";
+                }
+            }
+            
+            // Complete a step
+            function completeStep(stepIndex) {
+                if (stepIndex > 0) {
+                    steps[stepIndex - 1].classList.remove('active');
+                    steps[stepIndex - 1].classList.add('completed');
+                }
+                
+                steps[stepIndex].classList.add('active');
+                currentStep = stepIndex + 1;
+                
+                // Show continue button when all steps are done
+                if (stepIndex === 4) {
+                    setTimeout(() => {
+                        continueBtn.style.display = 'inline-block';
+                        setTimeout(() => {
+                            continueBtn.classList.add('show');
+                        }, 50);
+                    }, 1000);
+                }
+            }
+            
+            // Initial state
+            updateProgress(0);
+        });
+    </script>
+</body>
+</html>
