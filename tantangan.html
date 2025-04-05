@@ -44,7 +44,7 @@
             --text-color: #333;
             --container-bg: #fff;
             --highlight-bg: #f8f9fa;
-            --border-color: #eee;
+            --border-color: #ccc;
         }
 
         .dark-mode {
@@ -326,6 +326,7 @@
         
         .form-group {
             margin-bottom: 25px;
+            
         }
         
         label {
@@ -336,8 +337,9 @@
         }
         
         input, textarea, select {
-            width: 100%;
+            width: 80%;
             padding: 12px 15px;
+            margin: 20px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-family: inherit;
@@ -1014,21 +1016,6 @@
             <a href="#" id="shareEmail" title="Bagikan via Email" aria-label="Bagikan via Email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
         </div>
     </div>
-    
-    <div class="ai-console-container">
-    <h2><i class="fas fa-terminal"></i> AI Activity Console</h2>
-    <div class="ai-console">
-        <div class="console-header">
-            <span class="console-dot red"></span>
-            <span class="console-dot yellow"></span>
-            <span class="console-dot green"></span>
-            <span class="console-title">AI-Generator.log</span>
-        </div>
-        <div class="console-content" id="aiConsoleContent">
-            <!-- Pesan console akan muncul di sini -->
-        </div>
-    </div>
-</div>
 
     <!-- Join Page -->
     <div class="container" id="joinPage">
@@ -1097,6 +1084,21 @@
             <i class="fas fa-arrow-left" aria-hidden="true"></i> Kembali ke Halaman Challenge
         </a>
     </div>
+    
+       <div class="ai-console-container">
+    <h2><i class="fas fa-terminal"></i> AI Activity Console</h2>
+    <div class="ai-console">
+        <div class="console-header">
+            <span class="console-dot red"></span>
+            <span class="console-dot yellow"></span>
+            <span class="console-dot green"></span>
+            <span class="console-title">AI-Generator.log</span>
+        </div>
+        <div class="console-content" id="aiConsoleContent">
+            <!-- Pesan console akan muncul di sini -->
+        </div>
+    </div>
+</div>
     
     <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
