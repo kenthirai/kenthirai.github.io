@@ -29,8 +29,8 @@
     <link rel="canonical" href="https://kenthir.my.id/tantangan.html">
     
     <!-- Preload Font Awesome -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"></noscript>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
     <style>
         :root {
@@ -680,6 +680,84 @@
             font-size: 0.8rem;
         }
     }
+        /* Tambahkan CSS ini */
+    .countdown-container {
+        text-align: center;
+        margin: 40px 0;
+        padding: 20px;
+        background-color: rgba(72, 149, 239, 0.1);
+        border-radius: 10px;
+        border-left: 5px solid var(--accent);
+    }
+    
+    .countdown-timer {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px auto;
+        flex-wrap: wrap;
+    }
+    
+    .countdown-item {
+        background-color: var(--container-bg);
+        padding: 15px 20px;
+        border-radius: 8px;
+        min-width: 80px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .countdown-number {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: var(--primary);
+        display: block;
+        line-height: 1;
+    }
+    
+    .countdown-label {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        opacity: 0.8;
+        margin-top: 5px;
+        display: block;
+    }
+    
+    .countdown-end {
+        margin-top: 15px;
+        font-size: 0.9rem;
+        color: var(--text-color);
+        opacity: 0.8;
+    }
+    
+    @media (max-width: 768px) {
+        .countdown-item {
+            padding: 12px 15px;
+            min-width: 70px;
+        }
+        
+        .countdown-number {
+            font-size: 1.8rem;
+        }
+        
+        .countdown-label {
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .countdown-timer {
+            gap: 10px;
+        }
+        
+        .countdown-item {
+            padding: 10px 12px;
+            min-width: 60px;
+        }
+        
+        .countdown-number {
+            font-size: 1.5rem;
+        }
+    }
     </style>
 </head>
 <body>
@@ -769,13 +847,29 @@
         <button id="joinButton" class="cta-button">
             <i class="fas fa-hand-paper" aria-hidden="true"></i> Saya Siap Berpartisipasi!
         </button>
-        
-        <div class="countdown-container">
-            <h3><i class="fas fa-clock" aria-hidden="true"></i> Waktu Tersisa untuk Bergabung:</h3>
-            <div class="countdown-timer" id="countdownTimer">
-                <!-- Timer akan diisi oleh JavaScript -->
-            </div>
+    <!-- Tambahkan ini di bagian HTML (bisa di bawah social share atau di tempat yang sesuai) -->
+<div class="countdown-container">
+    <h2><i class="fas fa-clock"></i> Waktu Tersisa untuk Bergabung:</h2>
+    <div class="countdown-timer" id="countdownTimer">
+        <div class="countdown-item">
+            <span class="countdown-number" id="days">00</span>
+            <span class="countdown-label">Hari</span>
         </div>
+        <div class="countdown-item">
+            <span class="countdown-number" id="hours">00</span>
+            <span class="countdown-label">Jam</span>
+        </div>
+        <div class="countdown-item">
+            <span class="countdown-number" id="minutes">00</span>
+            <span class="countdown-label">Menit</span>
+        </div>
+        <div class="countdown-item">
+            <span class="countdown-number" id="seconds">00</span>
+            <span class="countdown-label">Detik</span>
+        </div>
+    </div>
+    <p class="countdown-end">Batas akhir: 20 April 2025 pukul 23:59 WIB</p>
+</div>    
         
         <h2><i class="fas fa-question-circle" aria-hidden="true"></i> Pertanyaan yang Sering Diajukan (FAQ)</h2>
         <div class="faq-container">
@@ -1266,6 +1360,40 @@
                 }
             }
         }, 1500);
+        
+            // Tambahkan script ini
+    function updateCountdown() {
+        // Set tanggal target: 20 April 2025 pukul 23:59 WIB
+        const targetDate = new Date('April 20, 2025 23:59:00 GMT+0700');
+        const now = new Date();
+        const difference = targetDate - now;
+        
+        // Jika waktu sudah habis
+        if (difference <= 0) {
+            document.getElementById('countdownTimer').innerHTML = 
+                '<div class="countdown-ended">Pendaftaran telah ditutup!</div>';
+            return;
+        }
+        
+        // Hitung hari, jam, menit, detik
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        
+        // Update tampilan
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    // Jalankan countdown segera dan update setiap detik
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    
+    // Pastikan countdown berfungsi saat mode gelap/terang diubah
+    document.getElementById('darkModeToggle')?.addEventListener('click', updateCountdown);
         
         // Bersihkan interval saat komponen tidak lagi digunakan
         return () => clearInterval(intervalId);
