@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <!-- Meta tags dan CSS sama persis dengan file tantangan.html -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
-    <title>Challenge Membuat Generator Gambar AI Tanpa Coding | Kenthir AI Image</title>
+    <title>Tutorial Membuat Generator Gambar AI dengan Perchance | Kenthir AI Image</title>
     
-    <!-- Primary Meta Tags -->
     <meta name="description" content="Ikuti challenge membuat generator gambar AI tanpa perlu coding! Untuk pemula hingga tingkat lanjut. Tools mudah, eye catching, hasil profesional. Daftar sekarang dan buat tools AI-mu sendiri!">
     <meta name="keywords" content="generator gambar AI, challenge AI, tanpa coding, AI untuk pemula, ruangriung, AI image generator, tools AI, belajar AI mudah">
     <meta name="author" content="Kenthir AI Image">
@@ -31,7 +31,6 @@
     <!-- Preload Font Awesome -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"></noscript>
-
     <style>
         :root {
             --primary: #4361ee;
@@ -760,6 +759,34 @@
             font-size: 1.5rem;
         }
     }
+        /* Semua CSS dari file tantangan.html di sini */
+        /* Anda bisa menambahkan style khusus untuk tutorial jika diperlukan */
+        
+        .step-image {
+            max-width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .code-block {
+            background-color: var(--highlight-bg);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .tip-box {
+            background-color: rgba(72, 149, 239, 0.1);
+            border-left: 5px solid var(--accent);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
     </style>
 </head>
 <body>
@@ -769,347 +796,147 @@
         <i class="fas fa-moon" id="darkModeIcon" aria-hidden="true"></i>
     </button>
 
-    <!-- Challenge Page-->
-    <div class="container" id="challengePage">
-        <h1><i class="fas fa-robot" aria-hidden="true"></i> Challenge Membuat Tools Generator Gambar AI</h1>
+    <div class="container">
+        <h1><i class="fas fa-magic" aria-hidden="true"></i> Tutorial Membuat Generator Gambar AI dengan Perchance</h1>
         
         <div class="highlight-box">
-            <p>Halo anggota grup Facebook AI Image!</p>
-            <p>Saya punya ide menarik, nih untuk mengajak kalian semua berpartisipasi dalam sebuah tantangan seru: <strong style="color:red">Membuat Generator Gambar AI,</strong> meskipun Anda tidak memiliki latar belakang coding. Selama ini, kita sudah banyak melaksanakan challenge-challenge kreatif, seperti swap face, challenge antar-grup, atau challenge individu. Semua itu tentu sangat menyenangkan dan membuktikan bahwa kita bisa berkarya dengan teknologi yang ada.</p>
+            <p>Perchance adalah platform sederhana yang memungkinkan Anda membuat generator AI tanpa perlu coding. Dalam tutorial visual ini, kita akan membuat generator gambar AI dari teks (text-to-image) langkah demi langkah.</p>
         </div>
         
-        <div style="text-align: center; margin: 30px 0;">
-    <a href="tutorial-perchance.html" class="cta-button" style="width: auto; display: inline-block; padding: 12px 25px;">
-        <i class="fas fa-graduation-cap" aria-hidden="true"></i> Lihat Tutorial Perchance
-    </a>
-</div>
-        
-        <p>Namun, ada satu hal penting yang patut kita renungkan: sejauh ini, kita hanya menjadi penikmat tools yang dibuat oleh orang lain. Kita belum pernah mencoba menciptakan tools kita sendiri. Padahal, teknologi AI saat ini sudah sangat canggih, bahkan memungkinkan kita untuk membuat generator gambar AI tanpa harus memiliki pengetahuan mendalam tentang coding. Ini adalah kesempatan emas bagi kita untuk mulai belajar dan berinovasi bersama!</p>
-        
-        <p>Yang menarik, kita tidak perlu pusing memahami coding beserta segala kerumitannya. <span style="border-bottom: 3px solid red">hal ini sama kayak waktu kita upload gambar AI di grup selama ini — toh kita ga perlu belajar desain dari nol, kan? tinggal ketik di kolom prompt, tunggu sebentar maka, gambar akan ujug-ujug di tampilkan. <i>Hehe...</i> </span>begitu juga dengan challenge yang akan kita adakan, Dengan teknologi terkini, siapa pun bisa menciptakan karya keren tanpa perlu keahlian teknis khusus!".</p>
-        
-        <h2><i class="fas fa-question-circle" aria-hidden="true"></i> Mengapa Harus Menciptakan Generator Gambar AI?</h2>
-        <ul>
-            <li><strong>Mengurangi Ketergantungan pada Tools Lain:</strong> Saatnya kita tidak hanya menjadi penonton dengan menggunakan tools buatan orang lain, tapi kita juga mampu menciptakan sesuatu yang bermanfaat untuk komunitas kita masing-masing 😁.</li>
-            <li><strong>Belajar dan Berkembang Bersama:</strong> Meskipun Anda tidak memiliki basic tentang <span style="white-space: pre-wrap; font-family: monospace; unicode-bidi: plaintext">pemrograman/coding,</span> jangan ragu! tidak ada syarat coding dalam challenge kali ini, proses ini akan memperkenalkan kita pada cara kerja AI secara praktis.</li>
-            <li><strong>Memberikan Nilai Tambah ke Komunitas:</strong> Jika kita berhasil menciptakan generator gambar AI yang bermanfaat, ini bisa menjadi kontribusi nyata bagi perkembangan teknologi lokal.</li>
-            <li><strong>Menjadi Inspirasi bagi Orang Lain:</strong> Proyek ini bisa menginspirasi anggota grup lainnya untuk menciptakan inovasi serupa di masa depan.</li>
-        </ul>
-        
-        <h2><i class="fas fa-list-alt" aria-hidden="true"></i> Apa yang Harus Kita Buat?</h2>
-        <div class="highlight-box">
-            <p>Kita akan membuat generator gambar AI dengan spesifikasi berikut:</p>
-            <ul>
-                <li><strong>Minimalis:</strong> Tampilan antarmuka harus sederhana, bersih, dan tidak membingungkan pengguna.</li>
-                <li><strong>Mudah Diakses:</strong> Alat ini harus user-friendly sehingga bisa digunakan oleh siapa saja, bahkan oleh orang yang tidak memiliki latar belakang teknis.</li>
-                <li><strong>Powerful:</strong> Meskipun sederhana, generator ini harus mampu menghasilkan gambar yang berkualitas tinggi dan sesuai dengan permintaan pengguna.</li>
-                <li><strong>Fungsional:</strong> Semua fitur yang ada harus bekerja dengan baik tanpa kendala teknis.</li>
-            </ul>
+        <!-- Langkah 1 -->
+        <div class="step-container">
+            <h2><i class="fas fa-sign-in-alt"></i> Langkah 1: Buka Perchance</h2>
+            <p>Buka situs <a href="https://perchance.org" target="_blank">perchance.org</a> di browser Anda. Anda akan melihat halaman utama seperti pada gambar berikut dan lanjutkan dengan klik <strong>New</strong>:</p>
+            <img src="assets/per1.png" alt="Halaman utama Perchance" class="step-image">
+            <!--p class="image-caption">Gambar 1: Halaman utama Perchance</p-->
         </div>
         
-        <h2><i class="fas fa-cogs" aria-hidden="true"></i> Bagaimana Cara Memulainya?</h2>
-        <p>Jangan khawatir jika Anda merasa bingung atau tidak tahu harus mulai dari mana. Berikut beberapa langkah awal yang bisa Anda ikuti:</p>
-        <ol>
-            <li><strong>Pelajari Platform No-Code:</strong> Ada banyak platform seperti perchance .org, Gradio, Streamlit, github atau bahkan Canva yang bisa digunakan untuk membuat antarmuka sederhana tanpa coding.</li>
-            <li><strong>Gunakan API Model AI:</strong> Anda bisa memanfaatkan API dari model AI yang sudah ada, seperti perchance, Hugging Face, Replicate, atau OpenAI. Dengan ini, kita bisa menggunakan teknologi AI tanpa harus membangun model dari nol.</li>
-            <li><strong>Berkolaborasi dengan Anggota Lain:</strong> Jika Anda merasa kesulitan, jangan ragu untuk berkolaborasi dengan anggota grup lainnya. Diskusikan ide Anda, bagi tugas, dan buat sesuatu yang luar biasa bersama-sama.</li>
-            <li><strong>Ikuti Tutorial Online:</strong> Ada banyak tutorial gratis di YouTube atau blog yang bisa membantu Anda memulai. Cari yang sesuai dengan level pemahaman Anda.</li>
-        </ol>
+        <!-- Langkah 2 -->
+        <div class="step-container">
+            <h2><i class="fas fa-plus-circle"></i> Langkah 2: Membuat Generator Baru</h2>
+            <p>Klik tombol "Create a Generator" atau "Buat Generator" di pojok kanan bawah (lihat gambar):</p>
+            <img src="assets/per2.png" alt="Tombol Create Generator" class="step-image" style="max-width: 350px;">
+            <!--p class="image-caption">Gambar 2: Tombol untuk membuat generator baru</p-->
+        </div>
         
-        <div class="tool-highlight">
-            <div class="tool-card">
-                <i class="fas fa-project-diagram" aria-hidden="true"></i>
-                <div>Gradio</div>
-            </div>
-            <div class="tool-card">
-                <i class="fas fa-stream" aria-hidden="true"></i>
-                <div>Streamlit</div>
-            </div>
-            <div class="tool-card">
-                <i class="fas fa-robot" aria-hidden="true"></i>
-                <div>Hugging Face</div>
-            </div>
-            <div class="tool-card">
-                <i class="fab fa-microsoft" aria-hidden="true"></i>
-                <div>OpenAI</div>
-            </div>
-            <div class="tool-card">
-                <i class="fas fa-cubes" aria-hidden="true"></i>
-                <div>Replicate</div>
-            </div>
-            <div class="tool-card">
-                <i class="fas fa-magic" aria-hidden="true"></i>
-                <div>Perchance</div>
-            </div>
-            <div class="tool-card">
-                <i class="fas fa-brain" aria-hidden="true"></i>
-                <div>Qwen</div>
-            </div>
-            <div class="tool-card">
-                <i class="fas fa-search" aria-hidden="true"></i>
-                <div>DeepSeek</div>
+        <!-- Langkah 3 -->
+        <div class="step-container">
+            <h2><i class="fas fa-edit"></i> Langkah 3: Drag/Geser Tombol pada gambar dibawah. </h2>
+            <div class="two-column">
+                <div>
+                    <p>Hal ini bertujuan agar anda bisa leluasa ketika mengetikkan prompt untuk membuat generator Gambar AI:</p>
+                    <div class="code-block">
+// pada kotak textarea yang muncul pastikan  anda berada pada mode <strong>Write New Code (start Fresh)</strong>
+(lihat gambar)
+                    </div>
+                </div>
+                <div>
+                    <img src="assets/per3.png" alt="Form nama generator" class="step-image">
+                    <!--p class="image-caption">Gambar 3: Form pemberian nama generator</p-->
+                </div>
             </div>
         </div>
-
         
-        <button id="joinButton" class="cta-button">
-            <i class="fas fa-hand-paper" aria-hidden="true"></i> Saya Siap Berpartisipasi!
-        </button>
-    <!-- Tambahkan ini di bagian HTML (bisa di bawah social share atau di tempat yang sesuai) -->
-<div class="countdown-container">
-    <h2><i class="fas fa-clock"></i> Waktu Tersisa untuk Bergabung:</h2>
-    <div class="countdown-timer" id="countdownTimer">
-        <div class="countdown-item">
-            <span class="countdown-number" id="days">00</span>
-            <span class="countdown-label">Hari</span>
+        <!-- Langkah 4 -->
+        <div class="step-container">
+            <h2><i class="fas fa-code"></i> Langkah 4: ketikkan Prompt (lihat gambar) </h2>
+            <p>ketik prompt seperti halnya ketika kita ingin membuat sebuah gambar AI pada umumnya.:</p>
+            <div class="code-block">
+// namun jika anda memiliki kemampuan coding ikuti parameter sederhana berikut atau anda bisa mengembangkan lebih lanjut.
+output
+  input
+    prompt = "kucing astronaut, gaya cyberpunk, 4k" [text]
+  
+  image = {prompt}
+            </div>
+            <img src="assets/per4.png" alt="Editor kode Perchance" class="step-image">
+            <!--p class="image-caption">Gambar 4: Editor kode dengan contoh dasar</p-->
         </div>
-        <div class="countdown-item">
-            <span class="countdown-number" id="hours">00</span>
-            <span class="countdown-label">Jam</span>
-        </div>
-        <div class="countdown-item">
-            <span class="countdown-number" id="minutes">00</span>
-            <span class="countdown-label">Menit</span>
-        </div>
-        <div class="countdown-item">
-            <span class="countdown-number" id="seconds">00</span>
-            <span class="countdown-label">Detik</span>
-        </div>
-    </div>
-    <p class="countdown-end">Batas akhir: 20 April 2025 pukul 23:59 WIB</p>
-</div>    
+                        <div>
+                    <img src="assets/per5.png" alt="Tombol Generate" class="step-image">
+                </div>
         
-        <h2><i class="fas fa-question-circle" aria-hidden="true"></i> Pertanyaan yang Sering Diajukan (FAQ)</h2>
-        <div class="faq-container">
-            <div class="faq-item">
-                <button class="faq-question">1. Apakah benar-benar tidak perlu coding untuk mengikuti challenge ini?</button>
-                <div class="faq-answer">
-                    <p>Ya benar! Challenge ini dirancang khusus untuk mereka yang tidak memiliki latar belakang coding. Kita akan menggunakan platform no-code seperti perchance.org, Gradio, Streamlit, github, dan tools lain yang memungkinkan pembuatan antarmuka visual tanpa menulis kode.</p>
+        <!-- Langkah 5 -->
+        <div class="step-container">
+            <h2><i class="fas fa-image"></i> Langkah 5: Menjalankan Generator</h2>
+            <div class="two-column">
+                <div>
+                    <p>Klik tombol <strong>"Create ✨"</strong> untuk melihat hasil pertama Anda:</p>
+                    <div class="tip-box">
+                        <p><strong>Tips:</strong> jangan close browser Anda dan tunggu kurang lebih <span style="color:red; font-weight:bold;">10-25</span> Menit dan jika dirasa. anda merasa cukup dengan tampilan yang dihasilkan oleh Robot, lanjutkan dengan klik "Save" terlebih untuk mengamankan aset Generator anda..</p>
+                    </div>
+                </div>
+                <div>
+                    <img src="assets/per5.png" alt="Tombol Generate" class="step-image">
+                    <!--p class="image-caption">Gambar 5: Panel kontrol dengan tombol Generate</p-->
                 </div>
             </div>
-            
-            <div class="faq-item">
-                <button class="faq-question">2. Apa saja persyaratan untuk mengikuti challenge ini?</button>
-                <div class="faq-answer">
-                    <p>Persyaratan utama adalah:</p>
-                    <ul>
-                        <li>Keinginan untuk belajar tentang AI</li>
-                        <li>Akun email yang aktif</li>
-                        <li>Koneksi internet yang stabil</li>
-                        <li>Komputer/laptop dengan browser modern</li>
-                    </ul>
-                    <p>Tidak ada persyaratan teknis khusus seperti kemampuan coding.</p>
-                </div>
+        </div>
+        
+        <!-- Langkah 6 -->
+        <div class="step-container">
+            <h2><i class="fas fa-sliders-h"></i> Langkah 6: Menambahkan Pengaturan Lanjutan</h2>
+            <p>Perbarui kode Anda dengan pengaturan tambahan:</p>
+            <div class="code-block">
+// klik dropdown di atas kotak textarea ubah menjadi <strong>"Edit the Existing code"</strong>
             </div>
-            
-            <div class="faq-item">
-                <button class="faq-question">3. Berapa lama waktu yang dibutuhkan untuk menyelesaikan challenge?</button>
-                <div class="faq-answer">
-                    <p>Waktu yang dibutuhkan bervariasi tergantung kompleksitas generator yang ingin Anda buat. Secara umum:</p>
-                    <ul>
-                        <li>Generator sederhana: 2-5 jam</li>
-                        <li>Generator dengan fitur menengah: 5-10 jam</li>
-                        <li>Generator kompleks: 10-20 jam</li>
-                    </ul>
-                    <p>Anda bisa mengatur waktu pengerjaan sesuai kesibukan Anda.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <button class="faq-question">4. Apakah boleh bekerja dalam tim?</button>
-                <div class="faq-answer">
-                    <p>Sangat boleh! Kami bahkan mendorong kolaborasi antar anggota. Anda bisa:</p>
-                    <ul>
-                        <li>Membentuk tim dengan 2-3 orang</li>
-                        <li>Membagi tugas berdasarkan keahlian</li>
-                        <li>Belajar bersama-sama</li>
-                    </ul>
-                    <p>Pastikan untuk menyebutkan semua anggota tim saat mendaftar.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <button class="faq-question">5. Apakah ada biaya untuk mengikuti challenge ini?</button>
-                <div class="faq-answer">
-                    <p>Tidak ada biaya sama sekali. Challenge ini sepenuhnya gratis. Kami menggunakan tools yang tersedia secara gratis seperti:</p>
-                    <ul>
-                        <li>Gradio (gratis untuk proyek sederhana)</li>
-                        <li>Hugging Face Spaces (gratis dengan batasan tertentu)</li>
-                        <li>API gratis dari berbagai penyedia model AI</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <button class="faq-question">6. Bagaimana cara penilaian hasil challenge?</button>
-                <div class="faq-answer">
-                    <p>Kriteria penilaian meliputi:</p>
-                    <ul>
-                        <li><strong>Kemudahan Penggunaan (30%)</strong> - Seberapa user-friendly generator Anda</li>
-                        <li><strong>Kreativitas (25%)</strong> - Keunikan konsep dan fitur</li>
-                        <li><strong>Kualitas Hasil (25%)</strong> - Kualitas gambar yang dihasilkan</li>
-                        <li><strong>Fungsionalitas (20%)</strong> - Kelengkapan dan kehandalan fitur</li>
-                    </ul>
-                </div>
-            </div>
-            
-<div class="faq-item">
-    <button class="faq-question">7. Apa hadiah untuk pemenang challenge?</button>
-    <div class="faq-answer">
-        <p>Total hadiah sebesar Rp 600.000 akan dibagikan kepada tiga pemenang:</p>
-        <ul>
-            <li><strong>Juara 1:</strong> Rp 300.000 + sertifikat digital</li>
-            <li><strong>Juara 2:</strong> Rp 200.000 + sertifikat digital</li>
-            <li><strong>Juara 3:</strong> Rp 100.000 + sertifikat digital</li>
-        </ul>
-        <p>Selain itu, semua peserta akan mendapatkan sertifikat digital partisipasi.</p>
-    </div>
-</div>
-            
-            <div class="faq-item">
-                <button class="faq-question">8. Bagaimana jika saya benar-benar pemula di bidang AI?</button>
-                <div class="faq-answer">
-                    <p>Jangan khawatir! Challenge ini dirancang untuk berbagai level:</p>
-                    <ul>
-                        <li>Kami menyediakan tutorial step-by-step</li>
-                        <li>Ada forum diskusi untuk bertanya</li>
-                        <li>Anda bisa mulai dengan template sederhana</li>
-                        <li>Komunitas akan saling membantu</li>
-                    </ul>
-                    <p>Justru ini kesempatan terbaik untuk memulai belajar AI!</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <button class="faq-question">9. Bolehkah saya menggunakan generator yang sudah pernah saya buat sebelumnya?</button>
-                <div class="faq-answer">
-                    <p>Kami lebih menghargai karya baru yang dibuat khusus untuk challenge ini. Namun, Anda boleh:</p>
-                    <ul>
-                        <li>Mengembangkan ide dari proyek sebelumnya</li>
-                        <li>Menggunakan komponen yang sudah ada</li>
-                        <li>Meningkatkan versi generator lama</li>
-                    </ul>
-                    <p>Yang penting ada peningkatan signifikan dan sesuai dengan tema challenge.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <button class="faq-question">10. Bagaimana cara submit hasil karya saya?</button>
-                <div class="faq-answer">
-                    <p>Proses submission sangat mudah:</p>
+            <img src="assets/per6.png" alt="Generator dengan pengaturan lanjutan" class="step-image">
+            <!--p class="image-caption">Gambar 6: Tampilan generator dengan kontrol tambahan</p-->
+        </div>
+        
+        <!-- Langkah 7 -->
+        <div class="step-container">
+            <h2><i class="fas fa-share-square"></i> Langkah 7: Membagikan Generator</h2>
+            <div class="two-column">
+                <div>
                     <ol>
-                        <li>Deploy generator Anda di platform pilihan (Gradio, Hugging Face Spaces, dll)</li>
-                        <li>Isi form submission yang akan kami berikan mendekati deadline</li>
-                        <li>Sertakan link ke generator Anda dan deskripsi singkat</li>
-                        <li>Lampirkan screenshot antarmuka (opsional)</li>
+                        <li>Klik tombol "Save" untuk menyimpan pekerjaan</li>
+                        <li>Klik "Fullscreen" untuk melihat Generator yang telah kita buat</li>
+                        <li>Salin link pada address bar browser yang muncul dan bagikan</li>
                     </ol>
-                    <p>Kami akan mengirimkan panduan lengkap via email setelah Anda mendaftar.</p>
+                    <div class="tip-box">
+                        <p><strong>Catatan:</strong> secara umum: "Generator akan otomatis memiliki tombol download gambar".</p>
+                    </div>
+                </div>
+                <div>
+                    <img src="assets/per7.png" alt="Menu publish" class="step-image">
+                    	                    <img src="assets/per8.png" alt="Menu publish" class="step-image">
+                    	                    	<img src="assets/per9.png" alt="Menu publish" class="step-image">
+                    	                    		                    	                    	<img src="assets/per10.png" alt="Menu publish" class="step-image">
+                    <!--p class="image-caption">Gambar 7: Menu untuk mempublish generator</p-->
                 </div>
             </div>
         </div>
         
-        <div class="highlight-box">
-            <p>Yuk, Mulai Sekarang! Ini adalah kesempatan bagi kita untuk membuktikan bahwa kita tidak hanya bisa menikmati teknologi, tetapi juga bisa menciptakan sesuatu yang bermanfaat. Mari kita eksplorasi potensi AI bersama-sama dan tunjukkan bahwa komunitas kita adalah komunitas yang inovatif dan kreatif.</p>
-        </div>
-        
-        <p>Siap untuk bergabung? Jika ada pertanyaan atau ide tambahan, silakan tulis di kolom komentar. Saya sangat antusias untuk melihat apa yang bisa kita capai bersama!</p>
-        
-        <div class="social-share">
-            <a href="#" id="shareFacebook" title="Bagikan di Facebook" aria-label="Bagikan di Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
-            <a href="#" id="shareTwitter" title="Bagikan di Twitter" aria-label="Bagikan di Twitter"><i class="fab fa-x-twitter" aria-hidden="true"></i></a>
-            <a href="#" id="shareWhatsApp" title="Bagikan di WhatsApp" aria-label="Bagikan di WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
-            <a href="#" id="shareEmail" title="Bagikan via Email" aria-label="Bagikan via Email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
-        </div>
-    </div>
-
-    <!-- Join Page -->
-    <div class="container" id="joinPage">
-        <h1><i class="fas fa-user-plus" aria-hidden="true"></i> Formulir Pendaftaran Challenge</h1>
-        
-        <div class="intro-text">
-            <p>Isi formulir berikut untuk bergabung dalam challenge membuat generator gambar AI. Kami akan menghubungi Anda melalui email setelah pendaftaran.</p>
-        </div>
-        
-        <form id="joinForm" action="mailto:info@kenthir.my.id" method="post" enctype="text/plain">
-            <div class="form-group">
-                <label for="name"><i class="fas fa-user" aria-hidden="true"></i> Nama Lengkap</label>
-                <input type="text" id="name" name="name" required placeholder="Masukkan nama lengkap Anda">
-            </div>
-            
-            <div class="form-group">
-                <label for="email"><i class="fas fa-envelope" aria-hidden="true"></i> Alamat Email</label>
-                <input type="email" id="email" name="email" required placeholder="contoh@email.com">
-            </div>
-            
-            <div class="form-group">
-                <label for="facebook"><i class="fab fa-facebook" aria-hidden="true"></i> Profil Facebook (Opsional)</label>
-                <input type="url" id="facebook" name="facebook" placeholder="https://facebook.com/username">
-            </div>
-            
-            <div class="form-group">
-                <label for="experience"><i class="fas fa-star" aria-hidden="true"></i> Pengalaman dengan AI Image Generator</label>
-                <select id="experience" name="experience" required>
-                    <option value="" disabled selected>Pilih pengalaman Anda</option>
-                    <option value="pemula">Pemula (Baru belajar)</option>
-                    <option value="menengah">Menengah (Pernah mencoba beberapa tools)</option>
-                    <option value="mahir">Mahir (Sering menggunakan berbagai tools AI)</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="ideas"><i class="fas fa-lightbulb" aria-hidden="true"></i> Ide/Konsep Generator yang Ingin Dibuat</label>
-                <textarea id="ideas" name="ideas" placeholder="Jelaskan ide Anda secara singkat (jenis generator, fitur khusus, dll)" required></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label><i class="fas fa-users" aria-hidden="true"></i> Cara Berpartisipasi</label>
-                <div style="margin-top: 10px;">
-                    <label style="display: inline-flex; align-items: center; margin-right: 20px;">
-                        <input type="radio" name="participation" value="individu" checked style="width: auto; margin-right: 8px;"> Individu
-                    </label>
-                    <label style="display: inline-flex; align-items: center;">
-                        <input type="radio" name="participation" value="tim" style="width: auto; margin-right: 8px;"> Tim (sebutkan anggota di kolom ide)
-                    </label>
+        <!-- Contoh Hasil -->
+        <div class="step-container">
+            <h2><i class="fas fa-star"></i> Contoh Hasil Generator</h2>
+            <p>Berikut contoh Membuat Generator Gambar AI dan output dari generator yang kita buat:</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <img src="assets/per11.png" alt="Contoh gambar 1" class="step-image">
+                    <p class="image-caption">"Tiger Flying in the moon"</p>
+                </div>
+                <div>
+                    <img src="assets/per12.png" alt="Contoh gambar 2" class="step-image">
+                    	                    <img src="assets/per13.png" alt="Contoh gambar 2" class="step-image">
+                    	                    	                    	                    <img src="assets/per14.png" alt="Contoh gambar 2" class="step-image">
+                    <!--p class="image-caption">"pemandangan hutan ajaib, fantasy art"</p-->
                 </div>
             </div>
-            
-            <button type="submit" class="cta-button">
-                <i class="fas fa-paper-plane" aria-hidden="true"></i> Kirim Pendaftaran
-            </button>
-        </form>
-        
-        <div class="confirmation" id="confirmation">
-            <i class="fas fa-check-circle" aria-hidden="true"></i>
-            <h2>Pendaftaran Terkirim!</h2>
-            <p>Terima kasih telah mendaftar challenge ini. Kami akan menghubungi Anda melalui email dalam 1-2 hari kerja.</p>
-            <p>Silakan cek folder spam jika tidak menemukan email kami.</p>
         </div>
 
-        <a href="#" class="back-button" id="backButton">
+        <button class="cta-button" onclick="window.location.href='tantangan.html'">
             <i class="fas fa-arrow-left" aria-hidden="true"></i> Kembali ke Halaman Challenge
-        </a>
+        </button>
     </div>
-    
-       <div class="ai-console-container">
-    <h2><i class="fas fa-terminal"></i> AI Activity Console</h2>
-    <div class="ai-console">
-        <div class="console-header">
-            <span class="console-dot red"></span>
-            <span class="console-dot yellow"></span>
-            <span class="console-dot green"></span>
-            <span class="console-title">AI-Generator.log</span>
-        </div>
-        <div class="console-content" id="aiConsoleContent">
-            <!-- Pesan console akan muncul di sini -->
-        </div>
-    </div>
-</div>
-    
+
     <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
         <i class="fas fa-arrow-up" aria-hidden="true"></i>
     </button>
 
+    <!-- JavaScript sama dengan file sebelumnya -->
     <script>
         // Dark Mode Toggle
         const darkModeToggle = document.getElementById('darkModeToggle');
@@ -1419,6 +1246,7 @@
             });
         }
     });
+        
     </script>
 </body>
 </html>
