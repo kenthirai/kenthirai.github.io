@@ -760,6 +760,87 @@
             font-size: 1.5rem;
         }
     }
+/* Cookie Consent Styles */
+.cookie-consent {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 900px;
+    background: var(--container-bg);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    border: 1px solid var(--border-color);
+}
+
+.cookie-consent.show {
+    display: block;
+    opacity: 1;
+}
+
+.cookie-consent p {
+    margin: 0 0 15px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.cookie-consent-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.cookie-consent-button {
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cookie-consent-accept {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+.cookie-consent-accept:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
+
+.cookie-consent-decline {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.cookie-consent-decline:hover {
+    background: var(--highlight-bg);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .cookie-consent {
+        width: 95%;
+        bottom: 10px;
+    }
+    
+    .cookie-consent-buttons {
+        flex-direction: column;
+    }
+    
+    .cookie-consent-button {
+        width: 100%;
+    }
+}
     </style>
 </head>
 <body>
@@ -1115,6 +1196,15 @@
     <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
         <i class="fas fa-arrow-up" aria-hidden="true"></i>
     </button>
+<!-- Cookie Consent Banner -->
+<div class="cookie-consent" id="cookieConsent">
+    <p>Kami menggunakan cookie untuk meningkatkan pengalaman Anda di situs ini. Dengan melanjutkan, Anda menyetujui penggunaan cookie sesuai dengan <a href="#" style="color: var(--primary);">Kebijakan Privasi</a> kami.</p>
+    <div class="cookie-consent-buttons">
+        <button class="cookie-consent-button cookie-consent-decline" id="declineCookies">Tolak</button>
+        <button class="cookie-consent-button cookie-consent-accept" id="acceptCookies">Setuju</button>
+    </div>
+</div>
+
 
     <script>
         // Dark Mode Toggle
@@ -1425,6 +1515,42 @@
             });
         }
     });
+// Cookie Consent Functionality
+function showCookieConsent() {
+    // Check if user has already made a choice
+    if (localStorage.getItem('cookieConsent') === null) {
+        setTimeout(() => {
+            const cookieConsent = document.getElementById('cookieConsent');
+            cookieConsent.classList.add('show');
+        }, 5000); // Show after 5 seconds
+    }
+}
+
+function setupCookieConsent() {
+    const acceptCookies = document.getElementById('acceptCookies');
+    const declineCookies = document.getElementById('declineCookies');
+    const cookieConsent = document.getElementById('cookieConsent');
+
+    if (acceptCookies && declineCookies && cookieConsent) {
+        acceptCookies.addEventListener('click', () => {
+            localStorage.setItem('cookieConsent', 'accepted');
+            cookieConsent.classList.remove('show');
+            // You can add additional cookie setting logic here
+        });
+
+        declineCookies.addEventListener('click', () => {
+            localStorage.setItem('cookieConsent', 'declined');
+            cookieConsent.classList.remove('show');
+            // You can add additional cookie rejection logic here
+        });
+
+        // Show the consent banner if no choice has been made
+        showCookieConsent();
+    }
+}
+
+// Initialize cookie consent when DOM is loaded
+document.addEventListener('DOMContentLoaded', setupCookieConsent);
     </script>
 </body>
 </html>
