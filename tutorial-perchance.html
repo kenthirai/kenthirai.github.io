@@ -787,6 +787,82 @@
             margin: 20px 0;
             border-radius: 0 8px 8px 0;
         }
+        /* Sidebar Simplified */
+.sidebar-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: var(--container-bg);
+    border: 1px solid var(--border-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 280px;
+    height: 100vh;
+    background: var(--container-bg);
+    z-index: 999;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+}
+
+.sidebar.show {
+    left: 0;
+}
+
+.sidebar-menu {
+    padding: 70px 20px 20px;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-menu li a {
+    display: block;
+    padding: 10px 15px;
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.sidebar-menu li a:hover {
+    background: var(--highlight-bg);
+    color: var(--primary);
+}
+
+/* Adjust dark mode toggle position */
+.dark-mode-toggle {
+    left: auto !important;
+    right: 20px !important;
+}
+
+@media (max-width: 768px) {
+    .sidebar-toggle {
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+    }
+    .sidebar {
+        width: 250px;
+        left: -250px;
+    }
+}
     </style>
 </head>
 <body>
@@ -795,6 +871,16 @@
         <i class="fas fa-sun" id="lightModeIcon" aria-hidden="true"></i>
         <i class="fas fa-moon" id="darkModeIcon" aria-hidden="true"></i>
     </button>
+    <!-- Simple Sidebar Structure -->
+<button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-menu">
+        <a href="tantangan.html"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a></li>
+    </div>
+</nav>
 
     <div class="container">
         <h1><i class="fas fa-magic" aria-hidden="true"></i> Tutorial Membuat Generator Gambar AI dengan Perchance</h1>
@@ -1246,7 +1332,22 @@ output
             });
         }
     });
-        
+        // Simple Sidebar Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    
+    sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('show');
+    });
+    
+    // Close sidebar when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!sidebar.contains(e.target) && e.target !== sidebarToggle) {
+            sidebar.classList.remove('show');
+        }
+    });
+});
     </script>
 </body>
 </html>
