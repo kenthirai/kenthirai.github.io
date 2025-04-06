@@ -841,6 +841,128 @@
         width: 100%;
     }
 }
+/* Sidebar Styles - Fixed Version */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 998;
+    display: none;
+}
+
+.sidebar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    background: var(--container-bg);
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+}
+
+.sidebar-container.show {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--highlight-bg);
+}
+
+.sidebar-menu {
+    padding: 20px 0;
+}
+
+.sidebar-menu h3 {
+    padding: 0 20px 10px;
+    color: var(--primary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu li a:hover {
+    background: var(--highlight-bg);
+    color: var(--primary);
+}
+
+/* Pastikan sidebar toggle di kiri atas */
+.sidebar-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: var(--container-bg);
+    border: 1px solid var(--border-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Perbaikan Posisi Dark Mode Toggle */
+.dark-mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px; /* Pindah ke kanan */
+    left: auto; /* Pastikan tidak ada konflik dengan properti left */
+    z-index: 1000;
+    background: var(--container-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+    .dark-mode-toggle {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .sidebar-toggle {
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -849,7 +971,35 @@
         <i class="fas fa-sun" id="lightModeIcon" aria-hidden="true"></i>
         <i class="fas fa-moon" id="darkModeIcon" aria-hidden="true"></i>
     </button>
+<!-- Sidebar Structure -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+</button>
 
+<aside class="sidebar-container" id="sidebar">
+    <div class="sidebar-header">
+        <span>Menu Navigasi</span>
+        <button id="sidebarClose">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <nav class="sidebar-menu">
+        <h3>Menu Utama</h3>
+        <ul>
+            <li><a href="#challengePage"><i class="fas fa-home"></i> Beranda Challenge</a></li>
+            <li><a href="tutorial-perchance.html"><i class="fas fa-graduation-cap"></i> Tutorial</a></li>
+            <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        </ul>
+        
+        <h3>Tools AI</h3>
+        <ul>
+            <li><a href="#tools"><i class="fas fa-project-diagram"></i> Daftar Tools</a></li>
+            <li><a href="#console"><i class="fas fa-terminal"></i> AI Console</a></li>
+        </ul>
+    </nav>
+</aside>
     <!-- Challenge Page-->
     <div class="container" id="challengePage">
         <h1><i class="fas fa-robot" aria-hidden="true"></i> Challenge Membuat Tools Generator Gambar AI</h1>
@@ -888,11 +1038,14 @@
             </ul>
         </div>
         
-        <h2><i class="fas fa-cogs" aria-hidden="true"></i> Bagaimana Cara Memulainya?</h2>
-        <p>Jangan khawatir jika Anda merasa bingung atau tidak tahu harus mulai dari mana. Berikut beberapa langkah awal yang bisa Anda ikuti:</p>
+        <h2><i id="tools" class="fas fa-cogs" aria-hidden="true"></i> Bagaimana Cara Memulainya?</h2>
+        <p>Jangan khawatir jika Anda merasa bingung atau tidak tahu harus mulai dari mana. Berikut beberapa langkah awal yang bisa Anda ikuti: atau anda bisa lihat &rarr;
+  <a href="tutorial-perchance.html" target="_blank" rel="noopener noreferrer">
+    <i class="fas fa-graduation-cap"></i> Tutorial Perchance 
+  </a></p>
         <ol>
-            <li><strong>Pelajari Platform No-Code:</strong> Ada banyak platform seperti perchance .org, Gradio, Streamlit, github atau bahkan Canva yang bisa digunakan untuk membuat antarmuka sederhana tanpa coding.</li>
-            <li><strong>Gunakan API Model AI:</strong> Anda bisa memanfaatkan API dari model AI yang sudah ada, seperti perchance, Hugging Face, Replicate, atau OpenAI. Dengan ini, kita bisa menggunakan teknologi AI tanpa harus membangun model dari nol.</li>
+            <li><strong>Pelajari Platform No-Code:</strong> Ada banyak platform seperti perchance.org, <strike>Gradio, Streamlit, github atau bahkan Canva</strike> yang bisa digunakan untuk membuat antarmuka sederhana tanpa coding.</li>
+            <li><strong>Gunakan API Model AI:</strong> Anda bisa memanfaatkan API dari model AI yang sudah ada, seperti perchance,<strike> Hugging Face, Replicate, atau OpenAI.</strike> Dengan ini, kita bisa menggunakan teknologi AI tanpa harus membangun model dari nol.</li>
             <li><strong>Berkolaborasi dengan Anggota Lain:</strong> Jika Anda merasa kesulitan, jangan ragu untuk berkolaborasi dengan anggota grup lainnya. Diskusikan ide Anda, bagi tugas, dan buat sesuatu yang luar biasa bersama-sama.</li>
             <li><strong>Ikuti Tutorial Online:</strong> Ada banyak tutorial gratis di YouTube atau blog yang bisa membantu Anda memulai. Cari yang sesuai dengan level pemahaman Anda.</li>
         </ol>
@@ -937,7 +1090,7 @@
             <i class="fas fa-hand-paper" aria-hidden="true"></i> Saya Siap Berpartisipasi!
         </button>
         
-                <div style="text-align: center; margin: 30px 0;">
+                <div id="tutorial" style="text-align: center; margin: 30px 0;">
     <a href="tutorial-perchance.html" class="cta-button" style="width: auto; display: inline-block; padding: 12px 25px;">
         <i class="fas fa-graduation-cap" aria-hidden="true"></i> Lihat Tutorial Perchance
     </a>
@@ -966,7 +1119,7 @@
     <p class="countdown-end">Batas akhir: 20 April 2025 pukul 23:59 WIB</p>
 </div>    
         
-        <h2><i class="fas fa-question-circle" aria-hidden="true"></i> Pertanyaan yang Sering Diajukan (FAQ)</h2>
+        <h2><i id="faq" class="fas fa-question-circle" aria-hidden="true"></i> Pertanyaan yang Sering Diajukan (FAQ)</h2>
         <div class="faq-container">
             <div class="faq-item">
                 <button class="faq-question">1. Apakah benar-benar tidak perlu coding untuk mengikuti challenge ini?</button>
@@ -983,7 +1136,7 @@
                         <li>Keinginan untuk belajar tentang AI</li>
                         <li>Akun email yang aktif</li>
                         <li>Koneksi internet yang stabil</li>
-                        <li>Komputer/laptop dengan browser modern</li>
+                        <li>Komputer/laptop /Ponsel dengan browser modern</li>
                     </ul>
                     <p>Tidak ada persyaratan teknis khusus seperti kemampuan coding.</p>
                 </div>
@@ -1099,7 +1252,7 @@
             <p>Yuk, Mulai Sekarang! Ini adalah kesempatan bagi kita untuk membuktikan bahwa kita tidak hanya bisa menikmati teknologi, tetapi juga bisa menciptakan sesuatu yang bermanfaat. Mari kita eksplorasi potensi AI bersama-sama dan tunjukkan bahwa komunitas kita adalah komunitas yang inovatif dan kreatif.</p>
         </div>
         
-        <p>Siap untuk bergabung? Jika ada pertanyaan atau ide tambahan, silakan tulis di kolom komentar. Saya sangat antusias untuk melihat apa yang bisa kita capai bersama!</p>
+        <p>Siap untuk bergabung? Jika ada pertanyaan atau ide tambahan, silakan tulis di via email di <pre>info@kenthir.my.id</pre> Saya sangat antusias untuk melihat apa yang bisa kita capai bersama!</p>
         
         <div class="social-share">
             <a href="#" id="shareFacebook" title="Bagikan di Facebook" aria-label="Bagikan di Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
@@ -1177,7 +1330,7 @@
         </a>
     </div>
     
-       <div class="ai-console-container">
+       <div id="console" class="ai-console-container">
     <h2><i class="fas fa-terminal"></i> AI Activity Console</h2>
     <div class="ai-console">
         <div class="console-header">
@@ -1551,6 +1704,41 @@ function setupCookieConsent() {
 
 // Initialize cookie consent when DOM is loaded
 document.addEventListener('DOMContentLoaded', setupCookieConsent);
+// Sidebar Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarClose = document.getElementById('sidebarClose');
+    
+    function toggleSidebar() {
+        sidebar.classList.toggle('show');
+        sidebarOverlay.style.display = sidebar.classList.contains('show') ? 'block' : 'none';
+    }
+    
+    sidebarToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleSidebar();
+    });
+    
+    sidebarClose.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleSidebar();
+    });
+    
+    sidebarOverlay.addEventListener('click', function() {
+        toggleSidebar();
+    });
+    
+    // Close sidebar when clicking a link (for mobile)
+    document.querySelectorAll('.sidebar-menu a').forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 768) {
+                toggleSidebar();
+            }
+        });
+    });
+});
     </script>
 </body>
 </html>
