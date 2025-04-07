@@ -963,7 +963,20 @@
         height: 40px;
     }
 }
+/* Atur warna ikon toggle menu agar selalu terlihat */
+.sidebar-toggle i {
+    color: var(--primary); /* Gunakan warna primary (biru) yang kontras */
+}
 
+.dark-mode .sidebar-toggle i {
+    color: var(--accent); /* Atau gunakan warna accent untuk dark mode */
+}
+
+/* Pastikan tombol toggle memiliki latar belakang yang kontras */
+.sidebar-toggle {
+    background-color: var(--container-bg);
+    border: 1px solid var(--border-color);
+}
     </style>
 </head>
 <body>
@@ -1118,10 +1131,12 @@
         </div>
     </div>
     <p class="countdown-end">Batas akhir: 20 April 2025 pukul 23:59 WIB</p>
-    <!-- Histats.com  (div with counter) --><div id="histats_counter"></div>
+  <!-- Histats.com  (div with counter) -->
+  		
+  	<div id="histats_counter"></div>
 <!-- Histats.com  START  (aync)-->
 <script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,4942240,4,428,112,75,00011111']);
+_Hasync.push(['Histats.start', '1,4942240,4,225,112,50,00011111']);
 _Hasync.push(['Histats.fasi', '1']);
 _Hasync.push(['Histats.track_hits', '']);
 (function() {
