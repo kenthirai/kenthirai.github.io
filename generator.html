@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Image Generator</title>
+    <style>
+        body { font-family: Arial; text-align: center; margin-top: 50px; }
+        #result img { max-width: 80%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Generate Image with DeepAI</h1>
+    <input type="text" id="prompt" placeholder="Describe an image...">
+    <button onclick="generateImage()">Generate</button>
+    <div id="result"></div>
+
+    <script>
+    async function generateImage() {
+        const prompt = document.getElementById('prompt').value;
+        const proxyUrl = 'https://ariftirtana.com/deepai-proxy/api-proxy.php';
+
+        if (!prompt) {
+            alert("Prompt tidak boleh kosong!");
+            return;
+        }
+
+        try {
+            const response = await fetch(proxyUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: prompt })
+            });
+            const result = await response.json();
+
+            if (result.output_url) {
+                document.getElementById('result').innerHTML = `<img src="${result.output_url}" alt="Generated Image">`;
+            } else {
+                throw new Error(result.error || "Gagal generate gambar");
+            }
+        } catch (error) {
+            alert("Error: " + error.message);
+        }
+    }
+    </script>
+</body>
+</html>
