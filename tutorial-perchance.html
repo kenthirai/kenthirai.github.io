@@ -877,6 +877,36 @@
     background-color: var(--container-bg);
     border: 1px solid var(--border-color);
 }
+/* Video Portrait 9:16 */
+.video-container-portrait {
+    max-width: 360px; /* Lebar maksimal untuk tampilan mobile */
+    margin: 20px auto;
+}
+
+.video-container-portrait > div {
+    position: relative;
+    padding-bottom: 177.78%; /* 9:16 aspect ratio (9/16*100) */
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    background: #000;
+}
+
+.video-container-portrait iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media (max-width: 480px) {
+    .video-container-portrait {
+        max-width: 300px;
+    }
+}
     </style>
 </head>
 <body>
@@ -902,6 +932,26 @@
         <div class="highlight-box">
             <p>Perchance adalah platform sederhana yang memungkinkan Anda membuat generator AI tanpa perlu coding. Dalam tutorial visual ini, kita akan membuat generator gambar AI dari teks (text-to-image) langkah demi langkah.</p>
         </div>
+        <!-- Letakkan setelah highlight-box dan sebelum Langkah 1 -->
+<div class="step-container">
+    <h2><i class="fas fa-video"></i> Video Tutorial Singkat</h2>
+    <p>Tonton demo cepat pembuatan generator dalam format vertikal:</p>
+    
+    <div class="video-container-portrait" style="max-width: 360px; margin: 20px auto;">
+        <div style="position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+            <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+                    src="https://www.youtube.com/embed/t2TETC34vPo" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+    
+    <div class="tip-box">
+        <p><strong>Tips:</strong> tulis komentar jikabmasih kurang dipahami atau bisa didiskusikan di room chat 😁</p>
+    </div>
+</div>
         
         <!-- Langkah 1 -->
         <div class="step-container">
