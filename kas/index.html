@@ -3,269 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tampilan Saldo dengan Riwayat TXT</title>
+    <title>Laporan Keuangan Transparan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            margin: 0;
-            color: white;
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
         }
-        
-        .container {
-            width: 100%;
-            max-width: 500px;
+        h1 {
+            color: #2c3e50;
+            text-align: center;
         }
-        
         .saldo-container {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
             margin-bottom: 20px;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-        
-        .saldo-title {
-            font-size: 18px;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-        
-        .saldo-amount {
-            font-size: 32px;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 50px;
-        }
-        
-        .eye-icon {
-            margin-left: 15px;
-            cursor: pointer;
-            font-size: 22px;
-            transition: all 0.3s;
-        }
-        
-        .eye-icon:hover {
-            opacity: 0.8;
-        }
-        
-        #saldo-value {
-            transition: all 0.3s;
-        }
-        
-        .hidden {
-            visibility: hidden;
-            position: relative;
-        }
-        
-        .hidden::after {
-            content: "•••••••";
-            visibility: visible;
-            position: absolute;
-            left: 0;
-            letter-spacing: 3px;
-        }
-        
-        .activity-container {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .activity-title {
-            font-size: 16px;
-            margin-bottom: 15px;
-            text-align: left;
-            opacity: 0.9;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
-        .refresh-btn {
+        .saldo-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .saldo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .saldo.hidden {
+            visibility: hidden;
+            filter: blur(5px);
+        }
+        .toggle-btn {
             background: none;
             border: none;
-            color: white;
             cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .activity-item {
+            font-size: 1em;
             display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            align-items: center;
+            gap: 5px;
+            color: #3498db;
         }
-        
-        .activity-details {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px 15px;
             text-align: left;
-            flex-grow: 1;
+            border-bottom: 1px solid #ddd;
         }
-        
-        .activity-name {
-            font-size: 14px;
-            margin-bottom: 3px;
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
         }
-        
-        .activity-date {
-            font-size: 12px;
-            opacity: 0.7;
+        tr:hover {
+            background-color: #f5f5f5;
         }
-        
-        .activity-amount {
-            font-weight: 500;
-            min-width: 100px;
-            text-align: right;
+        .in {
+            color: #27ae60;
         }
-        
-        .positive {
-            color: #a7f3a0;
-        }
-        
-        .negative {
-            color: #ff9e9e;
+        .out {
+            color: #e74c3c;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="saldo-container">
-            <div class="saldo-title">SALDO ANDA</div>
-            <div class="saldo-amount">
-                Rp<span id="saldo-value">0</span>
-                <i class="fas fa-eye-slash eye-icon" id="eye-icon"></i>
-            </div>
+    <h1>Laporan Keuangan</h1>
+    
+    <div class="saldo-container">
+        <div class="saldo-info">
+            <span>Total Saldo:</span>
+            <span class="saldo hidden" id="total-saldo">Rp 0</span>
         </div>
-        
-        <div class="activity-container">
-            <div class="activity-title">
-                RIWAYAT TRANSAKSI
-                <button class="refresh-btn" id="refresh-btn">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-            </div>
-            <div id="transactions-list"></div>
-        </div>
+        <button class="toggle-btn" id="toggle-saldo">
+            <i class="fas fa-eye" id="saldo-icon"></i>
+            <span id="saldo-text">Tampilkan Saldo</span>
+        </button>
     </div>
+    
+    <table id="transactions-table">
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>Keterangan</th>
+                <th>Nominal</th>
+                <th>Jenis</th>
+            </tr>
+        </thead>
+        <tbody id="transactions-body">
+            <!-- Data diisi oleh JavaScript -->
+        </tbody>
+    </table>
 
     <script>
-        // Variabel global untuk data transaksi
-        let transactions = [];
-        let currentSaldo = 0;
-        
-        // Elemen DOM
-        const eyeIcon = document.getElementById('eye-icon');
-        const saldoValue = document.getElementById('saldo-value');
-        const transactionsList = document.getElementById('transactions-list');
-        const refreshBtn = document.getElementById('refresh-btn');
-        let isVisible = false;
-
-        // Fungsi untuk memuat data dari file TXT
-        async function loadTransactions() {
-            try {
-                // Ganti dengan path file TXT Anda
-                const response = await fetch('transactions.txt?t=' + new Date().getTime());
-                const text = await response.text();
-                
-                // Parse data TXT
-                const lines = text.split('\n').filter(line => line.trim() !== '');
-                transactions = [];
-                currentSaldo = 0;
-                
-                lines.forEach(line => {
-                    const parts = line.split('|');
-                    if (parts.length >= 4) {
-                        const transaction = {
-                            date: parts[0].trim(),
-                            description: parts[1].trim(),
-                            amount: parseFloat(parts[2].trim()),
-                            type: parts[3].trim()
-                        };
-                        transactions.push(transaction);
-                        
-                        // Hitung saldo
-                        if (transaction.type === 'in') {
-                            currentSaldo += transaction.amount;
-                        } else {
-                            currentSaldo -= transaction.amount;
-                        }
-                    }
-                });
-                
-                // Update tampilan
-                updateSaldoDisplay();
-                renderTransactions();
-                
-            } catch (error) {
-                console.error('Error loading transactions:', error);
-                transactionsList.innerHTML = '<div style="padding: 10px; text-align: center;">Gagal memuat data transaksi</div>';
-            }
+        // Format angka ke Rupiah
+        function formatRupiah(amount) {
+            return "Rp " + amount.toLocaleString("id-ID");
         }
 
-        // Fungsi untuk menampilkan transaksi
-        function renderTransactions() {
-            if (transactions.length === 0) {
-                transactionsList.innerHTML = '<div style="padding: 10px; text-align: center;">Tidak ada transaksi</div>';
-                return;
-            }
-            
-            let html = '';
-            transactions.forEach(transaction => {
-                html += `
-                <div class="activity-item">
-                    <div class="activity-details">
-                        <div class="activity-name">${transaction.description}</div>
-                        <div class="activity-date">${transaction.date}</div>
-                    </div>
-                    <div class="activity-amount ${transaction.type === 'in' ? 'positive' : 'negative'}">
-                        ${transaction.type === 'in' ? '+' : '-'}Rp${transaction.amount.toLocaleString('id-ID')}
-                    </div>
-                </div>
+        // Hitung total saldo dari data transaksi
+        function calculateBalance(transactions) {
+            return transactions.reduce((total, txn) => {
+                return txn.type === "in" ? total + txn.amount : total - txn.amount;
+            }, 0);
+        }
+
+        // Render tabel transaksi
+        function renderTransactions(transactions) {
+            const tbody = document.getElementById("transactions-body");
+            tbody.innerHTML = "";
+
+            transactions.forEach(txn => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${txn.date}</td>
+                    <td>${txn.description}</td>
+                    <td>${formatRupiah(txn.amount)}</td>
+                    <td class="${txn.type}">${txn.type === "in" ? "Pemasukan" : "Pengeluaran"}</td>
                 `;
+                tbody.appendChild(row);
             });
-            
-            transactionsList.innerHTML = html;
+
+            // Update saldo (tetap tersembunyi)
+            document.getElementById("total-saldo").textContent = 
+                formatRupiah(calculateBalance(transactions));
         }
 
-        // Fungsi update tampilan saldo
-        function updateSaldoDisplay() {
-            saldoValue.textContent = currentSaldo.toLocaleString('id-ID');
-        }
+        // Toggle saldo visibility
+        document.getElementById("toggle-saldo").addEventListener("click", () => {
+            const saldo = document.getElementById("total-saldo");
+            const icon = document.getElementById("saldo-icon");
+            const text = document.getElementById("saldo-text");
 
-        // Event listener untuk tombol refresh
-        refreshBtn.addEventListener('click', loadTransactions);
-
-        // Event listener untuk show/hide saldo
-        eyeIcon.addEventListener('click', function() {
-            isVisible = !isVisible;
+            saldo.classList.toggle("hidden");
             
-            if (isVisible) {
-                saldoValue.classList.remove('hidden');
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
+            if (saldo.classList.contains("hidden")) {
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+                text.textContent = "Tampilkan Saldo";
             } else {
-                saldoValue.classList.add('hidden');
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+                text.textContent = "Sembunyikan Saldo";
             }
         });
 
-        // Inisialisasi
-        document.addEventListener('DOMContentLoaded', function() {
-            saldoValue.classList.add('hidden');
-            loadTransactions();
-        });
+        // Load data dari JSON
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => renderTransactions(data))
+            .catch(error => console.error("Gagal memuat data:", error));
     </script>
 </body>
 </html>
