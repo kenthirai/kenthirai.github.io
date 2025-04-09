@@ -17,8 +17,8 @@
             --danger: #ef4444;
             --warning: #f59e0b;
             --light: #f8fafc;
-			--kyellow: #f7dc0a;
-			--koranye: #f7a80a;
+            --kyellow: #f7dc0a;
+            --koranye: #f7a80a;
             --light-blue: #e0e7ff;
             --dark: #1e293b;
             --gray: #64748b;
@@ -103,14 +103,14 @@
             transform: translateY(-2px);
         }
         
-        /* Progress Bar Styles */
+        /* Improved Dynamic Progress Container */
         .dynamic-progress-container {
-            width: 100%;
+            width: 94%;
             margin: 1.5rem 0;
             background: var(--glass-effect);
             backdrop-filter: blur(10px);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             box-shadow: var(--card-shadow);
             border: 1px solid var(--glass-border);
             position: relative;
@@ -129,13 +129,13 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary-light), var(--secondary));
+            background: linear-gradient(90deg, var(--koranye), var(--kyellow));
         }
         
         .progress-info {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
             align-items: center;
             flex-wrap: wrap;
             gap: 0.5rem;
@@ -144,21 +144,22 @@
         .progress-title {
             font-weight: 500;
             color: white;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
         
         .progress-percent {
             font-weight: 600;
             color: white;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
         
         .progress-bar-container {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             overflow: hidden;
+            margin-top: 0.75rem;
         }
         
         .dynamic-progress-bar {
@@ -167,14 +168,15 @@
             background: linear-gradient(90deg, var(--koranye), var(--kyellow));
             border-radius: 10px;
             transition: width 1s ease-in-out;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 10px rgba(247, 220, 10, 0.5);
         }
         
         .progress-description {
             color: var(--light-blue);
             font-size: 0.85rem;
-            margin-top: 0.5rem;
+            margin-top: 0.75rem;
             font-style: italic;
+            line-height: 1.4;
         }
         
         /* Card Styles */
@@ -299,7 +301,7 @@
             box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
         }
         
-        /* Donation Section */
+        /* Improved QR Code Section */
         .donation-section {
             margin-top: 2rem;
             padding-top: 2rem;
@@ -324,58 +326,56 @@
             margin-right: auto;
         }
 
+        .qrcode-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+
         .qrcode-container {
-            display: inline-block;
-            padding: 1rem;
-            background: var(--glass-effect);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            margin: 1rem 0;
-            border: 1px solid var(--glass-border);
-            transition: var(--transition);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .qrcode-container:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
 
         .qrcode-placeholder {
-            width: 160px;
-            height: 160px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 200px;
+            height: 200px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: var(--light-blue);
-            font-size: 0.9rem;
-            border-radius: 8px;
-            overflow: hidden;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-sizing: border-box;
             position: relative;
+            overflow: hidden;
         }
 
-        .qrcode-placeholder::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.1) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(30deg);
-            animation: shine 3s infinite;
+        .qrcode-image {
+            width: 100%;
+            height: auto;
+            max-width: 170px;
+            max-height: 170px;
+            object-fit: contain;
+            border-radius: 8px;
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%) rotate(30deg); }
-            100% { transform: translateX(100%) rotate(30deg); }
+        .scan-text {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            font-weight: 500;
         }
 
         .donation-address {
@@ -602,6 +602,18 @@
                 font-size: 1rem;
             }
             
+            .dynamic-progress-container {
+                padding: 1rem 1.25rem;
+            }
+            
+            .progress-title, .progress-percent {
+                font-size: 0.9rem;
+            }
+            
+            .progress-description {
+                font-size: 0.8rem;
+            }
+            
             .balance-container {
                 flex-direction: column;
                 align-items: flex-start;
@@ -636,8 +648,14 @@
             }
             
             .qrcode-placeholder {
-                width: 140px;
-                height: 140px;
+                width: 180px;
+                height: 180px;
+                padding: 12px;
+            }
+            
+            .qrcode-image {
+                max-width: 150px;
+                max-height: 150px;
             }
             
             .donation-address {
@@ -656,15 +674,16 @@
             }
             
             .dynamic-progress-container {
-                padding: 1.2rem;
+                padding: 0.9rem 1rem;
+                border-radius: 12px;
             }
             
             .card {
                 padding: 1.2rem;
             }
             
-            .progress-title, .progress-percent {
-                font-size: 0.9rem;
+            .progress-bar-container {
+                height: 8px;
             }
             
             .donation-title {
@@ -673,6 +692,21 @@
             
             .donation-description {
                 font-size: 0.85rem;
+            }
+            
+            .qrcode-placeholder {
+                width: 160px;
+                height: 160px;
+                padding: 10px;
+            }
+            
+            .qrcode-image {
+                max-width: 140px;
+                max-height: 140px;
+            }
+            
+            .scan-text {
+                font-size: 0.8rem;
             }
             
             .donation-address {
@@ -721,9 +755,13 @@
             }
             
             .qrcode-placeholder {
-                width: 120px;
-                height: 120px;
-                font-size: 0.8rem;
+                width: 140px;
+                height: 140px;
+            }
+            
+            .qrcode-image {
+                max-width: 120px;
+                max-height: 120px;
             }
         }
     </style>
@@ -742,7 +780,7 @@
             </div>
         </header>
         
-        <!-- Dynamic Progress Bar -->
+        <!-- Improved Dynamic Progress Bar -->
         <div class="dynamic-progress-container">
             <div class="progress-info">
                 <span class="progress-title">Status Pembaruan Data:</span>
@@ -774,19 +812,23 @@
                 </button>
             </div>
             
-            <!-- Donation Section -->
+            <!-- Improved Donation Section -->
             <div class="donation-section">
                 <h3 class="donation-title">Dukung Perkembangan Kami!</h3>
                 <p class="donation-description">
                     Kontribusi Anda membantu kami terus berinovasi dan memberikan layanan terbaik.
                     Scan QR code atau transfer langsung untuk mendukung perkembangan platform ini.
                 </p>
-                <div class="qrcode-container">
-                    <div class="qrcode-placeholder">
-                        <img src="qrcode.png" alt="Donation QR Code" width="160" height="160">
-                        <div>Scan Untuk Donasi</div>
+                
+                <div class="qrcode-wrapper">
+                    <div class="qrcode-container">
+                        <div class="qrcode-placeholder">
+                            <img src="qrcode.png" alt="Donation QR Code" class="qrcode-image">
+                            <div class="scan-text">Scan Untuk Donasi</div>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="donation-address">
                     Atau transfer langsung ke:<br>
                     <strong>BCA 1234567890</strong><br>
@@ -886,55 +928,55 @@
         
         // ==================== DYNAMIC PROGRESS BAR ====================
         const progressMessages = [
-    "Mengumpulkan data transaksi...",
-    "Memverifikasi integritas data...",
-    "Memeriksa koneksi ke server...",
-    "Menganalisis pola transaksi...",
-    "Mengoptimalkan tampilan...",
-    "Memvalidasi saldo terakhir...",
-    "Menyiapkan laporan keuangan...",
-    "Melakukan enkripsi akhir..."
-];
-
-const dynamicProgress = document.getElementById('dynamic-progress');
-const progressPercent = document.getElementById('progress-percent');
-const progressMessage = document.getElementById('progress-message');
-
-let progress = 30;
-let direction = 1; // 1 untuk naik, -1 untuk turun
-let lastChangeTime = 0;
-
-function updateProgress() {
-    const now = Date.now();
-    
-    // Ganti pesan lebih cepat (setiap 1.5-3 detik)
-    if (now - lastChangeTime > 1500 + Math.random() * 1500) {
-        progressMessage.textContent = progressMessages[Math.floor(Math.random() * progressMessages.length)];
-        lastChangeTime = now;
+            "Mengumpulkan data transaksi...",
+            "Memverifikasi integritas data...",
+            "Memeriksa koneksi ke server...",
+            "Menganalisis pola transaksi...",
+            "Mengoptimalkan tampilan...",
+            "Memvalidasi saldo terakhir...",
+            "Menyiapkan laporan keuangan...",
+            "Melakukan enkripsi akhir..."
+        ];
         
-        // 40% kemungkinan untuk berubah arah (lebih sering berubah)
-        if (Math.random() > 0.6) {
-            direction *= -1;
+        const dynamicProgress = document.getElementById('dynamic-progress');
+        const progressPercent = document.getElementById('progress-percent');
+        const progressMessage = document.getElementById('progress-message');
+        
+        let progress = 30;
+        let direction = 1; // 1 untuk naik, -1 untuk turun
+        let lastChangeTime = 0;
+        
+        function updateProgress() {
+            const now = Date.now();
+            
+            // Ganti pesan lebih cepat (setiap 1.5-3 detik)
+            if (now - lastChangeTime > 1500 + Math.random() * 1500) {
+                progressMessage.textContent = progressMessages[Math.floor(Math.random() * progressMessages.length)];
+                lastChangeTime = now;
+                
+                // 40% kemungkinan untuk berubah arah (lebih sering berubah)
+                if (Math.random() > 0.6) {
+                    direction *= -1;
+                }
+            }
+            
+            // Update progress dengan perubahan yang lebih besar dan lebih cepat
+            const change = (1.2 + Math.random() * 3) * direction;
+            progress += change;
+            
+            // Jaga progress antara 5% dan 95% (range lebih luas)
+            progress = Math.max(5, Math.min(95, progress));
+            
+            // Update tampilan
+            dynamicProgress.style.width = progress + '%';
+            progressPercent.textContent = Math.round(progress) + '%';
+            
+            // Pertahankan animasi dengan interval lebih cepat
+            setTimeout(updateProgress, 300 + Math.random() * 400);
         }
-    }
-    
-    // Update progress dengan perubahan yang lebih besar dan lebih cepat
-    const change = (1.2 + Math.random() * 3) * direction;
-    progress += change;
-    
-    // Jaga progress antara 5% dan 95% (range lebih luas)
-    progress = Math.max(5, Math.min(95, progress));
-    
-    // Update tampilan
-    dynamicProgress.style.width = progress + '%';
-    progressPercent.textContent = Math.round(progress) + '%';
-    
-    // Pertahankan animasi dengan interval lebih cepat
-    setTimeout(updateProgress, 300 + Math.random() * 400);
-}
-
-// Mulai simulasi progress lebih cepat
-setTimeout(updateProgress, 800);
+        
+        // Mulai simulasi progress lebih cepat
+        setTimeout(updateProgress, 800);
         
         // ==================== MAIN FUNCTIONS ====================
         // Format angka ke Rupiah
