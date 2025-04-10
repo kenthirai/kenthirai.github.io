@@ -943,55 +943,44 @@
         const progressMessage = document.getElementById('progress-message');
         
         let progress = 30;
-        let direction = 1; // 1 untuk naik, -1 untuk turun
+        let direction = 1;
         let lastChangeTime = 0;
         
         function updateProgress() {
             const now = Date.now();
             
-            // Ganti pesan lebih cepat (setiap 1.5-3 detik)
             if (now - lastChangeTime > 1500 + Math.random() * 1500) {
                 progressMessage.textContent = progressMessages[Math.floor(Math.random() * progressMessages.length)];
                 lastChangeTime = now;
                 
-                // 40% kemungkinan untuk berubah arah (lebih sering berubah)
                 if (Math.random() > 0.6) {
                     direction *= -1;
                 }
             }
             
-            // Update progress dengan perubahan yang lebih besar dan lebih cepat
             const change = (1.2 + Math.random() * 3) * direction;
             progress += change;
-            
-            // Jaga progress antara 5% dan 95% (range lebih luas)
             progress = Math.max(5, Math.min(95, progress));
             
-            // Update tampilan
             dynamicProgress.style.width = progress + '%';
             progressPercent.textContent = Math.round(progress) + '%';
             
-            // Pertahankan animasi dengan interval lebih cepat
             setTimeout(updateProgress, 300 + Math.random() * 400);
         }
         
-        // Mulai simulasi progress lebih cepat
         setTimeout(updateProgress, 800);
         
         // ==================== MAIN FUNCTIONS ====================
-        // Format angka ke Rupiah
         function formatRupiah(amount) {
             return "Rp " + amount.toLocaleString("id-ID");
         }
 
-        // Hitung total saldo dari data transaksi
         function calculateBalance(transactions) {
             return transactions.reduce((total, txn) => {
                 return txn.type === "in" ? total + txn.amount : total - txn.amount;
             }, 0);
         }
 
-        // Render tabel transaksi
         function renderTransactions(transactions) {
             const tbody = document.getElementById("transactions-body");
             tbody.innerHTML = "";
@@ -1010,11 +999,9 @@
                 tbody.appendChild(row);
             });
 
-            // Update saldo (tetap tersembunyi)
             document.getElementById("total-saldo").textContent = 
                 formatRupiah(calculateBalance(transactions));
                 
-            // Update tanggal terakhir diubah
             document.getElementById("last-updated").textContent = 
                 new Date().toLocaleDateString('id-ID', { 
                     day: 'numeric', 
@@ -1025,7 +1012,6 @@
                 });
         }
 
-        // Toggle saldo visibility
         document.getElementById("toggle-saldo").addEventListener("click", () => {
             const saldo = document.getElementById("total-saldo");
             const icon = document.getElementById("saldo-icon");
@@ -1042,10 +1028,9 @@
             }
         });
 
-        // Set tahun dinamis di footer
         document.getElementById("current-year").textContent = new Date().getFullYear();
 
-        // Load data dari JSON
+        // Load data dari data.json
         fetch('data.json')
             .then(response => response.json())
             .then(data => renderTransactions(data))
