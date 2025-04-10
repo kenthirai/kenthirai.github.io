@@ -779,6 +779,15 @@
         text-align: center;
     }
 }
+/* Tambahkan di bagian CSS */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.refreshing {
+    animation: spin 1s linear infinite;
+}
     </style>
 </head>
 <body>
@@ -786,14 +795,21 @@
     <div class="particles" id="particles"></div>
     
     <div class="container">
-        <header>
-            <h1>DANA KAS KENTHIR</h1>
-            <p class="subtitle">Manajemen keuangan modern dengan transparansi penuh dan keamanan canggih</p>
-            <div class="security-badge">
-                <i class="fas fa-lock"></i>
-                <span>Enkripsi End-to-End</span>
-            </div>
-        </header>
+<!-- Di dalam bagian header, tambahkan tombol refresh -->
+<header>
+    <h1>DANA KAS KENTHIR</h1>
+    <p class="subtitle">Manajemen keuangan modern dengan transparansi penuh dan keamanan canggih</p>
+    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+        <div class="security-badge">
+            <i class="fas fa-lock"></i>
+            <span>Enkripsi End-to-End</span>
+        </div>
+        <button class="security-badge" id="refresh-btn" style="cursor: pointer;">
+            <i class="fas fa-sync-alt"></i>
+            <span>Refresh Data</span>
+        </button>
+    </div>
+</header>
         
         <!-- Improved Dynamic Progress Bar -->
         <div class="dynamic-progress-container">
@@ -1062,6 +1078,51 @@
                     </tr>
                 `;
             });
+            // Tambahkan di bagian JavaScript
+let isRefreshing = false;
+
+async function refreshData() {
+    if (isRefreshing) return;
+    
+    isRefreshing = true;
+    const refreshBtn = document.getElementById("refresh-btn");
+    refreshBtn.classList.add("refreshing");
+    
+    try {
+        // Reset progress bar untuk efek visual
+        progress = 30;
+        dynamicProgress.style.width = progress + '%';
+        progressPercent.textContent = Math.round(progress) + '%';
+        progressMessage.textContent = "Memuat ulang data...";
+        
+        const response = await fetch('data.json?t=' + new Date().getTime()); // Tambahkan timestamp untuk bypass cache
+        if (!response.ok) throw new Error("Gagal memuat data");
+        
+        const data = await response.json();
+        renderTransactions(data);
+        
+        // Update progress bar ke 100% untuk indikasi selesai
+        dynamicProgress.style.width = '100%';
+        progressPercent.textContent = '100%';
+        progressMessage.textContent = "Data berhasil diperbarui!";
+        
+        // Kembalikan ke mode random setelah beberapa detik
+        setTimeout(() => {
+            progress = 95;
+            updateProgress();
+        }, 2000);
+        
+    } catch (error) {
+        console.error("Refresh error:", error);
+        progressMessage.textContent = "Gagal memuat ulang data";
+    } finally {
+        refreshBtn.classList.remove("refreshing");
+        isRefreshing = false;
+    }
+}
+
+// Tambahkan event listener untuk tombol refresh
+document.getElementById("refresh-btn").addEventListener("click", refreshData);
     </script>
 </body>
 </html>
