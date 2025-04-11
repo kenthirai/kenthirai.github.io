@@ -140,7 +140,31 @@ Buat dalam satu file HTML dengan CSS dan JS embedded */</div>
             margin: 0;
             padding: 20px;
         }
-        /* ... rest of the CSS ... */
+            .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            background: linear-gradient(135deg, #4A6CF7, #9C27B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+        #result {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .image-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
     &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
