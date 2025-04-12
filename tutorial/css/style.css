@@ -140,6 +140,21 @@ h2 {
     white-space: pre;
     transition: color 0.3s ease;
 }
+.code-block {
+    white-space: pre-wrap;       /* Memungkinkan text wrap */
+    word-wrap: break-word;       /* Memecah kata panjang */
+    overflow-wrap: break-word;   /* Alternatif untuk word-wrap */
+    font-family: 'Courier New', Courier, monospace; /* Font monospace untuk kode */
+
+    padding: 15px;
+
+    overflow-x: auto;           /* Scroll horizontal jika diperlukan */
+    max-width: 100%;            /* Pastikan tidak melebihi container */
+    display: block;
+    line-height: 1.5;
+    margin: 10px 0;
+
+}
 
 /* Scrollbar styling */
 .code-block::-webkit-scrollbar {
