@@ -1274,30 +1274,30 @@
     }
 
     // Main image generation function
-    async function generateImage() {
-      const prompt = elements.promptInput.value.trim();
-      if (!prompt) {
+async function generateImage() {
+    const prompt = elements.promptInput.value.trim();
+    if (!prompt) {
         showNotification('Please enter a prompt!', 2000);
         return;
-      }
+    }
 
-      // Validate dimensions
-      if (currentWidth < 256 || currentHeight < 256 || currentWidth > 2048 || currentHeight > 2048) {
+    // Validate dimensions
+    if (currentWidth < 256 || currentHeight < 256 || currentWidth > 2048 || currentHeight > 2048) {
         showNotification('Dimensions must be between 256 and 2048', 2000);
         return;
-      }
+    }
 
-      // Show loading state
-      elements.loadingDiv.style.display = 'block';
-      elements.generatedImage.style.display = 'none';
-      elements.resultPlaceholder.style.display = 'none';
-      elements.imageActions.style.display = 'none';
-      elements.generateBtn.disabled = true;
-      
-      // Show generation info
-      elements.generationInfo.textContent = `Generating ${currentWidth}x${currentHeight} image with ${elements.modelSelect.value}...`;
+    // Show loading state
+    elements.loadingDiv.style.display = 'block';
+    elements.generatedImage.style.display = 'none';
+    elements.resultPlaceholder.style.display = 'none';
+    elements.imageActions.style.display = 'none';
+    elements.generateBtn.disabled = true;
+    
+    // Show generation info
+    elements.generationInfo.textContent = `Generating ${currentWidth}x${currentHeight} image with ${elements.modelSelect.value}...`;
 
-      try {
+    try {
         // Build API URL with parameters
         const model = elements.modelSelect.value;
         const seed = elements.seedInput.value || Math.floor(Math.random() * 1000000);
@@ -1308,41 +1308,41 @@
         // Construct the full prompt
         let fullPrompt = prompt;
         if (negativePrompt) {
-          fullPrompt += ` | negative: ${negativePrompt}`;
+            fullPrompt += ` | negative: ${negativePrompt}`;
         }
         fullPrompt += ` | model:${model} seed:${seed} steps:${steps} guidance:${guidance}`;
 
-        // Pollinations.AI API endpoint
+        // Pollinations.AI API endpoint with correct no-logo parameter
         const encodedPrompt = encodeURIComponent(fullPrompt);
-        const apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${currentWidth}&height=${currentHeight}`;
+        const apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${currentWidth}&height=${currentHeight}&nologo=true`;
 
         // Set image source
         elements.generatedImage.onload = () => {
-          elements.loadingDiv.style.display = 'none';
-          elements.generatedImage.style.display = 'block';
-          elements.imageActions.style.display = 'flex';
-          elements.generateBtn.disabled = false;
-          currentImageUrl = apiUrl;
-          showNotification('Image generated successfully!');
+            elements.loadingDiv.style.display = 'none';
+            elements.generatedImage.style.display = 'block';
+            elements.imageActions.style.display = 'flex';
+            elements.generateBtn.disabled = false;
+            currentImageUrl = apiUrl;
+            showNotification('Image generated successfully!');
         };
 
         elements.generatedImage.onerror = () => {
-          elements.loadingDiv.style.display = 'none';
-          elements.resultPlaceholder.style.display = 'flex';
-          showNotification('Error generating image', 3000);
-          elements.generateBtn.disabled = false;
+            elements.loadingDiv.style.display = 'none';
+            elements.resultPlaceholder.style.display = 'flex';
+            showNotification('Error generating image', 3000);
+            elements.generateBtn.disabled = false;
         };
 
         elements.generatedImage.src = apiUrl;
 
-      } catch (error) {
+    } catch (error) {
         console.error("Generation error:", error);
         elements.loadingDiv.style.display = 'none';
         elements.resultPlaceholder.style.display = 'flex';
         showNotification(`Error: ${error.message}`, 3000);
         elements.generateBtn.disabled = false;
-      }
     }
+}
   </script>
 </body>
 </html>
