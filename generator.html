@@ -22,6 +22,28 @@
             --border-radius: 12px;
             --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
+            
+            /* Dark mode variables */
+            --bg-color: #F5F5F7;
+            --text-color: #263238;
+            --card-bg: white;
+            --input-bg: white;
+            --border-color: #e0e0e0;
+            --gallery-bg: white;
+            --gallery-border: #eee;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1E1E1E;
+            --input-bg: #2D2D2D;
+            --border-color: #444;
+            --light: #1E1E1E;
+            --dark: #e0e0e0;
+            --gallery-bg: #2D2D2D;
+            --gallery-border: #444;
         }
         
         * {
@@ -32,24 +54,27 @@
         
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--light);
-            color: var(--dark);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
             padding: 1rem;
+            transition: var(--transition);
         }
         
         .container {
             max-width: 900px;
             margin: 1rem auto;
             padding: 1.5rem;
-            background: white;
+            background: var(--card-bg);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            transition: var(--transition);
         }
         
         header {
             text-align: center;
             margin-bottom: 1.5rem;
+            position: relative;
         }
         
         h1 {
@@ -91,7 +116,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: var(--dark);
+            color: var(--text-color);
             font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
@@ -118,11 +143,13 @@
         textarea, select, input {
             width: 100%;
             padding: 0.75rem;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
             font-family: 'Poppins', sans-serif;
             transition: var(--transition);
             font-size: 1rem;
+            background-color: var(--input-bg);
+            color: var(--text-color);
         }
         
         textarea:focus, select:focus, input:focus {
@@ -186,7 +213,7 @@
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(126, 87, 194, 0.1);
             border-radius: 8px;
             margin-bottom: 1rem;
         }
@@ -218,7 +245,7 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
             display: none;
             margin: 0 auto;
-            border: 1px solid #eee;
+            border: 1px solid var(--border-color);
         }
         
         .image-actions {
@@ -266,7 +293,8 @@
             justify-content: center;
             margin-top: 1rem;
             font-size: clamp(0.75rem, 2vw, 0.85rem);
-            color: #666;
+            color: var(--text-color);
+            opacity: 0.8;
         }
         
         .image-info span {
@@ -323,8 +351,8 @@
         }
         
         .style-preset {
-            background-color: white;
-            border: 1px solid #e0e0e0;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
             border-radius: 6px;
             padding: 0.5rem;
             text-align: center;
@@ -347,7 +375,7 @@
         /* Gallery Styles */
         .gallery-container {
             margin-top: 2rem;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--gallery-border);
             padding-top: 1.5rem;
         }
         
@@ -384,6 +412,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
             aspect-ratio: 1/1;
+            background-color: var(--gallery-bg);
         }
         
         .gallery-item:hover {
@@ -445,7 +474,8 @@
         footer {
             text-align: center;
             margin-top: 2rem;
-            color: #666;
+            color: var(--text-color);
+            opacity: 0.7;
             font-size: clamp(0.75rem, 2vw, 0.85rem);
         }
         
@@ -483,6 +513,153 @@
             animation: spin 0.8s linear infinite;
         }
         
+        .size-info-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+        
+        .size-info {
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            background-color: rgba(126, 87, 194, 0.1);
+        }
+        
+        .size-info.portrait {
+            color: #5E35B1;
+            background-color: rgba(94, 53, 177, 0.1);
+        }
+        
+        .size-info.square {
+            color: #26C6DA;
+            background-color: rgba(38, 198, 218, 0.1);
+        }
+        
+        .size-info.landscape {
+            color: #FFA000;
+            background-color: rgba(255, 160, 0, 0.1);
+        }
+        
+        .note {
+            font-size: 14px;
+            text-align: center;
+            color: #777; 
+            margin-top: 10px;
+            border-radius: 15px;
+            padding: 10px;
+            background-color: rgba(255, 0, 0, 0.1);
+        }
+        
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .dark-mode-toggle:hover {
+            background-color: rgba(126, 87, 194, 0.1);
+            color: var(--primary);
+        }
+        
+        /* Prompt history dropdown */
+        .prompt-history {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .prompt-history-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-left: 0.5rem;
+            margin-bottom:5px;
+        }
+        
+        .prompt-history-content {
+            display: none;
+            position: absolute;
+            background-color: var(--card-bg);
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            padding: 0.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+        
+        .prompt-history-item {
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 0.25rem;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        
+        .prompt-history-item:hover {
+            background-color: rgba(126, 87, 194, 0.1);
+        }
+        
+        .prompt-history.show .prompt-history-content {
+            display: block;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(126, 87, 194, 0.1);
+            border-radius: 3px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+        
+        /* Batch generation */
+        .batch-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .batch-input {
+            flex: 1;
+        }
+        
+        /* Responsive adjustments */
         @media (max-width: 600px) {
             .container {
                 padding: 1rem;
@@ -496,12 +673,25 @@
             .gallery-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
+            
+            .image-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .image-actions button {
+                width: 100%;
+                max-width: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
             <h1><i class="fas fa-magic"></i> Kenthir AI Pro</h1>
             <p class="subtitle">Create stunning images with Flux-Turbo technology</p>
         </header>
@@ -509,6 +699,12 @@
         <div class="generator-form">
             <div class="form-group full-width">
                 <label for="prompt"><i class="fas fa-align-left"></i> Describe your image</label>
+                                    <div class="prompt-history">
+                        <button class="btn-enhance prompt-history-btn" onclick="togglePromptHistory()">
+                            <i class="fas fa-history"></i> History Prompt
+                        </button>
+                        <div class="prompt-history-content" id="promptHistoryContent"></div>
+                    </div>
                 <div class="input-icon">
                     <i class="fas fa-paint-brush"></i>
                     <textarea id="prompt" placeholder="Example: A majestic lion standing on a cliff at sunset, digital art, highly detailed, cinematic lighting"></textarea>
@@ -539,7 +735,7 @@
                 <label for="width"><i class="fas fa-arrows-alt-h"></i> Width</label>
                 <div class="input-icon">
                     <i class="fas fa-ruler-horizontal"></i>
-                    <input type="number" id="width" value="1024" min="256" max="1792">
+                    <input type="number" id="width" value="1024" min="256" max="1792" oninput="updateSizeInfo()">
                 </div>
             </div>
             
@@ -547,8 +743,15 @@
                 <label for="height"><i class="fas fa-arrows-alt-v"></i> Height</label>
                 <div class="input-icon">
                     <i class="fas fa-ruler-vertical"></i>
-                    <input type="number" id="height" value="1792" min="256" max="1792">
+                    <input type="number" id="height" value="1024" min="256" max="1792" oninput="updateSizeInfo()">
                 </div>
+                
+                <div class="size-info-container">
+                    <div class="size-info" id="sizeInfo">Square (1024×1024)</div>
+                </div>
+                <div class="note"> (1024x1024=Square)
+                (1024x1792=Portrait)
+                (1792x1024=Landscape)</div>
             </div>
             
             <div class="advanced-options">
@@ -577,6 +780,28 @@
                     </div>
                     
                     <div class="form-group">
+                        <label for="steps"><i class="fas fa-tachometer-alt"></i> Steps (quality)</label>
+                        <div class="input-icon">
+                            <i class="fas fa-step-forward"></i>
+                            <input type="range" id="steps" min="20" max="50" value="30" oninput="updateStepsValue()">
+                        </div>
+                        <div style="text-align: center; margin-top: 0.5rem;">
+                            <span id="stepsValue">30</span> steps
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cfg-scale"><i class="fas fa-sliders-h"></i> Creativity (CFG Scale)</label>
+                        <div class="input-icon">
+                            <i class="fas fa-lightbulb"></i>
+                            <input type="range" id="cfg-scale" min="5" max="15" value="7" step="0.5" oninput="updateCfgValue()">
+                        </div>
+                        <div style="text-align: center; margin-top: 0.5rem;">
+                            <span id="cfgValue">7</span> (Higher = more creative)
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
                         <label><i class="fas fa-palette"></i> Style Presets</label>
                         <div class="style-presets">
                             <div class="style-preset" onclick="applyStyle(this, 'Digital Art')">Digital Art</div>
@@ -589,6 +814,14 @@
                             <div class="style-preset" onclick="applyStyle(this, 'Pixel Art')">Pixel Art</div>
                         </div>
                     </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="negative-prompt"><i class="fas fa-ban"></i> Negative Prompt</label>
+                        <div class="input-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <textarea id="negative-prompt" placeholder="What you don't want in the image (e.g., blurry, distorted, bad anatomy)"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -596,6 +829,15 @@
                 <button class="btn-generate" onclick="generateImage()">
                     <i class="fas fa-bolt"></i> Generate Image
                 </button>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="batch-controls">
+                    <input type="number" id="batchCount" min="1" max="4" value="1" class="batch-input" placeholder="Number of images">
+                    <button class="btn-enhance" onclick="generateBatch()">
+                        <i class="fas fa-layer-group"></i> Generate Batch
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -604,6 +846,9 @@
         <div class="loading" id="loading">
             <div class="loading-spinner"></div>
             <p class="loading-text">Generating your artwork...</p>
+            <div class="progress-container" style="width: 80%; margin-top: 1rem;">
+                <div class="progress-bar" id="loadingProgressBar"></div>
+            </div>
         </div>
         
         <div class="result-container">
@@ -650,14 +895,19 @@
         let currentImageUrl = '';
         let currentPrompt = '';
         let currentImageData = null;
+        let promptHistory = [];
+        let isGenerating = false;
+        let batchQueue = [];
+        let currentBatchItem = 0;
         
         // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year in footer
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             
-            // Load gallery
+            // Load gallery and prompt history
             loadGallery();
+            loadPromptHistory();
             
             // Set example prompt
             const examples = [
@@ -668,7 +918,41 @@
             ];
             
             document.getElementById('prompt').placeholder = `Example: ${examples[Math.floor(Math.random() * examples.length)]}`;
+            
+            // Initialize dark mode
+            initDarkMode();
+            
+            // Initialize advanced options
+            updateStepsValue();
+            updateCfgValue();
+            updateSizeInfo();
         });
+        
+        // Dark mode functions
+        function initDarkMode() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+        }
+        
+        function toggleDarkMode() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const isDark = document.body.classList.toggle('dark-mode');
+            
+            if (isDark) {
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('darkMode', 'false');
+            }
+        }
         
         // Toggle advanced options
         function toggleAdvanced() {
@@ -707,6 +991,64 @@
         // Clear prompt
         function clearPrompt() {
             document.getElementById('prompt').value = '';
+        }
+        
+        // Toggle prompt history dropdown
+        function togglePromptHistory() {
+            const promptHistory = document.querySelector('.prompt-history');
+            promptHistory.classList.toggle('show');
+        }
+        
+        // Load prompt history from localStorage
+        function loadPromptHistory() {
+            promptHistory = JSON.parse(localStorage.getItem('promptHistory')) || [];
+            updatePromptHistoryDisplay();
+        }
+        
+        // Update prompt history display
+        function updatePromptHistoryDisplay() {
+            const promptHistoryContent = document.getElementById('promptHistoryContent');
+            promptHistoryContent.innerHTML = '';
+            
+            if (promptHistory.length === 0) {
+                promptHistoryContent.innerHTML = '<div style="padding: 0.5rem; text-align: center; color: #666;">No history yet</div>';
+                return;
+            }
+            
+            // Display in reverse order (newest first)
+            [...promptHistory].reverse().forEach((prompt, index) => {
+                const item = document.createElement('div');
+                item.className = 'prompt-history-item';
+                item.textContent = prompt.length > 50 ? prompt.substring(0, 50) + '...' : prompt;
+                item.title = prompt;
+                item.onclick = function() {
+                    document.getElementById('prompt').value = prompt;
+                    togglePromptHistory();
+                };
+                promptHistoryContent.appendChild(item);
+            });
+        }
+        
+        // Add prompt to history
+        function addToPromptHistory(prompt) {
+            if (!prompt.trim()) return;
+            
+            // Remove if already exists
+            promptHistory = promptHistory.filter(p => p !== prompt);
+            
+            // Add to beginning
+            promptHistory.unshift(prompt);
+            
+            // Keep only last 20 prompts
+            if (promptHistory.length > 20) {
+                promptHistory = promptHistory.slice(0, 20);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('promptHistory', JSON.stringify(promptHistory));
+            
+            // Update display
+            updatePromptHistoryDisplay();
         }
         
         // Enhance prompt function
@@ -753,19 +1095,60 @@
             }
         }
         
+        // Update steps value display
+        function updateStepsValue() {
+            const steps = document.getElementById('steps').value;
+            document.getElementById('stepsValue').textContent = steps;
+        }
+        
+        // Update CFG scale value display
+        function updateCfgValue() {
+            const cfgScale = document.getElementById('cfg-scale').value;
+            document.getElementById('cfgValue').textContent = cfgScale;
+        }
+        
+        // Updated size info function
+        function updateSizeInfo() {
+            const width = parseInt(document.getElementById('width').value) || 1024;
+            const height = parseInt(document.getElementById('height').value) || 1024;
+            const sizeInfo = document.getElementById('sizeInfo');
+            
+            if (width > height) {
+                sizeInfo.textContent = `Landscape (${width}×${height})`;
+                sizeInfo.className = 'size-info landscape';
+            } else if (width < height) {
+                sizeInfo.textContent = `Portrait (${width}×${height})`;
+                sizeInfo.className = 'size-info portrait';
+            } else {
+                sizeInfo.textContent = `Square (${width}×${height})`;
+                sizeInfo.className = 'size-info square';
+            }
+        }
+        
         // Generate image
         async function generateImage() {
+            if (isGenerating) {
+                showError('Please wait for the current generation to complete');
+                return;
+            }
+            
             const prompt = document.getElementById('prompt').value.trim();
             const model = document.getElementById('model').value;
             const width = document.getElementById('width').value;
             const height = document.getElementById('height').value;
             const seed = document.getElementById('seed').value;
             const NSFW = document.getElementById('safe-mode').value;
+            const steps = document.getElementById('steps').value;
+            const cfgScale = document.getElementById('cfg-scale').value;
+            const negativePrompt = document.getElementById('negative-prompt').value;
             
             if (!prompt) {
                 showError('Please enter a prompt description first!');
                 return;
             }
+            
+            // Add to prompt history
+            addToPromptHistory(prompt);
             
             // Save current prompt
             currentPrompt = prompt;
@@ -775,6 +1158,13 @@
             document.getElementById('imageResult').style.display = 'none';
             document.getElementById('imageActions').style.display = 'none';
             document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'block';
+            
+            // Reset progress bar
+            updateProgressBar(0);
+            updateLoadingProgress(0);
+            
+            isGenerating = true;
             
             try {
                 // Build URL with Flux-Turbo model
@@ -788,9 +1178,15 @@
                 params.append('nologo', 'true');
                 params.append('safe', NSFW || 'true');
                 params.append('enhance_prompt', 'true');
+                params.append('steps', steps || '30');
+                params.append('cfg_scale', cfgScale || '7');
                 
                 if (seed) {
                     params.append('seed', seed);
+                }
+                
+                if (negativePrompt) {
+                    params.append('negative_prompt', negativePrompt);
                 }
                 
                 // Combine parameters
@@ -799,8 +1195,20 @@
                 // Add timestamp to avoid caching
                 url += `&timestamp=${Date.now()}`;
                 
+                // Simulate progress (since we can't get real progress from API)
+                const progressInterval = setInterval(() => {
+                    const currentProgress = parseInt(document.getElementById('progressBar').style.width) || 0;
+                    const newProgress = Math.min(currentProgress + 5, 90);
+                    updateProgressBar(newProgress);
+                    updateLoadingProgress(newProgress);
+                }, 500);
+                
                 // Fetch image
                 const response = await fetch(url);
+                
+                clearInterval(progressInterval);
+                updateProgressBar(100);
+                updateLoadingProgress(100);
                 
                 if (!response.ok) {
                     throw new Error(`Server returned ${response.status}: ${response.statusText}`);
@@ -818,6 +1226,9 @@
                     width: width,
                     height: height,
                     seed: seed || 'random',
+                    steps: steps,
+                    cfgScale: cfgScale,
+                    negativePrompt: negativePrompt,
                     date: new Date().toISOString()
                 };
                 
@@ -844,6 +1255,8 @@
                     <span><i class="fas fa-robot"></i> Model: <span class="model-tag">${model}</span></span>
                     <span><i class="fas fa-expand"></i> Size: ${width}×${height}px</span>
                     <span><i class="fas fa-fingerprint"></i> Seed: ${seed || 'random'}</span>
+                    <span><i class="fas fa-tachometer-alt"></i> Steps: ${steps}</span>
+                    <span><i class="fas fa-sliders-h"></i> CFG: ${cfgScale}</span>
                     <span><i class="fas fa-shield-alt"></i> NSFW: ${NSFW === 'true' ? 'On' : 'Off'}</span>
                 `;
                 
@@ -851,9 +1264,43 @@
                 console.error('Error:', error);
                 showError(`Failed to generate image: ${error.message}`);
             } finally {
-                // Hide loading
+                // Hide loading and progress
                 document.getElementById('loading').style.display = 'none';
+                document.getElementById('progressContainer').style.display = 'none';
+                isGenerating = false;
             }
+        }
+        
+        // Update progress bar
+        function updateProgressBar(percent) {
+            document.getElementById('progressBar').style.width = `${percent}%`;
+        }
+        
+        // Update loading progress bar
+        function updateLoadingProgress(percent) {
+            document.getElementById('loadingProgressBar').style.width = `${percent}%`;
+        }
+        
+        // Generate batch of images
+        async function generateBatch() {
+            const batchCount = parseInt(document.getElementById('batchCount').value) || 1;
+            
+            if (batchCount < 1 || batchCount > 4) {
+                showError('Batch count must be between 1 and 4');
+                return;
+            }
+            
+            if (isGenerating) {
+                showError('Please wait for the current generation to complete');
+                return;
+            }
+            
+            // Create batch queue
+            batchQueue = Array(batchCount).fill().map((_, i) => i + 1);
+            currentBatchItem = 0;
+            
+            // Generate first image in batch
+            generateImage();
         }
         
         // Download image
@@ -913,7 +1360,26 @@
             loadGallery();
             
             // Show confirmation
-            alert('Image saved to your gallery!');
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = 'var(--success)';
+            notification.style.color = 'white';
+            notification.style.padding = '10px 20px';
+            notification.style.borderRadius = '8px';
+            notification.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+            notification.style.zIndex = '1000';
+            notification.innerHTML = '<i class="fas fa-check-circle"></i> Image saved to gallery!';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
         }
         
         // Load gallery from localStorage
@@ -939,6 +1405,9 @@
                         <button class="gallery-item-btn" onclick="downloadGalleryImage('${item.url}')" title="Download">
                             <i class="fas fa-download"></i>
                         </button>
+                        <button class="gallery-item-btn" onclick="viewGalleryItem(${index})" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
                         <button class="gallery-item-btn" onclick="deleteGalleryItem(${index})" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -946,6 +1415,39 @@
                 `;
                 galleryGrid.appendChild(galleryItem);
             });
+        }
+        
+        // View gallery item details
+        function viewGalleryItem(index) {
+            const gallery = JSON.parse(localStorage.getItem('aiArtGallery')) || [];
+            const item = gallery[index];
+            
+            if (!item) return;
+            
+            // Display the image in the main view
+            document.getElementById('imageResult').src = item.url;
+            document.getElementById('imageResult').style.display = 'block';
+            
+            // Show image actions
+            document.getElementById('imageActions').style.display = 'flex';
+            
+            // Display image info
+            document.getElementById('imageInfo').innerHTML = `
+                <span><i class="fas fa-robot"></i> Model: <span class="model-tag">${item.model}</span></span>
+                <span><i class="fas fa-expand"></i> Size: ${item.width}×${item.height}px</span>
+                <span><i class="fas fa-fingerprint"></i> Seed: ${item.seed}</span>
+                ${item.steps ? `<span><i class="fas fa-tachometer-alt"></i> Steps: ${item.steps}</span>` : ''}
+                ${item.cfgScale ? `<span><i class="fas fa-sliders-h"></i> CFG: ${item.cfgScale}</span>` : ''}
+                <span><i class="fas fa-calendar"></i> ${new Date(item.date).toLocaleString()}</span>
+            `;
+            
+            // Set current image data
+            currentImageData = item;
+            currentImageUrl = item.url;
+            currentPrompt = item.prompt;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         // Download image from gallery
@@ -981,6 +1483,11 @@
             const errorElement = document.getElementById('errorMessage');
             errorElement.textContent = message;
             errorElement.style.display = 'block';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
         }
     </script>
 </body>
