@@ -1210,1158 +1210,1201 @@
         </p>
           </div>
     
-    <script>
-                      // Update tahun dinamis
-      document.getElementById('currentYear').textContent = new Date().getFullYear();
-        
-        // Tab Navigation
-        const navItems = document.querySelectorAll('.nav-item');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        navItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Remove active class from all items
-                navItems.forEach(navItem => navItem.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-                
-                // Add active class to clicked item
-                item.classList.add('active');
-                
-                // Show corresponding tab content
-                const tabId = item.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-            });
+<script>
+    // Update tahun dinamis
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Tab Navigation
+    const navItems = document.querySelectorAll('.nav-item');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all items
+            navItems.forEach(navItem => navItem.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked item
+            item.classList.add('active');
+            
+            // Show corresponding tab content
+            const tabId = item.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
         });
+    });
+    
+    // Enhanced Sliders with Tooltips
+    const creativitySlider = document.getElementById('creativity');
+    const creativityValue = document.getElementById('creativity-value');
+    const creativityTooltip = document.getElementById('creativity-tooltip');
+    
+    const detailSlider = document.getElementById('detail');
+    const detailValue = document.getElementById('detail-value');
+    const detailTooltip = document.getElementById('detail-tooltip');
+    
+    function updateSlider(slider, valueElement, tooltip) {
+        const value = slider.value;
+        valueElement.textContent = `${value}%`;
+        tooltip.textContent = `${value}%`;
         
-        // Enhanced Sliders with Tooltips
-        const creativitySlider = document.getElementById('creativity');
-        const creativityValue = document.getElementById('creativity-value');
-        const creativityTooltip = document.getElementById('creativity-tooltip');
+        // Update fill percentage
+        slider.style.setProperty('--fill-percentage', `${value}%`);
         
-        const detailSlider = document.getElementById('detail');
-        const detailValue = document.getElementById('detail-value');
-        const detailTooltip = document.getElementById('detail-tooltip');
+        // Update tooltip position
+        const percent = (value / slider.max) * 100;
+        tooltip.style.setProperty('--tooltip-position', `${percent}%`);
         
-        function updateSlider(slider, valueElement, tooltip) {
-            const value = slider.value;
-            valueElement.textContent = `${value}%`;
-            tooltip.textContent = `${value}%`;
-            
-            // Update fill percentage
-            slider.style.setProperty('--fill-percentage', `${value}%`);
-            
-            // Update tooltip position
-            const percent = (value / slider.max) * 100;
-            tooltip.style.setProperty('--tooltip-position', `${percent}%`);
-            
-            // Add pulse animation to value display
-            valueElement.style.animation = 'none';
-            void valueElement.offsetWidth; // Trigger reflow
-            valueElement.style.animation = 'pulse 0.3s ease';
+        // Add pulse animation to value display
+        valueElement.style.animation = 'none';
+        void valueElement.offsetWidth; // Trigger reflow
+        valueElement.style.animation = 'pulse 0.3s ease';
+    }
+    
+    function handleSliderMove(slider, valueElement, tooltip) {
+        updateSlider(slider, valueElement, tooltip);
+        
+        // Show tooltip on interaction
+        tooltip.style.opacity = '1';
+        setTimeout(() => {
+            tooltip.style.opacity = '0';
+        }, 1000);
+    }
+    
+    creativitySlider.addEventListener('input', () => {
+        handleSliderMove(creativitySlider, creativityValue, creativityTooltip);
+    });
+    
+    detailSlider.addEventListener('input', () => {
+        handleSliderMove(detailSlider, detailValue, detailTooltip);
+    });
+    
+    // Initialize sliders
+    updateSlider(creativitySlider, creativityValue, creativityTooltip);
+    updateSlider(detailSlider, detailValue, detailTooltip);
+    
+    // Add pulse animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
-        
-        function handleSliderMove(slider, valueElement, tooltip) {
-            updateSlider(slider, valueElement, tooltip);
+    `;
+    document.head.appendChild(style);
+    
+    // Resolution options
+    const resolutionBtns = document.querySelectorAll('.resolution-btn');
+    const customResolution = document.getElementById('custom-resolution');
+    let currentResolution = 'portrait';
+    let currentWidth = 768;
+    let currentHeight = 1024;
+    
+    resolutionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            resolutionBtns.forEach(b => b.classList.remove('active'));
             
-            // Show tooltip on interaction
-            tooltip.style.opacity = '1';
-            setTimeout(() => {
-                tooltip.style.opacity = '0';
-            }, 1000);
-        }
-        
-        creativitySlider.addEventListener('input', () => {
-            handleSliderMove(creativitySlider, creativityValue, creativityTooltip);
-        });
-        
-        detailSlider.addEventListener('input', () => {
-            handleSliderMove(detailSlider, detailValue, detailTooltip);
-        });
-        
-        // Initialize sliders
-        updateSlider(creativitySlider, creativityValue, creativityTooltip);
-        updateSlider(detailSlider, detailValue, detailTooltip);
-        
-        // Add pulse animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse {
-                0% { transform: scale(1); }
-                50% { transform: scale(1.1); }
-                100% { transform: scale(1); }
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            const resType = btn.getAttribute('data-res');
+            currentResolution = resType;
+            
+            if (resType === 'custom') {
+                customResolution.classList.add('active');
+                // Use current custom values
+            } else {
+                customResolution.classList.remove('active');
+                currentWidth = parseInt(btn.getAttribute('data-width'));
+                currentHeight = parseInt(btn.getAttribute('data-height'));
             }
-        `;
-        document.head.appendChild(style);
-        
-        // Resolution options
-        const resolutionBtns = document.querySelectorAll('.resolution-btn');
-        const customResolution = document.getElementById('custom-resolution');
-        let currentResolution = 'portrait';
-        let currentWidth = 768;
-        let currentHeight = 1024;
-        
-        resolutionBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                resolutionBtns.forEach(b => b.classList.remove('active'));
-                
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                const resType = btn.getAttribute('data-res');
-                currentResolution = resType;
-                
-                if (resType === 'custom') {
-                    customResolution.classList.add('active');
-                    // Use current custom values
-                } else {
-                    customResolution.classList.remove('active');
-                    currentWidth = parseInt(btn.getAttribute('data-width'));
-                    currentHeight = parseInt(btn.getAttribute('data-height'));
-                }
-            });
         });
+    });
+    
+    // Custom resolution inputs
+    const customWidth = document.getElementById('custom-width');
+    const customHeight = document.getElementById('custom-height');
+    
+    customWidth.addEventListener('input', () => {
+        currentWidth = parseInt(customWidth.value) || 1024;
+    });
+    
+    customHeight.addEventListener('input', () => {
+        currentHeight = parseInt(customHeight.value) || 768;
+    });
+    
+    // Generate image using Pollinations.ai
+    const generateBtn = document.getElementById('generate-btn');
+    const promptInput = document.getElementById('prompt-input');
+    const generatedImage = document.getElementById('generated-image');
+    const loading = document.getElementById('loading');
+    const generationInfo = document.getElementById('generation-info');
+    const galleryGrid = document.getElementById('gallery-grid');
+    const resultActions = document.getElementById('result-actions');
+    const downloadBtn = document.getElementById('download-btn');
+    const shareBtn = document.getElementById('share-btn');
+    const regenerateBtn = document.getElementById('regenerate-btn');
+    const advancedBtn = document.getElementById('advanced-btn');
+    const advancedFeatures = document.getElementById('advanced-features');
+    
+    let currentImageUrl = '';
+    let currentPrompt = '';
+    let originalImageUrl = '';
+    
+    // Helper function to add/update URL parameters
+    function updateUrlParam(url, param, value) {
+        const urlObj = new URL(url);
+        urlObj.searchParams.set(param, value);
+        return urlObj.toString();
+    }
+    
+    // Advanced features
+    const featureTabs = document.querySelectorAll('.feature-tab');
+    const featureContents = document.querySelectorAll('.feature-content');
+    
+    // Show/hide advanced features
+    advancedBtn.addEventListener('click', () => {
+        advancedFeatures.classList.toggle('active');
+        if (advancedFeatures.classList.contains('active')) {
+            advancedBtn.innerHTML = '<i class="fas fa-times"></i> Close Tools';
+            analyzeImage();
+        } else {
+            advancedBtn.innerHTML = '<i class="fas fa-cogs"></i> Advanced Tools';
+        }
+    });
+    
+    // Feature tabs navigation
+    featureTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs and contents
+            featureTabs.forEach(t => t.classList.remove('active'));
+            featureContents.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            tab.classList.add('active');
+            
+            // Show corresponding content
+            const tabId = tab.getAttribute('data-tab');
+            document.getElementById(`${tabId}-content`).classList.add('active');
+            
+            // Initialize canvas if inpainting tab
+            if (tabId === 'inpaint') {
+                initCanvas();
+            }
+        });
+    });
+    
+    // Function to save generated image to localStorage
+    function saveToLocalStorage(imageData) {
+        try {
+            // Get existing gallery from localStorage or initialize empty array
+            const gallery = JSON.parse(localStorage.getItem('aiArtGallery')) || [];
+            
+            // Add new image data
+            gallery.unshift(imageData);
+            
+            // Save back to localStorage (limit to 50 items to prevent excessive storage)
+            localStorage.setItem('aiArtGallery', JSON.stringify(gallery.slice(0, 50)));
+            
+            return true;
+        } catch (error) {
+            console.error('Error saving to localStorage:', error);
+            return false;
+        }
+    }
+    
+    // Function to load gallery from localStorage
+    function loadGalleryFromStorage() {
+        try {
+            const gallery = JSON.parse(localStorage.getItem('aiArtGallery')) || [];
+            return gallery;
+        } catch (error) {
+            console.error('Error loading gallery from storage:', error);
+            return [];
+        }
+    }
+    
+    generateBtn.addEventListener('click', async () => {
+        currentPrompt = promptInput.value.trim();
+        const model = document.getElementById('model').value;
+        const creativity = document.getElementById('creativity').value / 100;
+        const detail = document.getElementById('detail').value / 100;
         
-        // Custom resolution inputs
-        const customWidth = document.getElementById('custom-width');
-        const customHeight = document.getElementById('custom-height');
-        
-        customWidth.addEventListener('input', () => {
+        // For custom resolution, get current values
+        if (currentResolution === 'custom') {
             currentWidth = parseInt(customWidth.value) || 1024;
-        });
-        
-        customHeight.addEventListener('input', () => {
             currentHeight = parseInt(customHeight.value) || 768;
-        });
-        
-        // Generate image using Pollinations.ai
-        const generateBtn = document.getElementById('generate-btn');
-        const promptInput = document.getElementById('prompt-input');
-        const generatedImage = document.getElementById('generated-image');
-        const loading = document.getElementById('loading');
-        const generationInfo = document.getElementById('generation-info');
-        const galleryGrid = document.getElementById('gallery-grid');
-        const resultActions = document.getElementById('result-actions');
-        const downloadBtn = document.getElementById('download-btn');
-        const shareBtn = document.getElementById('share-btn');
-        const regenerateBtn = document.getElementById('regenerate-btn');
-        const advancedBtn = document.getElementById('advanced-btn');
-        const advancedFeatures = document.getElementById('advanced-features');
-        
-        let currentImageUrl = '';
-        let currentPrompt = '';
-        let originalImageUrl = '';
-        
-        // Advanced features
-        const featureTabs = document.querySelectorAll('.feature-tab');
-        const featureContents = document.querySelectorAll('.feature-content');
-        
-        // Show/hide advanced features
-        advancedBtn.addEventListener('click', () => {
-            advancedFeatures.classList.toggle('active');
-            if (advancedFeatures.classList.contains('active')) {
-                advancedBtn.innerHTML = '<i class="fas fa-times"></i> Close Tools';
-                analyzeImage();
-            } else {
-                advancedBtn.innerHTML = '<i class="fas fa-cogs"></i> Advanced Tools';
-            }
-        });
-        
-        // Feature tabs navigation
-        featureTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs and contents
-                featureTabs.forEach(t => t.classList.remove('active'));
-                featureContents.forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab
-                tab.classList.add('active');
-                
-                // Show corresponding content
-                const tabId = tab.getAttribute('data-tab');
-                document.getElementById(`${tabId}-content`).classList.add('active');
-                
-                // Initialize canvas if inpainting tab
-                if (tabId === 'inpaint') {
-                    initCanvas();
-                }
-            });
-        });
-        
-        // Function to save generated image to localStorage
-        function saveToLocalStorage(imageData) {
-            try {
-                // Get existing gallery from localStorage or initialize empty array
-                const gallery = JSON.parse(localStorage.getItem('aiArtGallery')) || [];
-                
-                // Add new image data
-                gallery.unshift(imageData);
-                
-                // Save back to localStorage (limit to 50 items to prevent excessive storage)
-                localStorage.setItem('aiArtGallery', JSON.stringify(gallery.slice(0, 50)));
-                
-                return true;
-            } catch (error) {
-                console.error('Error saving to localStorage:', error);
-                return false;
-            }
         }
         
-        // Function to load gallery from localStorage
-        function loadGalleryFromStorage() {
-            try {
-                const gallery = JSON.parse(localStorage.getItem('aiArtGallery')) || [];
-                return gallery;
-            } catch (error) {
-                console.error('Error loading gallery from storage:', error);
-                return [];
-            }
+        if (!currentPrompt) {
+            alert('Please enter a prompt');
+            return;
         }
         
-        generateBtn.addEventListener('click', async () => {
-            currentPrompt = promptInput.value.trim();
-            const model = document.getElementById('model').value;
-            const creativity = document.getElementById('creativity').value / 100;
-            const detail = document.getElementById('detail').value / 100;
+        // Validate dimensions
+        if (currentWidth < 256 || currentWidth > 2048 || 
+            currentHeight < 256 || currentHeight > 2048) {
+            alert('Resolution must be between 256 and 2048 pixels');
+            return;
+        }
+        
+        // Show loading
+        generatedImage.style.display = 'none';
+        resultActions.style.display = 'none';
+        loading.style.display = 'block';
+        generationInfo.textContent = `Generating ${currentWidth}×${currentHeight} image with ${model} model...`;
+        
+        try {
+            // Construct the API URL for Pollinations.ai
+            let apiUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(currentPrompt)}?width=${currentWidth}&height=${currentHeight}&nologo=true`;
             
-            // For custom resolution, get current values
-            if (currentResolution === 'custom') {
-                currentWidth = parseInt(customWidth.value) || 1024;
-                currentHeight = parseInt(customHeight.value) || 768;
+            // Add model if not default
+            if (model !== 'default') {
+                apiUrl += `&model=${model}`;
             }
             
-            if (!currentPrompt) {
-                alert('Please enter a prompt');
-                return;
+            // Special parameters for FLUX
+            if (model === 'flux') {
+                apiUrl += '&flux=true';
             }
             
-            // Validate dimensions
-            if (currentWidth < 256 || currentWidth > 2048 || 
-                currentHeight < 256 || currentHeight > 2048) {
-                alert('Resolution must be between 256 and 2048 pixels');
-                return;
-            }
+            currentImageUrl = apiUrl;
+            originalImageUrl = apiUrl;
             
-            // Show loading
-            generatedImage.style.display = 'none';
-            resultActions.style.display = 'none';
-            loading.style.display = 'block';
-            generationInfo.textContent = `Generating ${currentWidth}×${currentHeight} image with ${model} model...`;
+            // Set the image source
+            generatedImage.src = currentImageUrl;
             
-            try {
-                // Construct the API URL for Pollinations.ai
-                let apiUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(currentPrompt)}?width=${currentWidth}&height=${currentHeight}`;
-                
-                // Add model if not default
-                if (model !== 'default') {
-                    apiUrl += `&model=${model}`;
-                }
-                
-                // Special parameters for FLUX
-                if (model === 'flux') {
-                    apiUrl += '&flux=true';
-                }
-                
-                currentImageUrl = apiUrl;
-                originalImageUrl = apiUrl;
-                
-                // Set the image source
-                generatedImage.src = currentImageUrl;
-                
-                // When image loads
-                generatedImage.onload = () => {
-                    loading.style.display = 'none';
-                    generatedImage.style.display = 'block';
-                    resultActions.style.display = 'flex';
-                    
-                    // Prepare data to save
-                    const imageData = {
-                        url: currentImageUrl,
-                        prompt: currentPrompt,
-                        width: currentWidth,
-                        height: currentHeight,
-                        model: model,
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    // Save to localStorage
-                    saveToLocalStorage(imageData);
-                    
-                    // Add to gallery
-                    addToGallery(currentImageUrl, currentPrompt, currentWidth, currentHeight, model);
-                    
-                    // Analyze the image
-                    analyzeImage();
-                };
-                
-                // Handle errors
-                generatedImage.onerror = () => {
-                    loading.style.display = 'none';
-                    alert('Failed to generate image. Please try again.');
-                };
-                
-            } catch (error) {
-                console.error('Error:', error);
+            // When image loads
+            generatedImage.onload = () => {
                 loading.style.display = 'none';
-                alert('An error occurred. Please try again.');
-            }
-        });
-        
-        // Download functionality
-        downloadBtn.addEventListener('click', () => {
-            if (!currentImageUrl) return;
-            
-            // Create a temporary anchor element
-            const link = document.createElement('a');
-            link.href = currentImageUrl;
-            
-            // Create a filename based on prompt and timestamp
-            const filename = `ai-art-${currentPrompt.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase()}-${Date.now()}.jpg`;
-            link.download = filename;
-            
-            // Trigger download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-        
-        // Share functionality
-        shareBtn.addEventListener('click', async () => {
-            if (!currentImageUrl) return;
-            
-            try {
-                // First download the image blob
-                const response = await fetch(currentImageUrl);
-                const blob = await response.blob();
-                const file = new File([blob], 'ai-art.jpg', { type: blob.type });
+                generatedImage.style.display = 'block';
+                resultActions.style.display = 'flex';
                 
-                if (navigator.share && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: 'AI Generated Art',
-                        text: `Check out this AI generated image: "${currentPrompt}"`,
-                        files: [file]
-                    });
-                } else {
-                    // Fallback for browsers that don't support file sharing
-                    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this AI generated image: "${currentPrompt}"`)}&url=${encodeURIComponent(currentImageUrl)}`;
-                    window.open(shareUrl, '_blank');
-                }
-            } catch (error) {
-                console.error('Error sharing:', error);
-                // Fallback to copy link
-                try {
-                    await navigator.clipboard.writeText(currentImageUrl);
-                    alert('Image link copied to clipboard!');
-                } catch (err) {
-                    alert('Could not share image. Please try downloading it instead.');
-                }
-            }
-        });
-        
-        // Regenerate functionality
-        regenerateBtn.addEventListener('click', () => {
-            generateBtn.click();
-        });
-        
-        // Clear prompt functionality
-        const clearBtn = document.getElementById('clear-btn');
-        
-        clearBtn.addEventListener('click', () => {
-            promptInput.value = '';
-            promptInput.focus();
-        });
-        
-        // Enhance prompt functionality
-        const enhanceBtn = document.getElementById('enhance-btn');
-        
-        enhanceBtn.addEventListener('click', async () => {
-            const currentPrompt = promptInput.value.trim();
-            
-            if (!currentPrompt) {
-                alert('Please enter a prompt first');
-                return;
-            }
-            
-            // Show loading state
-            enhanceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enhancing...';
-            enhanceBtn.disabled = true;
-            
-            try {
-                // Call Pollinations.ai text generation API
-                const response = await fetch(`https://text.pollinations.ai/prompt/Enhance this image description: ${encodeURIComponent(currentPrompt)}`);
-                
-                if (!response.ok) {
-                    throw new Error('Failed to enhance prompt');
-                }
-                
-                const enhancedPrompt = await response.text();
-                promptInput.value = enhancedPrompt;
-            } catch (error) {
-                console.error('Error enhancing prompt:', error);
-                alert('Failed to enhance prompt. Please try again.');
-            } finally {
-                // Reset button state
-                enhanceBtn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> Enhance';
-                enhanceBtn.disabled = false;
-            }
-        });
-        
-        // Gallery functionality
-        function addToGallery(imageUrl, prompt, width, height, model = 'default') {
-            // Create gallery item
-            const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item';
-            galleryItem.innerHTML = `
-                <img src="${imageUrl}" alt="${prompt}">
-                <div class="resolution-badge">${width}×${height}</div>
-                <div class="actions">
-                    <button class="gallery-download" title="Download">
-                        <i class="fas fa-download"></i>
-                    </button>
-                    <button class="gallery-share" title="Share">
-                        <i class="fas fa-share"></i>
-                    </button>
-                </div>
-            `;
-            
-            // Add event listeners for gallery actions
-            galleryItem.querySelector('.gallery-download').addEventListener('click', (e) => {
-                e.stopPropagation();
-                downloadGalleryItem(imageUrl, prompt);
-            });
-            
-            galleryItem.querySelector('.gallery-share').addEventListener('click', (e) => {
-                e.stopPropagation();
-                shareGalleryItem(imageUrl, prompt);
-            });
-            
-            // Add to gallery at the beginning
-            galleryGrid.prepend(galleryItem);
-        }
-        
-        function downloadGalleryItem(imageUrl, prompt) {
-            const link = document.createElement('a');
-            link.href = imageUrl;
-            const filename = `ai-art-${prompt.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase()}-${Date.now()}.jpg`;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-        
-        async function shareGalleryItem(imageUrl, prompt) {
-            try {
-                const response = await fetch(imageUrl);
-                const blob = await response.blob();
-                const file = new File([blob], 'ai-art.jpg', { type: blob.type });
-                
-                if (navigator.share && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: 'AI Generated Art',
-                        text: `Check out this AI generated image: "${prompt}"`,
-                        files: [file]
-                    });
-                } else {
-                    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this AI generated image: "${prompt}"`)}&url=${encodeURIComponent(imageUrl)}`;
-                    window.open(shareUrl, '_blank');
-                }
-            } catch (error) {
-                console.error('Error sharing:', error);
-                try {
-                    await navigator.clipboard.writeText(imageUrl);
-                    alert('Image link copied to clipboard!');
-                } catch (err) {
-                    alert('Could not share image. Please try downloading it instead.');
-                }
-            }
-        }
-        
-        // Fetch available models from Pollinations.ai API
-        async function fetchModels() {
-            try {
-                const response = await fetch('https://image.pollinations.ai/models');
-                if (!response.ok) throw new Error('Failed to fetch models');
-                const models = await response.json();
-                
-                const modelSelect = document.getElementById('model');
-                modelSelect.innerHTML = '';
-                
-                // Add default option
-                const defaultOption = document.createElement('option');
-                defaultOption.value = 'default';
-                defaultOption.textContent = 'Default (Stable Diffusion)';
-                modelSelect.appendChild(defaultOption);
-                
-                // Add fetched models
-                models.forEach(model => {
-                    const option = document.createElement('option');
-                    option.value = model.id;
-                    option.textContent = model.name;
-                    if (model.id === 'flux') option.textContent += ' (FLUX)';
-                    modelSelect.appendChild(option);
-                });
-            } catch (error) {
-                console.error('Error fetching models:', error);
-                // Fallback to default options if API fails
-            }
-        }
-        
-        // Initialize the gallery when page loads
-        window.addEventListener('DOMContentLoaded', () => {
-            // Load saved images from localStorage
-            const savedGallery = loadGalleryFromStorage();
-            if (savedGallery.length > 0) {
-                savedGallery.forEach(item => {
-                    addToGallery(item.url, item.prompt, item.width, item.height, item.model);
-                });
-            } else {
-                // If no saved items, show examples
-                initGallery();
-            }
-            
-            fetchModels();
-        });
-        
-        // Initialize with some example gallery items
-        function initGallery() {
-            const examples = [
-                { 
-                    url: 'https://image.pollinations.ai/prompt/A%20majestic%20lion%20in%20the%20savannah%20at%20sunset?width=768&height=1024', 
-                    prompt: 'A majestic lion in the savannah at sunset',
-                    width: 768, 
-                    height: 1024,
-                    model: 'default'
-                },
-                { 
-                    url: 'https://image.pollinations.ai/prompt/Futuristic%20city%20at%20night%20with%20neon%20lights?width=1024&height=1024', 
-                    prompt: 'Futuristic city at night with neon lights',
-                    width: 1024, 
-                    height: 1024,
-                    model: 'sdxl'
-                },
-                { 
-                    url: 'https://image.pollinations.ai/prompt/Serene%20mountain%20landscape%20with%20a%20lake?width=1024&height=768', 
-                    prompt: 'Serene mountain landscape with a lake',
-                    width: 1024, 
-                    height: 768,
-                    model: 'default'
-                },
-                { 
-                    url: 'https://image.pollinations.ai/prompt/Wonder%20woman%20wearing%20hat%20at%20night?width=1024&height=768&model=flux',  
-                    prompt: 'Wonder woman wearing hat at night',
-                    width: 1024, 
-                    height: 768,
-                    model: 'flux'
-                }
-            ];
-            
-            examples.forEach(example => {
-                addToGallery(example.url, example.prompt, example.width, example.height, example.model);
-            });
-        }
-        
-        // Advanced Features Implementation
-        
-        // Upscale functionality
-        const upscaleBtns = document.querySelectorAll('.upscale-btn');
-        const customScaleContainer = document.getElementById('custom-scale-container');
-        const scaleFactorSlider = document.getElementById('scale-factor');
-        const scaleValue = document.getElementById('scale-value');
-        const scaleTooltip = document.getElementById('scale-tooltip');
-        const upscaleBtn = document.getElementById('upscale-btn');
-        
-        upscaleBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                upscaleBtns.forEach(b => b.classList.remove('active'));
-                
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                const scaleType = btn.getAttribute('data-scale');
-                
-                if (scaleType === 'custom') {
-                    customScaleContainer.style.display = 'block';
-                    scaleFactorSlider.value = 2;
-                    updateScaleSlider();
-                } else {
-                    customScaleContainer.style.display = 'none';
-                    scaleFactorSlider.value = scaleType;
-                    updateScaleSlider();
-                }
-            });
-        });
-        
-        scaleFactorSlider.addEventListener('input', updateScaleSlider);
-        
-        function updateScaleSlider() {
-            const value = scaleFactorSlider.value;
-            scaleValue.textContent = `${value}×`;
-            scaleTooltip.textContent = `${value}×`;
-            scaleFactorSlider.style.setProperty('--fill-percentage', `${(value / scaleFactorSlider.max) * 100}%`);
-        }
-        
-        upscaleBtn.addEventListener('click', async () => {
-            if (!currentImageUrl) {
-                alert('Please generate an image first');
-                return;
-            }
-            
-            const scale = parseFloat(scaleFactorSlider.value);
-            
-            loading.style.display = 'block';
-            generationInfo.textContent = `Upscaling image by ${scale}×...`;
-            
-            try {
-                // In a real app, you would call an upscaling API here
-                // For demo purposes, we'll just simulate it with a timeout
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                // Simulate upscaled image URL (in reality, you'd get this from an API)
-                const upscaledUrl = currentImageUrl + `&upscale=${scale}`;
-                
-                // Update the image
-                generatedImage.src = upscaledUrl;
-                currentImageUrl = upscaledUrl;
-                
-                // Save the upscaled version
+                // Prepare data to save
                 const imageData = {
                     url: currentImageUrl,
                     prompt: currentPrompt,
-                    width: currentWidth * scale,
-                    height: currentHeight * scale,
-                    model: 'upscaled',
-                    timestamp: new Date().toISOString()
-                };
-                
-                saveToLocalStorage(imageData);
-                addToGallery(currentImageUrl, currentPrompt + ` (Upscaled ${scale}×)`, currentWidth * scale, currentHeight * scale, 'upscaled');
-                
-                loading.style.display = 'none';
-            } catch (error) {
-                console.error('Error upscaling image:', error);
-                loading.style.display = 'none';
-                alert('Failed to upscale image. Please try again.');
-            }
-        });
-        
-        // Style transfer functionality
-        const styleOptions = document.querySelectorAll('.style-option');
-        const styleStrengthSlider = document.getElementById('style-strength');
-        const styleStrengthValue = document.getElementById('style-strength-value');
-        const styleStrengthTooltip = document.getElementById('style-strength-tooltip');
-        const styleTransferBtn = document.getElementById('style-transfer-btn');
-        
-        let selectedStyle = '';
-        
-        styleOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                // Remove active class from all options
-                styleOptions.forEach(o => o.classList.remove('active'));
-                
-                // Add active class to clicked option
-                option.classList.add('active');
-                selectedStyle = option.getAttribute('data-style');
-            });
-        });
-        
-        styleStrengthSlider.addEventListener('input', () => {
-            handleSliderMove(styleStrengthSlider, styleStrengthValue, styleStrengthTooltip);
-        });
-        
-        // Initialize style strength slider
-        updateSlider(styleStrengthSlider, styleStrengthValue, styleStrengthTooltip);
-        
-        styleTransferBtn.addEventListener('click', async () => {
-            if (!currentImageUrl) {
-                alert('Please generate an image first');
-                return;
-            }
-            
-            if (!selectedStyle) {
-                alert('Please select a style');
-                return;
-            }
-            
-            const strength = styleStrengthSlider.value / 100;
-            
-            loading.style.display = 'block';
-            generationInfo.textContent = `Applying ${selectedStyle} style...`;
-            
-            try {
-                // In a real app, you would call a style transfer API here
-                // For demo purposes, we'll just simulate it with a timeout
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                // Simulate styled image URL (in reality, you'd get this from an API)
-                const styledUrl = currentImageUrl + `&style=${selectedStyle}&strength=${strength}`;
-                
-                // Update the image
-                generatedImage.src = styledUrl;
-                currentImageUrl = styledUrl;
-                
-                // Save the styled version
-                const imageData = {
-                    url: currentImageUrl,
-                    prompt: currentPrompt + ` (${selectedStyle} style)`,
                     width: currentWidth,
                     height: currentHeight,
-                    model: 'styled',
+                    model: model,
                     timestamp: new Date().toISOString()
                 };
                 
+                // Save to localStorage
                 saveToLocalStorage(imageData);
-                addToGallery(currentImageUrl, currentPrompt + ` (${selectedStyle} style)`, currentWidth, currentHeight, 'styled');
                 
+                // Add to gallery
+                addToGallery(currentImageUrl, currentPrompt, currentWidth, currentHeight, model);
+                
+                // Analyze the image
+                analyzeImage();
+            };
+            
+            // Handle errors
+            generatedImage.onerror = () => {
                 loading.style.display = 'none';
-            } catch (error) {
-                console.error('Error applying style:', error);
-                loading.style.display = 'none';
-                alert('Failed to apply style. Please try again.');
+                alert('Failed to generate image. Please try again.');
+            };
+            
+        } catch (error) {
+            console.error('Error:', error);
+            loading.style.display = 'none';
+            alert('An error occurred. Please try again.');
+        }
+    });
+    
+    // Download functionality
+    downloadBtn.addEventListener('click', () => {
+        if (!currentImageUrl) return;
+        
+        // Create a temporary anchor element
+        const link = document.createElement('a');
+        link.href = currentImageUrl;
+        
+        // Create a filename based on prompt and timestamp
+        const filename = `ai-art-${currentPrompt.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase()}-${Date.now()}.jpg`;
+        link.download = filename;
+        
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+    
+    // Share functionality
+    shareBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) return;
+        
+        try {
+            // First download the image blob
+            const response = await fetch(currentImageUrl);
+            const blob = await response.blob();
+            const file = new File([blob], 'ai-art.jpg', { type: blob.type });
+            
+            if (navigator.share && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: 'AI Generated Art',
+                    text: `Check out this AI generated image: "${currentPrompt}"`,
+                    files: [file]
+                });
+            } else {
+                // Fallback for browsers that don't support file sharing
+                const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this AI generated image: "${currentPrompt}"`)}&url=${encodeURIComponent(currentImageUrl)}`;
+                window.open(shareUrl, '_blank');
             }
+        } catch (error) {
+            console.error('Error sharing:', error);
+            // Fallback to copy link
+            try {
+                await navigator.clipboard.writeText(currentImageUrl);
+                alert('Image link copied to clipboard!');
+            } catch (err) {
+                alert('Could not share image. Please try downloading it instead.');
+            }
+        }
+    });
+    
+    // Regenerate functionality
+    regenerateBtn.addEventListener('click', () => {
+        generateBtn.click();
+    });
+    
+    // Clear prompt functionality
+    const clearBtn = document.getElementById('clear-btn');
+    
+    clearBtn.addEventListener('click', () => {
+        promptInput.value = '';
+        promptInput.focus();
+    });
+    
+    // Enhance prompt functionality
+    const enhanceBtn = document.getElementById('enhance-btn');
+    
+    enhanceBtn.addEventListener('click', async () => {
+        const currentPrompt = promptInput.value.trim();
+        
+        if (!currentPrompt) {
+            alert('Please enter a prompt first');
+            return;
+        }
+        
+        // Show loading state
+        enhanceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enhancing...';
+        enhanceBtn.disabled = true;
+        
+        try {
+            // Call Pollinations.ai text generation API
+            const response = await fetch(`https://text.pollinations.ai/prompt/Enhance%20this%20image%20description:%20${encodeURIComponent(currentPrompt)}`);
+            
+            if (!response.ok) {
+                throw new Error('Failed to enhance prompt');
+            }
+            
+            const enhancedPrompt = await response.text();
+            promptInput.value = enhancedPrompt;
+        } catch (error) {
+            console.error('Error enhancing prompt:', error);
+            alert('Failed to enhance prompt. Please try again.');
+        } finally {
+            // Reset button state
+            enhanceBtn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> Enhance';
+            enhanceBtn.disabled = false;
+        }
+    });
+    
+    // Gallery functionality
+    function addToGallery(imageUrl, prompt, width, height, model = 'default') {
+        // Create gallery item
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.innerHTML = `
+            <img src="${imageUrl}" alt="${prompt}">
+            <div class="resolution-badge">${width}×${height}</div>
+            <div class="actions">
+                <button class="gallery-download" title="Download">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="gallery-share" title="Share">
+                    <i class="fas fa-share"></i>
+                </button>
+            </div>
+        `;
+        
+        // Add event listeners for gallery actions
+        galleryItem.querySelector('.gallery-download').addEventListener('click', (e) => {
+            e.stopPropagation();
+            downloadGalleryItem(imageUrl, prompt);
         });
         
-        // Image editing functionality
-        const brightnessSlider = document.getElementById('brightness');
-        const brightnessValue = document.getElementById('brightness-value');
-        const brightnessTooltip = document.getElementById('brightness-tooltip');
+        galleryItem.querySelector('.gallery-share').addEventListener('click', (e) => {
+            e.stopPropagation();
+            shareGalleryItem(imageUrl, prompt);
+        });
         
-        const contrastSlider = document.getElementById('contrast');
-        const contrastValue = document.getElementById('contrast-value');
-        const contrastTooltip = document.getElementById('contrast-tooltip');
+        // Add to gallery at the beginning
+        galleryGrid.prepend(galleryItem);
+    }
+    
+    function downloadGalleryItem(imageUrl, prompt) {
+        const link = document.createElement('a');
+        link.href = imageUrl;
+        const filename = `ai-art-${prompt.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase()}-${Date.now()}.jpg`;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+    async function shareGalleryItem(imageUrl, prompt) {
+        try {
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+            const file = new File([blob], 'ai-art.jpg', { type: blob.type });
+            
+            if (navigator.share && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: 'AI Generated Art',
+                    text: `Check out this AI generated image: "${prompt}"`,
+                    files: [file]
+                });
+            } else {
+                const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this AI generated image: "${prompt}"`)}&url=${encodeURIComponent(imageUrl)}`;
+                window.open(shareUrl, '_blank');
+            }
+        } catch (error) {
+            console.error('Error sharing:', error);
+            try {
+                await navigator.clipboard.writeText(imageUrl);
+                alert('Image link copied to clipboard!');
+            } catch (err) {
+                alert('Could not share image. Please try downloading it instead.');
+            }
+        }
+    }
+    
+    // Fetch available models from Pollinations.ai API
+    async function fetchModels() {
+        try {
+            const response = await fetch('https://image.pollinations.ai/models');
+            if (!response.ok) throw new Error('Failed to fetch models');
+            const models = await response.json();
+            
+            const modelSelect = document.getElementById('model');
+            modelSelect.innerHTML = '';
+            
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = 'default';
+            defaultOption.textContent = 'Default (Stable Diffusion)';
+            modelSelect.appendChild(defaultOption);
+            
+            // Add fetched models
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.id;
+                option.textContent = model.name;
+                if (model.id === 'flux') option.textContent += ' (FLUX)';
+                modelSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error fetching models:', error);
+            // Fallback to default options if API fails
+        }
+    }
+    
+    // Initialize the gallery when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+        // Load saved images from localStorage
+        const savedGallery = loadGalleryFromStorage();
+        if (savedGallery.length > 0) {
+            savedGallery.forEach(item => {
+                addToGallery(item.url, item.prompt, item.width, item.height, item.model);
+            });
+        } else {
+            // If no saved items, show examples
+            initGallery();
+        }
         
-        const saturationSlider = document.getElementById('saturation');
-        const saturationValue = document.getElementById('saturation-value');
-        const saturationTooltip = document.getElementById('saturation-tooltip');
+        fetchModels();
+    });
+    
+    // Initialize with some example gallery items
+    function initGallery() {
+        const examples = [
+            { 
+                url: 'https://image.pollinations.ai/prompt/A%20majestic%20lion%20in%20the%20savannah%20at%20sunset?width=768&height=1024&nologo=true', 
+                prompt: 'A majestic lion in the savannah at sunset',
+                width: 768, 
+                height: 1024,
+                model: 'default'
+            },
+            { 
+                url: 'https://image.pollinations.ai/prompt/Futuristic%20city%20at%20night%20with%20neon%20lights?width=1024&height=1024&nologo=true', 
+                prompt: 'Futuristic city at night with neon lights',
+                width: 1024, 
+                height: 1024,
+                model: 'sdxl'
+            },
+            { 
+                url: 'https://image.pollinations.ai/prompt/Serene%20mountain%20landscape%20with%20a%20lake?width=1024&height=768&nologo=true', 
+                prompt: 'Serene mountain landscape with a lake',
+                width: 1024, 
+                height: 768,
+                model: 'default'
+            },
+            { 
+                url: 'https://image.pollinations.ai/prompt/Wonder%20woman%20wearing%20hat%20at%20night?width=1024&height=768&model=flux&nologo=true',  
+                prompt: 'Wonder woman wearing hat at night',
+                width: 1024, 
+                height: 768,
+                model: 'flux'
+            }
+        ];
         
-        const applyEditsBtn = document.getElementById('apply-edits-btn');
-        const resetEditsBtn = document.getElementById('reset-edits-btn');
+        examples.forEach(example => {
+            addToGallery(example.url, example.prompt, example.width, example.height, example.model);
+        });
+    }
+    
+    // Advanced Features Implementation
+    
+    // Upscale functionality
+    const upscaleBtns = document.querySelectorAll('.upscale-btn');
+    const customScaleContainer = document.getElementById('custom-scale-container');
+    const scaleFactorSlider = document.getElementById('scale-factor');
+    const scaleValue = document.getElementById('scale-value');
+    const scaleTooltip = document.getElementById('scale-tooltip');
+    const upscaleBtn = document.getElementById('upscale-btn');
+    
+    upscaleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            upscaleBtns.forEach(b => b.classList.remove('active'));
+            
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            const scaleType = btn.getAttribute('data-scale');
+            
+            if (scaleType === 'custom') {
+                customScaleContainer.style.display = 'block';
+                scaleFactorSlider.value = 2;
+                updateScaleSlider();
+            } else {
+                customScaleContainer.style.display = 'none';
+                scaleFactorSlider.value = scaleType;
+                updateScaleSlider();
+            }
+        });
+    });
+    
+    scaleFactorSlider.addEventListener('input', updateScaleSlider);
+    
+    function updateScaleSlider() {
+        const value = scaleFactorSlider.value;
+        scaleValue.textContent = `${value}×`;
+        scaleTooltip.textContent = `${value}×`;
+        scaleFactorSlider.style.setProperty('--fill-percentage', `${(value / scaleFactorSlider.max) * 100}%`);
+    }
+    
+    upscaleBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
         
-        // Initialize sliders
+        const scale = parseFloat(scaleFactorSlider.value);
+        
+        loading.style.display = 'block';
+        generationInfo.textContent = `Upscaling image by ${scale}×...`;
+        
+        try {
+            // In a real app, you would call an upscaling API here
+            // For demo purposes, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Update URL with upscale parameter and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('upscale', scale);
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const upscaledUrl = urlObj.toString();
+            
+            // Update the image
+            generatedImage.src = upscaledUrl;
+            currentImageUrl = upscaledUrl;
+            
+            // Save the upscaled version
+            const imageData = {
+                url: currentImageUrl,
+                prompt: currentPrompt,
+                width: currentWidth * scale,
+                height: currentHeight * scale,
+                model: 'upscaled',
+                timestamp: new Date().toISOString()
+            };
+            
+            saveToLocalStorage(imageData);
+            addToGallery(currentImageUrl, currentPrompt + ` (Upscaled ${scale}×)`, currentWidth * scale, currentHeight * scale, 'upscaled');
+            
+            loading.style.display = 'none';
+        } catch (error) {
+            console.error('Error upscaling image:', error);
+            loading.style.display = 'none';
+            alert('Failed to upscale image. Please try again.');
+        }
+    });
+    
+    // Style transfer functionality
+    const styleOptions = document.querySelectorAll('.style-option');
+    const styleStrengthSlider = document.getElementById('style-strength');
+    const styleStrengthValue = document.getElementById('style-strength-value');
+    const styleStrengthTooltip = document.getElementById('style-strength-tooltip');
+    const styleTransferBtn = document.getElementById('style-transfer-btn');
+    
+    let selectedStyle = '';
+    
+    styleOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            // Remove active class from all options
+            styleOptions.forEach(o => o.classList.remove('active'));
+            
+            // Add active class to clicked option
+            option.classList.add('active');
+            selectedStyle = option.getAttribute('data-style');
+        });
+    });
+    
+    styleStrengthSlider.addEventListener('input', () => {
+        handleSliderMove(styleStrengthSlider, styleStrengthValue, styleStrengthTooltip);
+    });
+    
+    // Initialize style strength slider
+    updateSlider(styleStrengthSlider, styleStrengthValue, styleStrengthTooltip);
+    
+    styleTransferBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
+        
+        if (!selectedStyle) {
+            alert('Please select a style');
+            return;
+        }
+        
+        const strength = styleStrengthSlider.value / 100;
+        
+        loading.style.display = 'block';
+        generationInfo.textContent = `Applying ${selectedStyle} style...`;
+        
+        try {
+            // In a real app, you would call a style transfer API here
+            // For demo purposes, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Update URL with style parameters and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('style', selectedStyle);
+            urlObj.searchParams.set('strength', strength);
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const styledUrl = urlObj.toString();
+            
+            // Update the image
+            generatedImage.src = styledUrl;
+            currentImageUrl = styledUrl;
+            
+            // Save the styled version
+            const imageData = {
+                url: currentImageUrl,
+                prompt: currentPrompt + ` (${selectedStyle} style)`,
+                width: currentWidth,
+                height: currentHeight,
+                model: 'styled',
+                timestamp: new Date().toISOString()
+            };
+            
+            saveToLocalStorage(imageData);
+            addToGallery(currentImageUrl, currentPrompt + ` (${selectedStyle} style)`, currentWidth, currentHeight, 'styled');
+            
+            loading.style.display = 'none';
+        } catch (error) {
+            console.error('Error applying style:', error);
+            loading.style.display = 'none';
+            alert('Failed to apply style. Please try again.');
+        }
+    });
+    
+    // Image editing functionality
+    const brightnessSlider = document.getElementById('brightness');
+    const brightnessValue = document.getElementById('brightness-value');
+    const brightnessTooltip = document.getElementById('brightness-tooltip');
+    
+    const contrastSlider = document.getElementById('contrast');
+    const contrastValue = document.getElementById('contrast-value');
+    const contrastTooltip = document.getElementById('contrast-tooltip');
+    
+    const saturationSlider = document.getElementById('saturation');
+    const saturationValue = document.getElementById('saturation-value');
+    const saturationTooltip = document.getElementById('saturation-tooltip');
+    
+    const applyEditsBtn = document.getElementById('apply-edits-btn');
+    const resetEditsBtn = document.getElementById('reset-edits-btn');
+    
+    // Initialize sliders
+    updateSlider(brightnessSlider, brightnessValue, brightnessTooltip);
+    updateSlider(contrastSlider, contrastValue, contrastTooltip);
+    updateSlider(saturationSlider, saturationValue, saturationTooltip);
+    
+    // Add event listeners
+    brightnessSlider.addEventListener('input', () => {
+        handleSliderMove(brightnessSlider, brightnessValue, brightnessTooltip);
+        previewEdits();
+    });
+    
+    contrastSlider.addEventListener('input', () => {
+        handleSliderMove(contrastSlider, contrastValue, contrastTooltip);
+        previewEdits();
+    });
+    
+    saturationSlider.addEventListener('input', () => {
+        handleSliderMove(saturationSlider, saturationValue, saturationTooltip);
+        previewEdits();
+    });
+    
+    // Preview edits on canvas
+    function previewEdits() {
+        if (!currentImageUrl) return;
+        
+        const brightness = brightnessSlider.value;
+        const contrast = contrastSlider.value;
+        const saturation = saturationSlider.value;
+        
+        // In a real app, you would apply these filters to the image
+        // For demo, we'll just update the CSS filter
+        generatedImage.style.filter = `
+            brightness(${1 + brightness / 100})
+            contrast(${1 + contrast / 100})
+            saturate(${1 + saturation / 100})
+        `;
+    }
+    
+    // Apply edits
+    applyEditsBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
+        
+        const brightness = brightnessSlider.value;
+        const contrast = contrastSlider.value;
+        const saturation = saturationSlider.value;
+        
+        loading.style.display = 'block';
+        generationInfo.textContent = `Applying image adjustments...`;
+        
+        try {
+            // In a real app, you would call an image processing API here
+            // For demo purposes, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Update URL with edit parameters and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('brightness', brightness);
+            urlObj.searchParams.set('contrast', contrast);
+            urlObj.searchParams.set('saturation', saturation);
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const editedUrl = urlObj.toString();
+            
+            // Update the image (remove the temporary CSS filter)
+            generatedImage.style.filter = 'none';
+            generatedImage.src = editedUrl;
+            currentImageUrl = editedUrl;
+            
+            // Save the edited version
+            const imageData = {
+                url: currentImageUrl,
+                prompt: currentPrompt + ` (edited)`,
+                width: currentWidth,
+                height: currentHeight,
+                model: 'edited',
+                timestamp: new Date().toISOString()
+            };
+            
+            saveToLocalStorage(imageData);
+            addToGallery(currentImageUrl, currentPrompt + ` (edited)`, currentWidth, currentHeight, 'edited');
+            
+            loading.style.display = 'none';
+        } catch (error) {
+            console.error('Error applying edits:', error);
+            loading.style.display = 'none';
+            alert('Failed to apply edits. Please try again.');
+        }
+    });
+    
+    // Reset edits
+    resetEditsBtn.addEventListener('click', () => {
+        brightnessSlider.value = 0;
+        contrastSlider.value = 0;
+        saturationSlider.value = 0;
+        
         updateSlider(brightnessSlider, brightnessValue, brightnessTooltip);
         updateSlider(contrastSlider, contrastValue, contrastTooltip);
         updateSlider(saturationSlider, saturationValue, saturationTooltip);
         
-        // Add event listeners
-        brightnessSlider.addEventListener('input', () => {
-            handleSliderMove(brightnessSlider, brightnessValue, brightnessTooltip);
-            previewEdits();
-        });
+        generatedImage.style.filter = 'none';
+    });
+    
+    // AI Analysis functionality
+    const analysisText = document.getElementById('analysis-text');
+    
+    async function analyzeImage() {
+        if (!currentImageUrl || !advancedFeatures.classList.contains('active')) return;
         
-        contrastSlider.addEventListener('input', () => {
-            handleSliderMove(contrastSlider, contrastValue, contrastTooltip);
-            previewEdits();
-        });
+        analysisText.textContent = 'Analyzing image...';
         
-        saturationSlider.addEventListener('input', () => {
-            handleSliderMove(saturationSlider, saturationValue, saturationTooltip);
-            previewEdits();
-        });
-        
-        // Preview edits on canvas
-        function previewEdits() {
-            if (!currentImageUrl) return;
+        try {
+            // In a real app, you would call an image analysis API here
+            // For demo purposes, we'll simulate it with a timeout and mock response
+            await new Promise(resolve => setTimeout(resolve, 1000));
             
-            const brightness = brightnessSlider.value;
-            const contrast = contrastSlider.value;
-            const saturation = saturationSlider.value;
-            
-            // In a real app, you would apply these filters to the image
-            // For demo, we'll just update the CSS filter
-            generatedImage.style.filter = `
-                brightness(${1 + brightness / 100})
-                contrast(${1 + contrast / 100})
-                saturate(${1 + saturation / 100})
-            `;
+            // Mock analysis results based on prompt
+            const mockAnalysis = generateMockAnalysis(currentPrompt);
+            analysisText.textContent = mockAnalysis;
+        } catch (error) {
+            console.error('Error analyzing image:', error);
+            analysisText.textContent = 'Could not analyze image. Please try again.';
+        }
+    }
+    
+    function generateMockAnalysis(prompt) {
+        // This is just for demo purposes
+        // In a real app, you'd use an actual image analysis API
+        const subjects = ['landscape', 'portrait', 'animal', 'object', 'fantasy scene', 'cityscape'];
+        const styles = ['realistic', 'surreal', 'abstract', 'impressionist', 'digital art', 'painterly'];
+        const qualities = ['high contrast', 'vibrant colors', 'soft lighting', 'dramatic shadows', 'detailed textures'];
+        const emotions = ['peaceful', 'energetic', 'mysterious', 'joyful', 'melancholic', 'powerful'];
+        
+        const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+        const randomStyle = styles[Math.floor(Math.random() * styles.length)];
+        const randomQuality = qualities[Math.floor(Math.random() * qualities.length)];
+        const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+        
+        return `This image appears to be a ${randomSubject} rendered in a ${randomStyle} style. It features ${randomQuality} and evokes a ${randomEmotion} mood. The composition is well-balanced with attention to detail. The color palette is harmonious and enhances the overall visual impact.`;
+    }
+    
+    // Variations functionality
+    const variationStrengthSlider = document.getElementById('variation-strength');
+    const variationStrengthValue = document.getElementById('variation-strength-value');
+    const variationStrengthTooltip = document.getElementById('variation-strength-tooltip');
+    
+    const variationCountSlider = document.getElementById('variation-count');
+    const variationCountValue = document.getElementById('variation-count-value');
+    const variationCountTooltip = document.getElementById('variation-count-tooltip');
+    
+    const generateVariationsBtn = document.getElementById('generate-variations-btn');
+    const variationGrid = document.getElementById('variation-grid');
+    
+    // Initialize sliders
+    updateSlider(variationStrengthSlider, variationStrengthValue, variationStrengthTooltip);
+    updateSlider(variationCountSlider, variationCountValue, variationCountTooltip);
+    
+    // Add event listeners
+    variationStrengthSlider.addEventListener('input', () => {
+        handleSliderMove(variationStrengthSlider, variationStrengthValue, variationStrengthTooltip);
+    });
+    
+    variationCountSlider.addEventListener('input', () => {
+        handleSliderMove(variationCountSlider, variationCountValue, variationCountTooltip);
+    });
+    
+    generateVariationsBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
         }
         
-        // Apply edits
-        applyEditsBtn.addEventListener('click', async () => {
-            if (!currentImageUrl) {
-                alert('Please generate an image first');
-                return;
-            }
-            
-            const brightness = brightnessSlider.value;
-            const contrast = contrastSlider.value;
-            const saturation = saturationSlider.value;
-            
-            loading.style.display = 'block';
-            generationInfo.textContent = `Applying image adjustments...`;
-            
-            try {
-                // In a real app, you would call an image processing API here
-                // For demo purposes, we'll just simulate it with a timeout
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                // Simulate edited image URL (in reality, you'd get this from an API)
-                const editedUrl = currentImageUrl + `&brightness=${brightness}&contrast=${contrast}&saturation=${saturation}`;
-                
-                // Update the image (remove the temporary CSS filter)
-                generatedImage.style.filter = 'none';
-                generatedImage.src = editedUrl;
-                currentImageUrl = editedUrl;
-                
-                // Save the edited version
-                const imageData = {
-                    url: currentImageUrl,
-                    prompt: currentPrompt + ` (edited)`,
-                    width: currentWidth,
-                    height: currentHeight,
-                    model: 'edited',
-                    timestamp: new Date().toISOString()
-                };
-                
-                saveToLocalStorage(imageData);
-                addToGallery(currentImageUrl, currentPrompt + ` (edited)`, currentWidth, currentHeight, 'edited');
-                
-                loading.style.display = 'none';
-            } catch (error) {
-                console.error('Error applying edits:', error);
-                loading.style.display = 'none';
-                alert('Failed to apply edits. Please try again.');
-            }
-        });
+        const strength = variationStrengthSlider.value / 100;
+        const count = parseInt(variationCountSlider.value);
         
-        // Reset edits
-        resetEditsBtn.addEventListener('click', () => {
-            brightnessSlider.value = 0;
-            contrastSlider.value = 0;
-            saturationSlider.value = 0;
+        loading.style.display = 'block';
+        generationInfo.textContent = `Generating ${count} variations...`;
+        
+        try {
+            // Clear previous variations
+            variationGrid.innerHTML = '';
             
-            updateSlider(brightnessSlider, brightnessValue, brightnessTooltip);
-            updateSlider(contrastSlider, contrastValue, contrastTooltip);
-            updateSlider(saturationSlider, saturationValue, saturationTooltip);
+            // In a real app, you would call a variations API here
+            // For demo purposes, we'll simulate it with a timeout and mock images
+            await new Promise(resolve => setTimeout(resolve, 2000));
             
-            generatedImage.style.filter = 'none';
-        });
-        
-        // AI Analysis functionality
-        const analysisText = document.getElementById('analysis-text');
-        
-        async function analyzeImage() {
-            if (!currentImageUrl || !advancedFeatures.classList.contains('active')) return;
-            
-            analysisText.textContent = 'Analyzing image...';
-            
-            try {
-                // In a real app, you would call an image analysis API here
-                // For demo purposes, we'll simulate it with a timeout and mock response
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Mock analysis results based on prompt
-                const mockAnalysis = generateMockAnalysis(currentPrompt);
-                analysisText.textContent = mockAnalysis;
-            } catch (error) {
-                console.error('Error analyzing image:', error);
-                analysisText.textContent = 'Could not analyze image. Please try again.';
-            }
-        }
-        
-        function generateMockAnalysis(prompt) {
-            // This is just for demo purposes
-            // In a real app, you'd use an actual image analysis API
-            const subjects = ['landscape', 'portrait', 'animal', 'object', 'fantasy scene', 'cityscape'];
-            const styles = ['realistic', 'surreal', 'abstract', 'impressionist', 'digital art', 'painterly'];
-            const qualities = ['high contrast', 'vibrant colors', 'soft lighting', 'dramatic shadows', 'detailed textures'];
-            const emotions = ['peaceful', 'energetic', 'mysterious', 'joyful', 'melancholic', 'powerful'];
-            
-            const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
-            const randomStyle = styles[Math.floor(Math.random() * styles.length)];
-            const randomQuality = qualities[Math.floor(Math.random() * qualities.length)];
-            const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
-            
-            return `This image appears to be a ${randomSubject} rendered in a ${randomStyle} style. It features ${randomQuality} and evokes a ${randomEmotion} mood. The composition is well-balanced with attention to detail. The color palette is harmonious and enhances the overall visual impact.`;
-        }
-        
-        // Variations functionality
-        const variationStrengthSlider = document.getElementById('variation-strength');
-        const variationStrengthValue = document.getElementById('variation-strength-value');
-        const variationStrengthTooltip = document.getElementById('variation-strength-tooltip');
-        
-        const variationCountSlider = document.getElementById('variation-count');
-        const variationCountValue = document.getElementById('variation-count-value');
-        const variationCountTooltip = document.getElementById('variation-count-tooltip');
-        
-        const generateVariationsBtn = document.getElementById('generate-variations-btn');
-        const variationGrid = document.getElementById('variation-grid');
-        
-        // Initialize sliders
-        updateSlider(variationStrengthSlider, variationStrengthValue, variationStrengthTooltip);
-        updateSlider(variationCountSlider, variationCountValue, variationCountTooltip);
-        
-        // Add event listeners
-        variationStrengthSlider.addEventListener('input', () => {
-            handleSliderMove(variationStrengthSlider, variationStrengthValue, variationStrengthTooltip);
-        });
-        
-        variationCountSlider.addEventListener('input', () => {
-            handleSliderMove(variationCountSlider, variationCountValue, variationCountTooltip);
-        });
-        
-        generateVariationsBtn.addEventListener('click', async () => {
-            if (!currentImageUrl) {
-                alert('Please generate an image first');
-                return;
-            }
-            
-            const strength = variationStrengthSlider.value / 100;
-            const count = parseInt(variationCountSlider.value);
-            
-            loading.style.display = 'block';
-            generationInfo.textContent = `Generating ${count} variations...`;
-            
-            try {
-                // Clear previous variations
-                variationGrid.innerHTML = '';
-                
-                // In a real app, you would call a variations API here
-                // For demo purposes, we'll simulate it with a timeout and mock images
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                // Generate mock variations
-                for (let i = 0; i < count; i++) {
-                    // Simulate variation URL (in reality, you'd get this from an API)
-                    const variationUrl = currentImageUrl + `&variation=${i + 1}&strength=${strength}`;
-                    
-                    // Create variation item
-                    const variationItem = document.createElement('div');
-                    variationItem.className = 'variation-item';
-                    variationItem.innerHTML = `<img src="${variationUrl}" alt="Variation ${i + 1}">`;
-                    
-                    // Add click handler to use this variation
-                    variationItem.addEventListener('click', () => {
-                        generatedImage.src = variationUrl;
-                        currentImageUrl = variationUrl;
-                    });
-                    
-                    variationGrid.appendChild(variationItem);
+            // Generate mock variations
+            for (let i = 0; i < count; i++) {
+                // Update URL with variation parameters and ensure nologo=true is present
+                const urlObj = new URL(currentImageUrl);
+                urlObj.searchParams.set('variation', i + 1);
+                urlObj.searchParams.set('strength', strength);
+                if (!urlObj.searchParams.has('nologo')) {
+                    urlObj.searchParams.set('nologo', 'true');
                 }
+                const variationUrl = urlObj.toString();
                 
-                loading.style.display = 'none';
-            } catch (error) {
-                console.error('Error generating variations:', error);
-                loading.style.display = 'none';
-                alert('Failed to generate variations. Please try again.');
+                // Create variation item
+                const variationItem = document.createElement('div');
+                variationItem.className = 'variation-item';
+                variationItem.innerHTML = `<img src="${variationUrl}" alt="Variation ${i + 1}">`;
+                
+                // Add click handler to use this variation
+                variationItem.addEventListener('click', () => {
+                    generatedImage.src = variationUrl;
+                    currentImageUrl = variationUrl;
+                });
+                
+                variationGrid.appendChild(variationItem);
             }
+            
+            loading.style.display = 'none';
+        } catch (error) {
+            console.error('Error generating variations:', error);
+            loading.style.display = 'none';
+            alert('Failed to generate variations. Please try again.');
+        }
+    });
+    
+    // Inpainting/Outpainting functionality
+    let canvas, ctx, isDrawing = false, lastX = 0, lastY = 0, currentTool = 'brush';
+    const brushSizeSlider = document.getElementById('brush-size');
+    const brushPreview = document.getElementById('brush-preview');
+    const inpaintPrompt = document.getElementById('inpaint-prompt');
+    const inpaintBtn = document.getElementById('inpaint-btn');
+    const outpaintBtn = document.getElementById('outpaint-btn');
+    const resetCanvasBtn = document.getElementById('reset-canvas-btn');
+    const canvasTools = document.querySelectorAll('.canvas-tool-btn');
+    
+    function initCanvas() {
+        if (!currentImageUrl) return;
+        
+        canvas = document.getElementById('editing-canvas');
+        ctx = canvas.getContext('2d');
+        
+        // Set canvas dimensions to match image
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.src = currentImageUrl;
+        
+        img.onload = function() {
+            // Limit canvas size for mobile devices
+            const maxWidth = Math.min(img.width, window.innerWidth - 40);
+            const scale = maxWidth / img.width;
+            const canvasWidth = img.width * scale;
+            const canvasHeight = img.height * scale;
+            
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            
+            // Draw image on canvas
+            ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+            
+            // Initialize brush preview
+            updateBrushPreview();
+        };
+        
+        // Set up event listeners
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+        
+        // Touch support
+        canvas.addEventListener('touchstart', handleTouch);
+        canvas.addEventListener('touchmove', handleTouch);
+        canvas.addEventListener('touchend', stopDrawing);
+    }
+    
+    function handleTouch(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent(
+            e.type === 'touchstart' ? 'mousedown' : 'mousemove',
+            {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            }
+        );
+        canvas.dispatchEvent(mouseEvent);
+    }
+    
+    function startDrawing(e) {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+    
+    function draw(e) {
+        if (!isDrawing) return;
+        
+        ctx.strokeStyle = currentTool === 'erase' ? 'white' : 'rgba(110, 69, 226, 0.5)';
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = brushSizeSlider.value;
+        
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+    
+    function stopDrawing() {
+        isDrawing = false;
+    }
+    
+    function updateBrushPreview() {
+        const size = brushSizeSlider.value;
+        brushPreview.style.width = `${size}px`;
+        brushPreview.style.height = `${size}px`;
+        brushPreview.style.transform = 'translate(-50%, -50%)';
+    }
+    
+    brushSizeSlider.addEventListener('input', updateBrushPreview);
+    
+    canvasTools.forEach(tool => {
+        tool.addEventListener('click', () => {
+            canvasTools.forEach(t => t.classList.remove('active'));
+            tool.classList.add('active');
+            currentTool = tool.getAttribute('data-tool');
         });
+    });
+    
+    inpaintBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
         
-        // Inpainting/Outpainting functionality
-        let canvas, ctx, isDrawing = false, lastX = 0, lastY = 0, currentTool = 'brush';
-        const brushSizeSlider = document.getElementById('brush-size');
-        const brushPreview = document.getElementById('brush-preview');
-        const inpaintPrompt = document.getElementById('inpaint-prompt');
-        const inpaintBtn = document.getElementById('inpaint-btn');
-        const outpaintBtn = document.getElementById('outpaint-btn');
-        const resetCanvasBtn = document.getElementById('reset-canvas-btn');
-        const canvasTools = document.querySelectorAll('.canvas-tool-btn');
+        const prompt = inpaintPrompt.value.trim();
+        if (!prompt) {
+            alert('Please describe what you want to add or change in the masked area');
+            return;
+        }
         
-        function initCanvas() {
-            if (!currentImageUrl) return;
+        loading.style.display = 'block';
+        generationInfo.textContent = 'Inpainting image...';
+        
+        try {
+            // Get the canvas data as an image
+            const imageData = canvas.toDataURL('image/png');
             
-            canvas = document.getElementById('editing-canvas');
-            ctx = canvas.getContext('2d');
+            // In a real app, you would send this to an inpainting API
+            // For demo, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 2500));
             
-            // Set canvas dimensions to match image
-            const img = new Image();
-            img.crossOrigin = 'Anonymous';
-            img.src = currentImageUrl;
+            // Update URL with inpainting parameters and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('inpaint', 'true');
+            urlObj.searchParams.set('prompt', encodeURIComponent(prompt));
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const inpaintedUrl = urlObj.toString();
             
-            img.onload = function() {
-                // Limit canvas size for mobile devices
-                const maxWidth = Math.min(img.width, window.innerWidth - 40);
-                const scale = maxWidth / img.width;
-                const canvasWidth = img.width * scale;
-                const canvasHeight = img.height * scale;
-                
-                canvas.width = canvasWidth;
-                canvas.height = canvasHeight;
-                
-                // Draw image on canvas
-                ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
-                
-                // Initialize brush preview
-                updateBrushPreview();
+            // Update the image
+            generatedImage.src = inpaintedUrl;
+            currentImageUrl = inpaintedUrl;
+            
+            // Save the inpainted version
+            const imageDataObj = {
+                url: currentImageUrl,
+                prompt: currentPrompt + ` (inpainted: ${prompt})`,
+                width: currentWidth,
+                height: currentHeight,
+                model: 'inpainted',
+                timestamp: new Date().toISOString()
             };
             
-            // Set up event listeners
-            canvas.addEventListener('mousedown', startDrawing);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', stopDrawing);
-            canvas.addEventListener('mouseout', stopDrawing);
+            saveToLocalStorage(imageDataObj);
+            addToGallery(currentImageUrl, currentPrompt + ` (inpainted: ${prompt})`, currentWidth, currentHeight, 'inpainted');
             
-            // Touch support
-            canvas.addEventListener('touchstart', handleTouch);
-            canvas.addEventListener('touchmove', handleTouch);
-            canvas.addEventListener('touchend', stopDrawing);
+            loading.style.display = 'none';
+            
+            // Reset canvas
+            initCanvas();
+        } catch (error) {
+            console.error('Error inpainting image:', error);
+            loading.style.display = 'none';
+            alert('Failed to inpaint image. Please try again.');
+        }
+    });
+    
+    outpaintBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
         }
         
-        function handleTouch(e) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const mouseEvent = new MouseEvent(
-                e.type === 'touchstart' ? 'mousedown' : 'mousemove',
-                {
-                    clientX: touch.clientX,
-                    clientY: touch.clientY
-                }
-            );
-            canvas.dispatchEvent(mouseEvent);
+        const prompt = inpaintPrompt.value.trim();
+        if (!prompt) {
+            alert('Please describe what you want to add to expand the image');
+            return;
         }
         
-        function startDrawing(e) {
-            isDrawing = true;
-            [lastX, lastY] = [e.offsetX, e.offsetY];
+        loading.style.display = 'block';
+        generationInfo.textContent = 'Outpainting image...';
+        
+        try {
+            // Get the canvas data as an image
+            const imageData = canvas.toDataURL('image/png');
+            
+            // In a real app, you would send this to an outpaining API
+            // For demo, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            
+            // Update URL with outpainting parameters and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('outpaint', 'true');
+            urlObj.searchParams.set('prompt', encodeURIComponent(prompt));
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const outpaintedUrl = urlObj.toString();
+            
+            // Update the image
+            generatedImage.src = outpaintedUrl;
+            currentImageUrl = outpaintedUrl;
+            
+            // Save the outpainted version
+            const imageDataObj = {
+                url: currentImageUrl,
+                prompt: currentPrompt + ` (outpainted: ${prompt})`,
+                width: currentWidth * 1.2, // Simulate expanded size
+                height: currentHeight * 1.2,
+                model: 'outpainted',
+                timestamp: new Date().toISOString()
+            };
+            
+            saveToLocalStorage(imageDataObj);
+            addToGallery(currentImageUrl, currentPrompt + ` (outpainted: ${prompt})`, currentWidth * 1.2, currentHeight * 1.2, 'outpainted');
+            
+            loading.style.display = 'none';
+            
+            // Reset canvas
+            initCanvas();
+        } catch (error) {
+            console.error('Error outpaining image:', error);
+            loading.style.display = 'none';
+            alert('Failed to outpaint image. Please try again.');
         }
-        
-        function draw(e) {
-            if (!isDrawing) return;
-            
-            ctx.strokeStyle = currentTool === 'erase' ? 'white' : 'rgba(110, 69, 226, 0.5)';
-            ctx.lineJoin = 'round';
-            ctx.lineCap = 'round';
-            ctx.lineWidth = brushSizeSlider.value;
-            
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(e.offsetX, e.offsetY);
-            ctx.stroke();
-            
-            [lastX, lastY] = [e.offsetX, e.offsetY];
-        }
-        
-        function stopDrawing() {
-            isDrawing = false;
-        }
-        
-        function updateBrushPreview() {
-            const size = brushSizeSlider.value;
-            brushPreview.style.width = `${size}px`;
-            brushPreview.style.height = `${size}px`;
-            brushPreview.style.transform = 'translate(-50%, -50%)';
-        }
-        
-        brushSizeSlider.addEventListener('input', updateBrushPreview);
-        
-        canvasTools.forEach(tool => {
-            tool.addEventListener('click', () => {
-                canvasTools.forEach(t => t.classList.remove('active'));
-                tool.classList.add('active');
-                currentTool = tool.getAttribute('data-tool');
-            });
-        });
-        
-        inpaintBtn.addEventListener('click', async () => {
-            if (!currentImageUrl) {
-                alert('Please generate an image first');
-                return;
-            }
-            
-            const prompt = inpaintPrompt.value.trim();
-            if (!prompt) {
-                alert('Please describe what you want to add or change in the masked area');
-                return;
-            }
-            
-            loading.style.display = 'block';
-            generationInfo.textContent = 'Inpainting image...';
-            
-            try {
-                // Get the canvas data as an image
-                const imageData = canvas.toDataURL('image/png');
-                
-                // In a real app, you would send this to an inpainting API
-                // For demo, we'll just simulate it with a timeout
-                await new Promise(resolve => setTimeout(resolve, 2500));
-                
-                // Simulate inpainted image URL
-                const inpaintedUrl = currentImageUrl + `&inpaint=true&prompt=${encodeURIComponent(prompt)}`;
-                
-                // Update the image
-                generatedImage.src = inpaintedUrl;
-                currentImageUrl = inpaintedUrl;
-                
-                // Save the inpainted version
-                const imageDataObj = {
-                    url: currentImageUrl,
-                    prompt: currentPrompt + ` (inpainted: ${prompt})`,
-                    width: currentWidth,
-                    height: currentHeight,
-                    model: 'inpainted',
-                    timestamp: new Date().toISOString()
-                };
-                
-                saveToLocalStorage(imageDataObj);
-                addToGallery(currentImageUrl, currentPrompt + ` (inpainted: ${prompt})`, currentWidth, currentHeight, 'inpainted');
-                
-                loading.style.display = 'none';
-                
-                // Reset canvas
-                initCanvas();
-            } catch (error) {
-                console.error('Error inpainting image:', error);
-                loading.style.display = 'none';
-                alert('Failed to inpaint image. Please try again.');
-            }
-        });
-        
-        outpaintBtn.addEventListener('click', async () => {
-            if (!currentImageUrl) {
-                alert('Please generate an image first');
-                return;
-            }
-            
-            const prompt = inpaintPrompt.value.trim();
-            if (!prompt) {
-                alert('Please describe what you want to add to expand the image');
-                return;
-            }
-            
-            loading.style.display = 'block';
-            generationInfo.textContent = 'Outpainting image...';
-            
-            try {
-                // Get the canvas data as an image
-                const imageData = canvas.toDataURL('image/png');
-                
-                // In a real app, you would send this to an outpaining API
-                // For demo, we'll just simulate it with a timeout
-                await new Promise(resolve => setTimeout(resolve, 2500));
-                
-                // Simulate outpainted image URL
-                const outpaintedUrl = currentImageUrl + `&outpaint=true&prompt=${encodeURIComponent(prompt)}`;
-                
-                // Update the image
-                generatedImage.src = outpaintedUrl;
-                currentImageUrl = outpaintedUrl;
-                
-                // Save the outpainted version
-                const imageDataObj = {
-                    url: currentImageUrl,
-                    prompt: currentPrompt + ` (outpainted: ${prompt})`,
-                    width: currentWidth * 1.2, // Simulate expanded size
-                    height: currentHeight * 1.2,
-                    model: 'outpainted',
-                    timestamp: new Date().toISOString()
-                };
-                
-                saveToLocalStorage(imageDataObj);
-                addToGallery(currentImageUrl, currentPrompt + ` (outpainted: ${prompt})`, currentWidth * 1.2, currentHeight * 1.2, 'outpainted');
-                
-                loading.style.display = 'none';
-                
-                // Reset canvas
-                initCanvas();
-            } catch (error) {
-                console.error('Error outpaining image:', error);
-                loading.style.display = 'none';
-                alert('Failed to outpaint image. Please try again.');
-            }
-        });
-        
-        resetCanvasBtn.addEventListener('click', initCanvas);
-    </script>
+    });
+    
+    resetCanvasBtn.addEventListener('click', initCanvas);
+</script>
 </body>
 </html>
