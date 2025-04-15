@@ -638,6 +638,31 @@
             background-color: rgba(61, 165, 255, 0.1);
         }
         
+        /* Back button style */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            margin: 20px auto;
+            transition: var(--transition);
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        /* NSFW Filter checkbox */
+        #nsfwFilter {
+            width: auto;
+            margin-right: 8px;
+        }
+        
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -655,23 +680,6 @@
                 grid-template-columns: 1fr;
             }
         }
-        .back-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 10px 15px;
-    border-radius: var(--border-radius);
-    text-decoration: none;
-    margin: 20px auto;
-    transition: var(--transition);
-}
-
-.back-button:hover {
-    background-color: var(--secondary-color);
-    transform: translateY(-2px);
-}
     </style>
 </head>
 <body>
@@ -798,7 +806,14 @@
                         <label for="cfgScale">Creativity Scale (1-20)</label>
                         <input type="number" id="cfgScale" min="1" max="20" value="7">
                     </div>
-                                        
+                    
+                    <div class="control-group">
+                        <label for="nsfwFilter">
+                            <input type="checkbox" id="nsfwFilter" checked> 
+                            Strict NSFW Filtering (block unsafe content)
+                        </label>
+                        <div class="model-info">When enabled, the system will reject any generation requests that may contain NSFW content.</div>
+                    </div>
                 </div>
                 
                 <button id="generateBtn">
@@ -833,18 +848,19 @@
                     <div id="savedList"></div>
                 </div>
             </div>
-        </div>    
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="../tantangan.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Kembali ke Tantangan
+            </a>
+        </div>
+        
+        <footer>
+            <p>&copy; <span id="currentYear"></span> Advanced AI Image Generator. All rights reserved.</p>
+            <p id="versionInfo">Version 2.1.0</p>
+        </footer>
     </div>
-<div style="text-align: center;">
-    <a href="../tantangan.html" class="back-button">
-        <i class="fas fa-arrow-left"></i> Kembali ke Tantangan
-    </a>
-</div>
-
-<footer>
-    <p>&copy; <span id="currentYear"></span> Advanced AI Image Generator. All rights reserved.</p>
-    <p id="versionInfo">Version 2.1.0</p>
-</footer>
     
     <!-- API Key Modal -->
     <div id="apiKeyModal" class="modal">
@@ -1002,7 +1018,8 @@
             analysisResults: document.getElementById('analysisResults'),
             importModal: document.getElementById('importModal'),
             importData: document.getElementById('importData'),
-            confirmImport: document.getElementById('confirmImport')
+            confirmImport: document.getElementById('confirmImport'),
+            nsfwFilter: document.getElementById('nsfwFilter')
         };
         
         // State
@@ -1216,7 +1233,8 @@
                 width: elements.widthSelect.value,
                 height: elements.heightSelect.value,
                 model: model.toLowerCase().replace('dall-e', 'dalle'),
-                nologo: true // This ensures no watermark will be added
+                nologo: true, // This ensures no watermark will be added
+                safe: elements.nsfwFilter.checked // Add NSFW filtering
             };
             
             // Optional parameters
@@ -1287,7 +1305,8 @@
                         date: new Date().toLocaleString(),
                         steps: params.steps || 'default',
                         cfgScale: params.cfg_scale || 'default',
-                        style: params.style || 'default'
+                        style: params.style || 'default',
+                        safeFilter: params.safe
                     };
                     
                     state.generationHistory.unshift(generation);
@@ -1305,7 +1324,12 @@
                 img.onerror = function() {
                     elements.loadingDiv.style.display = 'none';
                     elements.generateBtn.disabled = false;
-                    showNotification('Failed to generate image. Please try again.', true);
+                    
+                    if (params.safe) {
+                        showNotification('Generation blocked - content may violate safety guidelines', true);
+                    } else {
+                        showNotification('Failed to generate image. Please try again.', true);
+                    }
                     
                     if (model === 'DALL-E') {
                         showNotification('For DALL·E 3, please check your API key is valid', true);
