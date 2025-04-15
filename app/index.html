@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font Awesome 6.7.2 Cheatsheet</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2a4365;
+      --secondary: #4299e1;
+      --light: #ebf8ff;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f7fa;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    h2 {
+      color: var(--primary);
+      border-bottom: 2px solid var(--secondary);
+      padding-bottom: 5px;
+      margin-top: 30px;
+    }
+    .search-container {
+      margin: 20px 0;
+      text-align: center;
+    }
+    #search {
+      padding: 10px 15px;
+      width: 60%;
+      border: 2px solid #ddd;
+      border-radius: 50px;
+      font-size: 1rem;
+    }
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .icon-card {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .icon-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    .icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    .icon-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .icon-class {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #666;
+      word-break: break-all;
+    }
+    .fa-type {
+      display: inline-block;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    .fa-solid {
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+    .fa-regular {
+      background-color: #f1f8e9;
+      color: #689f38;
+    }
+    .fa-brands {
+      background-color: #ffebee;
+      color: #d32f2f;
+    }
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding: 20px;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .icon-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-icons"></i> Font Awesome 6.7.2 Cheatsheet</h1>
+    <p>Quick reference for commonly used icons</p>
+  </header>
+
+  <div class="search-container">
+    <input type="text" id="search" placeholder="Search icons...">
+  </div>
+
+  <h2><i class="fas fa-star"></i> General Icons</h2>
+  <div class="icon-grid" id="general-icons">
+    <!-- General icons will be inserted here by JavaScript -->
+  </div>
+
+  <h2><i class="fas fa-hashtag"></i> Social & Brands</h2>
+  <div class="icon-grid" id="brand-icons">
+    <!-- Brand icons will be inserted here by JavaScript -->
+  </div>
+
+  <h2><i class="fas fa-file"></i> Files & Documents</h2>
+  <div class="icon-grid" id="file-icons">
+    <!-- File icons will be inserted here by JavaScript -->
+  </div>
+
+  <h2><i class="fas fa-arrows-alt"></i> Arrows & Navigation</h2>
+  <div class="icon-grid" id="arrow-icons">
+    <!-- Arrow icons will be inserted here by JavaScript -->
+  </div>
+
+  <footer>
+    <p>Font Awesome 6.7.2 Cheatsheet | &copy; 2023 | CDN: <code>https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css</code></p>
+  </footer>
+
+  <script>
+    // Icon data
+    const icons = {
+      general: [
+        { name: "Mobile", solid: "fa-mobile", regular: "fa-mobile" },
+        { name: "Pencil", solid: "fa-pencil", regular: "fa-pencil" },
+        { name: "Magnifying Glass", solid: "fa-magnifying-glass" },
+        { name: "Heart", solid: "fa-heart", regular: "fa-heart" },
+        { name: "Star", solid: "fa-star", regular: "fa-star" },
+        { name: "Thumbtack", solid: "fa-thumbtack", regular: "fa-thumbtack" },
+        { name: "Bell", solid: "fa-bell", regular: "fa-bell" },
+        { name: "Envelope", solid: "fa-envelope", regular: "fa-envelope" },
+        { name: "House", solid: "fa-house" },
+        { name: "Gear", solid: "fa-gear" },
+        { name: "Lock", solid: "fa-lock", regular: "fa-lock" },
+        { name: "Unlock", solid: "fa-unlock", regular: "fa-unlock" },
+        { name: "Door Open", solid: "fa-door-open", regular: "fa-door-open" },
+        { name: "Trash", solid: "fa-trash", regular: "fa-trash" }
+      ],
+      brands: [
+        { name: "Twitter/X", brand: "fa-x-twitter" },
+        { name: "Facebook", brand: "fa-facebook" },
+        { name: "Instagram", brand: "fa-instagram" },
+        { name: "LinkedIn", brand: "fa-linkedin" },
+        { name: "YouTube", brand: "fa-youtube" },
+        { name: "WhatsApp", brand: "fa-whatsapp" },
+        { name: "GitHub", brand: "fa-github" },
+        { name: "Pinterest", brand: "fa-pinterest" },
+        { name: "Reddit", brand: "fa-reddit" },
+        { name: "Shopify", brand: "fa-shopify" }
+      ],
+      files: [
+        { name: "File", regular: "fa-file" },
+        { name: "File Edit", regular: "fa-file-pen" },
+        { name: "Chart", solid: "fa-chart-column" },
+        { name: "Folder", regular: "fa-folder" },
+        { name: "Paperclip", solid: "fa-paperclip" }
+      ],
+      arrows: [
+        { name: "Arrow Right", solid: "fa-arrow-right" },
+        { name: "Arrow Left", solid: "fa-arrow-left" },
+        { name: "Arrow Up", solid: "fa-arrow-up" },
+        { name: "Arrow Down", solid: "fa-arrow-down" },
+        { name: "Rotate Right", solid: "fa-rotate-right" }
+      ]
+    };
+
+    // Function to create icon cards
+    function createIconCard(icon, type, prefix) {
+      const card = document.createElement('div');
+      card.className = 'icon-card';
+      
+      const iconElement = document.createElement('div');
+      iconElement.className = `icon ${prefix} ${icon[type]}`;
+      
+      const nameElement = document.createElement('div');
+      nameElement.className = 'icon-name';
+      nameElement.textContent = icon.name;
+      
+      const classElement = document.createElement('div');
+      classElement.className = 'icon-class';
+      classElement.textContent = `${prefix} ${icon[type]}`;
+      
+      const typeElement = document.createElement('span');
+      typeElement.className = `fa-type ${prefix}`;
+      typeElement.textContent = prefix.replace('fa-', '');
+      
+      card.appendChild(iconElement);
+      card.appendChild(nameElement);
+      card.appendChild(typeElement);
+      card.appendChild(classElement);
+      
+      return card;
+    }
+
+    // Function to render icons
+    function renderIcons() {
+      const generalContainer = document.getElementById('general-icons');
+      const brandContainer = document.getElementById('brand-icons');
+      const fileContainer = document.getElementById('file-icons');
+      const arrowContainer = document.getElementById('arrow-icons');
+      
+      // Clear containers
+      generalContainer.innerHTML = '';
+      brandContainer.innerHTML = '';
+      fileContainer.innerHTML = '';
+      arrowContainer.innerHTML = '';
+      
+      // Render general icons
+      icons.general.forEach(icon => {
+        if (icon.solid) {
+          generalContainer.appendChild(createIconCard(icon, 'solid', 'fa-solid'));
+        }
+        if (icon.regular) {
+          generalContainer.appendChild(createIconCard(icon, 'regular', 'fa-regular'));
+        }
+      });
+      
+      // Render brand icons
+      icons.brands.forEach(icon => {
+        brandContainer.appendChild(createIconCard(icon, 'brand', 'fa-brands'));
+      });
+      
+      // Render file icons
+      icons.files.forEach(icon => {
+        if (icon.solid) {
+          fileContainer.appendChild(createIconCard(icon, 'solid', 'fa-solid'));
+        }
+        if (icon.regular) {
+          fileContainer.appendChild(createIconCard(icon, 'regular', 'fa-regular'));
+        }
+      });
+      
+      // Render arrow icons
+      icons.arrows.forEach(icon => {
+        arrowContainer.appendChild(createIconCard(icon, 'solid', 'fa-solid'));
+      });
+    }
+
+    // Search functionality
+    document.getElementById('search').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const cards = document.querySelectorAll('.icon-card');
+      
+      cards.forEach(card => {
+        const name = card.querySelector('.icon-name').textContent.toLowerCase();
+        const iconClass = card.querySelector('.icon-class').textContent.toLowerCase();
+        
+        if (name.includes(searchTerm) || iconClass.includes(searchTerm)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    // Initial render
+    renderIcons();
+  </script>
+</body>
+</html>
