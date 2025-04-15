@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    		<meta name="description" content="Free online AI Image Generator powered by multiple models (DALL·E 3, Stable Diffusion, Midjourney, Ideogram). Create high-quality digital art, photorealistic images, text-based designs, and artistic concepts with advanced controls. Save your generation history and download your creations.">
+    <meta name="description" content="Free online AI Image Generator powered by multiple models (DALL·E 3, Stable Diffusion). Create high-quality digital art, photorealistic images with advanced controls. Save your generation history and download your creations.">
     <title>Advanced AI Image Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -688,8 +688,6 @@
                         <option value="Flux-Default" selected>Flux Default</option>
                         <option value="DALL-E">DALL·E 3 (Premium)</option>
                         <option value="stable-diffusion">Stable Diffusion</option>
-                        <option disabled value="midjourney">Midjourney v6</option>
-                                                <option disabled value="ideogram">IDEOGRAM</option>   
                     </select>
                     <div class="model-info" id="modelInfo">
                         Our most advanced general-purpose model. Great for most use cases.
@@ -941,7 +939,6 @@
             seedInput: document.getElementById('seed'),
             stepsInput: document.getElementById('steps'),
             cfgScaleInput: document.getElementById('cfgScale'),
-            batchCountInput: document.getElementById('batchCount'),
             generateBtn: document.getElementById('generateBtn'),
             loadingDiv: document.getElementById('loading'),
             resultDiv: document.getElementById('result'),
@@ -997,13 +994,11 @@
         };
         
         // Model Information
-const modelInfo = {
-    'Flux-Default': 'Our most advanced general-purpose model. Great for most use cases.',
-    'DALL-E': 'OpenAI\'s most advanced model. Requires API key. Excellent for photorealism.',
-    'stable-diffusion': 'Popular open-source model. Good for artistic and creative generations.',
-    'midjourney': 'Premium model specializing in artistic and stylized images. Excellent for creative concepts.',
-    'ideogram': 'Specialized in generating images with text. Perfect for posters, logos, and text-heavy designs.'
-};
+        const modelInfo = {
+            'Flux-Default': 'Our most advanced general-purpose model. Great for most use cases.',
+            'DALL-E': 'OpenAI\'s most advanced model. Requires API key. Excellent for photorealism.',
+            'stable-diffusion': 'Popular open-source model. Good for artistic and creative generations.'
+        };
         
         // Style presets
         const stylePresets = {
@@ -1124,11 +1119,11 @@ const modelInfo = {
             if (model === 'DALL-E' && !state.currentApiKey) {
                 elements.apiKeyModal.style.display = 'block';
                 elements.apiKeyInput.focus();
-                elements.dalleStyleGroup.style.display = 'none'; // Hide until API key is entered
+                elements.dalleStyleGroup.style.display = 'none';
             } else if (model === 'DALL-E' && state.currentApiKey) {
-                elements.dalleStyleGroup.style.display = 'block'; // Show if API key exists
+                elements.dalleStyleGroup.style.display = 'block';
             } else {
-                elements.dalleStyleGroup.style.display = 'none'; // Hide for other models
+                elements.dalleStyleGroup.style.display = 'none';
             }
             
             updateModelInfo();
@@ -1148,12 +1143,10 @@ const modelInfo = {
         
         // Switch tabs
         function switchTab(tabName) {
-            // Update active tab
             elements.tabs.forEach(tab => {
                 tab.classList.toggle('active', tab.dataset.tab === tabName);
             });
             
-            // Update active content
             elements.tabContents.forEach(content => {
                 content.classList.toggle('active', content.id === `${tabName}Tab`);
             });
@@ -1173,7 +1166,6 @@ const modelInfo = {
             elements.apiKeyInput.value = '';
             showNotification('API key accepted for this session');
             
-            // Show DALL-E style dropdown if DALL-E is selected
             if (elements.modelSelect.value === 'DALL-E') {
                 elements.dalleStyleGroup.style.display = 'block';
             }
@@ -1183,27 +1175,25 @@ const modelInfo = {
         async function generateImage() {
             const model = elements.modelSelect.value;
             const prompt = elements.promptInput.value.trim();
-            const batchCount = parseInt(elements.batchCountInput.value) || 1;
             
             if (!prompt) {
                 showNotification('Please enter a prompt', true);
                 return;
             }
             
-            // For DALL-E, check API key
             if (model === 'DALL-E' && !state.currentApiKey) {
                 elements.apiKeyModal.style.display = 'block';
                 elements.apiKeyInput.focus();
                 return;
             }
             
-            // Prepare parameters
+            // Prepare parameters - always include nologo=true
             const params = {
                 prompt: prompt,
-                model: model,
                 width: elements.widthSelect.value,
                 height: elements.heightSelect.value,
-                nologo: true
+                model: model.toLowerCase().replace('dall-e', 'dalle'),
+                nologo: true // This ensures no watermark will be added
             };
             
             // Optional parameters
@@ -1215,11 +1205,11 @@ const modelInfo = {
                 params.seed = elements.seedInput.value;
             }
             
-            if (elements.stepsInput.value && model !== 'DALL-E') {
+            if (elements.stepsInput.value) {
                 params.steps = elements.stepsInput.value;
             }
             
-            if (elements.cfgScaleInput.value && model !== 'DALL-E') {
+            if (elements.cfgScaleInput.value) {
                 params.cfg_scale = elements.cfgScaleInput.value;
             }
             
@@ -1238,77 +1228,68 @@ const modelInfo = {
             elements.generateBtn.disabled = true;
             
             try {
-                // Generate multiple images if batch count > 1
-                for (let i = 0; i < batchCount; i++) {
-                    // Build URL
-                    let url;
-                    if (model === 'DALL-E') {
-                        // For DALL-E, we'll use a proxy endpoint (this is just a placeholder)
-                        url = `https://api.example.com/dalle-proxy?prompt=${encodeURIComponent(params.prompt)}&size=${params.width}x${params.height}`;
-                        if (params.style) {
-                            url += `&style=${params.style}`;
-                        }
-                    } else {
-                        // For other models, use pollinations.ai
-                        const baseUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(params.prompt)}`;
-                        const queryParams = [];
-                        
-                        for (const key in params) {
-                            if (key !== 'prompt' && key !== 'api_key') {
-                                queryParams.push(`${key}=${encodeURIComponent(params[key])}`);
-                            }
-                        }
-                        
-                        url = `${baseUrl}?${queryParams.join('&')}`;
+                // Build URL for pollinations.ai API
+                const baseUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(params.prompt)}`;
+                const queryParams = [];
+                
+                // Include all parameters except prompt
+                for (const key in params) {
+                    if (key !== 'prompt') {
+                        queryParams.push(`${key}=${encodeURIComponent(params[key])}`);
                     }
-                    
-                    // Create image element
-                    const img = new Image();
-                    
-                    img.onload = function() {
-                        // Add to history
-                        const generation = {
-                            id: Date.now() + i,
-                            url: url,
-                            prompt: params.prompt,
-                            negativePrompt: params.negative_prompt || '',
-                            model: params.model,
-                            width: params.width,
-                            height: params.height,
-                            seed: params.seed || 'random',
-                            date: new Date().toLocaleString(),
-                            steps: params.steps || 'default',
-                            cfgScale: params.cfg_scale || 'default',
-                            style: params.style || 'default'
-                        };
-                        
-                        state.generationHistory.unshift(generation);
-                        saveHistory();
-                        renderHistory();
-                        
-                        // Display image
-                        displayGeneratedImage(generation);
-                        
-                        // Show notification for the last image in batch
-                        if (i === batchCount - 1) {
-                            elements.loadingDiv.style.display = 'none';
-                            elements.generateBtn.disabled = false;
-                            showNotification(`Generated ${batchCount} image${batchCount > 1 ? 's' : ''} successfully!`);
-                        }
-                    };
-                    
-                    img.onerror = function() {
-                        elements.loadingDiv.style.display = 'none';
-                        elements.generateBtn.disabled = false;
-                        showNotification('Failed to generate image. Please try again.', true);
-                        
-                        if (model === 'DALL-E') {
-                            showNotification('For DALL·E 3, please check your API key is valid', true);
-                        }
-                    };
-                    
-                    img.src = url;
                 }
+                
+                // Ensure nologo=true is always included
+                if (!queryParams.some(param => param.startsWith('nologo='))) {
+                    queryParams.push('nologo=true');
+                }
+                
+                const url = `${baseUrl}?${queryParams.join('&')}`;
+                
+                // Create image element
+                const img = new Image();
+                img.crossOrigin = "Anonymous"; // To avoid CORS issues
+                
+                img.onload = function() {
+                    // Add to history
+                    const generation = {
+                        id: Date.now(),
+                        url: url,
+                        prompt: params.prompt,
+                        negativePrompt: params.negative_prompt || '',
+                        model: model,
+                        width: params.width,
+                        height: params.height,
+                        seed: params.seed || 'random',
+                        date: new Date().toLocaleString(),
+                        steps: params.steps || 'default',
+                        cfgScale: params.cfg_scale || 'default',
+                        style: params.style || 'default'
+                    };
+                    
+                    state.generationHistory.unshift(generation);
+                    saveHistory();
+                    renderHistory();
+                    
+                    // Display image
+                    displayGeneratedImage(generation);
+                    
+                    elements.loadingDiv.style.display = 'none';
+                    elements.generateBtn.disabled = false;
+                    showNotification('Image generated successfully!');
+                };
+                
+                img.onerror = function() {
+                    elements.loadingDiv.style.display = 'none';
+                    elements.generateBtn.disabled = false;
+                    showNotification('Failed to generate image. Please try again.', true);
+                    
+                    if (model === 'DALL-E') {
+                        showNotification('For DALL·E 3, please check your API key is valid', true);
+                    }
+                };
+                
+                img.src = url;
                 
             } catch (error) {
                 console.error('Generation error:', error);
