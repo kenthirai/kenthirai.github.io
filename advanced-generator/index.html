@@ -655,6 +655,23 @@
                 grid-template-columns: 1fr;
             }
         }
+        .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    margin: 20px auto;
+    transition: var(--transition);
+}
+
+.back-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
     </style>
 </head>
 <body>
@@ -818,10 +835,16 @@
             </div>
         </div>    
     </div>
-            <footer>
-            <p>&copy; <span id="currentYear"></span> Advanced AI Image Generator. All rights reserved.</p>
-            <p id="versionInfo">Version 2.1.0</p>
-        </footer>
+<div style="text-align: center;">
+    <a href="../tantangan.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Kembali ke Tantangan
+    </a>
+</div>
+
+<footer>
+    <p>&copy; <span id="currentYear"></span> Advanced AI Image Generator. All rights reserved.</p>
+    <p id="versionInfo">Version 2.1.0</p>
+</footer>
     
     <!-- API Key Modal -->
     <div id="apiKeyModal" class="modal">
