@@ -40,9 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const notificationMessage = document.getElementById('notification-message');
     
     // Password for turbo model
-    const TURBO_PASSWORD = "rizqi123"; // Change this to your desired password
+    const TURBO_PASSWORD = "rizqi123";
     let isPasswordVerified = false;
-    let pendingGeneration = false;
     const passwordModal = document.getElementById('password-modal');
     const turboPasswordInput = document.getElementById('turbo-password');
     const submitPasswordBtn = document.getElementById('submit-password');
@@ -82,35 +81,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Password modal event listeners
     submitPasswordBtn.addEventListener('click', function() {
-        if (verifyPassword()) {
-            if (pendingGeneration) {
-                pendingGeneration = false;
-                generateImage();
-            }
-        }
+        verifyPassword();
     });
     
     cancelPasswordBtn.addEventListener('click', function() {
         hidePasswordModal();
         model.value = 'stable-diffusion';
         isPasswordVerified = false;
-        pendingGeneration = false;
     });
     
     turboPasswordInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
-            if (verifyPassword()) {
-                if (pendingGeneration) {
-                    pendingGeneration = false;
-                    generateImage();
-                }
-            }
+            verifyPassword();
         }
     });
     
-    // Model change event listener
+    // Model change event listener - NEW: Show modal immediately when Turbo is selected
     model.addEventListener('change', function() {
-        if (this.value !== 'turbo') {
+        if (this.value === 'turbo' && !isPasswordVerified) {
+            showPasswordModal();
+        } else {
             isPasswordVerified = false;
         }
     });
@@ -255,13 +245,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Generate button click
+    // Generate button click - REMOVED password check here
     generateBtn.addEventListener('click', function() {
-        if (model.value === 'turbo' && !isPasswordVerified) {
-            pendingGeneration = true;
-            showPasswordModal();
-            return;
-        }
         generateImage();
     });
     
