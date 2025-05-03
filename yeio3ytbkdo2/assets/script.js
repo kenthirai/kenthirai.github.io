@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const notificationMessage = document.getElementById('notification-message');
     
     // Password for turbo model
-    const TURBO_PASSWORD = "rizqyo123"; // Change this to your desired password
+    const TURBO_PASSWORD = "rizqi123"; // Change this to your desired password
     let isPasswordVerified = false;
     let pendingGeneration = false;
     const passwordModal = document.getElementById('password-modal');
