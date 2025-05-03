@@ -48,9 +48,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitPasswordBtn = document.getElementById('submit-password');
     const cancelPasswordBtn = document.getElementById('cancel-password');
     const passwordError = document.getElementById('password-error');
+    const showPasswordCheckbox = document.getElementById('show-password');
     
-    // Store last used prompt for regeneration
-    let lastPrompt = '';
+    // Show/hide password toggle
+    showPasswordCheckbox.addEventListener('change', function() {
+        turboPasswordInput.type = this.checked ? 'text' : 'password';
+    });
     
     // Password verification functions
     function showPasswordModal() {
@@ -62,6 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
         passwordModal.style.display = 'none';
         passwordError.style.display = 'none';
         turboPasswordInput.value = '';
+        showPasswordCheckbox.checked = false;
+        turboPasswordInput.type = 'password';
     }
     
     function verifyPassword() {
@@ -78,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Password modal event listeners
     submitPasswordBtn.addEventListener('click', function() {
         if (verifyPassword()) {
-            // After successful verification, proceed with generation if that's what triggered it
             if (pendingGeneration) {
                 pendingGeneration = false;
                 generateImage();
@@ -88,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     cancelPasswordBtn.addEventListener('click', function() {
         hidePasswordModal();
-        // Reset model selection if password was canceled
         model.value = 'stable-diffusion';
         isPasswordVerified = false;
         pendingGeneration = false;
@@ -107,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Model change event listener
     model.addEventListener('change', function() {
-        // Reset password verification when model changes
         if (this.value !== 'turbo') {
             isPasswordVerified = false;
         }
@@ -255,7 +257,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Generate button click
     generateBtn.addEventListener('click', function() {
-        // Check if turbo model is selected and password not verified
         if (model.value === 'turbo' && !isPasswordVerified) {
             pendingGeneration = true;
             showPasswordModal();
@@ -271,7 +272,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Set the seed to 0 to get a different image
         seed.value = 0;
         generateImage();
     });
@@ -285,14 +285,11 @@ document.addEventListener('DOMContentLoaded', function() {
         model.value = 'stable-diffusion';
         enhance.value = 'true';
         
-        // Reset password verification
         isPasswordVerified = false;
         
-        // Reset art style to realistic
         artStyleOptions.forEach(opt => opt.classList.remove('selected'));
         document.querySelector('.art-style-option[data-style="realistic"]').classList.add('selected');
         
-        // Reset preview
         placeholder.style.display = 'flex';
         loading.style.display = 'none';
         imagePreview.style.display = 'none';
@@ -310,24 +307,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         try {
-            // Fetch the image as a blob
             const response = await fetch(imagePreview.src);
             const blob = await response.blob();
-            
-            // Create a download link
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
             
-            // Set the filename
             const prompt = promptInput.value.trim().substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase();
             a.download = `rizqi-o-ai-${prompt || 'image'}-${Date.now()}.jpg`;
             
-            // Trigger download
             document.body.appendChild(a);
             a.click();
             
-            // Clean up
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
             
@@ -353,9 +344,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         notification.classList.add('show');
         
-        // Hide after 3 seconds
         setTimeout(() => {
             notification.classList.remove('show');
         }, 3000);
     }
+    
+    // Store last used prompt for regeneration
+    let lastPrompt = '';
 });
