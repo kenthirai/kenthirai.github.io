@@ -161,7 +161,13 @@
     <div style="background: var(--secondary-color); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);">
         <h2 style="margin-bottom: 20px; color: var(--primary-color);"><i class="fas fa-lock"></i> Turbo Model Access</h2>
         <p style="margin-bottom: 15px; color: var(--text-color);">This model requires a password to use:</p>
-        <input type="password" id="turbo-password" placeholder="Enter password" style="width: 100%; padding: 12px; margin-bottom: 20px; border: none; background: var(--secondary-color); border-radius: 10px; box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);">
+        <input type="password" id="turbo-password" placeholder="Enter password" style="width: 100%; padding: 12px; margin-bottom: 10px; border: none; background: var(--secondary-color); border-radius: 10px; box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);">
+        
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <input type="checkbox" id="show-password" style="width: auto; margin-right: 10px;">
+            <label for="show-password" style="margin-bottom: 0;">Show Password</label>
+        </div>
+        
         <div style="display: flex; gap: 10px;">
             <button id="submit-password" style="flex: 1; background: var(--primary-color); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer;">Submit</button>
             <button id="cancel-password" style="flex: 1; background: var(--error-color); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer;">Cancel</button>
