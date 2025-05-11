@@ -1,5 +1,11 @@
 [
 {
+    "date": "12 Mei 2025, 00:37",
+    "description": "Dana Keluar",
+    "amount": 100000,
+    "type": "out"
+  },
+{
     "date": "1 Mei 2025, 00:02",
     "description": "Dana Keluar",
     "amount": 100000,
