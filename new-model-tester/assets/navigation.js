@@ -47,10 +47,13 @@ document.addEventListener('DOMContentLoaded', function() {
             active: window.location.pathname.endsWith('api.html')
         },
         { 
-            icon: 'fas fa-book', 
-            text: 'Docs', 
-            link: 'docs.html',
-            active: window.location.pathname.endsWith('docs.html')
+            icon: 'fas fa-comment', 
+            text: 'Chat', 
+            link: '#',
+            onClick: function(e) {
+                e.preventDefault();
+                openChatModal();
+            }
         },
         { 
             icon: 'fas fa-bars', 
@@ -126,7 +129,279 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(navContainer);
     document.body.style.paddingBottom = '72px'; // Space for navigation
 
-    // 5. Menu Dropdown Functionality
+    // 5. Chat Modal Functionality
+    function openChatModal() {
+        const existingModal = document.getElementById('chatModal');
+        if (existingModal) {
+            existingModal.remove();
+            return;
+        }
+
+        const modal = document.createElement('div');
+        modal.id = 'chatModal';
+        modal.style.position = 'fixed';
+        modal.style.bottom = '72px';
+        modal.style.right = '16px';
+        modal.style.width = '350px';
+        modal.style.maxHeight = '500px';
+        modal.style.backgroundColor = 'var(--card-bg)';
+        modal.style.borderRadius = '12px';
+        modal.style.boxShadow = '5px 5px 15px var(--shadow-dark), -5px -5px 15px var(--shadow-light)';
+        modal.style.zIndex = '1001';
+        modal.style.display = 'flex';
+        modal.style.flexDirection = 'column';
+        modal.style.border = '1px solid rgba(255,255,255,0.1)';
+        modal.style.overflow = 'hidden';
+
+        // Modal header
+        const header = document.createElement('div');
+        header.style.display = 'flex';
+        header.style.justifyContent = 'space-between';
+        header.style.alignItems = 'center';
+        header.style.padding = '12px 16px';
+        header.style.backgroundColor = 'var(--primary)';
+        header.style.color = 'white';
+        header.style.fontWeight = '500';
+
+        const title = document.createElement('div');
+        title.textContent = 'AI Assistant';
+        header.appendChild(title);
+
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        closeBtn.style.background = 'none';
+        closeBtn.style.border = 'none';
+        closeBtn.style.color = 'white';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.addEventListener('click', () => modal.remove());
+        header.appendChild(closeBtn);
+
+        // Chat messages container
+        const messagesContainer = document.createElement('div');
+        messagesContainer.id = 'chatMessages';
+        messagesContainer.style.flex = '1';
+        messagesContainer.style.padding = '16px';
+        messagesContainer.style.overflowY = 'auto';
+        messagesContainer.style.display = 'flex';
+        messagesContainer.style.flexDirection = 'column';
+        messagesContainer.style.gap = '12px';
+
+        // Add welcome message
+        const welcomeMsg = document.createElement('div');
+        welcomeMsg.className = 'chat-message ai';
+        welcomeMsg.innerHTML = `
+            <div class="chat-bubble">Hello! How can I help you today?</div>
+        `;
+        messagesContainer.appendChild(welcomeMsg);
+
+        // Input area
+        const inputContainer = document.createElement('div');
+        inputContainer.style.display = 'flex';
+        inputContainer.style.padding = '12px';
+        inputContainer.style.gap = '8px';
+        inputContainer.style.borderTop = '1px solid rgba(0,0,0,0.1)';
+
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.placeholder = 'Type your message...';
+        inputField.style.flex = '1';
+        inputField.style.padding = '10px 12px';
+        inputField.style.borderRadius = '8px';
+        inputField.style.border = 'none';
+        inputField.style.backgroundColor = 'var(--bg)';
+        inputField.style.boxShadow = 'inset 3px 3px 5px var(--shadow-dark), inset -3px -3px 5px var(--shadow-light)';
+
+        const sendBtn = document.createElement('button');
+        sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        sendBtn.style.padding = '10px 12px';
+        sendBtn.style.borderRadius = '8px';
+        sendBtn.style.border = 'none';
+        sendBtn.style.backgroundColor = 'var(--primary)';
+        sendBtn.style.color = 'white';
+        sendBtn.style.cursor = 'pointer';
+        sendBtn.style.transition = 'all 0.2s ease';
+
+        sendBtn.addEventListener('mouseenter', () => {
+            sendBtn.style.backgroundColor = 'var(--primary-dark)';
+        });
+
+        sendBtn.addEventListener('mouseleave', () => {
+            sendBtn.style.backgroundColor = 'var(--primary)';
+        });
+
+        // Send message function
+        function sendMessage() {
+            const message = inputField.value.trim();
+            if (!message) return;
+
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user';
+            userMsg.style.alignSelf = 'flex-end';
+            userMsg.innerHTML = `
+                <div class="chat-bubble" style="background-color: var(--primary); color: white; border-radius: 12px 12px 0 12px;">
+                    ${message}
+                </div>
+            `;
+            messagesContainer.appendChild(userMsg);
+            inputField.value = '';
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Add loading indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'chat-message ai';
+            typingIndicator.innerHTML = `
+                <div class="chat-bubble" style="display: flex; gap: 6px;">
+                    <div class="typing-dot" style="width: 8px; height: 8px; background-color: var(--text-light); border-radius: 50%; animation: typing 1.4s infinite ease-in-out;"></div>
+                    <div class="typing-dot" style="width: 8px; height: 8px; background-color: var(--text-light); border-radius: 50%; animation: typing 1.4s infinite ease-in-out 0.2s;"></div>
+                    <div class="typing-dot" style="width: 8px; height: 8px; background-color: var(--text-light); border-radius: 50%; animation: typing 1.4s infinite ease-in-out 0.4s;"></div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingIndicator);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Call the chat API
+            streamChatCompletion(
+                [{ role: 'user', content: message }],
+                { model: 'openai' },
+                (chunk) => {
+                    // Remove typing indicator if it exists
+                    if (typingIndicator.parentNode) {
+                        typingIndicator.remove();
+                    }
+
+                    // Get or create AI message container
+                    let aiMessage = messagesContainer.lastElementChild;
+                    if (!aiMessage || !aiMessage.classList.contains('ai')) {
+                        aiMessage = document.createElement('div');
+                        aiMessage.className = 'chat-message ai';
+                        aiMessage.style.alignSelf = 'flex-start';
+                        aiMessage.innerHTML = '<div class="chat-bubble" style="background-color: var(--bg); border-radius: 12px 12px 12px 0;"></div>';
+                        messagesContainer.appendChild(aiMessage);
+                    }
+
+                    // Append chunk to message
+                    const bubble = aiMessage.querySelector('.chat-bubble');
+                    bubble.textContent += chunk;
+
+                    // Scroll to bottom
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            );
+        }
+
+        // Event listeners
+        inputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        sendBtn.addEventListener('click', sendMessage);
+
+        // Append elements
+        inputContainer.appendChild(inputField);
+        inputContainer.appendChild(sendBtn);
+
+        modal.appendChild(header);
+        modal.appendChild(messagesContainer);
+        modal.appendChild(inputContainer);
+
+        // Add styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .chat-message {
+                max-width: 80%;
+                margin-bottom: 8px;
+            }
+            .chat-bubble {
+                padding: 10px 14px;
+                background-color: var(--bg);
+                border-radius: 12px 12px 12px 0;
+                box-shadow: 2px 2px 4px var(--shadow-dark), -2px -2px 4px var(--shadow-light);
+                word-wrap: break-word;
+            }
+            .user .chat-bubble {
+                background-color: var(--primary);
+                color: white;
+                border-radius: 12px 12px 0 12px;
+            }
+            @keyframes typing {
+                0%, 60%, 100% { transform: translateY(0); }
+                30% { transform: translateY(-4px); }
+            }
+        `;
+        modal.appendChild(style);
+
+        document.body.appendChild(modal);
+        inputField.focus();
+    }
+
+    // Chat API function
+    async function streamChatCompletion(messages, options = {}, onChunkReceived) {
+        const url = "https://text.pollinations.ai/openai";
+        const payload = {
+            model: options.model || "openai",
+            messages: messages,
+            seed: options.seed,
+            stream: true,
+        };
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "text/event-stream",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(
+                    `HTTP error! status: ${response.status}, message: ${errorText}`
+                );
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = "";
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+
+                const lines = buffer.split("\n\n");
+                buffer = lines.pop();
+
+                for (const line of lines) {
+                    if (line.startsWith("data: ")) {
+                        const dataStr = line.substring(6).trim();
+                        if (dataStr === "[DONE]") continue;
+                        try {
+                            const chunk = JSON.parse(dataStr);
+                            const content = chunk?.choices?.[0]?.delta?.content;
+                            if (content && onChunkReceived) {
+                                onChunkReceived(content);
+                            }
+                        } catch (e) {
+                            console.error("Failed to parse stream chunk:", dataStr, e);
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error during streaming chat completion:", error);
+        }
+    }
+
+    // ... (keep existing toggleMenu, closeMenuOnClickOutside, navigateTo, 
+    // toggleDarkMode, updateDarkModeToggle functions and dark mode initialization)
+
+    // Menu Dropdown Functionality (keep existing implementation)
     function toggleMenu(button) {
         const existingMenu = document.getElementById('dropdownMenu');
         if (existingMenu) {
@@ -190,7 +465,6 @@ document.addEventListener('DOMContentLoaded', function() {
             menuItem.style.transition = 'all 0.2s ease';
             menuItem.style.color = item.danger ? '#ff7675' : 'var(--text)';
             
-            // Hover effects
             menuItem.addEventListener('mouseenter', () => {
                 menuItem.style.backgroundColor = 'rgba(108, 92, 231, 0.1)';
             });
@@ -204,7 +478,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 menu.remove();
             });
 
-            // Create icon
             const icon = document.createElement('i');
             icon.className = item.icon;
             icon.style.marginRight = '12px';
@@ -212,13 +485,11 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.style.textAlign = 'center';
             icon.style.color = item.danger ? '#ff7675' : 'var(--primary)';
 
-            // Create text
             const text = document.createElement('span');
             text.textContent = item.text;
             text.style.fontSize = '0.85rem';
             text.style.fontWeight = '500';
 
-            // For toggle items
             if (item.toggle) {
                 const toggle = document.createElement('div');
                 toggle.className = 'dark-mode-toggle';
@@ -251,7 +522,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.body.appendChild(menu);
 
-        // Close menu when clicking outside
         setTimeout(() => {
             document.addEventListener('click', closeMenuOnClickOutside);
         }, 10);
@@ -274,12 +544,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function toggleDarkMode() {
         document.body.classList.toggle('dark-mode');
-        
-        // Save preference to localStorage
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
-        
-        // Update UI
         updateDarkModeToggle();
     }
 
