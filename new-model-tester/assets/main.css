@@ -567,3 +567,14 @@ textarea {
 .image-container {
     position: relative;
 }
+
+/* Blink Animation Styles */
+#prompt {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    border: 2px solid transparent;
+}
+
+#prompt:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+}
