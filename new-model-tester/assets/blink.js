@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Start blinking after a short delay (1 second)
         setTimeout(() => {
-            blinkTextarea(15, 300); // Blink 10 times with 200ms interval
+            blinkTextarea(30 300); // Blink 10 times with 200ms interval
         }, 1000);
     }
 });
