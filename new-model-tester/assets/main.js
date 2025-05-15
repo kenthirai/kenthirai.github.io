@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
         advancedToggle: document.getElementById('advancedToggle'),
         advancedParams: document.getElementById('advancedParams'),
         downloadBtn: document.getElementById('downloadBtn'),
-        historyBtn: document.getElementById('historyBtn')
+        historyBtn: document.getElementById('historyBtn'),
+        imageContainer: document.querySelector('.image-container')
     };
 
     // State management
@@ -34,7 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
         thumbWidth: elements.slideThumb.offsetWidth,
         maxSlideDistance: elements.slideContainer.offsetWidth - elements.slideThumb.offsetWidth - 10,
         lastPrompt: '',
-        currentImageUrl: null
+        currentImageUrl: null,
+        zoomActive: false,
+        zoomBtn: null
     };
 
     // Initialize from localStorage
@@ -64,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Save to localStorage
     function saveToStorage() {
         const currentState = {
             prompt: elements.promptInput.value,
@@ -170,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.className = 'fas fa-arrow-right';
         }
         
-        // Reset dragging state
         state.isDragging = false;
         elements.slideContainer.classList.remove('dragging');
         elements.slideThumb.classList.remove('active');
@@ -191,7 +192,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Show loading state
         elements.placeholder.style.display = 'none';
         elements.loading.style.display = 'flex';
         elements.generatedImage.style.display = 'none';
@@ -250,7 +250,10 @@ Technical Specifications:
                 elements.loading.style.display = 'none';
                 elements.generatedImage.style.display = 'block';
                 elements.downloadBtn.style.display = 'flex';
-                resetSlide(); // Reset slide button after image loads
+                resetSlide();
+                
+                // Create and setup zoom button
+                createZoomButton();
             };
             elements.generatedImage.src = imageUrl;
             
@@ -264,11 +267,151 @@ Technical Specifications:
             showError(error.message || 'Failed to generate image. Please try again.');
             elements.loading.style.display = 'none';
             elements.placeholder.style.display = 'flex';
-            resetSlide(); // Reset slide button on error
+            resetSlide();
         }
     }
 
-    // Fetch image from API
+    // Create zoom button
+    function createZoomButton() {
+        // Remove existing zoom button if any
+        if (state.zoomBtn) {
+            state.zoomBtn.remove();
+        }
+
+        // Create zoom button
+        state.zoomBtn = document.createElement('button');
+        state.zoomBtn.className = 'zoom-btn';
+        state.zoomBtn.innerHTML = '<i class="fas fa-search-plus"></i>';
+        state.zoomBtn.title = 'Zoom Image';
+        
+        // Position the button absolutely within image container
+        elements.imageContainer.style.position = 'relative';
+        state.zoomBtn.style.position = 'absolute';
+        state.zoomBtn.style.top = '10px';
+        state.zoomBtn.style.right = '10px';
+        state.zoomBtn.style.zIndex = '10';
+        state.zoomBtn.style.background = 'rgba(0,0,0,0.6)';
+        state.zoomBtn.style.border = 'none';
+        state.zoomBtn.style.borderRadius = '50%';
+        state.zoomBtn.style.width = '36px';
+        state.zoomBtn.style.height = '36px';
+        state.zoomBtn.style.color = 'white';
+        state.zoomBtn.style.cursor = 'pointer';
+        state.zoomBtn.style.display = 'flex';
+        state.zoomBtn.style.alignItems = 'center';
+        state.zoomBtn.style.justifyContent = 'center';
+        state.zoomBtn.style.transition = 'all 0.3s ease';
+        
+        state.zoomBtn.addEventListener('mouseenter', () => {
+            state.zoomBtn.style.background = 'rgba(0,0,0,0.8)';
+            state.zoomBtn.style.transform = 'scale(1.1)';
+        });
+        
+        state.zoomBtn.addEventListener('mouseleave', () => {
+            state.zoomBtn.style.background = 'rgba(0,0,0,0.6)';
+            state.zoomBtn.style.transform = 'scale(1)';
+        });
+        
+        // Add click handler to show zoom overlay
+        state.zoomBtn.addEventListener('click', showZoomOverlay);
+        
+        elements.imageContainer.appendChild(state.zoomBtn);
+    }
+
+    // Show zoom overlay
+    function showZoomOverlay() {
+        if (!state.currentImageUrl) return;
+        
+        // Create overlay container
+        const overlay = document.createElement('div');
+        overlay.className = 'zoom-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
+        overlay.style.zIndex = '1000';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        overlay.style.cursor = 'zoom-out';
+        
+        // Create zoomed image
+        const zoomedImg = document.createElement('img');
+        zoomedImg.src = state.currentImageUrl;
+        zoomedImg.style.maxWidth = '90%';
+        zoomedImg.style.maxHeight = '90%';
+        zoomedImg.style.objectFit = 'contain';
+        zoomedImg.style.borderRadius = '8px';
+        zoomedImg.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+        
+        // Create close button
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'zoom-close-btn';
+        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '20px';
+        closeBtn.style.right = '20px';
+        closeBtn.style.background = 'rgba(255,255,255,0.2)';
+        closeBtn.style.border = 'none';
+        closeBtn.style.borderRadius = '50%';
+        closeBtn.style.width = '40px';
+        closeBtn.style.height = '40px';
+        closeBtn.style.color = 'white';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.fontSize = '1.2rem';
+        closeBtn.style.display = 'flex';
+        closeBtn.style.alignItems = 'center';
+        closeBtn.style.justifyContent = 'center';
+        closeBtn.style.transition = 'all 0.3s ease';
+        
+        closeBtn.addEventListener('mouseenter', () => {
+            closeBtn.style.background = 'rgba(255,255,255,0.3)';
+            closeBtn.style.transform = 'rotate(90deg)';
+        });
+        
+        closeBtn.addEventListener('mouseleave', () => {
+            closeBtn.style.background = 'rgba(255,255,255,0.2)';
+            closeBtn.style.transform = 'rotate(0deg)';
+        });
+        
+        // Add elements to overlay
+        overlay.appendChild(zoomedImg);
+        overlay.appendChild(closeBtn);
+        document.body.appendChild(overlay);
+        
+        // Set state
+        state.zoomActive = true;
+        document.body.style.overflow = 'hidden';
+        
+        // Close handlers
+        function closeOverlay() {
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.remove();
+                document.body.style.overflow = '';
+                state.zoomActive = false;
+            }, 300);
+        }
+        
+        overlay.addEventListener('click', closeOverlay);
+        closeBtn.addEventListener('click', closeOverlay);
+        
+        // Close with ESC key
+        document.addEventListener('keydown', function escHandler(e) {
+            if (e.key === 'Escape') {
+                closeOverlay();
+                document.removeEventListener('keydown', escHandler);
+            }
+        });
+        
+        // Animate appearance
+        setTimeout(() => {
+            overlay.style.opacity = '1';
+        }, 10);
+    }
+
     async function fetchImage(prompt, params = {}) {
         const queryParams = new URLSearchParams();
         
@@ -304,7 +447,6 @@ Technical Specifications:
         }
     }
 
-    // Show error message
     function showError(message) {
         elements.errorText.textContent = message;
         elements.errorMessage.style.display = 'block';
@@ -313,7 +455,6 @@ Technical Specifications:
         }, 10);
     }
 
-    // Download image
     elements.downloadBtn.addEventListener('click', function() {
         if (!state.currentImageUrl) return;
         
@@ -356,6 +497,13 @@ Technical Specifications:
         #errorMessage {
             transition: opacity 0.3s ease;
             opacity: 0;
+        }
+        .zoom-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .zoom-btn:hover {
+            transform: scale(1.1);
         }
     `;
     document.head.appendChild(loadingText);
