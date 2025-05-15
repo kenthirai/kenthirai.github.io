@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (savedState) {
             const parsedState = JSON.parse(savedState);
             
-            // Restore form values
             if (parsedState.prompt) elements.promptInput.value = parsedState.prompt;
             if (parsedState.imageSize) elements.imageSizeSelect.value = parsedState.imageSize;
             if (parsedState.model) elements.modelSelect.value = parsedState.model;
@@ -59,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         } else {
-            // Set default values if no saved state
             elements.modelSelect.value = 'grizk';
             elements.qualitySelect.value = 'premium';
             saveToStorage();
@@ -168,7 +166,14 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.slideTrack.textContent = "Slide to Generate";
         
         const icon = elements.slideThumb.querySelector('i');
-        icon.className = 'fas fa-arrow-right';
+        if (icon) {
+            icon.className = 'fas fa-arrow-right';
+        }
+        
+        // Reset dragging state
+        state.isDragging = false;
+        elements.slideContainer.classList.remove('dragging');
+        elements.slideThumb.classList.remove('active');
         
         setTimeout(() => {
             elements.slideThumb.style.transition = '';
@@ -176,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 300);
     }
 
-    // Generate image function with enhanced Grizk model
+    // Generate image function
     async function generateImage() {
         const prompt = elements.promptInput.value.trim();
         
@@ -193,10 +198,8 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.errorMessage.style.display = 'none';
         elements.downloadBtn.style.display = 'none';
         
-        // Parse image size
         const [width, height] = elements.imageSizeSelect.value.split('x');
         
-        // Prepare parameters with enhanced quality for Grizk
         const params = {
             width: width,
             height: height,
@@ -211,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function() {
             anti_aliasing: 'high'
         };
         
-        // Handle seed logic
         if (prompt === state.lastPrompt || !elements.seedInput.value.trim()) {
             const randomSeed = Math.floor(Math.random() * 1000000);
             params.seed = randomSeed;
@@ -222,7 +224,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         state.lastPrompt = prompt;
         
-        // Enhanced prompt for Grizk model
         let finalPrompt = prompt;
         if (elements.modelSelect.value === 'grizk') {
             finalPrompt = `A hyper-detailed hybrid 3D animation render combining Pixar's technical perfection with Ghibli's artistic charm: "${prompt}".
@@ -239,42 +240,38 @@ Technical Specifications:
 - Post-processing: ACES color grading`;
         }
         
-        // Clean up undefined parameters
         Object.keys(params).forEach(key => params[key] === undefined && delete params[key]);
         
         try {
             const imageUrl = await fetchImage(finalPrompt, params);
             state.currentImageUrl = imageUrl;
             
-            // Display the image
             elements.generatedImage.onload = function() {
                 elements.loading.style.display = 'none';
                 elements.generatedImage.style.display = 'block';
                 elements.downloadBtn.style.display = 'flex';
+                resetSlide(); // Reset slide button after image loads
             };
             elements.generatedImage.src = imageUrl;
             
-            // Add to history
             if (window.addToHistory) {
                 window.addToHistory(prompt, imageUrl, params);
             }
             
-            // Save state
             saveToStorage();
         } catch (error) {
             console.error('Error generating image:', error);
             showError(error.message || 'Failed to generate image. Please try again.');
             elements.loading.style.display = 'none';
             elements.placeholder.style.display = 'flex';
-            resetSlide();
+            resetSlide(); // Reset slide button on error
         }
     }
 
-    // Fetch image from API with error handling
+    // Fetch image from API
     async function fetchImage(prompt, params = {}) {
         const queryParams = new URLSearchParams();
         
-        // Add all parameters
         Object.keys(params).forEach(key => {
             queryParams.append(key, params[key]);
         });
@@ -332,9 +329,7 @@ Technical Specifications:
     initFromStorage();
 
     // Save state on any change
-    const saveEvents = [
-        'input', 'change', 'click'
-    ];
+    const saveEvents = ['input', 'change', 'click'];
     
     saveEvents.forEach(event => {
         elements.promptInput.addEventListener(event, saveToStorage);
