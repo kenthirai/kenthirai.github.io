@@ -36,15 +36,35 @@
 </head>
 <body>
     <div class="container">
-        <h1><i class="fas fa-language"></i> Pegon-Indonesia</h1>
+        <h1><i class="fas fa-language"></i>  Pegon Online</h1>
+        <div class="language-indicator auto-mode" id="languageIndicator">
+            <span id="detectedLang">Mode: Deteksi Otomatis</span>
+        </div>
+        
+        <div class="language-options" id="languageOptions" style="display: none;">
+            <div class="option-group">
+                <label for="sourceLanguage"><i class="fas fa-globe"></i> Bahasa Sumber:</label>
+                <select id="sourceLanguage">
+                    <option value="auto">Deteksi Otomatis</option>
+                    <option value="indonesia">Indonesia</option>
+                    <option value="english">Inggris</option>
+                    <option value="javanese">Jawa</option>
+                    <option value="sundanese">Sunda</option>
+                    <option value="malay">Melayu</option>
+                    <option value="dutch">Belanda</option>
+                    <option value="arabic">Arab (Latin)</option>
+                    <option value="other">Lainnya</option>
+                </select>
+            </div>
+        </div>
         
         <div class="translator-box">
             <div class="text-area-container">
                 <div class="label">
                     <i class="fas fa-font"></i>
-                    <span id="sourceLabel">Tulisan Pegon</span>
+                    <span id="sourceLabel">Tulisan</span>
                 </div>
-                <textarea id="sourceText" placeholder="Masukkan teks Pegon di sini..."></textarea>
+                <textarea id="sourceText" placeholder="Masukkan teks di sini..."></textarea>
                 <div class="char-count" id="sourceCharCount">0 karakter</div>
                 <div class="button-group">
                     <button class="btn btn-primary" id="translateBtn">
@@ -57,7 +77,7 @@
                         <i class="far fa-trash-alt"></i> Hapus
                     </button>
                     <button class="btn btn-tertiary" id="toggleDirection">
-                        <i class="fas fa-exchange-alt"></i> Tukar Arah
+                        <i class="fas fa-random"></i> Mode Manual
                     </button>
                 </div>
             </div>
@@ -65,7 +85,7 @@
             <div class="text-area-container">
                 <div class="label">
                     <i class="fas fa-font"></i>
-                    <span id="targetLabel">Terjemahan Indonesia</span>
+                    <span id="targetLabel">Terjemahan Pegon</span>
                 </div>
                 <textarea id="targetText" placeholder="Hasil terjemahan akan muncul di sini..." readonly></textarea>
                 <div class="char-count" id="targetCharCount">0 karakter</div>
@@ -75,6 +95,9 @@
                     </button>
                     <button class="btn btn-secondary" id="clearTarget">
                         <i class="far fa-trash-alt"></i> Hapus
+                    </button>
+                    <button class="btn btn-info" id="helpBtn">
+                        <i class="fas fa-question-circle"></i> Bantuan
                     </button>
                 </div>
             </div>
