@@ -1,0 +1,172 @@
+ 		:root {
+
+ 			--primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --text-color: #2d3436;
+            --light-color: #f5f6fa;
+            --shadow: 8px 8px 15px #b8b9be, -8px -8px 15px #ffffff;
+            --inner-shadow: inset 3px 3px 5px #b8b9be, inset -3px -3px 5px #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e6e9f0;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: #e6e9f0;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .translator-box {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .text-area-container {
+            position: relative;
+        }
+
+        .label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            resize: vertical;
+            font-size: 16px;
+            background: #e6e9f0;
+            box-shadow: var(--inner-shadow);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        textarea:focus {
+            outline: none;
+            box-shadow: var(--inner-shadow), 0 0 0 2px var(--secondary-color);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: #5649d6;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #00b894;
+        }
+
+        .btn-secondary:hover {
+            background: #00a884;
+            transform: translateY(-2px);
+        }
+
+        .btn-tertiary {
+            background: #fd79a8;
+        }
+
+        .loading {
+            text-align: center;
+            display: none;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(108, 92, 231, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #636e72;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
