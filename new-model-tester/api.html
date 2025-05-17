@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Prototype AI Image</title>
+    <meta name="description" content="Integrate our AI image generation capabilities into your applications with our powerful API. Documentation, examples, and usage guides.">
+    <meta name="keywords" content="AI image API, image generation API, REST API documentation, AI integration">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kenthir.my.id/api.html">
+    <meta property="og:title" content="API Documentation | Prototype AI Image Generator">
+    <meta property="og:description" content="Integrate our AI image generation capabilities into your applications with our powerful API.">
+    <meta property="og:image" content="https://kenthir.my.id/assets/api-docs.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kenthir.my.id/api.html">
+    <meta property="twitter:title" content="API Documentation | Prototype AI Image Generator">
+    <meta property="twitter:description" content="Integrate our AI image generation capabilities into your applications with our powerful API.">
+    <meta property="twitter:image" content="https://kenthir.my.id/assets/api-docs.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kenthir.my.id/api.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#4f46e5">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="author" content="Your Company Name">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <meta name="language" content="English">
+    <meta name="rating" content="general">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="assets/navigation.js"></script>
+    <link rel="stylesheet" href="assets/main.css">
+    <link rel="stylesheet" href="api/api.css">
+</head>
+<body>
+    <div class="container">
+        <div class="api-header">
+            <h1><i class="fas fa-code"></i> API Documentation</h1>
+            <p>Integrate our AI image generation capabilities into your applications with our powerful REST API.</p>
+        </div>
+        
+        <div class="api-key-container">
+            <div class="api-key-header">
+                <h3><i class="fas fa-key"></i> Your API Key</h3>
+                <button id="regenerateKeyBtn" class="copy-btn">
+                    <i class="fas fa-sync-alt"></i> Regenerate
+                </button>
+            </div>
+            <div class="api-key-value">
+                <span id="apiKeyDisplay">sk_live_1234567890abcdef1234567890abcdef</span>
+                <button id="copyKeyBtn" class="copy-btn" data-clipboard-target="#apiKeyDisplay">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 0.5rem;">
+                <i class="fas fa-exclamation-triangle"></i> Keep this key secret. Do not share it in client-side code.
+            </p>
+        </div>
+        
+        <div class="api-docs-container">
+            <div class="api-sidebar">
+                <h3>API Reference</h3>
+                <ul class="api-nav">
+                    <li><a href="#authentication" class="active"><i class="fas fa-lock"></i> Authentication</a></li>
+                    <li><a href="#generate-image"><i class="fas fa-image"></i> Generate Image</a></li>
+                    <li><a href="#list-models"><i class="fas fa-list"></i> List Models</a></li>
+                    <li><a href="#image-variations"><i class="fas fa-copy"></i> Image Variations</a></li>
+                    <li><a href="#error-handling"><i class="fas fa-exclamation-circle"></i> Error Handling</a></li>
+                </ul>
+                
+                <h3 style="margin-top: 1.5rem;">Quick Links</h3>
+                <ul class="api-nav">
+                    <li><a href="#getting-started"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                    <li><a href="#rate-limits"><i class="fas fa-tachometer-alt"></i> Rate Limits</a></li>
+                    <li><a href="#best-practices"><i class="fas fa-lightbulb"></i> Best Practices</a></li>
+                    <li><a href="#libraries"><i class="fas fa-code-branch"></i> Client Libraries</a></li>
+                </ul>
+            </div>
+            
+            <div class="api-content">
+                <section id="getting-started" class="endpoint">
+                    <div class="endpoint-header">
+                        <h2 class="endpoint-title">Getting Started</h2>
+                    </div>
+                    <div class="endpoint-description">
+                        <p>Our API allows you to generate AI-powered images programmatically. To get started:</p>
+                        <ol>
+                            <li>Obtain your API key from the dashboard</li>
+                            <li>Include the API key in the <code>Authorization</code> header</li>
+                            <li>Make requests to our API endpoints</li>
+                        </ol>
+                        
+                        <p>All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail.</p>
+                    </div>
+                </section>
+                
+                <section id="authentication" class="endpoint">
+                    <div class="endpoint-header">
+                        <h2 class="endpoint-title">Authentication</h2>
+                    </div>
+                    <div class="endpoint-description">
+                        <p>Authenticate your API requests by including your secret API key in the <code>Authorization</code> header.</p>
+                        
+                        <div class="code-block">
+                            <pre>curl https://api.kenthir.my.id/v1/images/generate \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"a beautiful sunset"}'</pre>
+                        </div>
+                        
+                        <p>Your API keys carry many privileges, so be sure to keep them secure! Do not share your secret API keys in publicly accessible areas such as GitHub, client-side code, and so forth.</p>
+                    </div>
+                </section>
+                
+                <section id="generate-image" class="endpoint">
+                    <div class="endpoint-header">
+                        <h2 class="endpoint-title">Generate Image</h2>
+                        <div>
+                            <span class="endpoint-method">POST</span>
+                            <span class="endpoint-url">https://api.kenthir.my.id/v1/images/generate</span>
+                        </div>
+                    </div>
+                    <div class="endpoint-description">
+                        <p>Creates an image based on a text prompt. Returns the generated image URL or binary data.</p>
+                    </div>
+                    
+                    <h3 class="section-title">Request Parameters</h3>
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>prompt</code></td>
+                                <td>string</td>
+                                <td>Yes</td>
+                                <td>A text description of the desired image(s). Maximum 1000 characters.</td>
+                            </tr>
+                            <tr>
+                                <td><code>model</code></td>
+                                <td>string</td>
+                                <td>No</td>
+                                <td>ID of the model to use. Defaults to <code>flux</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>size</code></td>
+                                <td>string</td>
+                                <td>No</td>
+                                <td>The size of the generated images. Must be one of <code>1024x1024</code>, <code>1024x1792</code>, or <code>1792x1024</code>. Defaults to <code>1024x1024</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>quality</code></td>
+                                <td>string</td>
+                                <td>No</td>
+                                <td>The quality of the image. Must be one of <code>standard</code>, <code>hd</code>, or <code>ultra</code>. Defaults to <code>standard</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>n</code></td>
+                                <td>integer</td>
+                                <td>No</td>
+                                <td>The number of images to generate. Must be between 1 and 4. Defaults to 1.</td>
+                            </tr>
+                            <tr>
+                                <td><code>seed</code></td>
+                                <td>integer</td>
+                                <td>No</td>
+                                <td>A seed for deterministic generation. If not specified, a random seed will be used.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3 class="section-title">Example Request</h3>
+                    <div class="tabs">
+                        <div class="tab active" data-tab="curl">cURL</div>
+                        <div class="tab" data-tab="javascript">JavaScript</div>
+                        <div class="tab" data-tab="python">Python</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="curl-tab">
+                        <div class="code-block">
+                            <pre>curl https://api.kenthir.my.id/v1/images/generate \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "a beautiful sunset over mountains, digital art",
+    "model": "flux",
+    "size": "1024x1024",
+    "quality": "hd",
+    "n": 1
+  }'</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="javascript-tab">
+                        <div class="code-block">
+                            <pre>const response = await fetch('https://api.kenthir.my.id/v1/images/generate', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    prompt: 'a beautiful sunset over mountains, digital art',
+    model: 'flux',
+    size: '1024x1024',
+    quality: 'hd',
+    n: 1
+  })
+});
+
+const data = await response.json();</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="python-tab">
+                        <div class="code-block">
+                            <pre>import requests
+
+response = requests.post(
+    'https://api.kenthir.my.id/v1/images/generate',
+    headers={
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+    },
+    json={
+        'prompt': 'a beautiful sunset over mountains, digital art',
+        'model': 'flux',
+        'size': '1024x1024',
+        'quality': 'hd',
+        'n': 1
+    }
+)
+
+data = response.json()</pre>
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-title">Response</h3>
+                    <p>The API returns a JSON object containing the generated image URLs and metadata.</p>
+                    
+                    <div class="response-schema">
+                        <table class="params-table">
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>created</code></td>
+                                    <td>integer</td>
+                                    <td>The Unix timestamp (in seconds) when the image was generated.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>data</code></td>
+                                    <td>array</td>
+                                    <td>An array of generated images.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>data[].url</code></td>
+                                    <td>string</td>
+                                    <td>The URL of the generated image. Expires after 24 hours.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>data[].seed</code></td>
+                                    <td>integer</td>
+                                    <td>The seed used for generation.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="response-example">
+                        <div class="code-block">
+                            <pre>{
+  "created": 1680000000,
+  "data": [
+    {
+      "url": "https://api.kenthir.my.id/files/1234567890.png",
+      "seed": 1234567890
+    }
+  ]
+}</pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="rate-limits" class="endpoint">
+                    <div class="endpoint-header">
+                        <h2 class="endpoint-title">Rate Limits</h2>
+                    </div>
+                    <div class="endpoint-description">
+                        <p>We apply rate limits to ensure fair usage of our API:</p>
+                        <ul>
+                            <li><strong>Free tier:</strong> 10 requests per minute, 1000 requests per month</li>
+                            <li><strong>Pro tier:</strong> 30 requests per minute, 10,000 requests per month</li>
+                            <li><strong>Enterprise tier:</strong> 60 requests per minute, unlimited requests</li>
+                        </ul>
+                        
+                        <p>If you exceed these limits, you'll receive a <code>429 Too Many Requests</code> response. Check the following response headers for information about your current rate limit status:</p>
+                        
+                        <table class="params-table">
+                            <thead>
+                                <tr>
+                                    <th>Header</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>X-RateLimit-Limit</code></td>
+                                    <td>The maximum number of requests you're permitted to make per minute.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>X-RateLimit-Remaining</code></td>
+                                    <td>The number of requests remaining in the current rate limit window.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>X-RateLimit-Reset</code></td>
+                                    <td>The time at which the current rate limit window resets in UTC epoch seconds.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <section id="best-practices" class="endpoint">
+                    <div class="endpoint-header">
+                        <h2 class="endpoint-title">Best Practices</h2>
+                    </div>
+                    <div class="endpoint-description">
+                        <h3>Prompt Engineering</h3>
+                        <ul>
+                            <li>Be specific and descriptive in your prompts</li>
+                            <li>Include style references (e.g., "digital art", "photorealistic")</li>
+                            <li>Specify composition and framing when important</li>
+                            <li>Use commas to separate different aspects of your prompt</li>
+                        </ul>
+                        
+                        <h3>Error Handling</h3>
+                        <ul>
+                            <li>Always check for errors in the response</li>
+                            <li>Implement retry logic with exponential backoff</li>
+                            <li>Cache successful responses when appropriate</li>
+                            <li>Handle rate limits gracefully</li>
+                        </ul>
+                        
+                        <h3>Performance</h3>
+                        <ul>
+                            <li>Use webhooks for long-running generation tasks</li>
+                            <li>Consider pre-generating common images</li>
+                            <li>Implement client-side caching of images</li>
+                            <li>Use the appropriate quality setting for your use case</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="api/api.js"></script>
+</body>
+</html>
