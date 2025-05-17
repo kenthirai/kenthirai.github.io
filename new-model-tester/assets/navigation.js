@@ -1,225 +1,428 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Create CSS variables if they don't exist
+    // CSS Variables Setup
     if (!document.documentElement.style.getPropertyValue('--primary')) {
-        document.documentElement.style.setProperty('--primary', '#6c5ce7');
-        document.documentElement.style.setProperty('--primary-dark', '#5649c0');
-        document.documentElement.style.setProperty('--text', '#2d3436');
-        document.documentElement.style.setProperty('--text-light', '#636e72');
-        document.documentElement.style.setProperty('--bg', '#e0e5ec');
-        document.documentElement.style.setProperty('--card-bg', '#e0e5ec');
-        document.documentElement.style.setProperty('--shadow-light', '#ffffff');
-        document.documentElement.style.setProperty('--shadow-dark', '#a3b1c6');
+        const cssVars = {
+            '--primary': '#6c5ce7',
+            '--primary-dark': '#5649c0',
+            '--text': '#2d3436',
+            '--text-light': '#636e72',
+            '--bg': '#e0e5ec',
+            '--card-bg': '#e0e5ec',
+            '--shadow-light': '#ffffff',
+            '--shadow-dark': '#a3b1c6'
+        };
+        Object.entries(cssVars).forEach(([key, value]) => {
+            document.documentElement.style.setProperty(key, value);
+        });
     }
 
-    // 1. Create Navigation Container
+    // Navigation Container
     const navContainer = document.createElement('nav');
+    Object.assign(navContainer.style, {
+        position: 'fixed',
+        bottom: '0',
+        left: '0',
+        width: '100%',
+        backgroundColor: 'var(--card-bg)',
+        boxShadow: '0 -2px 10px rgba(0,0,0,0.1)',
+        zIndex: '1000',
+        display: 'flex',
+        justifyContent: 'space-around',
+        padding: '12px 0',
+        borderTop: '1px solid rgba(255,255,255,0.2)'
+    });
     navContainer.id = 'bottomNavigation';
-    navContainer.style.position = 'fixed';
-    navContainer.style.bottom = '0';
-    navContainer.style.left = '0';
-    navContainer.style.width = '100%';
-    navContainer.style.backgroundColor = 'var(--card-bg)';
-    navContainer.style.boxShadow = '0 -2px 10px rgba(0,0,0,0.1)';
-    navContainer.style.zIndex = '1000';
-    navContainer.style.display = 'flex';
-    navContainer.style.justifyContent = 'space-around';
-    navContainer.style.padding = '12px 0';
-    navContainer.style.borderTop = '1px solid rgba(255,255,255,0.2)';
 
-    // 2. Navigation Items Configuration
+    // Navigation Items
     const navItems = [
-        { 
-            icon: 'fas fa-home', 
-            text: 'Home', 
-            link: 'index.html',
-            active: window.location.pathname.endsWith('index.html')
-        },
-        { 
-            icon: 'fas fa-tags', 
-            text: 'Pricing', 
-            link: 'pricing.html',
-            active: window.location.pathname.endsWith('pricing.html')
-        },
-        { 
-            icon: 'fas fa-code', 
-            text: 'API', 
-            link: 'api.html',
-            active: window.location.pathname.endsWith('api.html')
-        },
-        { 
-            icon: 'fas fa-comment', 
-            text: 'Chat', 
-            link: '#',
-            onClick: function(e) {
-                e.preventDefault();
-                openChatModal();
-            }
-        },
-        { 
-            icon: 'fas fa-bars', 
-            text: 'Menu', 
-            link: '#',
-            onClick: function(e) {
-                e.preventDefault();
-                toggleMenu(this);
-            }
-        }
+        { icon: 'fas fa-home', text: 'Home', link: 'index.html', active: isCurrentPage('index.html') },
+        { icon: 'fas fa-tags', text: 'Pricing', link: 'pricing.html', active: isCurrentPage('pricing.html') },
+        { icon: 'fas fa-code', text: 'API', link: 'api.html', active: isCurrentPage('api.html') },
+        { icon: 'fas fa-comment', text: 'Chat', link: '#', onClick: handleChatClick },
+        { icon: 'fas fa-bars', text: 'Menu', link: '#', onClick: handleMenuClick }
     ];
 
-    // 3. Create Navigation Items
+    function isCurrentPage(page) {
+        return window.location.pathname.endsWith(page);
+    }
+
+    function handleChatClick(e) {
+        e.preventDefault();
+        openChatModal();
+    }
+
+    function handleMenuClick(e) {
+        e.preventDefault();
+        toggleMenu(this);
+    }
+
     navItems.forEach(item => {
+        const navItem = createNavItem(item);
+        navContainer.appendChild(navItem);
+    });
+
+    function createNavItem(item) {
         const navItem = document.createElement('a');
         navItem.href = item.link;
         navItem.className = 'nav-item';
-        navItem.style.display = 'flex';
-        navItem.style.flexDirection = 'column';
-        navItem.style.alignItems = 'center';
-        navItem.style.textDecoration = 'none';
-        navItem.style.color = item.active ? 'var(--primary)' : 'var(--text-light)';
-        navItem.style.fontSize = '12px';
-        navItem.style.transition = 'all 0.3s ease';
-        navItem.style.padding = '8px 12px';
-        navItem.style.borderRadius = '8px';
+        
+        Object.assign(navItem.style, {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textDecoration: 'none',
+            color: item.active ? 'var(--primary)' : 'var(--text-light)',
+            fontSize: '12px',
+            transition: 'all 0.3s ease',
+            padding: '8px 12px',
+            borderRadius: '8px'
+        });
 
-        // Add active indicator
         if (item.active) {
             navItem.style.boxShadow = 'inset 3px 3px 5px var(--shadow-dark), inset -3px -3px 5px var(--shadow-light)';
         }
 
-        // Create icon
         const icon = document.createElement('i');
         icon.className = item.icon;
-        icon.style.fontSize = '20px';
-        icon.style.marginBottom = '4px';
-        icon.style.transition = 'all 0.3s ease';
+        Object.assign(icon.style, {
+            fontSize: '20px',
+            marginBottom: '4px',
+            transition: 'all 0.3s ease'
+        });
 
-        // Create text
         const text = document.createElement('span');
         text.textContent = item.text;
-        text.style.fontSize = '0.75rem';
-        text.style.fontWeight = '500';
+        Object.assign(text.style, {
+            fontSize: '0.75rem',
+            fontWeight: '500'
+        });
 
-        // Add click handler if specified
         if (item.onClick) {
             navItem.addEventListener('click', item.onClick);
         }
 
-        // Hover effects
-        navItem.addEventListener('mouseenter', () => {
-            if (!item.active) {
-                navItem.style.color = 'var(--primary)';
-                icon.style.transform = 'translateY(-2px)';
-            }
-        });
+        navItem.addEventListener('mouseenter', () => !item.active && (() => {
+            navItem.style.color = 'var(--primary)';
+            icon.style.transform = 'translateY(-2px)';
+        })());
 
-        navItem.addEventListener('mouseleave', () => {
-            if (!item.active) {
-                navItem.style.color = 'var(--text-light)';
-                icon.style.transform = 'translateY(0)';
-            }
-        });
+        navItem.addEventListener('mouseleave', () => !item.active && (() => {
+            navItem.style.color = 'var(--text-light)';
+            icon.style.transform = 'translateY(0)';
+        })());
 
-        // Append elements
-        navItem.appendChild(icon);
-        navItem.appendChild(text);
-        navContainer.appendChild(navItem);
-    });
+        navItem.append(icon, text);
+        return navItem;
+    }
 
-    // 4. Add to body
     document.body.appendChild(navContainer);
-    document.body.style.paddingBottom = '72px'; // Space for navigation
+    document.body.style.paddingBottom = '72px';
 
-    // 5. Chat Modal Functionality
-    function openChatModal() {
-        const existingModal = document.getElementById('chatModal');
-        if (existingModal) {
-            existingModal.remove();
-            return;
+    // Image Analysis Functions
+    const ImageAnalyzer = {
+        async fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        },
+
+        async analyze(imageFile, question = "Describe this image in detail and suggest a good prompt for image generation.") {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (!messagesContainer) return;
+
+            try {
+                // Show upload status
+                const uploadMsg = this.createUploadMessage();
+                messagesContainer.appendChild(uploadMsg);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                // Process image
+                const base64Image = await this.fileToBase64(imageFile);
+                const previewMsg = this.createPreviewMessage(base64Image);
+                messagesContainer.appendChild(previewMsg);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                // API Request
+                const response = await this.sendAnalysisRequest(base64Image, question);
+                const analysis = response.choices[0].message.content;
+
+                // Display results
+                uploadMsg.remove();
+                const analysisMsg = this.createAnalysisMessage(analysis);
+                messagesContainer.appendChild(analysisMsg);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                this.setupPromptButton(analysis);
+            } catch (error) {
+                this.showErrorMessage(error.message);
+                console.error("Image analysis error:", error);
+            }
+        },
+
+        createUploadMessage() {
+            const msg = document.createElement('div');
+            msg.className = 'chat-message user';
+            Object.assign(msg.style, {
+                alignSelf: 'flex-end'
+            });
+            msg.innerHTML = `
+                <div class="chat-bubble" style="background-color: var(--primary); color: white; border-radius: 12px 12px 0 12px;">
+                    <i class="fas fa-spinner fa-spin"></i> Analyzing image...
+                </div>
+            `;
+            return msg;
+        },
+
+        createPreviewMessage(imageData) {
+            const msg = document.createElement('div');
+            msg.className = 'chat-message user';
+            Object.assign(msg.style, {
+                alignSelf: 'flex-end',
+                maxWidth: '80%'
+            });
+            msg.innerHTML = `
+                <div style="background-color: var(--primary); border-radius: 12px 12px 0 12px; padding: 8px;">
+                    <img src="${imageData}" style="max-width: 100%; max-height: 200px; border-radius: 8px; display: block;">
+                </div>
+            `;
+            return msg;
+        },
+
+        async sendAnalysisRequest(imageData, question) {
+            const url = "https://text.pollinations.ai/openai";
+            const payload = {
+                model: "openai",
+                messages: [{
+                    role: "user",
+                    content: [
+                        { type: "text", text: question },
+                        { type: "image_url", image_url: { url: imageData } }
+                    ]
+                }],
+                max_tokens: 500
+            };
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`API error: ${response.status} - ${errorText}`);
+            }
+
+            return await response.json();
+        },
+
+        createAnalysisMessage(content) {
+            const msg = document.createElement('div');
+            msg.className = 'chat-message ai';
+            Object.assign(msg.style, {
+                alignSelf: 'flex-start'
+            });
+            msg.innerHTML = `
+                <div class="chat-bubble">
+                    <strong>Image Analysis:</strong><br>
+                    ${content}
+                    <div style="margin-top: 8px;">
+                        <button class="use-as-prompt-btn">
+                            Use as Image Prompt
+                        </button>
+                    </div>
+                </div>
+            `;
+            return msg;
+        },
+
+        setupPromptButton(content) {
+            const textarea = document.querySelector('#chatModal textarea');
+            if (!textarea) return;
+
+            document.querySelector('.use-as-prompt-btn')?.addEventListener('click', () => {
+                textarea.value = content;
+                textarea.focus();
+                textarea.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+        },
+
+        showErrorMessage(message) {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (!messagesContainer) return;
+
+            const msg = document.createElement('div');
+            msg.className = 'chat-message ai';
+            Object.assign(msg.style, {
+                alignSelf: 'flex-start'
+            });
+            msg.innerHTML = `
+                <div class="chat-bubble" style="background-color: #ffebee; color: #c62828; border-radius: 12px 12px 12px 0;">
+                    <i class="fas fa-exclamation-circle"></i> ${message}
+                </div>
+            `;
+            messagesContainer.appendChild(msg);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
+    };
+
+    // Chat Modal
+    function openChatModal() {
+        if (document.getElementById('chatModal')) return;
 
         const modal = document.createElement('div');
         modal.id = 'chatModal';
-        modal.style.position = 'fixed';
-        modal.style.bottom = '72px';
-        modal.style.right = '16px';
-        modal.style.width = '350px';
-        modal.style.maxHeight = '500px';
-        modal.style.backgroundColor = 'var(--card-bg)';
-        modal.style.borderRadius = '12px';
-        modal.style.boxShadow = '5px 5px 15px var(--shadow-dark), -5px -5px 15px var(--shadow-light)';
-        modal.style.zIndex = '1001';
-        modal.style.display = 'flex';
-        modal.style.flexDirection = 'column';
-        modal.style.border = '1px solid rgba(255,255,255,0.1)';
-        modal.style.overflow = 'hidden';
+        Object.assign(modal.style, {
+            position: 'fixed',
+            bottom: '72px',
+            right: '16px',
+            width: '350px',
+            maxHeight: '500px',
+            backgroundColor: 'var(--card-bg)',
+            borderRadius: '12px',
+            boxShadow: '5px 5px 15px var(--shadow-dark), -5px -5px 15px var(--shadow-light)',
+            zIndex: '1001',
+            display: 'flex',
+            flexDirection: 'column',
+            border: '1px solid rgba(255,255,255,0.1)',
+            overflow: 'hidden'
+        });
 
-        // Modal header
+        // Header
         const header = document.createElement('div');
-        header.style.display = 'flex';
-        header.style.justifyContent = 'space-between';
-        header.style.alignItems = 'center';
-        header.style.padding = '12px 16px';
-        header.style.backgroundColor = 'var(--primary)';
-        header.style.color = 'white';
-        header.style.fontWeight = '500';
+        Object.assign(header.style, {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '12px 16px',
+            backgroundColor: 'var(--primary)',
+            color: 'white',
+            fontWeight: '500'
+        });
 
         const title = document.createElement('div');
         title.textContent = 'AI Assistant';
-        header.appendChild(title);
 
         const closeBtn = document.createElement('button');
         closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-        closeBtn.style.background = 'none';
-        closeBtn.style.border = 'none';
-        closeBtn.style.color = 'white';
-        closeBtn.style.cursor = 'pointer';
+        Object.assign(closeBtn.style, {
+            background: 'none',
+            border: 'none',
+            color: 'white',
+            cursor: 'pointer'
+        });
         closeBtn.addEventListener('click', () => modal.remove());
-        header.appendChild(closeBtn);
 
-        // Chat messages container
+        header.append(title, closeBtn);
+
+        // Messages Container
         const messagesContainer = document.createElement('div');
         messagesContainer.id = 'chatMessages';
-        messagesContainer.style.flex = '1';
-        messagesContainer.style.padding = '16px';
-        messagesContainer.style.overflowY = 'auto';
-        messagesContainer.style.display = 'flex';
-        messagesContainer.style.flexDirection = 'column';
-        messagesContainer.style.gap = '12px';
+        Object.assign(messagesContainer.style, {
+            flex: '1',
+            padding: '16px',
+            overflowY: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px'
+        });
 
-        // Add welcome message
+        // Welcome Message
         const welcomeMsg = document.createElement('div');
         welcomeMsg.className = 'chat-message ai';
         welcomeMsg.innerHTML = `
-            <div class="chat-bubble">Hello! How can I help you today?</div>
+            <div class="chat-bubble">Hello! How can I help you today? You can type a message or upload an image for analysis.</div>
         `;
         messagesContainer.appendChild(welcomeMsg);
 
-        // Input area
+        // Input Area
         const inputContainer = document.createElement('div');
-        inputContainer.style.display = 'flex';
-        inputContainer.style.padding = '12px';
-        inputContainer.style.gap = '8px';
-        inputContainer.style.borderTop = '1px solid rgba(0,0,0,0.1)';
+        Object.assign(inputContainer.style, {
+            display: 'flex',
+            padding: '12px',
+            gap: '8px',
+            borderTop: '1px solid rgba(0,0,0,0.1)',
+            alignItems: 'flex-end'
+        });
 
-        const inputField = document.createElement('input');
-        inputField.type = 'text';
-        inputField.placeholder = 'Type your message...';
-        inputField.style.flex = '1';
-        inputField.style.padding = '10px 12px';
-        inputField.style.borderRadius = '8px';
-        inputField.style.border = 'none';
-        inputField.style.backgroundColor = 'var(--bg)';
-        inputField.style.boxShadow = 'inset 3px 3px 5px var(--shadow-dark), inset -3px -3px 5px var(--shadow-light)';
+        // File Upload
+        const fileUploadBtn = document.createElement('label');
+        fileUploadBtn.innerHTML = '<i class="fas fa-paperclip"></i>';
+        Object.assign(fileUploadBtn.style, {
+            padding: '10px 12px',
+            borderRadius: '8px',
+            border: 'none',
+            backgroundColor: 'var(--primary)',
+            color: 'white',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            marginBottom: '4px',
+            flexShrink: '0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        });
 
+        fileUploadBtn.addEventListener('mouseenter', () => {
+            fileUploadBtn.style.backgroundColor = 'var(--primary-dark)';
+        });
+
+        fileUploadBtn.addEventListener('mouseleave', () => {
+            fileUploadBtn.style.backgroundColor = 'var(--primary)';
+        });
+
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.style.display = 'none';
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files?.[0]) {
+                ImageAnalyzer.analyze(e.target.files[0]);
+            }
+        });
+        fileUploadBtn.appendChild(fileInput);
+
+        // Text Input
+        const textarea = document.createElement('textarea');
+        textarea.placeholder = 'Type your message...';
+        Object.assign(textarea.style, {
+            flex: '1',
+            padding: '10px 12px',
+            borderRadius: '8px',
+            border: 'none',
+            backgroundColor: 'var(--bg)',
+            boxShadow: 'inset 3px 3px 5px var(--shadow-dark), inset -3px -3px 5px var(--shadow-light)',
+            resize: 'none',
+            minHeight: '40px',
+            maxHeight: '120px',
+            overflowY: 'auto'
+        });
+
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = `${this.scrollHeight}px`;
+            if (parseInt(this.style.height) > 120) {
+                modal.style.maxHeight = '600px';
+            }
+        });
+
+        // Send Button
         const sendBtn = document.createElement('button');
         sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
-        sendBtn.style.padding = '10px 12px';
-        sendBtn.style.borderRadius = '8px';
-        sendBtn.style.border = 'none';
-        sendBtn.style.backgroundColor = 'var(--primary)';
-        sendBtn.style.color = 'white';
-        sendBtn.style.cursor = 'pointer';
-        sendBtn.style.transition = 'all 0.2s ease';
+        Object.assign(sendBtn.style, {
+            padding: '10px 12px',
+            borderRadius: '8px',
+            border: 'none',
+            backgroundColor: 'var(--primary)',
+            color: 'white',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            marginBottom: '4px',
+            flexShrink: '0'
+        });
 
         sendBtn.addEventListener('mouseenter', () => {
             sendBtn.style.backgroundColor = 'var(--primary-dark)';
@@ -229,27 +432,77 @@ document.addEventListener('DOMContentLoaded', function() {
             sendBtn.style.backgroundColor = 'var(--primary)';
         });
 
-        // Send message function
+        // Message Handling
+        function isImageGenerationRequest(message) {
+            const triggers = [
+                'generate image', 'buat gambar', 'create image',
+                'generate picture', 'buat foto', 'create artwork', 'generate art'
+            ];
+            return triggers.some(trigger => message.toLowerCase().includes(trigger));
+        }
+
+        function redirectToImageGenerator(prompt) {
+            const cleanPrompt = prompt.replace(
+                /generate image|buat gambar|create image|generate picture|buat foto|create artwork|generate art/gi, 
+                ''
+            ).trim();
+            
+            if (isCurrentPage('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/')) {
+                const promptInput = document.getElementById('prompt');
+                const generateBtn = document.querySelector('.action-btn');
+                if (promptInput && generateBtn) {
+                    promptInput.value = cleanPrompt;
+                    promptInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    setTimeout(() => generateBtn.click(), 500);
+                }
+            } else {
+                window.location.href = `index.html?prompt=${encodeURIComponent(cleanPrompt)}`;
+            }
+        }
+
         function sendMessage() {
-            const message = inputField.value.trim();
+            const message = textarea.value.trim();
             if (!message) return;
 
-            // Add user message
+            // User message
             const userMsg = document.createElement('div');
             userMsg.className = 'chat-message user';
-            userMsg.style.alignSelf = 'flex-end';
+            Object.assign(userMsg.style, {
+                alignSelf: 'flex-end'
+            });
             userMsg.innerHTML = `
                 <div class="chat-bubble" style="background-color: var(--primary); color: white; border-radius: 12px 12px 0 12px;">
                     ${message}
                 </div>
             `;
             messagesContainer.appendChild(userMsg);
-            inputField.value = '';
-
-            // Scroll to bottom
+            textarea.value = '';
+            textarea.style.height = 'auto';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-            // Add loading indicator
+            // Handle image generation request
+            if (isImageGenerationRequest(message)) {
+                const aiResponse = document.createElement('div');
+                aiResponse.className = 'chat-message ai';
+                Object.assign(aiResponse.style, {
+                    alignSelf: 'flex-start'
+                });
+                aiResponse.innerHTML = `
+                    <div class="chat-bubble" style="background-color: var(--bg); border-radius: 12px 12px 12px 0;">
+                        I'll redirect you to the image generator. Please wait...
+                    </div>
+                `;
+                messagesContainer.appendChild(aiResponse);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                setTimeout(() => {
+                    modal.remove();
+                    redirectToImageGenerator(message);
+                }, 1500);
+                return;
+            }
+
+            // Normal chat message
             const typingIndicator = document.createElement('div');
             typingIndicator.className = 'chat-message ai';
             typingIndicator.innerHTML = `
@@ -262,58 +515,48 @@ document.addEventListener('DOMContentLoaded', function() {
             messagesContainer.appendChild(typingIndicator);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-            // Call the chat API
+            // Stream chat response
             streamChatCompletion(
                 [{ role: 'user', content: message }],
                 { model: 'openai' },
                 (chunk) => {
-                    // Remove typing indicator if it exists
-                    if (typingIndicator.parentNode) {
-                        typingIndicator.remove();
-                    }
+                    if (typingIndicator.parentNode) typingIndicator.remove();
 
-                    // Get or create AI message container
                     let aiMessage = messagesContainer.lastElementChild;
-                    if (!aiMessage || !aiMessage.classList.contains('ai')) {
+                    if (!aiMessage?.classList?.contains('ai')) {
                         aiMessage = document.createElement('div');
                         aiMessage.className = 'chat-message ai';
-                        aiMessage.style.alignSelf = 'flex-start';
+                        Object.assign(aiMessage.style, {
+                            alignSelf: 'flex-start'
+                        });
                         aiMessage.innerHTML = '<div class="chat-bubble" style="background-color: var(--bg); border-radius: 12px 12px 12px 0;"></div>';
                         messagesContainer.appendChild(aiMessage);
                     }
 
-                    // Append chunk to message
                     const bubble = aiMessage.querySelector('.chat-bubble');
                     bubble.textContent += chunk;
-
-                    // Scroll to bottom
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 }
             );
         }
 
-        // Event listeners
-        inputField.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
+        textarea.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
         });
 
         sendBtn.addEventListener('click', sendMessage);
 
-        // Append elements
-        inputContainer.appendChild(inputField);
-        inputContainer.appendChild(sendBtn);
-
-        modal.appendChild(header);
-        modal.appendChild(messagesContainer);
-        modal.appendChild(inputContainer);
+        // Assemble components
+        inputContainer.append(fileUploadBtn, textarea, sendBtn);
+        modal.append(header, messagesContainer, inputContainer);
 
         // Add styles
         const style = document.createElement('style');
         style.textContent = `
-            .chat-message {
-                max-width: 80%;
-                margin-bottom: 8px;
-            }
+            .chat-message { max-width: 80%; margin-bottom: 8px; }
             .chat-bubble {
                 padding: 10px 14px;
                 background-color: var(--bg);
@@ -330,14 +573,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 0%, 60%, 100% { transform: translateY(0); }
                 30% { transform: translateY(-4px); }
             }
+            .use-as-prompt-btn {
+                background: var(--primary);
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 4px 8px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+            .use-as-prompt-btn:hover {
+                background-color: var(--primary-dark) !important;
+            }
         `;
         modal.appendChild(style);
 
         document.body.appendChild(modal);
-        inputField.focus();
+        textarea.focus();
+
+        // Handle initial prompt if in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialPrompt = urlParams.get('prompt');
+        if (initialPrompt) {
+            textarea.value = initialPrompt;
+            setTimeout(() => {
+                sendMessage();
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }, 500);
+        }
     }
 
-    // Chat API function
+    // Chat Streaming Function
     async function streamChatCompletion(messages, options = {}, onChunkReceived) {
         const url = "https://text.pollinations.ai/openai";
         const payload = {
@@ -359,9 +625,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!response.ok) {
                 const errorText = await response.text();
-                throw new Error(
-                    `HTTP error! status: ${response.status}, message: ${errorText}`
-                );
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
             }
 
             const reader = response.body.getReader();
@@ -373,7 +637,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (done) break;
 
                 buffer += decoder.decode(value, { stream: true });
-
                 const lines = buffer.split("\n\n");
                 buffer = lines.pop();
 
@@ -384,9 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         try {
                             const chunk = JSON.parse(dataStr);
                             const content = chunk?.choices?.[0]?.delta?.content;
-                            if (content && onChunkReceived) {
-                                onChunkReceived(content);
-                            }
+                            if (content) onChunkReceived(content);
                         } catch (e) {
                             console.error("Failed to parse stream chunk:", dataStr, e);
                         }
@@ -398,10 +659,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ... (keep existing toggleMenu, closeMenuOnClickOutside, navigateTo, 
-    // toggleDarkMode, updateDarkModeToggle functions and dark mode initialization)
-
-    // Menu Dropdown Functionality (keep existing implementation)
+    // Menu Functionality
     function toggleMenu(button) {
         const existingMenu = document.getElementById('dropdownMenu');
         if (existingMenu) {
@@ -411,68 +669,73 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const menu = document.createElement('div');
         menu.id = 'dropdownMenu';
-        menu.style.position = 'fixed';
-        menu.style.bottom = '72px';
-        menu.style.right = '16px';
-        menu.style.backgroundColor = 'var(--card-bg)';
-        menu.style.borderRadius = '12px';
-        menu.style.boxShadow = '5px 5px 15px var(--shadow-dark), -5px -5px 15px var(--shadow-light)';
-        menu.style.padding = '0.75rem 0';
-        menu.style.zIndex = '1001';
-        menu.style.width = '220px';
-        menu.style.animation = 'fadeIn 0.2s ease-out';
-        menu.style.border = '1px solid rgba(255,255,255,0.1)';
-        menu.style.overflow = 'hidden';
+        Object.assign(menu.style, {
+            position: 'fixed',
+            bottom: '72px',
+            right: '16px',
+            backgroundColor: 'var(--card-bg)',
+            borderRadius: '12px',
+            boxShadow: '5px 5px 15px var(--shadow-dark), -5px -5px 15px var(--shadow-light)',
+            padding: '0.75rem 0',
+            zIndex: '1001',
+            width: '220px',
+            animation: 'fadeIn 0.2s ease-out',
+            border: '1px solid rgba(255,255,255,0.1)',
+            overflow: 'hidden'
+        });
 
-        // Menu items
         const menuItems = [
-            { 
-                icon: 'fas fa-user', 
-                text: 'Profile', 
-                action: () => navigateTo('profile.html')
-            },
-            { 
-                icon: 'fas fa-history', 
-                text: 'History', 
-                action: () => navigateTo('history.html')
-            },
             { 
                 icon: 'fas fa-cog', 
                 text: 'Settings', 
-                action: () => navigateTo('settings.html')
+                action: handleSettingsClick
             },
             { 
                 icon: 'fas fa-moon', 
                 text: 'Dark Mode', 
                 action: toggleDarkMode,
                 toggle: true
-            },
-            { 
-                icon: 'fas fa-sign-out-alt', 
-                text: 'Sign Out', 
-                action: () => navigateTo('logout.html'),
-                danger: true
             }
         ];
+
+        function handleSettingsClick() {
+            if (isCurrentPage('index.html')) {
+                const advancedToggle = document.getElementById('advancedToggle');
+                const advancedParams = document.getElementById('advancedParams');
+                if (advancedToggle && advancedParams) {
+                    advancedParams.style.display = 'block';
+                    advancedToggle.classList.add('active');
+                    advancedParams.scrollIntoView({ behavior: 'smooth' });
+                }
+            } else {
+                window.location.href = 'index.html';
+                setTimeout(() => {
+                    const advancedToggle = document.getElementById('advancedToggle');
+                    if (advancedToggle) advancedToggle.click();
+                }, 500);
+            }
+        }
 
         menuItems.forEach(item => {
             const menuItem = document.createElement('div');
             menuItem.className = 'menu-item';
-            menuItem.style.display = 'flex';
-            menuItem.style.alignItems = 'center';
-            menuItem.style.padding = '0.75rem 1.25rem';
-            menuItem.style.cursor = 'pointer';
-            menuItem.style.transition = 'all 0.2s ease';
-            menuItem.style.color = item.danger ? '#ff7675' : 'var(--text)';
-            
+            Object.assign(menuItem.style, {
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0.75rem 1.25rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                color: 'var(--text)'
+            });
+
             menuItem.addEventListener('mouseenter', () => {
                 menuItem.style.backgroundColor = 'rgba(108, 92, 231, 0.1)';
             });
-            
+
             menuItem.addEventListener('mouseleave', () => {
                 menuItem.style.backgroundColor = 'transparent';
             });
-            
+
             menuItem.addEventListener('click', () => {
                 item.action();
                 menu.remove();
@@ -480,43 +743,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const icon = document.createElement('i');
             icon.className = item.icon;
-            icon.style.marginRight = '12px';
-            icon.style.width = '20px';
-            icon.style.textAlign = 'center';
-            icon.style.color = item.danger ? '#ff7675' : 'var(--primary)';
+            Object.assign(icon.style, {
+                marginRight: '12px',
+                width: '20px',
+                textAlign: 'center',
+                color: 'var(--primary)'
+            });
 
             const text = document.createElement('span');
             text.textContent = item.text;
-            text.style.fontSize = '0.85rem';
-            text.style.fontWeight = '500';
+            Object.assign(text.style, {
+                fontSize: '0.85rem',
+                fontWeight: '500'
+            });
 
             if (item.toggle) {
                 const toggle = document.createElement('div');
                 toggle.className = 'dark-mode-toggle';
-                toggle.style.marginLeft = 'auto';
-                toggle.style.width = '36px';
-                toggle.style.height = '20px';
-                toggle.style.backgroundColor = 'rgba(108, 92, 231, 0.2)';
-                toggle.style.borderRadius = '10px';
-                toggle.style.position = 'relative';
-                toggle.style.transition = 'all 0.3s ease';
+                Object.assign(toggle.style, {
+                    marginLeft: 'auto',
+                    width: '36px',
+                    height: '20px',
+                    backgroundColor: 'rgba(108, 92, 231, 0.2)',
+                    borderRadius: '10px',
+                    position: 'relative',
+                    transition: 'all 0.3s ease'
+                });
 
                 const toggleCircle = document.createElement('div');
-                toggleCircle.style.position = 'absolute';
-                toggleCircle.style.width = '16px';
-                toggleCircle.style.height = '16px';
-                toggleCircle.style.backgroundColor = 'var(--primary)';
-                toggleCircle.style.borderRadius = '50%';
-                toggleCircle.style.top = '2px';
-                toggleCircle.style.left = '2px';
-                toggleCircle.style.transition = 'all 0.3s ease';
+                Object.assign(toggleCircle.style, {
+                    position: 'absolute',
+                    width: '16px',
+                    height: '16px',
+                    backgroundColor: 'var(--primary)',
+                    borderRadius: '50%',
+                    top: '2px',
+                    left: '2px',
+                    transition: 'all 0.3s ease'
+                });
 
                 toggle.appendChild(toggleCircle);
                 menuItem.appendChild(toggle);
             }
 
-            menuItem.appendChild(icon);
-            menuItem.appendChild(text);
+            menuItem.append(icon, text);
             menu.appendChild(menuItem);
         });
 
@@ -525,23 +795,20 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             document.addEventListener('click', closeMenuOnClickOutside);
         }, 10);
-    }
 
-    function closeMenuOnClickOutside(e) {
-        const menu = document.getElementById('dropdownMenu');
-        const navItems = document.querySelectorAll('.nav-item');
-        const isClickInside = Array.from(navItems).some(item => item.contains(e.target));
-        
-        if (menu && !menu.contains(e.target) && !isClickInside) {
-            menu.remove();
-            document.removeEventListener('click', closeMenuOnClickOutside);
+        function closeMenuOnClickOutside(e) {
+            const menu = document.getElementById('dropdownMenu');
+            const navItems = document.querySelectorAll('.nav-item');
+            const isClickInside = Array.from(navItems).some(item => item.contains(e.target));
+            
+            if (menu && !menu.contains(e.target) && !isClickInside) {
+                menu.remove();
+                document.removeEventListener('click', closeMenuOnClickOutside);
+            }
         }
     }
 
-    function navigateTo(url) {
-        window.location.href = url;
-    }
-
+    // Dark Mode Functions
     function toggleDarkMode() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
@@ -551,26 +818,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateDarkModeToggle() {
         const toggle = document.querySelector('.dark-mode-toggle');
-        if (toggle) {
-            const circle = toggle.firstChild;
-            if (document.body.classList.contains('dark-mode')) {
-                circle.style.transform = 'translateX(16px)';
-                circle.style.backgroundColor = 'var(--primary-dark)';
-                toggle.style.backgroundColor = 'rgba(108, 92, 231, 0.5)';
-            } else {
-                circle.style.transform = 'translateX(0)';
-                circle.style.backgroundColor = 'var(--primary)';
-                toggle.style.backgroundColor = 'rgba(108, 92, 231, 0.2)';
-            }
+        if (!toggle) return;
+
+        const circle = toggle.firstChild;
+        if (document.body.classList.contains('dark-mode')) {
+            circle.style.transform = 'translateX(16px)';
+            circle.style.backgroundColor = 'var(--primary-dark)';
+            toggle.style.backgroundColor = 'rgba(108, 92, 231, 0.5)';
+        } else {
+            circle.style.transform = 'translateX(0)';
+            circle.style.backgroundColor = 'var(--primary)';
+            toggle.style.backgroundColor = 'rgba(108, 92, 231, 0.2)';
         }
     }
 
-    // Check for saved dark mode preference
+    // Initialize Dark Mode
     if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark-mode');
     }
 
-    // Add global styles
+    // Global Styles
     const style = document.createElement('style');
     style.textContent = `
         @keyframes fadeIn {
@@ -598,6 +865,5 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 
-    // Initialize dark mode toggle if needed
     updateDarkModeToggle();
 });
