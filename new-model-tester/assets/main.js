@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // DOM elements
+    // ====================== DOM Elements ======================
     const elements = {
         promptInput: document.getElementById('prompt'),
         imageSizeSelect: document.getElementById('imageSize'),
@@ -22,10 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
         advancedParams: document.getElementById('advancedParams'),
         downloadBtn: document.getElementById('downloadBtn'),
         historyBtn: document.getElementById('historyBtn'),
-        imageContainer: document.querySelector('.image-container')
+        imageContainer: document.querySelector('.image-container'),
+        clearPromptBtn: document.getElementById('clearPromptBtn')
     };
 
-    // State management
+    // ====================== State Management ======================
     const state = {
         isDragging: false,
         startX: 0,
@@ -37,10 +38,11 @@ document.addEventListener('DOMContentLoaded', function() {
         lastPrompt: '',
         currentImageUrl: null,
         zoomActive: false,
-        zoomBtn: null
+        zoomBtn: null,
+        MAX_RETRIES: 2
     };
 
-    // Initialize from localStorage
+    // ====================== Initialization ======================
     function initFromStorage() {
         const savedState = localStorage.getItem('aiImageGeneratorState');
         if (savedState) {
@@ -61,10 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         } else {
-            elements.modelSelect.value = 'grizk';
-            elements.qualitySelect.value = 'premium';
+            elements.modelSelect.value = 'flux';
+            elements.qualitySelect.value = 'hd';
             saveToStorage();
         }
+        
+        showModelSpecificGuidance();
     }
 
     function saveToStorage() {
@@ -79,11 +83,10 @@ document.addEventListener('DOMContentLoaded', function() {
             private: elements.privateCheckbox.checked,
             advancedVisible: elements.advancedParams.style.display === 'block'
         };
-        
         localStorage.setItem('aiImageGeneratorState', JSON.stringify(currentState));
     }
 
-    // Toggle advanced options
+    // ====================== UI Event Handlers ======================
     elements.advancedToggle.addEventListener('click', function() {
         const isHidden = elements.advancedParams.style.display !== 'block';
         elements.advancedParams.style.display = isHidden ? 'block' : 'none';
@@ -91,7 +94,17 @@ document.addEventListener('DOMContentLoaded', function() {
         saveToStorage();
     });
 
-    // Slide to generate functionality
+    elements.clearPromptBtn.addEventListener('click', function() {
+        elements.promptInput.value = '';
+        saveToStorage();
+    });
+
+    elements.modelSelect.addEventListener('change', function() {
+        showModelSpecificGuidance();
+        saveToStorage();
+    });
+
+    // ====================== Slide Generation ======================
     elements.slideThumb.addEventListener('mousedown', startDrag);
     elements.slideThumb.addEventListener('touchstart', startDrag, { passive: false });
 
@@ -105,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function() {
         state.isDragging = true;
         elements.slideContainer.classList.add('dragging');
         elements.slideThumb.classList.add('active');
-        
         state.startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
         state.thumbStartX = elements.slideThumb.offsetLeft;
         e.preventDefault();
@@ -113,21 +125,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function drag(e) {
         if (!state.isDragging) return;
-        
         state.currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
         const distance = state.currentX - state.startX;
         let newPosition = state.thumbStartX + distance;
-        
         newPosition = Math.max(5, Math.min(newPosition, state.maxSlideDistance));
         
         elements.slideThumb.style.left = `${newPosition}px`;
         elements.slideProgress.style.width = `${newPosition}px`;
-        
-        if (newPosition > state.maxSlideDistance * 0.5) {
-            elements.slideTrack.textContent = "Release to Generate";
-        } else {
-            elements.slideTrack.textContent = "Slide to Generate";
-        }
+        elements.slideTrack.textContent = newPosition > state.maxSlideDistance * 0.5 
+            ? "Release to Generate" 
+            : "Slide to Generate";
         
         e.preventDefault();
     }
@@ -151,9 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.slideThumb.style.left = `${state.maxSlideDistance}px`;
         elements.slideProgress.style.width = '100%';
         elements.slideTrack.textContent = "Generating...";
-        
-        const icon = elements.slideThumb.querySelector('i');
-        icon.className = 'fas fa-check';
+        elements.slideThumb.querySelector('i').className = 'fas fa-check';
         
         generateImage();
     }
@@ -161,20 +166,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetSlide() {
         elements.slideThumb.style.transition = 'left 0.3s ease, background 0.3s ease';
         elements.slideProgress.style.transition = 'width 0.3s ease';
-        
         elements.slideThumb.classList.remove('success');
         elements.slideThumb.style.left = '5px';
         elements.slideProgress.style.width = '0';
         elements.slideTrack.textContent = "Slide to Generate";
         
         const icon = elements.slideThumb.querySelector('i');
-        if (icon) {
-            icon.className = 'fas fa-arrow-right';
-        }
-        
-        state.isDragging = false;
-        elements.slideContainer.classList.remove('dragging');
-        elements.slideThumb.classList.remove('active');
+        if (icon) icon.className = 'fas fa-arrow-right';
         
         setTimeout(() => {
             elements.slideThumb.style.transition = '';
@@ -182,10 +180,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 300);
     }
 
-    // Generate image function
+    // ====================== Image Generation ======================
     async function generateImage() {
         const prompt = elements.promptInput.value.trim();
-        
         if (!prompt) {
             showError('Please enter a prompt');
             resetSlide();
@@ -199,51 +196,19 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.downloadBtn.style.display = 'none';
         
         const [width, height] = elements.imageSizeSelect.value.split('x');
-        
         const params = {
             width: width,
             height: height,
             model: elements.modelSelect.value,
             quality: elements.qualitySelect.value,
-            enhance: elements.enhanceCheckbox.checked ? 'true' : undefined,
-            nologo: elements.nologoCheckbox.checked ? 'true' : undefined,
-            private: elements.privateCheckbox.checked ? 'true' : undefined,
-            sharpness: 95,
-            texture_detail: 'ultra',
-            hdr: 'true',
-            anti_aliasing: 'high'
+            enhance: elements.enhanceCheckbox.checked,
+            nologo: elements.nologoCheckbox.checked,
+            private: elements.privateCheckbox.checked,
+            seed: elements.seedInput.value.trim() || Math.floor(Math.random() * 1000000)
         };
-        
-        if (prompt === state.lastPrompt || !elements.seedInput.value.trim()) {
-            const randomSeed = Math.floor(Math.random() * 1000000);
-            params.seed = randomSeed;
-            elements.seedInput.value = randomSeed;
-        } else if (elements.seedInput.value.trim()) {
-            params.seed = elements.seedInput.value.trim();
-        }
-        
-        state.lastPrompt = prompt;
-        
-        let finalPrompt = prompt;
-        if (elements.modelSelect.value === 'grizk') {
-            finalPrompt = `A hyper-detailed hybrid 3D animation render combining Pixar's technical perfection with Ghibli's artistic charm: "${prompt}".
 
-Render with these premium qualities:
-1. Ultra HD Clarity - 16K resolution with crisp anti-aliasing
-2. Cinematic Lighting - Ray-traced reflections with HDR environment maps
-3. Material Perfection - PBR materials with 4K texture maps
-4. Ghibli Artistic Touches - Visible painterly texture in backgrounds
-
-Technical Specifications:
-- Render engine: Cycles with 4096 samples
-- Output: EXR 32-bit HDR
-- Post-processing: ACES color grading`;
-        }
-        
-        Object.keys(params).forEach(key => params[key] === undefined && delete params[key]);
-        
         try {
-            const imageUrl = await fetchImage(finalPrompt, params);
+            const imageUrl = await fetchImageWithRetry(prompt, params);
             state.currentImageUrl = imageUrl;
             
             elements.generatedImage.onload = function() {
@@ -251,19 +216,22 @@ Technical Specifications:
                 elements.generatedImage.style.display = 'block';
                 elements.downloadBtn.style.display = 'flex';
                 resetSlide();
-                
-                // Create and setup zoom button
                 createZoomButton();
             };
+            
+            elements.generatedImage.onerror = function() {
+                throw new Error('Failed to load generated image');
+            };
+            
             elements.generatedImage.src = imageUrl;
+            saveToStorage();
             
             if (window.addToHistory) {
                 window.addToHistory(prompt, imageUrl, params);
             }
             
-            saveToStorage();
         } catch (error) {
-            console.error('Error generating image:', error);
+            console.error('Generation error:', error);
             showError(error.message || 'Failed to generate image. Please try again.');
             elements.loading.style.display = 'none';
             elements.placeholder.style.display = 'flex';
@@ -271,36 +239,114 @@ Technical Specifications:
         }
     }
 
-    // Create zoom button
-    function createZoomButton() {
-        // Remove existing zoom button if any
-        if (state.zoomBtn) {
-            state.zoomBtn.remove();
+    async function fetchImageWithRetry(prompt, params, retryCount = 0) {
+        try {
+            return await fetchImage(prompt, params);
+        } catch (error) {
+            if (retryCount < state.MAX_RETRIES) {
+                console.log(`Retrying (${retryCount + 1}/${state.MAX_RETRIES})...`);
+                await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                return fetchImageWithRetry(prompt, params, retryCount + 1);
+            }
+            throw error;
         }
+    }
 
-        // Create zoom button
+    async function fetchImage(prompt, params = {}) {
+        // Convert boolean parameters to strings
+        const requestParams = {
+            ...params,
+            enhance: params.enhance ? 'true' : 'false',
+            nologo: params.nologo ? 'true' : 'false',
+            private: params.private ? 'true' : 'false'
+        };
+
+        const queryParams = new URLSearchParams();
+        Object.entries(requestParams).forEach(([key, value]) => {
+            if (value !== undefined && value !== null) {
+                queryParams.append(key, value);
+            }
+        });
+        
+        const encodedPrompt = encodeURIComponent(prompt);
+        const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?${queryParams.toString()}`;
+        
+        console.log('Fetching image from:', url);
+        
+        const response = await fetch(url, { headers: { 'Accept': 'image/*' } });
+        if (!response.ok) throw new Error(`Server returned ${response.status}`);
+        
+        const blob = await response.blob();
+        if (!blob.type.startsWith('image/')) throw new Error('Invalid image format');
+        
+        return URL.createObjectURL(blob);
+    }
+
+    // ====================== UI Helpers ======================
+    function showModelSpecificGuidance() {
+        const existingGuidance = document.querySelector('.model-guidance');
+        if (existingGuidance) existingGuidance.remove();
+        
+        const guidance = document.createElement('div');
+        guidance.className = 'model-guidance';
+        
+        if (elements.modelSelect.value === 'turbo') {
+            guidance.innerHTML = `
+                <div class="guidance-message turbo-info">
+                    <i class="fas fa-bolt"></i>
+                    <strong>Turbo Model:</strong> Faster generation with slightly reduced quality.
+                </div>
+            `;
+        } else if (elements.modelSelect.value === 'gptimage') {
+            guidance.innerHTML = `
+                <div class="guidance-message gptimage-info">
+                    <i class="fas fa-brain"></i>
+                    <strong>GPTImage Model:</strong> Advanced AI model for highly detailed and creative images.
+                </div>
+            `;
+        }
+        
+        if (guidance.innerHTML) {
+            document.querySelector('.container').insertBefore(guidance, document.querySelector('.input-group'));
+        }
+    }
+
+    function showError(message) {
+        elements.errorText.textContent = message;
+        elements.errorMessage.style.display = 'block';
+        setTimeout(() => elements.errorMessage.style.opacity = '1', 10);
+        
+        setTimeout(() => {
+            elements.errorMessage.style.opacity = '0';
+            setTimeout(() => elements.errorMessage.style.display = 'none', 300);
+        }, 5000);
+    }
+
+    function createZoomButton() {
+        if (state.zoomBtn) state.zoomBtn.remove();
+        
         state.zoomBtn = document.createElement('button');
         state.zoomBtn.className = 'zoom-btn';
         state.zoomBtn.innerHTML = '<i class="fas fa-search-plus"></i>';
         state.zoomBtn.title = 'Zoom Image';
         
-        // Position the button absolutely within image container
-        elements.imageContainer.style.position = 'relative';
-        state.zoomBtn.style.position = 'absolute';
-        state.zoomBtn.style.top = '10px';
-        state.zoomBtn.style.right = '10px';
-        state.zoomBtn.style.zIndex = '10';
-        state.zoomBtn.style.background = 'rgba(0,0,0,0.6)';
-        state.zoomBtn.style.border = 'none';
-        state.zoomBtn.style.borderRadius = '50%';
-        state.zoomBtn.style.width = '36px';
-        state.zoomBtn.style.height = '36px';
-        state.zoomBtn.style.color = 'white';
-        state.zoomBtn.style.cursor = 'pointer';
-        state.zoomBtn.style.display = 'flex';
-        state.zoomBtn.style.alignItems = 'center';
-        state.zoomBtn.style.justifyContent = 'center';
-        state.zoomBtn.style.transition = 'all 0.3s ease';
+        Object.assign(state.zoomBtn.style, {
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            zIndex: '10',
+            background: 'rgba(0,0,0,0.6)',
+            border: 'none',
+            borderRadius: '50%',
+            width: '36px',
+            height: '36px',
+            color: 'white',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.3s ease'
+        });
         
         state.zoomBtn.addEventListener('mouseenter', () => {
             state.zoomBtn.style.background = 'rgba(0,0,0,0.8)';
@@ -312,59 +358,62 @@ Technical Specifications:
             state.zoomBtn.style.transform = 'scale(1)';
         });
         
-        // Add click handler to show zoom overlay
         state.zoomBtn.addEventListener('click', showZoomOverlay);
-        
         elements.imageContainer.appendChild(state.zoomBtn);
     }
 
-    // Show zoom overlay
     function showZoomOverlay() {
-        if (!state.currentImageUrl) return;
+        if (!state.currentImageUrl || state.zoomActive) return;
+        state.zoomActive = true;
         
-        // Create overlay container
         const overlay = document.createElement('div');
         overlay.className = 'zoom-overlay';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
-        overlay.style.zIndex = '1000';
-        overlay.style.display = 'flex';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.style.cursor = 'zoom-out';
+        Object.assign(overlay.style, {
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.9)',
+            zIndex: '1000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'zoom-out',
+            opacity: '0',
+            transition: 'opacity 0.3s ease'
+        });
         
-        // Create zoomed image
         const zoomedImg = document.createElement('img');
         zoomedImg.src = state.currentImageUrl;
-        zoomedImg.style.maxWidth = '90%';
-        zoomedImg.style.maxHeight = '90%';
-        zoomedImg.style.objectFit = 'contain';
-        zoomedImg.style.borderRadius = '8px';
-        zoomedImg.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+        Object.assign(zoomedImg.style, {
+            maxWidth: '90%',
+            maxHeight: '90%',
+            objectFit: 'contain',
+            borderRadius: '8px',
+            boxShadow: '0 0 20px rgba(0,0,0,0.5)'
+        });
         
-        // Create close button
         const closeBtn = document.createElement('button');
         closeBtn.className = 'zoom-close-btn';
         closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-        closeBtn.style.position = 'absolute';
-        closeBtn.style.top = '20px';
-        closeBtn.style.right = '20px';
-        closeBtn.style.background = 'rgba(255,255,255,0.2)';
-        closeBtn.style.border = 'none';
-        closeBtn.style.borderRadius = '50%';
-        closeBtn.style.width = '40px';
-        closeBtn.style.height = '40px';
-        closeBtn.style.color = 'white';
-        closeBtn.style.cursor = 'pointer';
-        closeBtn.style.fontSize = '1.2rem';
-        closeBtn.style.display = 'flex';
-        closeBtn.style.alignItems = 'center';
-        closeBtn.style.justifyContent = 'center';
-        closeBtn.style.transition = 'all 0.3s ease';
+        Object.assign(closeBtn.style, {
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            background: 'rgba(255,255,255,0.2)',
+            border: 'none',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            color: 'white',
+            cursor: 'pointer',
+            fontSize: '1.2rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.3s ease'
+        });
         
         closeBtn.addEventListener('mouseenter', () => {
             closeBtn.style.background = 'rgba(255,255,255,0.3)';
@@ -376,16 +425,13 @@ Technical Specifications:
             closeBtn.style.transform = 'rotate(0deg)';
         });
         
-        // Add elements to overlay
         overlay.appendChild(zoomedImg);
         overlay.appendChild(closeBtn);
         document.body.appendChild(overlay);
-        
-        // Set state
-        state.zoomActive = true;
         document.body.style.overflow = 'hidden';
         
-        // Close handlers
+        setTimeout(() => overlay.style.opacity = '1', 10);
+        
         function closeOverlay() {
             overlay.style.opacity = '0';
             setTimeout(() => {
@@ -398,63 +444,16 @@ Technical Specifications:
         overlay.addEventListener('click', closeOverlay);
         closeBtn.addEventListener('click', closeOverlay);
         
-        // Close with ESC key
-        document.addEventListener('keydown', function escHandler(e) {
-            if (e.key === 'Escape') {
-                closeOverlay();
+        const escHandler = (e) => e.key === 'Escape' && closeOverlay();
+        document.addEventListener('keydown', escHandler);
+        overlay.addEventListener('transitionend', () => {
+            if (overlay.style.opacity === '0') {
                 document.removeEventListener('keydown', escHandler);
             }
         });
-        
-        // Animate appearance
-        setTimeout(() => {
-            overlay.style.opacity = '1';
-        }, 10);
     }
 
-    async function fetchImage(prompt, params = {}) {
-        const queryParams = new URLSearchParams();
-        
-        Object.keys(params).forEach(key => {
-            queryParams.append(key, params[key]);
-        });
-        
-        const encodedPrompt = encodeURIComponent(prompt);
-        const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?${queryParams.toString()}`;
-        
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'image/*'
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`Server returned ${response.status}: ${response.statusText}`);
-            }
-            
-            const imageBlob = await response.blob();
-            
-            if (!imageBlob.type.startsWith('image/')) {
-                throw new Error('Invalid image format received');
-            }
-            
-            return URL.createObjectURL(imageBlob);
-        } catch (error) {
-            console.error('Fetch error:', error);
-            throw new Error('Failed to download image. Please check your connection and try again.');
-        }
-    }
-
-    function showError(message) {
-        elements.errorText.textContent = message;
-        elements.errorMessage.style.display = 'block';
-        setTimeout(() => {
-            elements.errorMessage.style.opacity = '1';
-        }, 10);
-    }
-
+    // ====================== Download Handler ======================
     elements.downloadBtn.addEventListener('click', function() {
         if (!state.currentImageUrl) return;
         
@@ -466,13 +465,11 @@ Technical Specifications:
         document.body.removeChild(link);
     });
 
-    // Initialize from storage
+    // ====================== Initialization ======================
     initFromStorage();
 
-    // Save state on any change
-    const saveEvents = ['input', 'change', 'click'];
-    
-    saveEvents.forEach(event => {
+    // Save state on changes
+    ['input', 'change', 'click'].forEach(event => {
         elements.promptInput.addEventListener(event, saveToStorage);
         elements.imageSizeSelect.addEventListener(event, saveToStorage);
         elements.modelSelect.addEventListener(event, saveToStorage);
@@ -483,9 +480,9 @@ Technical Specifications:
         elements.privateCheckbox.addEventListener(event, saveToStorage);
     });
 
-    // Add animation to loading text
-    const loadingText = document.createElement('style');
-    loadingText.textContent = `
+    // Add loading animation
+    const loadingStyles = document.createElement('style');
+    loadingStyles.textContent = `
         @keyframes pulse {
             0% { opacity: 0.8; transform: scale(0.98); }
             50% { opacity: 1; transform: scale(1.02); }
@@ -505,6 +502,25 @@ Technical Specifications:
         .zoom-btn:hover {
             transform: scale(1.1);
         }
+        .model-guidance {
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .turbo-info {
+            background-color: rgba(13, 110, 253, 0.2);
+            border-left: 4px solid #0d6efd;
+            color: #0d6efd;
+        }
+        .gptimage-info {
+            background-color: rgba(156, 39, 176, 0.2);
+            border-left: 4px solid #9c27b0;
+            color: #9c27b0;
+        }
+        .guidance-message i {
+            margin-right: 0.5rem;
+        }
     `;
-    document.head.appendChild(loadingText);
+    document.head.appendChild(loadingStyles);
 });
