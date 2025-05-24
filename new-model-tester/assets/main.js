@@ -204,7 +204,8 @@ document.addEventListener('DOMContentLoaded', function() {
             enhance: elements.enhanceCheckbox.checked,
             nologo: elements.nologoCheckbox.checked,
             private: elements.privateCheckbox.checked,
-            seed: elements.seedInput.value.trim() || Math.floor(Math.random() * 1000000)
+            // Pastikan seed selalu baru dengan kombinasi timestamp dan random number
+            seed: elements.seedInput.value.trim() || `${Date.now()}-${Math.floor(Math.random() * 1000000)}`
         };
 
         try {
@@ -253,7 +254,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function fetchImage(prompt, params = {}) {
-        // Convert boolean parameters to strings
         const requestParams = {
             ...params,
             enhance: params.enhance ? 'true' : 'false',
