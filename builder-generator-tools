@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced AI Image Generator Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <style>
+        .config-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0d6efd;
+        }
+        .code-container {
+            background: #282c34;
+            color: #abb2bf;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+        }
+        .nav-tabs .nav-link.active {
+            font-weight: bold;
+            border-bottom: 3px solid #0d6efd;
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(13, 110, 253, 0.1);
+            font-weight: bold;
+        }
+        .bootstrap-select .dropdown-menu {
+            z-index: 1060 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <h1 class="text-center mb-4">Advanced AI Image Generator Builder</h1>
+        
+        <ul class="nav nav-tabs mb-4" id="configTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="framework-tab" data-bs-toggle="tab" data-bs-target="#framework" type="button">Frameworks</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="design-tab" data-bs-toggle="tab" data-bs-target="#design" type="button">Design</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="features-tab" data-bs-toggle="tab" data-bs-target="#features" type="button">Features</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced" type="button">Advanced</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="configTabsContent">
+            <!-- Frameworks Tab -->
+            <div class="tab-pane fade show active" id="framework" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="config-section">
+                            <h4><i class="fas fa-code me-2"></i>Frontend</h4>
+                            <div class="mb-3">
+                                <label class="form-label">Framework</label>
+                                <select class="form-select" id="frontendFramework">
+                                    <option value="static">Static (HTML/CSS/JS)</option>
+                                    <option value="vanilla">Vanilla JS</option>
+                                    <option value="react">React</option>
+                                    <option value="vue">Vue</option>
+                                    <option value="angular">Angular</option>
+                                    <option value="svelte">Svelte</option>
+                                    <option value="astro">Astro</option>
+                                    <option value="eleventy">Eleventy</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Template Engine</label>
+                                <select class="form-select" id="templateEngine">
+                                    <option value="none">None</option>
+                                    <option value="pug">Pug</option>
+                                    <option value="handlebars">Handlebars</option>
+                                    <option value="ejs">EJS</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="config-section">
+                            <h4><i class="fas fa-paint-brush me-2"></i>Styling</h4>
+                            <div class="mb-3">
+                                <label class="form-label">CSS Framework</label>
+                                <select class="form-select" id="cssFramework">
+                                    <option value="none">Pure CSS</option>
+                                    <option value="bootstrap">Bootstrap</option>
+                                    <option value="tailwind">Tailwind CSS</option>
+                                    <option value="bulma">Bulma</option>
+                                    <option value="foundation">Foundation</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">CSS Preprocessor</label>
+                                <select class="form-select" id="cssPreprocessor">
+                                    <option value="none">None</option>
+                                    <option value="sass">SASS/SCSS</option>
+                                    <option value="less">LESS</option>
+                                    <option value="stylus">Stylus</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h4><i class="fas fa-server me-2"></i>Backend</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Backend Framework</label>
+                                <select class="form-select" id="backendFramework">
+                                    <option value="none">None</option>
+                                    <option value="node">Node.js</option>
+                                    <option value="express">Express</option>
+                                    <option value="python">Python Flask</option>
+                                    <option value="django">Django</option>
+                                    <option value="php">PHP</option>
+                                    <option value="laravel">Laravel</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Database</label>
+                                <select class="form-select" id="database">
+                                    <option value="none">None</option>
+                                    <option value="mongodb">MongoDB</option>
+                                    <option value="firebase">Firebase</option>
+                                    <option value="mysql">MySQL</option>
+                                    <option value="postgresql">PostgreSQL</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Design Tab -->
+            <div class="tab-pane fade" id="design" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="config-section">
+                            <h4><i class="fas fa-palette me-2"></i>Theme</h4>
+                            <div class="mb-3">
+                                <label class="form-label">UI Style</label>
+                                <select class="form-select" id="uiStyle">
+                                    <option value="modern">Modern</option>
+                                    <option value="neumorphism">Neumorphism</option>
+                                    <option value="glassmorphism">Glassmorphism</option>
+                                    <option value="material">Material Design</option>
+                                    <option value="flat">Flat Design</option>
+                                    <option value="3d">3D Elements</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Color Scheme</label>
+                                <select class="form-select" id="colorScheme">
+                                    <option value="light">Light</option>
+                                    <option value="dark">Dark</option>
+                                    <option value="custom">Custom</option>
+                                    <option value="monochrome">Monochrome</option>
+                                    <option value="pastel">Pastel</option>
+                                    <option value="vibrant">Vibrant</option>
+                                </select>
+                            </div>
+                            <div id="customColorOptions" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Primary</label>
+                                        <input type="color" class="form-control form-control-color" id="primaryColor" value="#4f46e5">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Secondary</label>
+                                        <input type="color" class="form-control form-control-color" id="secondaryColor" value="#f43f5e">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Accent</label>
+                                        <input type="color" class="form-control form-control-color" id="accentColor" value="#10b981">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="config-section">
+                            <h4><i class="fas fa-font me-2"></i>Typography</h4>
+                            <div class="mb-3">
+                                <label class="form-label">Font Family</label>
+                                <select class="form-select" id="fontFamily">
+                                    <option value="sans-serif">Sans-serif</option>
+                                    <option value="serif">Serif</option>
+                                    <option value="monospace">Monospace</option>
+                                    <option value="google-font">Google Font</option>
+                                    <option value="custom-font">Custom Font</option>
+                                </select>
+                            </div>
+                            <div class="mb-3" id="googleFontOptions" style="display: none;">
+                                <label class="form-label">Google Font</label>
+                                <select class="form-select" id="googleFont">
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Open Sans">Open Sans</option>
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Montserrat">Montserrat</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Font Size Base</label>
+                                <select class="form-select" id="fontSize">
+                                    <option value="small">Small (14px)</option>
+                                    <option value="medium" selected>Medium (16px)</option>
+                                    <option value="large">Large (18px)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h4><i class="fas fa-icons me-2"></i>Icons & Graphics</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Icon Set</label>
+                                <select class="form-select" id="iconSet">
+                                    <option value="fontawesome">Font Awesome</option>
+                                    <option value="material">Material Icons</option>
+                                    <option value="bootstrap">Bootstrap Icons</option>
+                                    <option value="heroicons">Heroicons</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Illustration Style</label>
+                                <select class="form-select" id="illustrationStyle">
+                                    <option value="none">None</option>
+                                    <option value="line">Line Art</option>
+                                    <option value="flat">Flat Design</option>
+                                    <option value="3d">3D Renders</option>
+                                    <option value="hand-drawn">Hand Drawn</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Tab -->
+            <div class="tab-pane fade" id="features" role="tabpanel">
+                <div class="config-section">
+                    <h4><i class="fas fa-cogs me-2"></i>Core Features</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">AI Models (Multiple Select)</label>
+                                <select class="form-select" id="aiModel" multiple>
+                                    <option value="dalle">DALL-E</option>
+                                    <option value="stable-diffusion">Stable Diffusion</option>
+                                    <option value="midjourney">Midjourney</option>
+                                    <option value="deepfloyd">DeepFloyd IF</option>
+                                    <option value="kandinsky">Kandinsky</option>
+                                    <option value="custom">Custom API</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Image Sizes (Multiple Select)</label>
+                                <select class="form-select" id="imageSize" multiple>
+                                    <option value="256x256">256x256</option>
+                                    <option value="512x512" selected>512x512</option>
+                                    <option value="768x768">768x768</option>
+                                    <option value="1024x1024">1024x1024</option>
+                                    <option value="custom">Custom Size</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Image Styles (Multiple Select)</label>
+                                <select class="form-select" id="imageStyle" multiple>
+                                    <option value="realistic">Realistic</option>
+                                    <option value="cartoon">Cartoon</option>
+                                    <option value="anime">Anime</option>
+                                    <option value="painting">Painting</option>
+                                    <option value="3d-render">3D Render</option>
+                                    <option value="watercolor">Watercolor</option>
+                                    <option value="pixel-art">Pixel Art</option>
+                                    <option value="cyberpunk">Cyberpunk</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Output Formats (Multiple Select)</label>
+                                <select class="form-select" id="outputFormat" multiple>
+                                    <option value="png">PNG</option>
+                                    <option value="jpeg">JPEG</option>
+                                    <option value="webp">WebP</option>
+                                    <option value="svg">SVG</option>
+                                    <option value="gif">GIF</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Generation Types (Multiple Select)</label>
+                                <select class="form-select" id="generationType" multiple>
+                                    <option value="text-to-image">Text-to-Image</option>
+                                    <option value="image-to-image">Image-to-Image</option>
+                                    <option value="inpainting">Inpainting</option>
+                                    <option value="outpainting">Outpainting</option>
+                                    <option value="super-resolution">Super Resolution</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Batch Options</label>
+                                <select class="form-select" id="batchOptions">
+                                    <option value="single">Single Image</option>
+                                    <option value="multiple">Multiple Images</option>
+                                    <option value="grid">Image Grid</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h4><i class="fas fa-sliders-h me-2"></i>Additional Features</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>Input Features</h5>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeUpload" checked>
+                                <label class="form-check-label" for="includeUpload">Image Upload</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeSketchpad">
+                                <label class="form-check-label" for="includeSketchpad">Sketch Pad</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeReference">
+                                <label class="form-check-label" for="includeReference">Reference Images</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeTextOverlay">
+                                <label class="form-check-label" for="includeTextOverlay">Text Overlay</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includePromptSuggestions">
+                                <label class="form-check-label" for="includePromptSuggestions">Prompt Suggestions</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Editing Features</h5>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeFilters" checked>
+                                <label class="form-check-label" for="includeFilters">Image Filters</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeVariations">
+                                <label class="form-check-label" for="includeVariations">Image Variations</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeEditing">
+                                <label class="form-check-label" for="includeEditing">Basic Editing</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeUpscaling">
+                                <label class="form-check-label" for="includeUpscaling">Image Upscaling</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeBackgroundRemoval">
+                                <label class="form-check-label" for="includeBackgroundRemoval">Background Removal</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Output Features</h5>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeSharing">
+                                <label class="form-check-label" for="includeSharing">Social Sharing</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeDownload">
+                                <label class="form-check-label" for="includeDownload">Multiple Download Formats</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includePrint">
+                                <label class="form-check-label" for="includePrint">Print Options</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeHistory">
+                                <label class="form-check-label" for="includeHistory">Generation History</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="includeAPI">
+                                <label class="form-check-label" for="includeAPI">API Access</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Tab -->
+            <div class="tab-pane fade" id="advanced" role="tabpanel">
+                <div class="accordion" id="advancedAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePerformance">
+                                Performance Optimization
+                            </button>
+                        </h2>
+                        <div id="collapsePerformance" class="accordion-collapse collapse show" data-bs-parent="#advancedAccordion">
+                            <div class="accordion-body">
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="lazyLoading" checked>
+                                    <label class="form-check-label" for="lazyLoading">Lazy Loading</label>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="imageCompression" checked>
+                                    <label class="form-check-label" for="imageCompression">Image Compression</label>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="codeSplitting">
+                                    <label class="form-check-label" for="codeSplitting">Code Splitting</label>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="caching">
+                                    <label class="form-check-label" for="caching">Browser Caching</label>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="webpSupport">
+                                    <label class="form-check-label" for="webpSupport">Automatic WebP Conversion</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAPI">
+                                API Configuration
+                            </button>
+                        </h2>
+                        <div id="collapseAPI" class="accordion-collapse collapse" data-bs-parent="#advancedAccordion">
+                            <div class="accordion-body">
+                                <div class="mb-3">
+                                    <label class="form-label">API Key</label>
+                                    <input type="password" class="form-control" id="apiKey" placeholder="Enter your API key">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">API Endpoint</label>
+                                    <input type="text" class="form-control" id="apiEndpoint" value="https://api.pollinations.ai/predictions">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Rate Limiting</label>
+                                    <select class="form-select" id="rateLimiting">
+                                        <option value="none">None</option>
+                                        <option value="basic">Basic (5 requests/min)</option>
+                                        <option value="moderate">Moderate (10 requests/min)</option>
+                                        <option value="high">High (20 requests/min)</option>
+                                        <option value="custom">Custom</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3" id="customRateLimit" style="display: none;">
+                                    <label class="form-label">Custom Rate Limit</label>
+                                    <input type="number" class="form-control" id="customRateLimitValue" placeholder="Requests per minute">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrompt">
+                                Prompt Engineering
+                            </button>
+                        </h2>
+                        <div id="collapsePrompt" class="accordion-collapse collapse" data-bs-parent="#advancedAccordion">
+                            <div class="accordion-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Default Prompt</label>
+                                    <textarea class="form-control" id="defaultPrompt" rows="3">A beautiful landscape with mountains and a lake, digital art</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Prompt Style</label>
+                                    <select class="form-select" id="promptStyle">
+                                        <option value="descriptive">Descriptive</option>
+                                        <option value="technical">Technical</option>
+                                        <option value="artistic">Artistic</option>
+                                        <option value="minimal">Minimal</option>
+                                    </select>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="includeNegativePrompt">
+                                    <label class="form-check-label" for="includeNegativePrompt">Include Negative Prompt</label>
+                                </div>
+                                <div class="mb-3" id="negativePromptSection" style="display: none;">
+                                    <label class="form-label">Negative Prompt</label>
+                                    <textarea class="form-control" id="negativePrompt" rows="2" placeholder="What to exclude from the image"></textarea>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="includePromptTemplates">
+                                    <label class="form-check-label" for="includePromptTemplates">Include Prompt Templates</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center my-4">
+            <button id="generateBtn" class="btn btn-primary btn-lg px-5 py-3">
+                <span id="generateText">Generate AI Image Generator</span>
+                <span id="loadingSpinner" class="spinner-border spinner-border-sm ms-2" style="display: none;"></span>
+            </button>
+        </div>
+
+        <div class="mt-4">
+            <h3 class="mb-3">Generated Code</h3>
+            <div class="code-container">
+                <pre><code id="generatedCode">// Configure your generator and click "Generate" to create your custom AI image generator code</code></pre>
+            </div>
+            <div class="mt-3">
+                <button id="copyBtn" class="btn btn-secondary me-2">
+                    <i class="fas fa-copy me-1"></i>Copy Code
+                </button>
+                <button id="downloadBtn" class="btn btn-success">
+                    <i class="fas fa-download me-1"></i>Download as ZIP
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Initialize select pickers
+        document.addEventListener('DOMContentLoaded', function() {
+            $('select[multiple]').selectpicker();
+        });
+
+        // Real implementation of AI code generation
+        async function postChatCompletion(messages, options = {}) {
+            const url = "https://text.pollinations.ai/openai";
+            const payload = {
+                model: options.model || "openai",
+                messages: messages,
+                seed: options.seed,
+                private: options.private,
+                referrer: options.referrer || "WebApp",
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                }
+
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error("Error posting chat completion:", error);
+                throw error;
+            }
+        }
+
+        // Toggle custom color options
+        document.getElementById('colorScheme').addEventListener('change', function() {
+            document.getElementById('customColorOptions').style.display = 
+                this.value === 'custom' ? 'block' : 'none';
+        });
+
+        // Toggle Google Font options
+        document.getElementById('fontFamily').addEventListener('change', function() {
+            document.getElementById('googleFontOptions').style.display = 
+                this.value === 'google-font' ? 'block' : 'none';
+        });
+
+        // Toggle negative prompt section
+        document.getElementById('includeNegativePrompt').addEventListener('change', function() {
+            document.getElementById('negativePromptSection').style.display = 
+                this.checked ? 'block' : 'none';
+        });
+
+        // Toggle custom rate limit
+        document.getElementById('rateLimiting').addEventListener('change', function() {
+            document.getElementById('customRateLimit').style.display = 
+                this.value === 'custom' ? 'block' : 'none';
+        });
+
+        // Generate button click handler
+        document.getElementById('generateBtn').addEventListener('click', async function() {
+            const generateBtn = document.getElementById('generateBtn');
+            const generateText = document.getElementById('generateText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            
+            // Show loading state
+            generateBtn.disabled = true;
+            generateText.textContent = "Generating...";
+            loadingSpinner.style.display = "inline-block";
+
+            try {
+                // Get all configuration values
+                const config = {
+                    // Framework
+                    frontend: document.getElementById('frontendFramework').value,
+                    templateEngine: document.getElementById('templateEngine').value,
+                    cssFramework: document.getElementById('cssFramework').value,
+                    cssPreprocessor: document.getElementById('cssPreprocessor').value,
+                    backend: document.getElementById('backendFramework').value,
+                    database: document.getElementById('database').value,
+                    
+                    // Design
+                    uiStyle: document.getElementById('uiStyle').value,
+                    colorScheme: document.getElementById('colorScheme').value,
+                    primaryColor: document.getElementById('primaryColor').value,
+                    secondaryColor: document.getElementById('secondaryColor').value,
+                    accentColor: document.getElementById('accentColor').value,
+                    fontFamily: document.getElementById('fontFamily').value,
+                    googleFont: document.getElementById('googleFont').value,
+                    fontSize: document.getElementById('fontSize').value,
+                    iconSet: document.getElementById('iconSet').value,
+                    illustrationStyle: document.getElementById('illustrationStyle').value,
+                    
+                    // Core Features
+                    aiModel: Array.from(document.getElementById('aiModel').selectedOptions).map(opt => opt.value),
+                    imageSize: Array.from(document.getElementById('imageSize').selectedOptions).map(opt => opt.value),
+                    imageStyle: Array.from(document.getElementById('imageStyle').selectedOptions).map(opt => opt.value),
+                    outputFormat: Array.from(document.getElementById('outputFormat').selectedOptions).map(opt => opt.value),
+                    generationType: Array.from(document.getElementById('generationType').selectedOptions).map(opt => opt.value),
+                    batchOptions: document.getElementById('batchOptions').value,
+                    
+                    // Additional Features
+                    includeUpload: document.getElementById('includeUpload').checked,
+                    includeSketchpad: document.getElementById('includeSketchpad').checked,
+                    includeReference: document.getElementById('includeReference').checked,
+                    includeTextOverlay: document.getElementById('includeTextOverlay').checked,
+                    includePromptSuggestions: document.getElementById('includePromptSuggestions').checked,
+                    includeFilters: document.getElementById('includeFilters').checked,
+                    includeVariations: document.getElementById('includeVariations').checked,
+                    includeEditing: document.getElementById('includeEditing').checked,
+                    includeUpscaling: document.getElementById('includeUpscaling').checked,
+                    includeBackgroundRemoval: document.getElementById('includeBackgroundRemoval').checked,
+                    includeSharing: document.getElementById('includeSharing').checked,
+                    includeDownload: document.getElementById('includeDownload').checked,
+                    includePrint: document.getElementById('includePrint').checked,
+                    includeHistory: document.getElementById('includeHistory').checked,
+                    includeAPI: document.getElementById('includeAPI').checked,
+                    
+                    // Advanced
+                    lazyLoading: document.getElementById('lazyLoading').checked,
+                    imageCompression: document.getElementById('imageCompression').checked,
+                    codeSplitting: document.getElementById('codeSplitting').checked,
+                    caching: document.getElementById('caching').checked,
+                    webpSupport: document.getElementById('webpSupport').checked,
+                    apiKey: document.getElementById('apiKey').value,
+                    apiEndpoint: document.getElementById('apiEndpoint').value,
+                    rateLimiting: document.getElementById('rateLimiting').value,
+                    customRateLimit: document.getElementById('customRateLimitValue').value,
+                    defaultPrompt: document.getElementById('defaultPrompt').value,
+                    promptStyle: document.getElementById('promptStyle').value,
+                    includeNegativePrompt: document.getElementById('includeNegativePrompt').checked,
+                    negativePrompt: document.getElementById('negativePrompt').value,
+                    includePromptTemplates: document.getElementById('includePromptTemplates').checked
+                };
+
+                // Prepare the AI prompt with all configurations
+                const prompt = `
+Generate a complete, production-ready AI image generator web application based on these specifications:
+
+# FRAMEWORK CONFIGURATION
+- Frontend: ${config.frontend}
+- Template Engine: ${config.templateEngine}
+- CSS Framework: ${config.cssFramework}
+- CSS Preprocessor: ${config.cssPreprocessor}
+- Backend: ${config.backend}
+- Database: ${config.database}
+
+# DESIGN SPECIFICATIONS
+- UI Style: ${config.uiStyle}
+- Color Scheme: ${config.colorScheme}
+${config.colorScheme === 'custom' ? `- Primary Color: ${config.primaryColor}
+- Secondary Color: ${config.secondaryColor}
+- Accent Color: ${config.accentColor}` : ''}
+- Font Family: ${config.fontFamily}
+${config.fontFamily === 'google-font' ? `- Google Font: ${config.googleFont}` : ''}
+- Base Font Size: ${config.fontSize}
+- Icon Set: ${config.iconSet}
+- Illustration Style: ${config.illustrationStyle}
+
+# CORE FEATURES
+- AI Models: ${config.aiModel.join(', ')}
+- Image Sizes: ${config.imageSize.join(', ')}
+- Image Styles: ${config.imageStyle.join(', ')}
+- Output Formats: ${config.outputFormat.join(', ')}
+- Generation Types: ${config.generationType.join(', ')}
+- Batch Options: ${config.batchOptions}
+
+# ADDITIONAL FEATURES
+- Input Features:
+  * Image Upload: ${config.includeUpload ? 'Yes' : 'No'}
+  * Sketch Pad: ${config.includeSketchpad ? 'Yes' : 'No'}
+  * Reference Images: ${config.includeReference ? 'Yes' : 'No'}
+  * Text Overlay: ${config.includeTextOverlay ? 'Yes' : 'No'}
+  * Prompt Suggestions: ${config.includePromptSuggestions ? 'Yes' : 'No'}
+- Editing Features:
+  * Image Filters: ${config.includeFilters ? 'Yes' : 'No'}
+  * Image Variations: ${config.includeVariations ? 'Yes' : 'No'}
+  * Basic Editing: ${config.includeEditing ? 'Yes' : 'No'}
+  * Image Upscaling: ${config.includeUpscaling ? 'Yes' : 'No'}
+  * Background Removal: ${config.includeBackgroundRemoval ? 'Yes' : 'No'}
+- Output Features:
+  * Social Sharing: ${config.includeSharing ? 'Yes' : 'No'}
+  * Multiple Download Formats: ${config.includeDownload ? 'Yes' : 'No'}
+  * Print Options: ${config.includePrint ? 'Yes' : 'No'}
+  * Generation History: ${config.includeHistory ? 'Yes' : 'No'}
+  * API Access: ${config.includeAPI ? 'Yes' : 'No'}
+
+# ADVANCED OPTIONS
+- Performance:
+  * Lazy Loading: ${config.lazyLoading ? 'Yes' : 'No'}
+  * Image Compression: ${config.imageCompression ? 'Yes' : 'No'}
+  * Code Splitting: ${config.codeSplitting ? 'Yes' : 'No'}
+  * Browser Caching: ${config.caching ? 'Yes' : 'No'}
+  * WebP Conversion: ${config.webpSupport ? 'Yes' : 'No'}
+- API:
+  * Endpoint: ${config.apiEndpoint}
+  * Rate Limiting: ${config.rateLimiting}
+  ${config.rateLimiting === 'custom' ? `* Custom Rate Limit: ${config.customRateLimit} requests/min` : ''}
+- Prompt Engineering:
+  * Default Prompt: "${config.defaultPrompt}"
+  * Prompt Style: ${config.promptStyle}
+  * Negative Prompt: ${config.includeNegativePrompt ? `"${config.negativePrompt}"` : 'No'}
+  * Prompt Templates: ${config.includePromptTemplates ? 'Yes' : 'No'}
+
+# IMPLEMENTATION REQUIREMENTS
+1. Generate complete code for all specified components
+2. Include all necessary dependencies
+3. Implement best practices for performance and security
+4. Add comprehensive comments
+5. Include error handling
+6. Make sure the code is production-ready
+7. Provide clear documentation in code comments
+8. Organize code into appropriate files and directories
+9. Include build configuration if needed
+10. Add responsive design considerations
+
+Please provide the complete implementation with all files organized properly.`;
+
+                // Call the AI API
+                const messages = [
+                    { 
+                        role: "system", 
+                        content: `You are an expert full-stack developer. Generate complete, production-ready code based on the user's specifications. 
+                        Provide all necessary files with proper organization. Include detailed comments and documentation. 
+                        For multiple selections, implement all selected options.` 
+                    },
+                    { 
+                        role: "user", 
+                        content: prompt 
+                    }
+                ];
+
+                const options = {
+                    model: "gpt-4",
+                    seed: 42,
+                    private: true
+                };
+
+                const response = await postChatCompletion(messages, options);
+                
+                // Display the generated code
+                document.getElementById('generatedCode').textContent = response.choices[0].message.content;
+                
+            } catch (error) {
+                console.error("Generation error:", error);
+                document.getElementById('generatedCode').textContent = `Error generating code: ${error.message}\n\nPlease try again or check your configuration.`;
+            } finally {
+                // Reset button state
+                generateBtn.disabled = false;
+                generateText.textContent = "Generate AI Image Generator";
+                loadingSpinner.style.display = "none";
+            }
+        });
+
+        // Copy code functionality
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const code = document.getElementById('generatedCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check me-1"></i>Copied!';
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                }, 2000);
+            });
+        });
+
+        // Download functionality (mock implementation)
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            alert("In a real implementation, this would package all generated files into a ZIP download");
+        });
+    </script>
+</body>
+</html>
