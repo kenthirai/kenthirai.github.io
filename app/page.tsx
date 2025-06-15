@@ -637,7 +637,6 @@ export default function AIImageGenerator() {
       showError("Enhancement Failed", "Could not enhance prompt. Please try again.")
     } finally {
       setIsEnhancing(false)
-      setStreamingText("")
     }
   }
 
@@ -691,9 +690,12 @@ export default function AIImageGenerator() {
       return
     }
 
-    const totalCost = 1
+    // 1. Hitung total biaya berdasarkan kualitas dan jumlah batch
+    const totalCost = selectedQuality.cost * batchCount;
+
+    // 2. Periksa kecukupan koin SEBELUM memulai
     if (coins < totalCost) {
-      showError("Insufficient Coins", `You need ${totalCost} coin but only have ${coins}`)
+      showError("Insufficient Coins", `You need ${totalCost} coin(s) but only have ${coins}`)
       return
     }
 
@@ -702,13 +704,13 @@ export default function AIImageGenerator() {
     setFeedbackType("generating")
     setShowVisualFeedback(true)
     setGenerationProgress(0)
-
     saveSettings()
 
     try {
       const newImages: GeneratedImage[] = []
 
       for (let i = 0; i < batchCount; i++) {
+        // Update progress bar untuk setiap gambar dalam batch
         setGenerationProgress(Math.round(((i + 0.5) / batchCount) * 100))
 
         let imageUrl = ""
@@ -718,10 +720,18 @@ export default function AIImageGenerator() {
           if (!dalleApiKey) {
             throw new Error("DALL-E 3 requires an API key")
           }
-          imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}&model=flux&enhance=true&nologo=true&nofeed=true&private=true&width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
+          imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=dalle3&enhance=true&nologo=true&nofeed=true&private=true&width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
         } else {
           const modelParam = selectedModel === "turbo" ? "turbo" : "flux"
-          imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}&model=${modelParam}&enhance=true&nologo=true&nofeed=true&private=true&width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
+          imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=${modelParam}&enhance=true&nologo=true&nofeed=true&private=true&width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
+        }
+        
+        // 3. Verifikasi setiap URL gambar sebelum menambahkannya
+        // Kita gunakan metode 'HEAD' untuk memeriksa keberadaan gambar tanpa mengunduh seluruhnya
+        const response = await fetch(imageUrl, { method: 'HEAD' });
+        if (!response.ok) {
+            // Jika satu gambar gagal, hentikan proses dan lempar error
+            throw new Error(`Failed to generate image #${i + 1}. Status: ${response.status}. Please try again.`);
         }
 
         const newImage: GeneratedImage = {
@@ -742,17 +752,17 @@ export default function AIImageGenerator() {
 
       setGenerationProgress(100)
 
+      // 4. Kurangi koin dan simpan riwayat HANYA SETELAH semua berhasil
       const updatedImages = [...newImages, ...generatedImages]
       setGeneratedImages(updatedImages)
       saveHistory(updatedImages)
 
-      const coinCost = 1
-      const newCoinAmount = coins - coinCost
+      const newCoinAmount = coins - totalCost
       saveCoins(newCoinAmount)
 
       success(
         `${batchCount} Image${batchCount > 1 ? "s" : ""} Generated!`,
-        `Cost: 1 coins. Remaining: ${newCoinAmount} coins`,
+        `Cost: ${totalCost} coins. Remaining: ${newCoinAmount} coins`,
       )
 
       generateRandomSeed()
@@ -761,6 +771,8 @@ export default function AIImageGenerator() {
       showError("Generation Failed", error instanceof Error ? error.message : "Unknown error occurred")
     } finally {
       setIsGenerating(false)
+      // Sembunyikan progress bar setelah selesai (baik berhasil maupun gagal)
+      setTimeout(() => setGenerationProgress(0), 1500);
     }
   }
 
@@ -1130,7 +1142,7 @@ export default function AIImageGenerator() {
                 <div className="space-y-2">
                   <Button
                     onClick={generateImage}
-                    disabled={isGenerating || !prompt.trim() || coins < 1}
+                    disabled={isGenerating || !prompt.trim() || coins < (selectedQuality.cost * batchCount)}
                     className="w-full"
                     size="lg"
                   >
@@ -1143,16 +1155,20 @@ export default function AIImageGenerator() {
                       <>
                         <Zap className="w-4 h-4 mr-2" />
                         <span className="hidden sm:inline">
-                          Generate {batchCount} Image{batchCount > 1 ? "s" : ""} (1 coin)
+                          Generate {batchCount} Image{batchCount > 1 ? "s" : ""} ({selectedQuality.cost * batchCount} coin
+                          {selectedQuality.cost * batchCount > 1 ? "s" : ""})
                         </span>
-                        <span className="sm:hidden">Generate (1 coin)</span>
+                        <span className="sm:hidden">
+                          Generate ({selectedQuality.cost * batchCount} coin
+                          {selectedQuality.cost * batchCount > 1 ? "s" : ""})
+                        </span>
                       </>
                     )}
                   </Button>
 
-                  {coins < 1 && (
+                  {coins < (selectedQuality.cost * batchCount) && !isGenerating && (
                     <p className="text-xs sm:text-sm text-red-600 dark:text-red-400 text-center">
-                      Insufficient coins. Need 1 coin but have {coins}
+                      Insufficient coins. Need {selectedQuality.cost * batchCount} but have {coins}
                     </p>
                   )}
                 </div>
