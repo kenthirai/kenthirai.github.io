@@ -79,7 +79,7 @@ interface ImageSize {
 interface QualityOption {
   label: string
   value: string
-  cost: number
+  cost: number // Kita akan abaikan properti ini, tapi tetap ada di struktur data
 }
 
 interface AudioItem {
@@ -731,7 +731,8 @@ export default function AIImageGenerator() {
       return
     }
 
-    const totalCost = selectedQuality.cost * batchCount;
+    // ---- PERUBAHAN LOGIKA BIAYA ----
+    const totalCost = 1 * batchCount; // Biaya selalu 1 koin per gambar dalam batch
 
     if (coins < totalCost) {
       showError("Insufficient Coins", `You need ${totalCost} coin(s) but only have ${coins}`)
@@ -1115,8 +1116,9 @@ export default function AIImageGenerator() {
                   </div>
 
                   <div>
+                    {/* ---- PERUBAHAN Tampilan UI: Menghapus teks biaya ---- */}
                     <Label className="text-xs sm:text-sm dark:text-gray-200">
-                      Quality ({selectedQuality.cost} coins)
+                      Quality
                     </Label>
                     <Select
                       value={selectedQuality.value}
@@ -1192,9 +1194,10 @@ export default function AIImageGenerator() {
                 </div>
 
                 <div className="space-y-2">
+                  {/* ---- PERUBAHAN Tampilan UI: Menghapus teks biaya dari tombol ---- */}
                   <Button
                     onClick={generateImage}
-                    disabled={isGenerating || !prompt.trim() || coins < (selectedQuality.cost * batchCount)}
+                    disabled={isGenerating || !prompt.trim() || coins < batchCount}
                     className="w-full"
                     size="lg"
                   >
@@ -1206,21 +1209,14 @@ export default function AIImageGenerator() {
                     ) : (
                       <>
                         <Zap className="w-4 h-4 mr-2" />
-                        <span className="hidden sm:inline">
-                          Generate {batchCount} Image{batchCount > 1 ? "s" : ""} ({selectedQuality.cost * batchCount} coin
-                          {selectedQuality.cost * batchCount > 1 ? "s" : ""})
-                        </span>
-                        <span className="sm:hidden">
-                          Generate ({selectedQuality.cost * batchCount} coin
-                          {selectedQuality.cost * batchCount > 1 ? "s" : ""})
-                        </span>
+                        Generate {batchCount} Image{batchCount > 1 ? "s" : ""}
                       </>
                     )}
                   </Button>
 
-                  {coins < (selectedQuality.cost * batchCount) && !isGenerating && (
+                  {coins < batchCount && !isGenerating && (
                     <p className="text-xs sm:text-sm text-red-600 dark:text-red-400 text-center">
-                      Insufficient coins. Need {selectedQuality.cost * batchCount} but have {coins}
+                      Insufficient coins. Need {batchCount} but have {coins}
                     </p>
                   )}
                 </div>
