@@ -735,7 +735,7 @@ export default function AIImageGenerator() {
     success("Settings Reset", "All settings have been reset to default values")
   }
 
-  const generateImage = async () => {
+ const generateImage = async () => {
     if (!prompt.trim()) {
       showError("No Prompt", "Please enter a prompt to generate an image")
       return
@@ -759,9 +759,8 @@ export default function AIImageGenerator() {
       const newImages: GeneratedImage[] = []
 
       for (let i = 0; i < batchCount; i++) {
-        setGenerationProgress(Math.round(((i + 0.5) / batchCount) * 100))
+        setGenerationProgress(Math.round(((i + 1) / batchCount) * 100))
 
-        let imageUrl = ""
         const currentSeed = seed + i
         
         let promptUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`
@@ -769,7 +768,7 @@ export default function AIImageGenerator() {
 
         if (selectedModel === "dalle3") {
             if (!dalleApiKey) {
-                throw new Error("DALL-E 3 requires an API key")
+                throw new Error("DALL-E 3 requires an API key. Please set it in the settings.")
             }
             queryParams += `&model=dalle3`
         } else {
@@ -781,12 +780,10 @@ export default function AIImageGenerator() {
             queryParams += `&negative_prompt=${encodeURIComponent(negativePrompt)}`
         }
 
-        imageUrl = promptUrl + queryParams
+        const imageUrl = promptUrl + queryParams
         
-        const response = await fetch(imageUrl, { method: 'HEAD' });
-        if (!response.ok) {
-            throw new Error(`Failed to generate image #${i + 1}. Status: ${response.status}. Please try again.`);
-        }
+        // Perhatikan: Bagian fetch() yang bermasalah sudah dihapus.
+        // Kita langsung membuat objek gambar dengan URL yang sudah kita bangun.
 
         const newImage: GeneratedImage = {
           id: `${Date.now()}-${i}`,
@@ -803,8 +800,6 @@ export default function AIImageGenerator() {
 
         newImages.push(newImage)
       }
-
-      setGenerationProgress(100)
 
       const updatedImages = [...newImages, ...generatedImages]
       setGeneratedImages(updatedImages)
