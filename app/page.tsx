@@ -131,6 +131,7 @@ export default function AIImageGenerator() {
   const [showFloatingFeedback, setShowFloatingFeedback] = useState(false)
 
   const [prompt, setPrompt] = useState("")
+  const [negativePrompt, setNegativePrompt] = useState("") // <<< TAMBAHAN BARU: State untuk Negative Prompt
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([])
   const [selectedModel, setSelectedModel] = useState("flux")
@@ -690,10 +691,8 @@ export default function AIImageGenerator() {
       return
     }
 
-    // 1. Hitung total biaya berdasarkan kualitas dan jumlah batch
     const totalCost = selectedQuality.cost * batchCount;
 
-    // 2. Periksa kecukupan koin SEBELUM memulai
     if (coins < totalCost) {
       showError("Insufficient Coins", `You need ${totalCost} coin(s) but only have ${coins}`)
       return
@@ -710,27 +709,35 @@ export default function AIImageGenerator() {
       const newImages: GeneratedImage[] = []
 
       for (let i = 0; i < batchCount; i++) {
-        // Update progress bar untuk setiap gambar dalam batch
         setGenerationProgress(Math.round(((i + 0.5) / batchCount) * 100))
 
         let imageUrl = ""
         const currentSeed = seed + i
+        
+        // <<< MODIFIKASI DIMULAI DI SINI
+        let promptUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`
+        let queryParams = `?enhance=true&nologo=true&nofeed=true&private=true&width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
 
         if (selectedModel === "dalle3") {
-          if (!dalleApiKey) {
-            throw new Error("DALL-E 3 requires an API key")
-          }
-          imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=dalle3&enhance=true&nologo=true&nofeed=true&private=true&width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
+            if (!dalleApiKey) {
+                throw new Error("DALL-E 3 requires an API key")
+            }
+            queryParams += `&model=dalle3`
         } else {
-          const modelParam = selectedModel === "turbo" ? "turbo" : "flux"
-          imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=${modelParam}&enhance=true&nologo=true&nofeed=true&private=true&width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
+            const modelParam = selectedModel === "turbo" ? "turbo" : "flux"
+            queryParams += `&model=${modelParam}`
         }
+
+        // Tambahkan negative prompt jika ada
+        if (negativePrompt.trim() !== "") {
+            queryParams += `&negative_prompt=${encodeURIComponent(negativePrompt)}`
+        }
+
+        imageUrl = promptUrl + queryParams
+        // <<< MODIFIKASI BERAKHIR DI SINI
         
-        // 3. Verifikasi setiap URL gambar sebelum menambahkannya
-        // Kita gunakan metode 'HEAD' untuk memeriksa keberadaan gambar tanpa mengunduh seluruhnya
         const response = await fetch(imageUrl, { method: 'HEAD' });
         if (!response.ok) {
-            // Jika satu gambar gagal, hentikan proses dan lempar error
             throw new Error(`Failed to generate image #${i + 1}. Status: ${response.status}. Please try again.`);
         }
 
@@ -752,7 +759,6 @@ export default function AIImageGenerator() {
 
       setGenerationProgress(100)
 
-      // 4. Kurangi koin dan simpan riwayat HANYA SETELAH semua berhasil
       const updatedImages = [...newImages, ...generatedImages]
       setGeneratedImages(updatedImages)
       saveHistory(updatedImages)
@@ -771,7 +777,6 @@ export default function AIImageGenerator() {
       showError("Generation Failed", error instanceof Error ? error.message : "Unknown error occurred")
     } finally {
       setIsGenerating(false)
-      // Sembunyikan progress bar setelah selesai (baik berhasil maupun gagal)
       setTimeout(() => setGenerationProgress(0), 1500);
     }
   }
@@ -995,6 +1000,21 @@ export default function AIImageGenerator() {
                     disabled={isEnhancing}
                   />
 
+                  {/* <<< TAMBAHAN BARU: Input untuk Negative Prompt */}
+                  <div>
+                    <Label htmlFor="negative-prompt" className="text-xs text-gray-600 dark:text-gray-400">
+                        Negative Prompt (Opsional)
+                    </Label>
+                    <Textarea
+                        id="negative-prompt"
+                        placeholder="Things to avoid in the image, e.g., 'ugly, deformed, blurry'"
+                        value={negativePrompt}
+                        onChange={(e) => setNegativePrompt(e.target.value)}
+                        rows={2}
+                        className="resize-none text-sm sm:text-base mt-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
+                  </div>
+                  
                   {/* Prompt Suggestions */}
                   <div className="flex flex-wrap gap-1 sm:gap-2">
                     {promptSuggestions.slice(0, 4).map((suggestion, index) => (
