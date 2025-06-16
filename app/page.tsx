@@ -350,11 +350,9 @@ export default function AIImageGenerator() {
       })
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
+        const errorData = await response.json().catch(() => ({ message: "An unknown error occurred." }))
         throw new Error(errorData.message || `Server error: ${response.status}`)
       }
-
-      const data = await response.json()
 
       resetCoinsDaily()
       setShowResetModal(false)
@@ -472,12 +470,18 @@ export default function AIImageGenerator() {
     setIsGeneratingAudio(true)
 
     try {
-      const audioUrl = `https://text.pollinations.ai/openai?text=${encodeURIComponent(audioText)}&voice=alloy&model=tts-1&format=mp3&timestamp=${Date.now()}`
+      const response = await fetch('/api/generate-audio', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: audioText })
+      });
 
-      const response = await fetch(audioUrl, { method: "HEAD" })
       if (!response.ok) {
-        throw new Error(`Audio generation failed: ${response.status} ${response.statusText}`)
+        throw new Error(`Audio generation failed: ${response.status} ${response.statusText}`);
       }
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
 
       const newAudio: AudioItem = {
         id: Date.now().toString(),
@@ -495,13 +499,7 @@ export default function AIImageGenerator() {
       setAudioText("")
     } catch (error) {
       console.error("Audio generation error:", error)
-      if (error instanceof TypeError && error.message.includes("fetch")) {
-        showError("Network Error", "Failed to connect to audio service. Please check your connection.")
-      } else if (error instanceof Error) {
-        showError("Audio Generation Failed", error.message)
-      } else {
-        showError("Generation Failed", "Failed to generate audio. Please try again.")
-      }
+      showError("Generation Failed", "Failed to generate audio. Please try again.")
     } finally {
       setIsGeneratingAudio(false)
     }
@@ -547,25 +545,15 @@ export default function AIImageGenerator() {
   }
 
   const downloadAudio = async (url: string, text: string) => {
-    try {
-      const response = await fetch(url)
-      if (!response.ok) throw new Error(`Download failed: ${response.status}`)
-
-      const blob = await response.blob()
-      const downloadUrl = window.URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.href = downloadUrl
-      link.download = `${text.slice(0, 30)}_${Date.now()}.mp3`
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(downloadUrl)
-
-      success("Download Complete", "Audio has been downloaded successfully")
-    } catch (error) {
-      console.error("Download error:", error)
-      showError("Download Failed", error instanceof Error ? error.message : "Unknown error")
-    }
+    // URL.createObjectURL creates a temporary URL, so we can link directly to it.
+    const link = document.createElement("a")
+    link.href = url
+    link.download = `${text.slice(0, 30)}_${Date.now()}.mp3`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    // No need to revoke if we might play it again, browser handles cleanup.
+    success("Download Complete", "Audio has been downloaded successfully")
   }
 
   const handleModelChange = (model: string) => {
@@ -763,10 +751,8 @@ export default function AIImageGenerator() {
             }
             queryParams += `&model=dalle3&nologo=true`
         } else if (selectedModel === 'gptimage') {
-            // ---- LOGIKA BARU UNTUK GPTIMAGE ----
             queryParams += `&model=gptimage&transparent=true&nologo=true&enhance=true&safe=true`
         } else {
-            // Logika untuk model lain (Flux, Turbo)
             const modelParam = selectedModel === "turbo" ? "turbo" : "flux"
             queryParams += `&model=${modelParam}&nologo=true`
         }
