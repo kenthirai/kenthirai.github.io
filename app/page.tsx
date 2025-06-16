@@ -79,7 +79,7 @@ interface ImageSize {
 interface QualityOption {
   label: string
   value: string
-  cost: number // Kita akan abaikan properti ini, tapi tetap ada di struktur data
+  cost: number
 }
 
 interface AudioItem {
@@ -725,112 +725,95 @@ export default function AIImageGenerator() {
     success("Settings Reset", "All settings have been reset to default values")
   }
 
- const generateImage = async () => {
-  if (!prompt.trim()) {
-    showError("No Prompt", "Please enter a prompt to generate an image")
-    return
-  }
+  const generateImage = async () => {
+    if (!prompt.trim()) {
+      showError("No Prompt", "Please enter a prompt to generate an image")
+      return
+    }
 
-  const totalCost = 1 * batchCount;
+    const totalCost = 1 * batchCount;
 
-  if (coins < totalCost) {
-    showError("Insufficient Coins", `You need ${totalCost} coin(s) but only have ${coins}`)
-    return
-  }
+    if (coins < totalCost) {
+      showError("Insufficient Coins", `You need ${totalCost} coin(s) but only have ${coins}`)
+      return
+    }
 
-  setIsGenerating(true)
-  setError(null)
-  setFeedbackType("generating")
-  setShowVisualFeedback(true)
-  setGenerationProgress(0)
-  saveSettings()
+    setIsGenerating(true)
+    setError(null)
+    setFeedbackType("generating")
+    setShowVisualFeedback(true)
+    setGenerationProgress(0)
+    saveSettings()
 
-  try {
-    const newImages: GeneratedImage[] = []
+    try {
+      const newImages: GeneratedImage[] = []
 
-    for (let i = 0; i < batchCount; i++) {
-      setGenerationProgress(Math.round(((i + 1) / batchCount) * 100))
+      for (let i = 0; i < batchCount; i++) {
+        setGenerationProgress(Math.round(((i + 1) / batchCount) * 100))
 
-      const currentSeed = seed + i
-      let imageUrl = "";
-
-      // ---- LOGIKA BARU DI SINI ----
-      if (selectedModel === 'gptimage') {
-        // Jika modelnya gptimage, panggil backend kita
-        const response = await fetch('/api/generate-gptimage', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            prompt,
-            width: selectedSize.width,
-            height: selectedSize.height,
-            seed: currentSeed,
-            negative_prompt: negativePrompt,
-          }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to generate image with GPT-Image');
-        }
-
-        const result = await response.json();
-        imageUrl = result.imageUrl;
-
-      } else {
-        // Untuk model lain, gunakan logika lama yang langsung
+        const currentSeed = seed + i
+        
         let promptUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`
-        let queryParams = `?width=<span class="math-inline">\{selectedSize\.width\}&height\=</span>{selectedSize.height}&seed=${currentSeed}&nologo=true`
+        
+        let queryParams = `?width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
 
         if (selectedModel === "dalle3") {
             if (!dalleApiKey) {
-                throw new Error("DALL-E 3 requires an API key.")
+                throw new Error("DALL-E 3 requires an API key. Please set it in the settings.")
             }
-            queryParams += `&model=dalle3`
+            queryParams += `&model=dalle3&nologo=true`
+        } else if (selectedModel === 'gptimage') {
+            // ---- LOGIKA BARU UNTUK GPTIMAGE ----
+            queryParams += `&model=gptimage&transparent=true&nologo=true&enhance=true&safe=true`
         } else {
+            // Logika untuk model lain (Flux, Turbo)
             const modelParam = selectedModel === "turbo" ? "turbo" : "flux"
-            queryParams += `&model=${modelParam}`
+            queryParams += `&model=${modelParam}&nologo=true`
         }
 
         if (negativePrompt.trim() !== "") {
             queryParams += `&negative_prompt=${encodeURIComponent(negativePrompt)}`
         }
-        imageUrl = promptUrl + queryParams;
+
+        const imageUrl = promptUrl + queryParams
+
+        const newImage: GeneratedImage = {
+          id: `${Date.now()}-${i}`,
+          prompt,
+          url: imageUrl,
+          model: selectedModel,
+          size: selectedSize.label,
+          quality: selectedQuality.label,
+          seed: currentSeed,
+          timestamp: new Date(),
+          liked: false,
+          views: 0,
+        }
+
+        newImages.push(newImage)
       }
 
-      const newImage: GeneratedImage = {
-        id: `<span class="math-inline">\{Date\.now\(\)\}\-</span>{i}`,
-        prompt,
-        url: imageUrl,
-        model: selectedModel,
-        size: selectedSize.label,
-        quality: selectedQuality.label,
-        seed: currentSeed,
-        timestamp: new Date(),
-        liked: false,
-        views: 0,
-      }
-      newImages.push(newImage)
+      const updatedImages = [...newImages, ...generatedImages]
+      setGeneratedImages(updatedImages)
+      saveHistory(updatedImages)
+
+      const newCoinAmount = coins - totalCost
+      saveCoins(newCoinAmount)
+
+      success(
+        `${batchCount} Image${batchCount > 1 ? "s" : ""} Generated!`,
+        `Cost: ${totalCost} coins. Remaining: ${newCoinAmount} coins`,
+      )
+
+      generateRandomSeed()
+    } catch (error) {
+      console.error("Error generating image:", error)
+      showError("Generation Failed", error instanceof Error ? error.message : "Unknown error occurred")
+    } finally {
+      setIsGenerating(false)
+      setTimeout(() => setGenerationProgress(0), 1500);
     }
-
-    const updatedImages = [...newImages, ...generatedImages]
-    setGeneratedImages(updatedImages)
-    saveHistory(updatedImages)
-    const newCoinAmount = coins - totalCost
-    saveCoins(newCoinAmount)
-    success(
-      `<span class="math-inline">\{batchCount\} Image</span>{batchCount > 1 ? "s" : ""} Generated!`,
-      `Cost: ${totalCost} coins. Remaining: ${newCoinAmount} coins`,
-    )
-    generateRandomSeed()
-  } catch (error) {
-    console.error("Error generating image:", error)
-    showError("Generation Failed", error instanceof Error ? error.message : "Unknown error occurred")
-  } finally {
-    setIsGenerating(false)
-    setTimeout(() => setGenerationProgress(0), 1500);
   }
-}
 
   const clearPrompt = () => {
     setPrompt("")
@@ -1105,8 +1088,8 @@ export default function AIImageGenerator() {
                           DALL-E 3
                         </SelectItem>
                         <SelectItem value="gptimage" className="dark:text-white dark:focus:bg-gray-600">
-    GPT-Image {/* <-- TAMBAHKAN INI */}
-</SelectItem>
+                          GPT-Image
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -1139,7 +1122,6 @@ export default function AIImageGenerator() {
                   </div>
 
                   <div>
-                    {/* ---- PERUBAHAN Tampilan UI: Menghapus teks biaya ---- */}
                     <Label className="text-xs sm:text-sm dark:text-gray-200">
                       Quality
                     </Label>
@@ -1217,7 +1199,6 @@ export default function AIImageGenerator() {
                 </div>
 
                 <div className="space-y-2">
-                  {/* ---- PERUBAHAN Tampilan UI: Menghapus teks biaya dari tombol ---- */}
                   <Button
                     onClick={generateImage}
                     disabled={isGenerating || !prompt.trim() || coins < batchCount}
