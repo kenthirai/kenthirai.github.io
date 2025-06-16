@@ -40,6 +40,7 @@ import {
   ImageIcon,
   Wand2,
   Video,
+  Languages, // <<< FITUR BARU: Menambahkan ikon baru
 } from "lucide-react"
 import { ToastContainer, useToast } from "@/components/toast"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -131,7 +132,7 @@ export default function AIImageGenerator() {
   const [showFloatingFeedback, setShowFloatingFeedback] = useState(false)
 
   const [prompt, setPrompt] = useState("")
-  const [negativePrompt, setNegativePrompt] = useState("") // <<< TAMBAHAN BARU: State untuk Negative Prompt
+  const [negativePrompt, setNegativePrompt] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([])
   const [selectedModel, setSelectedModel] = useState("flux")
@@ -175,8 +176,57 @@ export default function AIImageGenerator() {
   const [audioHistory, setAudioHistory] = useState<AudioItem[]>([])
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null)
+  const [isTranslating, setIsTranslating] = useState(false) // <<< FITUR BARU: State untuk proses translate
 
   const { toasts, addToast, removeToast, success, error: showError } = useToast()
+
+  // <<< FITUR BARU: Fungsi untuk menangani terjemahan
+  const handleTranslate = async () => {
+    if (!prompt.trim()) {
+      showError("No Prompt", "Please enter a prompt to translate.")
+      return
+    }
+
+    setIsTranslating(true);
+    try {
+      const response = await fetch("https://text.pollinations.ai/openai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "openai", // Menggunakan model general OpenAI untuk terjemahan
+          messages: [
+            {
+              role: "user",
+              content: `Translate the following text to English. Make it suitable as a prompt for an AI image generator, keeping it descriptive and creative:\n\n"${prompt}"`,
+            },
+          ],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Translation failed with status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      const translatedText = result.choices?.[0]?.message?.content;
+      
+      if (translatedText) {
+        setPrompt(translatedText.trim());
+        success("Prompt Translated", "Your prompt has been translated to English.");
+      } else {
+        throw new Error("Received an empty translation.");
+      }
+
+    } catch (err) {
+      console.error("Translation error:", err);
+      showError("Translation Failed", err instanceof Error ? err.message : "An unknown error occurred.");
+    } finally {
+      setIsTranslating(false);
+    }
+  }
+
 
   // Load data from localStorage
   useEffect(() => {
@@ -714,7 +764,6 @@ export default function AIImageGenerator() {
         let imageUrl = ""
         const currentSeed = seed + i
         
-        // <<< MODIFIKASI DIMULAI DI SINI
         let promptUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`
         let queryParams = `?enhance=true&nologo=true&nofeed=true&private=true&width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
 
@@ -728,13 +777,11 @@ export default function AIImageGenerator() {
             queryParams += `&model=${modelParam}`
         }
 
-        // Tambahkan negative prompt jika ada
         if (negativePrompt.trim() !== "") {
             queryParams += `&negative_prompt=${encodeURIComponent(negativePrompt)}`
         }
 
         imageUrl = promptUrl + queryParams
-        // <<< MODIFIKASI BERAKHIR DI SINI
         
         const response = await fetch(imageUrl, { method: 'HEAD' });
         if (!response.ok) {
@@ -1000,7 +1047,18 @@ export default function AIImageGenerator() {
                     disabled={isEnhancing}
                   />
 
-                  {/* <<< TAMBAHAN BARU: Input untuk Negative Prompt */}
+                  {/* <<< FITUR BARU: Tombol Translate diletakkan di bawah Textarea */}
+                  <div className="flex items-center gap-2">
+                    <Button onClick={handleTranslate} size="sm" variant="outline" disabled={isTranslating || !prompt.trim()}>
+                        {isTranslating ? (
+                          <Loader2 className="w-3 sm:w-4 h-3 sm:h-4 mr-1 animate-spin" />
+                        ) : (
+                          <Languages className="w-3 sm:w-4 h-3 sm:h-4 mr-1" />
+                        )}
+                        Translate to English
+                      </Button>
+                  </div>
+                  
                   <div>
                     <Label htmlFor="negative-prompt" className="text-xs text-gray-600 dark:text-gray-400">
                         Negative Prompt (Opsional)
