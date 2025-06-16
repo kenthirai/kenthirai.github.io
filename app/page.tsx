@@ -40,7 +40,7 @@ import {
   ImageIcon,
   Wand2,
   Video,
-  Languages, // <<< FITUR BARU: Menambahkan ikon baru
+  Languages,
 } from "lucide-react"
 import { ToastContainer, useToast } from "@/components/toast"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -176,11 +176,10 @@ export default function AIImageGenerator() {
   const [audioHistory, setAudioHistory] = useState<AudioItem[]>([])
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null)
-  const [isTranslating, setIsTranslating] = useState(false) // <<< FITUR BARU: State untuk proses translate
+  const [isTranslating, setIsTranslating] = useState(false)
 
   const { toasts, addToast, removeToast, success, error: showError } = useToast()
 
-  // <<< FITUR BARU: Fungsi untuk menangani terjemahan
   const handleTranslate = async () => {
     if (!prompt.trim()) {
       showError("No Prompt", "Please enter a prompt to translate.")
@@ -195,7 +194,7 @@ export default function AIImageGenerator() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "openai", // Menggunakan model general OpenAI untuk terjemahan
+          model: "openai",
           messages: [
             {
               role: "user",
@@ -227,8 +226,6 @@ export default function AIImageGenerator() {
     }
   }
 
-
-  // Load data from localStorage
   useEffect(() => {
     const savedHistory = localStorage.getItem("ai-image-history")
     const savedPromptsList = localStorage.getItem("saved-prompts")
@@ -284,7 +281,6 @@ export default function AIImageGenerator() {
     }
   }, [])
 
-  // Check for 24-hour reset
   useEffect(() => {
     const checkDailyReset = () => {
       const now = new Date()
@@ -321,7 +317,6 @@ export default function AIImageGenerator() {
     return `${hours}h ${minutes}m`
   }
 
-  // Save data to localStorage
   const saveHistory = (images: GeneratedImage[]) => {
     localStorage.setItem("ai-image-history", JSON.stringify(images))
   }
@@ -339,7 +334,6 @@ export default function AIImageGenerator() {
     localStorage.setItem("audio-history", JSON.stringify(audioItems))
   }
 
-  // Enhanced manual reset with better error handling
   const handleManualReset = async () => {
     if (!resetPassword.trim()) {
       showError("Password Required", "Please enter the reset password")
@@ -464,7 +458,6 @@ export default function AIImageGenerator() {
     }
   }
 
-  // Text to Audio functionality
   const generateAudio = async () => {
     if (!audioText.trim()) {
       showError("No Text", "Please enter text to convert to audio")
@@ -479,10 +472,8 @@ export default function AIImageGenerator() {
     setIsGeneratingAudio(true)
 
     try {
-      // Using Pollinations AI for text-to-speech
       const audioUrl = `https://text.pollinations.ai/openai?text=${encodeURIComponent(audioText)}&voice=alloy&model=tts-1&format=mp3&timestamp=${Date.now()}`
 
-      // Test if the URL is accessible
       const response = await fetch(audioUrl, { method: "HEAD" })
       if (!response.ok) {
         throw new Error(`Audio generation failed: ${response.status} ${response.statusText}`)
@@ -495,13 +486,13 @@ export default function AIImageGenerator() {
         timestamp: new Date(),
       }
 
-      const updatedAudioHistory = [newAudio, ...audioHistory.slice(0, 4)] // Keep only 5 items
+      const updatedAudioHistory = [newAudio, ...audioHistory.slice(0, 4)]
       setAudioHistory(updatedAudioHistory)
       setGeneratedAudioUrl(audioUrl)
       saveAudioHistory(updatedAudioHistory)
 
       success("Audio Generated", "Text has been converted to audio successfully!")
-      setAudioText("") // Clear input after successful generation
+      setAudioText("")
     } catch (error) {
       console.error("Audio generation error:", error)
       if (error instanceof TypeError && error.message.includes("fetch")) {
@@ -577,7 +568,6 @@ export default function AIImageGenerator() {
     }
   }
 
-  // Rest of the existing functions remain the same...
   const handleModelChange = (model: string) => {
     if (model === "dalle3") {
       setShowDalleModal(true)
@@ -735,7 +725,7 @@ export default function AIImageGenerator() {
     success("Settings Reset", "All settings have been reset to default values")
   }
 
- const generateImage = async () => {
+  const generateImage = async () => {
     if (!prompt.trim()) {
       showError("No Prompt", "Please enter a prompt to generate an image")
       return
@@ -764,7 +754,8 @@ export default function AIImageGenerator() {
         const currentSeed = seed + i
         
         let promptUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`
-        let queryParams = `?enhance=true&nologo=true&nofeed=true&private=true&width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}`
+        
+        let queryParams = `?width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}&nologo=true`
 
         if (selectedModel === "dalle3") {
             if (!dalleApiKey) {
@@ -781,9 +772,6 @@ export default function AIImageGenerator() {
         }
 
         const imageUrl = promptUrl + queryParams
-        
-        // Perhatikan: Bagian fetch() yang bermasalah sudah dihapus.
-        // Kita langsung membuat objek gambar dengan URL yang sudah kita bangun.
 
         const newImage: GeneratedImage = {
           id: `${Date.now()}-${i}`,
@@ -945,7 +933,6 @@ export default function AIImageGenerator() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-2 sm:p-4 transition-colors">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
           <div className="flex justify-between items-start mb-4">
             <div></div>
@@ -960,7 +947,6 @@ export default function AIImageGenerator() {
             <ThemeToggle />
           </div>
 
-          {/* Coins Display */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 mt-4">
             <div className="flex items-center gap-2 bg-yellow-100 dark:bg-yellow-900 px-3 sm:px-4 py-2 rounded-full">
               <Coins className="w-4 sm:w-5 h-4 sm:h-5 text-yellow-600 dark:text-yellow-400" />
@@ -980,7 +966,6 @@ export default function AIImageGenerator() {
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 sm:gap-6">
-          {/* Generation Panel */}
           <div className="xl:col-span-3">
             <Card className="dark:bg-gray-800 dark:border-gray-700">
               <CardHeader>
@@ -990,7 +975,6 @@ export default function AIImageGenerator() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 sm:space-y-6">
-                {/* Prompt Section */}
                 <div className="space-y-3">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <Label htmlFor="prompt" className="text-sm sm:text-base dark:text-gray-200">
@@ -1042,7 +1026,6 @@ export default function AIImageGenerator() {
                     disabled={isEnhancing}
                   />
 
-                  {/* <<< FITUR BARU: Tombol Translate diletakkan di bawah Textarea */}
                   <div className="flex items-center gap-2">
                     <Button onClick={handleTranslate} size="sm" variant="outline" disabled={isTranslating || !prompt.trim()}>
                         {isTranslating ? (
@@ -1068,7 +1051,6 @@ export default function AIImageGenerator() {
                     />
                   </div>
                   
-                  {/* Prompt Suggestions */}
                   <div className="flex flex-wrap gap-1 sm:gap-2">
                     {promptSuggestions.slice(0, 4).map((suggestion, index) => (
                       <Button
@@ -1084,7 +1066,6 @@ export default function AIImageGenerator() {
                   </div>
                 </div>
 
-                {/* Settings Grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                   <div>
                     <Label className="text-xs sm:text-sm dark:text-gray-200">AI Model</Label>
@@ -1187,7 +1168,6 @@ export default function AIImageGenerator() {
                   </div>
                 </div>
 
-                {/* Seed Control */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label className="text-xs sm:text-sm dark:text-gray-200">Seed: {seed}</Label>
@@ -1211,7 +1191,6 @@ export default function AIImageGenerator() {
                   />
                 </div>
 
-                {/* Generate Button */}
                 <div className="space-y-2">
                   <Button
                     onClick={generateImage}
@@ -1248,7 +1227,6 @@ export default function AIImageGenerator() {
               </CardContent>
             </Card>
 
-            {/* Generated Images Grid */}
             {generatedImages.length > 0 && (
               <Card className="mt-4 sm:mt-6 dark:bg-gray-800 dark:border-gray-700">
                 <CardHeader>
@@ -1330,9 +1308,7 @@ export default function AIImageGenerator() {
             )}
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-4 sm:space-y-6">
-            {/* Quick Actions */}
             <Card className="dark:bg-gray-800 dark:border-gray-700">
               <CardHeader>
                 <CardTitle className="text-base sm:text-lg dark:text-white">Quick Actions</CardTitle>
@@ -1381,7 +1357,6 @@ export default function AIImageGenerator() {
               </CardContent>
             </Card>
 
-            {/* Statistics */}
             <Card className="dark:bg-gray-800 dark:border-gray-700">
               <CardHeader>
                 <CardTitle className="text-base sm:text-lg dark:text-white">Statistics</CardTitle>
@@ -1416,7 +1391,6 @@ export default function AIImageGenerator() {
           </div>
         </div>
 
-        {/* Text to Audio Modal */}
         <Dialog open={showTextToAudio} onOpenChange={setShowTextToAudio}>
           <DialogContent className="sm:max-w-2xl dark:bg-gray-800 dark:border-gray-700">
             <DialogHeader>
@@ -1546,7 +1520,6 @@ export default function AIImageGenerator() {
           </DialogContent>
         </Dialog>
 
-        {/* Enhanced Manual Reset Modal */}
         <Dialog open={showResetModal} onOpenChange={setShowResetModal}>
           <DialogContent className="sm:max-w-md dark:bg-gray-800 dark:border-gray-700">
             <DialogHeader>
@@ -1613,7 +1586,6 @@ export default function AIImageGenerator() {
           </DialogContent>
         </Dialog>
 
-        {/* Prompt Manager Modal */}
         <Dialog open={showPromptManager} onOpenChange={setShowPromptManager}>
           <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto dark:bg-gray-800 dark:border-gray-700">
             <DialogHeader>
@@ -1686,7 +1658,6 @@ export default function AIImageGenerator() {
           </DialogContent>
         </Dialog>
 
-        {/* Zoom Modal */}
         <Dialog open={showZoomModal} onOpenChange={setShowZoomModal}>
           <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden dark:bg-gray-800 dark:border-gray-700">
             <DialogHeader>
@@ -1751,7 +1722,6 @@ export default function AIImageGenerator() {
           </DialogContent>
         </Dialog>
 
-        {/* DALL-E API Key Modal */}
         <Dialog open={showDalleModal} onOpenChange={setShowDalleModal}>
           <DialogContent className="dark:bg-gray-800 dark:border-gray-700">
             <DialogHeader>
@@ -1795,7 +1765,6 @@ export default function AIImageGenerator() {
           </DialogContent>
         </Dialog>
 
-        {/* Reset Settings Modal */}
         <Dialog open={showResetSettingsModal} onOpenChange={setShowResetSettingsModal}>
           <DialogContent className="sm:max-w-md dark:bg-gray-800 dark:border-gray-700">
             <DialogHeader>
@@ -1831,7 +1800,6 @@ export default function AIImageGenerator() {
           </DialogContent>
         </Dialog>
 
-        {/* Image to Prompt Modal */}
         <ImageToPrompt
           open={showImageToPrompt}
           onOpenChange={setShowImageToPrompt}
@@ -1841,7 +1809,6 @@ export default function AIImageGenerator() {
           }}
         />
 
-        {/* Prompt Creator Modal */}
         <Dialog open={showPromptCreator} onOpenChange={setShowPromptCreator}>
           <DialogContent className="sm:max-w-2xl dark:bg-gray-800 dark:border-gray-700">
             <DialogHeader>
@@ -1902,7 +1869,6 @@ export default function AIImageGenerator() {
           </DialogContent>
         </Dialog>
 
-        {/* Enhanced Prompt Creator Modal */}
         <EnhancedPromptCreator
           open={showEnhancedPromptCreator}
           onOpenChange={setShowEnhancedPromptCreator}
@@ -1912,7 +1878,6 @@ export default function AIImageGenerator() {
           }}
         />
 
-        {/* Video Prompt Creator Modal */}
         <VideoPromptCreator
           open={showVideoPromptCreator}
           onOpenChange={setShowVideoPromptCreator}
@@ -1922,7 +1887,6 @@ export default function AIImageGenerator() {
           }}
         />
 
-        {/* Visual Feedback Components */}
         <VisualFeedback
           type={feedbackType}
           trigger={showVisualFeedback}
@@ -1940,7 +1904,6 @@ export default function AIImageGenerator() {
           onClose={() => setShowFloatingFeedback(false)}
         />
 
-        {/* Toast Container */}
         <ToastContainer toasts={toasts} removeToast={removeToast} />
       </div>
     </div>
