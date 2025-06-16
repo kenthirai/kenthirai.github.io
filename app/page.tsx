@@ -725,42 +725,66 @@ export default function AIImageGenerator() {
     success("Settings Reset", "All settings have been reset to default values")
   }
 
-  const generateImage = async () => {
-    if (!prompt.trim()) {
-      showError("No Prompt", "Please enter a prompt to generate an image")
-      return
-    }
+ const generateImage = async () => {
+  if (!prompt.trim()) {
+    showError("No Prompt", "Please enter a prompt to generate an image")
+    return
+  }
 
-    // ---- PERUBAHAN LOGIKA BIAYA ----
-    const totalCost = 1 * batchCount; // Biaya selalu 1 koin per gambar dalam batch
+  const totalCost = 1 * batchCount;
 
-    if (coins < totalCost) {
-      showError("Insufficient Coins", `You need ${totalCost} coin(s) but only have ${coins}`)
-      return
-    }
+  if (coins < totalCost) {
+    showError("Insufficient Coins", `You need ${totalCost} coin(s) but only have ${coins}`)
+    return
+  }
 
-    setIsGenerating(true)
-    setError(null)
-    setFeedbackType("generating")
-    setShowVisualFeedback(true)
-    setGenerationProgress(0)
-    saveSettings()
+  setIsGenerating(true)
+  setError(null)
+  setFeedbackType("generating")
+  setShowVisualFeedback(true)
+  setGenerationProgress(0)
+  saveSettings()
 
-    try {
-      const newImages: GeneratedImage[] = []
+  try {
+    const newImages: GeneratedImage[] = []
 
-      for (let i = 0; i < batchCount; i++) {
-        setGenerationProgress(Math.round(((i + 1) / batchCount) * 100))
+    for (let i = 0; i < batchCount; i++) {
+      setGenerationProgress(Math.round(((i + 1) / batchCount) * 100))
 
-        const currentSeed = seed + i
-        
+      const currentSeed = seed + i
+      let imageUrl = "";
+
+      // ---- LOGIKA BARU DI SINI ----
+      if (selectedModel === 'gptimage') {
+        // Jika modelnya gptimage, panggil backend kita
+        const response = await fetch('/api/generate-gptimage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prompt,
+            width: selectedSize.width,
+            height: selectedSize.height,
+            seed: currentSeed,
+            negative_prompt: negativePrompt,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to generate image with GPT-Image');
+        }
+
+        const result = await response.json();
+        imageUrl = result.imageUrl;
+
+      } else {
+        // Untuk model lain, gunakan logika lama yang langsung
         let promptUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`
-        
-        let queryParams = `?width=${selectedSize.width}&height=${selectedSize.height}&seed=${currentSeed}&nologo=true`
+        let queryParams = `?width=<span class="math-inline">\{selectedSize\.width\}&height\=</span>{selectedSize.height}&seed=${currentSeed}&nologo=true`
 
         if (selectedModel === "dalle3") {
             if (!dalleApiKey) {
-                throw new Error("DALL-E 3 requires an API key. Please set it in the settings.")
+                throw new Error("DALL-E 3 requires an API key.")
             }
             queryParams += `&model=dalle3`
         } else {
@@ -771,46 +795,42 @@ export default function AIImageGenerator() {
         if (negativePrompt.trim() !== "") {
             queryParams += `&negative_prompt=${encodeURIComponent(negativePrompt)}`
         }
-
-        const imageUrl = promptUrl + queryParams
-
-        const newImage: GeneratedImage = {
-          id: `${Date.now()}-${i}`,
-          prompt,
-          url: imageUrl,
-          model: selectedModel,
-          size: selectedSize.label,
-          quality: selectedQuality.label,
-          seed: currentSeed,
-          timestamp: new Date(),
-          liked: false,
-          views: 0,
-        }
-
-        newImages.push(newImage)
+        imageUrl = promptUrl + queryParams;
       }
 
-      const updatedImages = [...newImages, ...generatedImages]
-      setGeneratedImages(updatedImages)
-      saveHistory(updatedImages)
-
-      const newCoinAmount = coins - totalCost
-      saveCoins(newCoinAmount)
-
-      success(
-        `${batchCount} Image${batchCount > 1 ? "s" : ""} Generated!`,
-        `Cost: ${totalCost} coins. Remaining: ${newCoinAmount} coins`,
-      )
-
-      generateRandomSeed()
-    } catch (error) {
-      console.error("Error generating image:", error)
-      showError("Generation Failed", error instanceof Error ? error.message : "Unknown error occurred")
-    } finally {
-      setIsGenerating(false)
-      setTimeout(() => setGenerationProgress(0), 1500);
+      const newImage: GeneratedImage = {
+        id: `<span class="math-inline">\{Date\.now\(\)\}\-</span>{i}`,
+        prompt,
+        url: imageUrl,
+        model: selectedModel,
+        size: selectedSize.label,
+        quality: selectedQuality.label,
+        seed: currentSeed,
+        timestamp: new Date(),
+        liked: false,
+        views: 0,
+      }
+      newImages.push(newImage)
     }
+
+    const updatedImages = [...newImages, ...generatedImages]
+    setGeneratedImages(updatedImages)
+    saveHistory(updatedImages)
+    const newCoinAmount = coins - totalCost
+    saveCoins(newCoinAmount)
+    success(
+      `<span class="math-inline">\{batchCount\} Image</span>{batchCount > 1 ? "s" : ""} Generated!`,
+      `Cost: ${totalCost} coins. Remaining: ${newCoinAmount} coins`,
+    )
+    generateRandomSeed()
+  } catch (error) {
+    console.error("Error generating image:", error)
+    showError("Generation Failed", error instanceof Error ? error.message : "Unknown error occurred")
+  } finally {
+    setIsGenerating(false)
+    setTimeout(() => setGenerationProgress(0), 1500);
   }
+}
 
   const clearPrompt = () => {
     setPrompt("")
@@ -1084,6 +1104,9 @@ export default function AIImageGenerator() {
                         <SelectItem value="dalle3" className="dark:text-white dark:focus:bg-gray-600">
                           DALL-E 3
                         </SelectItem>
+                        <SelectItem value="gptimage" className="dark:text-white dark:focus:bg-gray-600">
+    GPT-Image {/* <-- TAMBAHKAN INI */}
+</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
