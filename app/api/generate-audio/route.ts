@@ -3,40 +3,49 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const { text } = await req.json();
-    const apiToken = process.env.POLLINATIONS_TEXT_TOKEN;
 
-    if (!apiToken) {
-      return new Response('Audio API token is not configured on the server.', { status: 500 });
+    if (!text || typeof text !== 'string') {
+      return new Response('Invalid "text" in request body.', { status: 400 });
     }
 
-    // Panggil API Pollinations dari backend dengan token yang aman
-    const response = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiToken}`
-      },
-      body: JSON.stringify({
-        text: text,
-        voice: "alloy",
-        model: "tts-1",
-        format: "mp3",
-      })
+    // Meng-encode teks agar aman untuk dimasukkan ke dalam URL
+    const encodedText = encodeURIComponent(text);
+
+    // Mengambil struktur URL dan parameter dari referensi tts.js yang berfungsi
+    const params = new URLSearchParams({
+      model: "openai-audio",
+      voice: "alloy", // Anda bisa membuat ini dinamis nanti
+    });
+
+    const fullUrl = `https://text.pollinations.ai/${encodedText}?${params.toString()}`;
+
+    // Memanggil API Pollinations dengan metode GET yang benar
+    const response = await fetch(fullUrl, {
+      method: 'GET', // Menggunakan metode GET
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      return new Response(`Failed to generate audio: ${errorText}`, { status: response.status });
+      console.error(`Pollinations API Error: ${errorText}`);
+      return new Response(`Failed to generate audio from external API: ${errorText}`, { status: response.status });
     }
 
-    // Kirimkan data audio langsung kembali ke frontend
+    // Memastikan respons adalah audio
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('audio/mpeg')) {
+        const errorText = await response.text();
+        console.error(`Unexpected content type from Pollinations API: ${contentType}`, errorText);
+        return new Response('The external API did not return valid audio content.', { status: 502 }); // 502 Bad Gateway
+    }
+
+    // Mengirimkan data audio (blob) langsung kembali ke frontend
     const audioBlob = await response.blob();
     return new Response(audioBlob, {
       headers: { 'Content-Type': 'audio/mpeg' }
     });
 
   } catch (error) {
-    console.error('Generate-audio error:', error);
+    console.error('Generate-audio internal error:', error);
     return new Response('An internal server error occurred.', { status: 500 });
   }
 }
