@@ -14,6 +14,7 @@ function iteratorToStream(iterator: any) {
   });
 }
 
+// --- PASTIKAN FUNGSI INI BERNAMA 'POST' DALAM HURUF BESAR ---
 export async function POST(req: Request) {
   try {
     const { image } = await req.json(); // Menerima gambar dalam format base64
@@ -22,13 +23,11 @@ export async function POST(req: Request) {
       return new Response('Image data is required.', { status: 400 });
     }
     
-    // Mengambil API Key dari environment variables untuk keamanan
     const apiToken = process.env.POLLINATIONS_TEXT_TOKEN;
     if (!apiToken) {
         return new Response('API token is not configured on the server.', { status: 500 });
     }
 
-    // Payload ini meniru struktur yang ada di ruangriung.js untuk vision model
     const payload = {
       model: 'openai',
       messages: [
@@ -48,11 +47,11 @@ export async function POST(req: Request) {
           ],
         },
       ],
-      stream: true, // Meminta respons streaming
+      stream: true,
     };
 
     const response = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST',
+      method: 'POST', // Metode ke API eksternal adalah POST
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiToken}`,
@@ -65,8 +64,7 @@ export async function POST(req: Request) {
         console.error(`Pollinations API Error: ${errorText}`);
         return new Response(`Failed to analyze image from external API: ${errorText}`, { status: response.status });
     }
-
-    // Mengalirkan respons langsung ke client
+    
     const stream = iteratorToStream(response.body!.getReader());
 
     return new Response(stream, {
