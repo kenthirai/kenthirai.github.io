@@ -2,8 +2,6 @@
 
 import { NextResponse } from 'next/server';
 
-// Helper untuk mengubah stream menjadi format yang bisa dikirim oleh Next.js
-// Fungsi ini tidak diubah dan sudah benar.
 function iteratorToStream(iterator: any) {
   return new ReadableStream({
     async pull(controller) {
@@ -24,9 +22,20 @@ export async function POST(req: Request) {
     if (!image) {
       return new Response('Image data is required.', { status: 400 });
     }
+    
+    // --- PERUBAHAN DI SINI: Membaca API Key dari Environment Variable ---
+    // Pastikan nama variabel 'POLLINATIONS_API_KEY' sesuai dengan yang Anda atur di Vercel.
+    // Jika Anda menamakannya 'OPENAI_API_KEY' di Vercel, ganti di sini juga.
+    const apiKey = process.env.POLLINATIONS_API_KEY;
 
-    // Payload ini meniru struktur yang ada di ruangriung.js untuk vision model
-    // Strukturnya sudah benar.
+    if (!apiKey) {
+      return NextResponse.json(
+        { message: 'API key is not configured on the server. Please set POLLINATIONS_API_KEY.' },
+        { status: 500 }
+      );
+    }
+    // --- AKHIR PERUBAHAN ---
+
     const payload = {
       model: 'openai',
       messages: [
@@ -49,47 +58,30 @@ export async function POST(req: Request) {
       stream: true,
     };
 
-    // --- PERUBAHAN UTAMA DI BAWAH INI ---
-
-    // 1. Ubah payload menjadi string JSON, lalu encode untuk URL
-    const payloadString = JSON.stringify(payload);
-    const encodedPayload = encodeURIComponent(payloadString);
-
-    // 2. Buat URL lengkap dengan payload yang sudah di-encode.
-    // Kita asumsikan API menerima payload sebagai bagian dari path, mirip dengan generate-audio.
-    // Atau bisa juga sebagai query parameter, misalnya ?q=... atau ?data=...
-    // Pola ini (`/openai/${encodedPayload}`) lebih konsisten dengan endpoint lain yang Anda gunakan.
-    const fullUrl = `https://text.pollinations.ai/openai/${encodedPayload}`;
-
-
-    // 3. Panggil API Pollinations menggunakan metode GET, bukan POST.
-    const response = await fetch(fullUrl, {
-      method: 'GET', // <-- Mengubah metode menjadi GET
+    // Panggil API Pollinations menggunakan metode POST dengan menyertakan Authorization
+    const response = await fetch('https://text.pollinations.ai/openai', {
+      method: 'POST', // <-- Kembali menggunakan POST
       headers: {
-        'Accept': 'text/event-stream', // Memberitahu server kita mengharapkan stream
-        // Tidak perlu 'Content-Type' atau 'Authorization' untuk request GET ini
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}` // <-- Menambahkan Kunci API di sini
       },
+      body: JSON.stringify(payload), // <-- Mengirim data di body
     });
-
-    // --- AKHIR PERUBAHAN ---
-
 
     if (!response.ok) {
         const errorText = await response.text();
         console.error(`Pollinations API Error: ${response.status} - ${errorText}`);
-        // Sertakan status dari response upstream untuk debugging yang lebih baik
-        return new Response(`Failed to analyze image from external API. Status: ${response.status}`, { status: response.status });
+        return new Response(`Failed to analyze image. Status: ${response.status}. Message: ${errorText}`, { status: response.status });
     }
     
-    // Pastikan body response ada sebelum mencoba membuat stream
     if (!response.body) {
-        return new Response('The external API returned an empty response body.', { status: 502 }); // 502 Bad Gateway
+        return new Response('The external API returned an empty response body.', { status: 502 });
     }
 
     const stream = iteratorToStream(response.body.getReader());
 
     return new Response(stream, {
-        headers: { 'Content-Type': 'text/event-stream' }
+        headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' }
     });
 
   } catch (error) {
