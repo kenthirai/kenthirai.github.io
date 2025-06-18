@@ -1,13 +1,12 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Loader2, Upload, ImageIcon, Sparkles } from "lucide-react"
+import { Loader2, Upload, ImageIcon, Sparkles, X } from "lucide-react"
 
 interface ImageToPromptProps {
   open: boolean
@@ -15,118 +14,132 @@ interface ImageToPromptProps {
   onPromptGenerated: (prompt: string) => void
 }
 
+// Fungsi helper untuk mengompres gambar, diadaptasi dari ruangriung.js
+const compressImage = (file: File, maxWidth = 800, maxHeight = 800, quality = 0.7): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return reject(new Error('Failed to get canvas context'));
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
+
+
 export function ImageToPrompt({ open, onOpenChange, onPromptGenerated }: ImageToPromptProps) {
-  const [selectedImage, setSelectedImage] = useState<File | null>(null)
-  const [imagePreview, setImagePreview] = useState<string>("")
+  const [compressedImage, setCompressedImage] = useState<string>("")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [generatedPrompt, setGeneratedPrompt] = useState("")
   const [streamingText, setStreamingText] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState<string | null>(null);
 
-  const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file && file.type.startsWith("image/")) {
-      setSelectedImage(file)
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result as string)
+      try {
+        const compressedDataUrl = await compressImage(file);
+        setCompressedImage(compressedDataUrl);
+        setError(null);
+        setGeneratedPrompt("");
+        setStreamingText("");
+      } catch (err) {
+        console.error("Image compression failed:", err);
+        setError("Failed to process image. Please try a different one.");
       }
-      reader.readAsDataURL(file)
     }
   }
 
   const analyzeImage = async () => {
-    if (!selectedImage) return
+    if (!compressedImage) return
 
     setIsAnalyzing(true)
     setStreamingText("")
+    setGeneratedPrompt("")
+    setError(null)
 
     try {
-      // Convert image to base64
-      const reader = new FileReader()
-      reader.onload = async (e) => {
-        const base64Image = e.target?.result as string
+      const response = await fetch("/api/analyze-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: compressedImage }),
+      })
 
-        try {
-          const response = await fetch("https://text.pollinations.ai/openai", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "text/event-stream",
-            },
-            body: JSON.stringify({
-              model: "openai",
-              messages: [
-                {
-                  role: "user",
-                  content: `Analyze this image and create a detailed prompt that could be used to generate a similar image. Focus on: composition, style, colors, lighting, mood, objects, people, setting, and artistic techniques. Make it suitable for AI image generation.`,
-                },
-              ],
-              stream: true,
-            }),
-          })
+      if (!response.ok) {
+        throw new Error(`Analysis failed with status: ${response.status}`)
+      }
 
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`)
-          }
+      const reader = response.body?.getReader()
+      if (!reader) {
+        throw new Error("Failed to get response reader.")
+      }
+      
+      const decoder = new TextDecoder()
+      let fullResponse = ""
 
-          const reader = response.body?.getReader()
-          const decoder = new TextDecoder()
-          let fullResponse = ""
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
 
-          if (reader) {
-            while (true) {
-              const { done, value } = await reader.read()
-              if (done) break
+        const chunk = decoder.decode(value, { stream: true });
+        
+        // SSE format sends data chunks like "data: { ... }\n\n"
+        const lines = chunk.split("\n\n");
+        for(const line of lines) {
+            if (line.startsWith("data: ")) {
+                const dataStr = line.substring(6);
+                if (dataStr.trim() === "[DONE]") continue;
 
-              const chunk = decoder.decode(value)
-              const lines = chunk.split("\n")
-
-              for (const line of lines) {
-                if (line.startsWith("data: ")) {
-                  const data = line.slice(6)
-                  if (data.trim() === "[DONE]") {
-                    break
-                  }
-
-                  try {
-                    const parsed = JSON.parse(data)
-                    const content = parsed.choices?.[0]?.delta?.content
+                try {
+                    const parsed = JSON.parse(dataStr);
+                    const content = parsed?.choices?.[0]?.delta?.content;
                     if (content) {
-                      fullResponse += content
-                      setStreamingText(fullResponse)
+                      fullResponse += content;
+                      setStreamingText(fullResponse);
                     }
-                  } catch (e) {
-                    // Skip invalid JSON
-                  }
+                } catch (e) {
+                    // Ignore non-JSON chunks that might appear in the stream
                 }
-              }
             }
-          }
-
-          if (fullResponse.trim()) {
-            setGeneratedPrompt(fullResponse.trim())
-          } else {
-            throw new Error("No response received")
-          }
-        } catch (error) {
-          console.error("Error analyzing image:", error)
-          // Fallback prompt based on image analysis
-          setGeneratedPrompt(
-            "A detailed, high-quality image with professional composition, balanced lighting, and artistic style. The image features rich colors and careful attention to detail, suitable for digital art generation.",
-          )
         }
       }
 
-      reader.readAsDataURL(selectedImage)
-    } catch (error) {
-      console.error("Error processing image:", error)
-      setGeneratedPrompt(
-        "A detailed, high-quality image with professional composition, balanced lighting, and artistic style.",
-      )
+      if (fullResponse.trim()) {
+        setGeneratedPrompt(fullResponse.trim())
+      } else {
+        throw new Error("Analysis returned an empty description.")
+      }
+    } catch (err) {
+      console.error("Error analyzing image:", err)
+      setError(err instanceof Error ? err.message : "An unknown error occurred during analysis.");
     } finally {
       setIsAnalyzing(false)
-      setStreamingText("")
     }
   }
 
@@ -139,10 +152,10 @@ export function ImageToPrompt({ open, onOpenChange, onPromptGenerated }: ImageTo
   }
 
   const resetForm = () => {
-    setSelectedImage(null)
-    setImagePreview("")
+    setCompressedImage("")
     setGeneratedPrompt("")
     setStreamingText("")
+    setError(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
     }
@@ -163,7 +176,7 @@ export function ImageToPrompt({ open, onOpenChange, onPromptGenerated }: ImageTo
           <div>
             <Label className="dark:text-gray-200">Upload Image</Label>
             <div className="mt-2">
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageSelect} className="hidden" />
+              <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageSelect} className="hidden" />
               <Button
                 onClick={() => fileInputRef.current?.click()}
                 variant="outline"
@@ -179,12 +192,20 @@ export function ImageToPrompt({ open, onOpenChange, onPromptGenerated }: ImageTo
           </div>
 
           {/* Image Preview */}
-          {imagePreview && (
-            <div className="border rounded-lg p-4 dark:border-gray-600">
-              <Label className="text-sm font-medium dark:text-gray-200">Selected Image:</Label>
+          {compressedImage && (
+            <div className="border rounded-lg p-4 dark:border-gray-600 relative">
+               <Button
+                onClick={() => setCompressedImage("")}
+                variant="ghost"
+                size="sm"
+                className="absolute top-1 right-1 h-6 w-6 p-0 rounded-full bg-black/50 text-white hover:bg-black/75"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+              <Label className="text-sm font-medium dark:text-gray-200">Image Preview:</Label>
               <div className="mt-2 flex justify-center">
                 <img
-                  src={imagePreview || "/placeholder.svg"}
+                  src={compressedImage}
                   alt="Selected"
                   className="max-w-full max-h-64 object-contain rounded-lg"
                 />
@@ -192,29 +213,27 @@ export function ImageToPrompt({ open, onOpenChange, onPromptGenerated }: ImageTo
             </div>
           )}
 
-          {/* Generated Prompt Display */}
-          {(isAnalyzing && streamingText) || generatedPrompt ? (
+          {/* Result Display */}
+          {(isAnalyzing || generatedPrompt || error) && (
             <div className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-              <Label className="text-sm font-medium dark:text-gray-200">Generated Prompt:</Label>
-              <Textarea
-                value={isAnalyzing ? streamingText : generatedPrompt}
-                onChange={(e) => setGeneratedPrompt(e.target.value)}
-                rows={6}
-                className="mt-2 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
-                placeholder="Generated prompt will appear here..."
-              />
-              {isAnalyzing && (
-                <div className="flex items-center gap-2 mt-2">
-                  <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-                  <span className="text-xs text-gray-500 dark:text-gray-400">Analyzing image...</span>
-                </div>
+              <Label className="text-sm font-medium dark:text-gray-200">Analysis Result:</Label>
+              {error ? (
+                 <p className="text-sm mt-2 text-red-500 dark:text-red-400">{error}</p>
+              ) : (
+                <Textarea
+                    value={isAnalyzing ? streamingText : generatedPrompt}
+                    readOnly
+                    rows={6}
+                    className="mt-2 dark:bg-gray-600 dark:border-gray-500 dark:text-white whitespace-pre-wrap"
+                    placeholder="AI is analyzing the image..."
+                />
               )}
             </div>
-          ) : null}
+          )}
 
           {/* Action Buttons */}
           <div className="flex gap-2">
-            <Button onClick={analyzeImage} disabled={isAnalyzing || !selectedImage} className="flex-1">
+            <Button onClick={analyzeImage} disabled={isAnalyzing || !compressedImage} className="flex-1">
               {isAnalyzing ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
