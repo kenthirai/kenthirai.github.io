@@ -22,19 +22,6 @@ export async function POST(req: Request) {
     if (!image) {
       return new Response('Image data is required.', { status: 400 });
     }
-    
-    // --- PERUBAHAN DI SINI: Membaca API Key dari Environment Variable ---
-    // Pastikan nama variabel 'POLLINATIONS_API_KEY' sesuai dengan yang Anda atur di Vercel.
-    // Jika Anda menamakannya 'OPENAI_API_KEY' di Vercel, ganti di sini juga.
-    const apiKey = process.env.POLLINATIONS_API_KEY;
-
-    if (!apiKey) {
-      return NextResponse.json(
-        { message: 'API key is not configured on the server. Please set POLLINATIONS_API_KEY.' },
-        { status: 500 }
-      );
-    }
-    // --- AKHIR PERUBAHAN ---
 
     const payload = {
       model: 'openai',
@@ -58,15 +45,17 @@ export async function POST(req: Request) {
       stream: true,
     };
 
-    // Panggil API Pollinations menggunakan metode POST dengan menyertakan Authorization
+    // --- PERUBAHAN UTAMA DI HEADERS ---
     const response = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST', // <-- Kembali menggunakan POST
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}` // <-- Menambahkan Kunci API di sini
+        'Accept': 'text/event-stream', // <-- HEADER PENTING YANG DITAMBAHKAN
+        // Header 'Authorization' dihapus karena tidak ada di contoh yang berfungsi
       },
-      body: JSON.stringify(payload), // <-- Mengirim data di body
+      body: JSON.stringify(payload),
     });
+    // --- AKHIR PERUBAHAN ---
 
     if (!response.ok) {
         const errorText = await response.text();
