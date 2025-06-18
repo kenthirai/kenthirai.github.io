@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react" // <-- Tambahkan useRef
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -177,8 +177,28 @@ export default function AIImageGenerator() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null)
   const [isTranslating, setIsTranslating] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null); // Ref for the main audio element in the dialog
 
   const { toasts, addToast, removeToast, success, error: showError } = useToast()
+
+  // *** BARU: Menambahkan event listener untuk memilih teks ***
+  useEffect(() => {
+    const handleTextSelection = () => {
+      const promptTextarea = document.getElementById("prompt")
+      if (document.activeElement !== promptTextarea) return
+
+      const selectedText = window.getSelection()?.toString().trim()
+      if (selectedText && selectedText.length > 5) {
+        setAudioText(selectedText)
+        setShowTextToAudio(true) // Langsung buka dialog
+      }
+    }
+
+    document.addEventListener("mouseup", handleTextSelection)
+    return () => {
+      document.removeEventListener("mouseup", handleTextSelection)
+    }
+  }, []) // Dependency array kosong agar hanya berjalan sekali
 
   const handleTranslate = async () => {
     if (!prompt.trim()) {
@@ -456,105 +476,134 @@ export default function AIImageGenerator() {
     }
   }
 
+  // *** FUNGSI generateAudio YANG DIPERBARUI ***
   const generateAudio = async () => {
     if (!audioText.trim()) {
-      showError("No Text", "Please enter text to convert to audio")
-      return
+        showError("No Text", "Please enter text to convert to audio.");
+        return;
     }
 
     if (audioText.length > 1000) {
-      showError("Text Too Long", "Please limit text to 1000 characters")
-      return
+        showError("Text Too Long", "Please limit text to 1000 characters.");
+        return;
     }
 
-    setIsGeneratingAudio(true)
+    setIsGeneratingAudio(true);
+    setGeneratedAudioUrl(""); // Reset URL sebelumnya
+    stopAudio(); // Hentikan audio yang mungkin sedang diputar
 
     try {
-      const response = await fetch('/api/generate-audio', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: audioText })
-      });
+        const response = await fetch('/api/generate-audio', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: audioText }),
+        });
 
-      if (!response.ok) {
-        throw new Error(`Audio generation failed: ${response.status} ${response.statusText}`);
-      }
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Audio generation failed: ${errorText || response.statusText}`);
+        }
 
-      const audioBlob = await response.blob();
-      const audioUrl = URL.createObjectURL(audioBlob);
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
 
-      const newAudio: AudioItem = {
-        id: Date.now().toString(),
-        text: audioText,
-        url: audioUrl,
-        timestamp: new Date(),
-      }
+        const newAudio: AudioItem = {
+            id: Date.now().toString(),
+            text: audioText,
+            url: audioUrl,
+            timestamp: new Date(),
+        };
 
-      const updatedAudioHistory = [newAudio, ...audioHistory.slice(0, 4)]
-      setAudioHistory(updatedAudioHistory)
-      setGeneratedAudioUrl(audioUrl)
-      saveAudioHistory(updatedAudioHistory)
+        const updatedAudioHistory = [newAudio, ...audioHistory.slice(0, 4)];
+        setAudioHistory(updatedAudioHistory);
+        setGeneratedAudioUrl(audioUrl); // Set URL untuk audio player utama
+        saveAudioHistory(updatedAudioHistory);
 
-      success("Audio Generated", "Text has been converted to audio successfully!")
-      setAudioText("")
-    } catch (error) {
-      console.error("Audio generation error:", error)
-      showError("Generation Failed", "Failed to generate audio. Please try again.")
+        success("Audio Generated", "Text has been converted successfully!");
+        
+        // Atur agar audio player utama di dialog siap memutar
+        if(audioRef.current) {
+          audioRef.current.src = audioUrl;
+        }
+
+    } catch (err: any) {
+        console.error("Audio generation error:", err);
+        showError("Generation Failed", err.message || "An unknown error occurred.");
     } finally {
-      setIsGeneratingAudio(false)
+        setIsGeneratingAudio(false);
     }
-  }
+  };
 
+
+  // *** FUNGSI playAudio YANG DIPERBARUI ***
   const playAudio = (url: string) => {
-    if (currentAudio) {
-      currentAudio.pause()
-      setCurrentAudio(null)
-      setIsPlaying(false)
+    if (currentAudio && currentAudio.src === url) {
+      if (isPlaying) {
+        currentAudio.pause();
+        setIsPlaying(false);
+      } else {
+        currentAudio.play();
+        setIsPlaying(true);
+      }
+      return;
     }
 
-    const audio = new Audio(url)
-    audio.addEventListener("ended", () => {
-      setIsPlaying(false)
-      setCurrentAudio(null)
-    })
-    audio.addEventListener("error", (e) => {
-      console.error("Audio playback error:", e)
-      showError("Playback Error", "Failed to play audio. Please try again.")
-      setIsPlaying(false)
-      setCurrentAudio(null)
-    })
+    if (currentAudio) {
+      currentAudio.pause();
+    }
+    
+    const audio = new Audio(url);
+    audio.onended = () => {
+      setIsPlaying(false);
+      setCurrentAudio(null);
+    };
+    audio.onerror = (e) => {
+      console.error("Audio playback error:", e);
+      showError("Playback Error", "Failed to play audio.");
+      setIsPlaying(false);
+      setCurrentAudio(null);
+    };
 
-    audio
-      .play()
-      .then(() => {
-        setCurrentAudio(audio)
-        setIsPlaying(true)
-      })
-      .catch((error) => {
-        console.error("Audio play error:", error)
-        showError("Playback Error", "Failed to start audio playback.")
-      })
-  }
+    audio.play().then(() => {
+        setCurrentAudio(audio);
+        setIsPlaying(true);
+    }).catch(error => {
+        console.error("Audio play error:", error);
+        showError("Playback Error", "Failed to start audio playback.");
+    });
+  };
 
+  // *** FUNGSI stopAudio YANG DIPERBARUI ***
   const stopAudio = () => {
     if (currentAudio) {
-      currentAudio.pause()
-      setCurrentAudio(null)
-      setIsPlaying(false)
+      currentAudio.pause();
+      currentAudio.currentTime = 0; // Kembali ke awal
+      setIsPlaying(false);
+      setCurrentAudio(null);
     }
-  }
+  };
 
-  const downloadAudio = async (url: string, text: string) => {
-    // URL.createObjectURL creates a temporary URL, so we can link directly to it.
-    const link = document.createElement("a")
-    link.href = url
-    link.download = `${text.slice(0, 30)}_${Date.now()}.mp3`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    // No need to revoke if we might play it again, browser handles cleanup.
-    success("Download Complete", "Audio has been downloaded successfully")
-  }
+  // *** FUNGSI downloadAudio YANG DIPERBARUI ***
+  const downloadAudio = (url: string, text: string) => {
+    if (!url) {
+        showError("Download Error", "No audio URL available.");
+        return;
+    }
+    try {
+        const link = document.createElement("a");
+        link.href = url;
+        // Membuat nama file yang lebih bersih
+        const safeText = text.replace(/[^a-zA-Z0-9]/g, '_').slice(0, 30);
+        link.download = `${safeText}_${new Date().getTime()}.mp3`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        success("Download Complete", "Audio has been saved.");
+    } catch (err) {
+        console.error("Download error:", err);
+        showError("Download Failed", "Could not initiate download.");
+    }
+  };
 
   const handleModelChange = (model: string) => {
     if (model === "dalle3") {
@@ -906,6 +955,8 @@ export default function AIImageGenerator() {
 
   const clearAudioHistory = () => {
     setAudioHistory([])
+    setGeneratedAudioUrl("")
+    stopAudio()
     localStorage.removeItem("audio-history")
     success("Audio History Cleared", "All audio history has been removed")
   }
@@ -1377,7 +1428,13 @@ export default function AIImageGenerator() {
           </div>
         </div>
 
-        <Dialog open={showTextToAudio} onOpenChange={setShowTextToAudio}>
+        {/* *** DIALOG TEXT TO AUDIO YANG DIPERBARUI *** */}
+        <Dialog open={showTextToAudio} onOpenChange={(isOpen) => {
+            setShowTextToAudio(isOpen);
+            if (!isOpen) {
+              stopAudio(); // Hentikan audio saat dialog ditutup
+            }
+        }}>
           <DialogContent className="sm:max-w-2xl dark:bg-gray-800 dark:border-gray-700">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 dark:text-white">
@@ -1392,7 +1449,7 @@ export default function AIImageGenerator() {
                 </Label>
                 <Textarea
                   id="audioText"
-                  placeholder="Enter the text you want to convert to audio..."
+                  placeholder="Enter the text you want to convert to audio, or select text from the prompt area..."
                   value={audioText}
                   onChange={(e) => setAudioText(e.target.value)}
                   rows={4}
@@ -1406,14 +1463,10 @@ export default function AIImageGenerator() {
                 <div className="border rounded-lg p-3 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                   <Label className="text-sm font-medium dark:text-gray-200">Generated Audio:</Label>
                   <div className="flex items-center gap-2 mt-2">
-                    <Button
-                      onClick={() => (isPlaying ? stopAudio() : playAudio(generatedAudioUrl))}
-                      size="sm"
-                      variant="outline"
-                      className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-600"
-                    >
-                      {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                    </Button>
+                     <audio ref={audioRef} controls className="w-full">
+                        <source src={generatedAudioUrl} type="audio/mpeg" />
+                        Your browser does not support the audio element.
+                      </audio>
                     <Button
                       onClick={() => downloadAudio(generatedAudioUrl, audioText)}
                       size="sm"
@@ -1422,10 +1475,6 @@ export default function AIImageGenerator() {
                     >
                       <Download className="w-4 h-4" />
                     </Button>
-                    <audio controls className="flex-1">
-                      <source src={generatedAudioUrl} type="audio/mpeg" />
-                      Your browser does not support the audio element.
-                    </audio>
                   </div>
                 </div>
               )}
@@ -1444,7 +1493,7 @@ export default function AIImageGenerator() {
                       Clear
                     </Button>
                   </div>
-                  <div className="max-h-40 overflow-y-auto space-y-2">
+                  <div className="max-h-40 overflow-y-auto space-y-2 p-1">
                     {audioHistory.map((audio) => (
                       <div key={audio.id} className="border rounded p-2 dark:border-gray-600 dark:bg-gray-700">
                         <p className="text-xs text-gray-600 dark:text-gray-300 truncate">{audio.text}</p>
