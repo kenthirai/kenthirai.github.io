@@ -14,20 +14,15 @@ function iteratorToStream(iterator: any) {
   });
 }
 
-// --- PASTIKAN FUNGSI INI BERNAMA 'POST' DALAM HURUF BESAR ---
 export async function POST(req: Request) {
   try {
-    const { image } = await req.json(); // Menerima gambar dalam format base64
+    const { image } = await req.json();
 
     if (!image) {
       return new Response('Image data is required.', { status: 400 });
     }
-    
-    const apiToken = process.env.POLLINATIONS_TEXT_TOKEN;
-    if (!apiToken) {
-        return new Response('API token is not configured on the server.', { status: 500 });
-    }
 
+    // Payload ini meniru struktur yang ada di ruangriung.js untuk vision model
     const payload = {
       model: 'openai',
       messages: [
@@ -41,7 +36,7 @@ export async function POST(req: Request) {
             {
               type: 'image_url',
               image_url: {
-                url: image, // `image` adalah data URL base64
+                url: image,
               },
             },
           ],
@@ -50,19 +45,20 @@ export async function POST(req: Request) {
       stream: true,
     };
 
+    // Panggil API Pollinations TANPA Authorization header
     const response = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST', // Metode ke API eksternal adalah POST
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiToken}`,
+        // 'Authorization' header dihapus dari sini
       },
       body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
         const errorText = await response.text();
-        console.error(`Pollinations API Error: ${errorText}`);
-        return new Response(`Failed to analyze image from external API: ${errorText}`, { status: response.status });
+        console.error(`Pollinations API Error: ${response.status} - ${errorText}`);
+        return new Response(`Failed to analyze image from external API. Status: ${response.status}`, { status: response.status });
     }
     
     const stream = iteratorToStream(response.body!.getReader());
