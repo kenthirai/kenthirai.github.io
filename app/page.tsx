@@ -697,26 +697,31 @@ export default function AIImageGenerator() {
     success("Settings Reset", "All settings have been reset to default values")
   }
 
+  // Ganti HANYA fungsi generateImage di dalam file: app/page.tsx
+
   const generateImage = async () => {
     if (!prompt.trim()) {
-      showError("No Prompt", "Please enter a prompt to generate an image")
-      return
+      showError("No Prompt", "Please enter a prompt to generate an image");
+      return;
     }
 
     const totalCost = 1 * batchCount;
 
     if (coins < totalCost) {
-      showError("Insufficient Coins", `You need ${totalCost} coin(s) but only have ${coins}`)
-      return
+      showError("Insufficient Coins", `You need ${totalCost} coin(s) but only have ${coins}`);
+      return;
     }
 
-    setIsGenerating(true)
-    setError(null)
+    // Langkah 1: Set state loading menjadi true
+    setIsGenerating(true);
+    setError(null);
+
+    // Langkah 2: Beri jeda agar React bisa memperbarui UI
+    // Ini adalah bagian kunci yang akan menyelesaikan masalah
+    await new Promise(resolve => setTimeout(resolve, 0)); 
 
     try {
-      // Tunda sebentar untuk memastikan UI update sebelum loop
-      await new Promise(resolve => setTimeout(resolve, 50));
-      
+      // Langkah 3: Sekarang, setelah UI diperbarui, jalankan proses pembuatan gambar
       const imagePromises = Array.from({ length: batchCount }).map((_, i) => {
         const currentSeed = seed + i;
         let promptUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`;
@@ -739,8 +744,7 @@ export default function AIImageGenerator() {
 
         const imageUrl = promptUrl + queryParams;
         
-        // Cukup return URL, kita tidak perlu fetch di sini. Browser akan menanganinya.
-        return Promise.resolve({
+        return {
           id: `${Date.now()}-${i}`,
           prompt,
           url: imageUrl,
@@ -751,10 +755,10 @@ export default function AIImageGenerator() {
           timestamp: new Date(),
           liked: false,
           views: 0,
-        });
+        };
       });
 
-      const newImages = await Promise.all(imagePromises);
+      const newImages = imagePromises; // Tidak perlu Promise.all karena sudah sinkron
 
       const updatedImages = [...newImages, ...generatedImages];
       setGeneratedImages(updatedImages);
@@ -773,9 +777,10 @@ export default function AIImageGenerator() {
       console.error("Error generating image:", error);
       showError("Generation Failed", error instanceof Error ? error.message : "Unknown error occurred");
     } finally {
+      // Langkah 4: Set state loading kembali ke false setelah semua selesai
       setIsGenerating(false);
     }
-  }
+  };
 
   const clearPrompt = () => {
     setPrompt("")
