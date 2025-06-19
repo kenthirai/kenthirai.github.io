@@ -1,6 +1,8 @@
+// File: app/page.tsx
+
 "use client"
 
-import { useState, useEffect, useRef } from "react" // <-- Tambahkan useRef
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -177,11 +179,10 @@ export default function AIImageGenerator() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null)
   const [isTranslating, setIsTranslating] = useState(false)
-  const audioRef = useRef<HTMLAudioElement | null>(null); // Ref for the main audio element in the dialog
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const { toasts, addToast, removeToast, success, error: showError } = useToast()
 
-  // *** BARU: Menambahkan event listener untuk memilih teks ***
   useEffect(() => {
     const handleTextSelection = () => {
       const promptTextarea = document.getElementById("prompt")
@@ -190,7 +191,7 @@ export default function AIImageGenerator() {
       const selectedText = window.getSelection()?.toString().trim()
       if (selectedText && selectedText.length > 5) {
         setAudioText(selectedText)
-        setShowTextToAudio(true) // Langsung buka dialog
+        setShowTextToAudio(true) 
       }
     }
 
@@ -198,7 +199,7 @@ export default function AIImageGenerator() {
     return () => {
       document.removeEventListener("mouseup", handleTextSelection)
     }
-  }, []) // Dependency array kosong agar hanya berjalan sekali
+  }, []) 
 
   const handleTranslate = async () => {
     if (!prompt.trim()) {
@@ -476,7 +477,6 @@ export default function AIImageGenerator() {
     }
   }
 
-  // *** FUNGSI generateAudio YANG DIPERBARUI ***
   const generateAudio = async () => {
     if (!audioText.trim()) {
         showError("No Text", "Please enter text to convert to audio.");
@@ -489,8 +489,8 @@ export default function AIImageGenerator() {
     }
 
     setIsGeneratingAudio(true);
-    setGeneratedAudioUrl(""); // Reset URL sebelumnya
-    stopAudio(); // Hentikan audio yang mungkin sedang diputar
+    setGeneratedAudioUrl(""); 
+    stopAudio(); 
 
     try {
         const response = await fetch('/api/generate-audio', {
@@ -516,12 +516,11 @@ export default function AIImageGenerator() {
 
         const updatedAudioHistory = [newAudio, ...audioHistory.slice(0, 4)];
         setAudioHistory(updatedAudioHistory);
-        setGeneratedAudioUrl(audioUrl); // Set URL untuk audio player utama
+        setGeneratedAudioUrl(audioUrl); 
         saveAudioHistory(updatedAudioHistory);
 
         success("Audio Generated", "Text has been converted successfully!");
         
-        // Atur agar audio player utama di dialog siap memutar
         if(audioRef.current) {
           audioRef.current.src = audioUrl;
         }
@@ -535,7 +534,6 @@ export default function AIImageGenerator() {
   };
 
 
-  // *** FUNGSI playAudio YANG DIPERBARUI ***
   const playAudio = (url: string) => {
     if (currentAudio && currentAudio.src === url) {
       if (isPlaying) {
@@ -573,17 +571,15 @@ export default function AIImageGenerator() {
     });
   };
 
-  // *** FUNGSI stopAudio YANG DIPERBARUI ***
   const stopAudio = () => {
     if (currentAudio) {
       currentAudio.pause();
-      currentAudio.currentTime = 0; // Kembali ke awal
+      currentAudio.currentTime = 0; 
       setIsPlaying(false);
       setCurrentAudio(null);
     }
   };
 
-  // *** FUNGSI downloadAudio YANG DIPERBARUI ***
   const downloadAudio = (url: string, text: string) => {
     if (!url) {
         showError("Download Error", "No audio URL available.");
@@ -592,7 +588,6 @@ export default function AIImageGenerator() {
     try {
         const link = document.createElement("a");
         link.href = url;
-        // Membuat nama file yang lebih bersih
         const safeText = text.replace(/[^a-zA-Z0-9]/g, '_').slice(0, 30);
         link.download = `${safeText}_${new Date().getTime()}.mp3`;
         document.body.appendChild(link);
@@ -1284,58 +1279,48 @@ export default function AIImageGenerator() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {generatedImages.slice(0, 12).map((image) => (
-                      <div
-                        key={image.id}
-                        className="group relative bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-                      >
-                        <div className="aspect-square overflow-hidden">
-                          <img
-                            src={image.url || "/placeholder.svg"}
-                            alt={image.prompt}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform cursor-pointer"
-                            onClick={() => openZoomModal(image)}
-                          />
-                        </div>
-                        <div className="p-3">
-                          <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">{image.prompt}</p>
-                          <div className="flex items-center justify-between">
-                            <div className="flex gap-1">
-                              <Badge variant="outline" className="text-xs dark:border-gray-600 dark:text-gray-300">
-                                {image.model.toUpperCase()}
-                              </Badge>
-                              <Badge variant="outline" className="text-xs dark:border-gray-600 dark:text-gray-300">
-                                {image.size}
-                              </Badge>
-                            </div>
-                            <div className="flex gap-1">
+                  {/* --- PERUBAHAN 3: HASIL GAMBAR TANPA PEMBUNGKUS --- */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    {generatedImages.map((image) => (
+                      <div key={image.id} className="group relative aspect-square">
+                        <img
+                          src={image.url || "/placeholder.svg"}
+                          alt={image.prompt}
+                          className="aspect-square w-full h-full object-cover rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
+                        />
+                        {/* Overlay and Actions on Hover */}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-opacity duration-300 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 rounded-lg p-2">
+                           <div className="flex-grow"></div>
+                           <p className="text-white text-xs text-center line-clamp-2 mb-2 px-1">{image.prompt}</p>
+                           <div className="flex items-center justify-center gap-2 bg-black/30 backdrop-blur-sm p-1.5 rounded-full">
+                              <Button
+                                onClick={() => openZoomModal(image)}
+                                size="sm"
+                                variant="ghost"
+                                className="h-7 w-7 p-0 text-white hover:bg-white/20 hover:text-white"
+                                title="Zoom"
+                              >
+                                <ZoomIn className="w-4 h-4" />
+                              </Button>
                               <Button
                                 onClick={() => toggleLike(image.id)}
                                 size="sm"
                                 variant="ghost"
-                                className="h-6 w-6 p-0 dark:text-white dark:hover:bg-gray-600"
+                                className="h-7 w-7 p-0 text-white hover:bg-white/20 hover:text-white"
+                                title="Like"
                               >
-                                <Heart className={`w-3 h-3 ${image.liked ? "fill-red-500 text-red-500" : ""}`} />
+                                <Heart className={`w-4 h-4 ${image.liked ? "fill-red-500 text-red-500" : ""}`} />
                               </Button>
                               <Button
                                 onClick={() => downloadImage(image.url, image.prompt)}
                                 size="sm"
                                 variant="ghost"
-                                className="h-6 w-6 p-0 dark:text-white dark:hover:bg-gray-600"
+                                className="h-7 w-7 p-0 text-white hover:bg-white/20 hover:text-white"
+                                title="Download"
                               >
-                                <Download className="w-3 h-3" />
+                                <Download className="w-4 h-4" />
                               </Button>
-                              <Button
-                                onClick={() => shareImage(image)}
-                                size="sm"
-                                variant="ghost"
-                                className="h-6 w-6 p-0 dark:text-white dark:hover:bg-gray-600"
-                              >
-                                <Share className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          </div>
+                           </div>
                         </div>
                       </div>
                     ))}
@@ -1427,12 +1412,11 @@ export default function AIImageGenerator() {
             </Card>
           </div>
         </div>
-
-        {/* *** DIALOG TEXT TO AUDIO YANG DIPERBARUI *** */}
+        
         <Dialog open={showTextToAudio} onOpenChange={(isOpen) => {
             setShowTextToAudio(isOpen);
             if (!isOpen) {
-              stopAudio(); // Hentikan audio saat dialog ditutup
+              stopAudio(); 
             }
         }}>
           <DialogContent className="sm:max-w-2xl dark:bg-gray-800 dark:border-gray-700">
@@ -1927,8 +1911,9 @@ export default function AIImageGenerator() {
           trigger={showVisualFeedback}
           onComplete={() => setShowVisualFeedback(false)}
         />
-
-        <LoadingAnimation isVisible={isGenerating} />
+        
+        {/* --- PERUBAHAN 2: SPINNER LOADING PADA BODY DIHAPUS --- */}
+        {/* <LoadingAnimation isVisible={isGenerating} /> */}
 
         <ProgressBar progress={generationProgress} isVisible={isGenerating && generationProgress > 0} />
 
