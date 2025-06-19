@@ -76,7 +76,7 @@ export function ImageToPrompt({ open, onOpenChange, onPromptGenerated }: ImageTo
     }
   }
 
-  // Ganti fungsi analyzeImage di dalam file: components/image-to-prompt.tsx
+// Ganti fungsi analyzeImage di dalam file: components/image-to-prompt.tsx
 
   const analyzeImage = async () => {
     if (!compressedImage) return;
@@ -87,32 +87,32 @@ export function ImageToPrompt({ open, onOpenChange, onPromptGenerated }: ImageTo
     setError(null);
 
     try {
-      // PERUBAHAN UTAMA: Menggunakan endpoint yang BENAR untuk analisis gambar
-      // dan mengirim gambar sebagai body permintaan.
-      const response = await fetch("https://image.pollinations.ai/prompt", {
+      // Panggilan ke backend API route kita tetap sama.
+      const response = await fetch("/api/analyze-image", {
         method: "POST",
-        headers: {
-          "Content-Type": "image/jpeg", // Kirim gambar sebagai tipe kontennya langsung
-        },
-        body: await (await fetch(compressedImage)).blob(), // Ambil data blob dari data URL gambar
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: compressedImage }),
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Analisis gagal: Status ${response.status}. Pesan: ${errorText}`);
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Analisis gagal dengan status: ${response.status}`);
       }
-      
-      // Endpoint ini tidak streaming, ia mengembalikan JSON langsung
+
+      // Sekarang kita mengharapkan JSON, bukan stream.
       const result = await response.json();
-      const promptText = result.prompt;
+      
+      // Ekstrak konten teks dari struktur respons JSON.
+      const promptText = result?.choices?.[0]?.message?.content;
 
-      if (promptText && typeof promptText === 'string' && promptText.trim()) {
-        setGeneratedPrompt(promptText.trim());
-        setStreamingText(promptText.trim()); // Juga set streaming text untuk konsistensi tampilan
+      if (promptText && typeof promptText === 'string') {
+        const trimmedPrompt = promptText.trim();
+        setGeneratedPrompt(trimmedPrompt);
+        // Set juga streaming text agar pengguna bisa melihat hasilnya.
+        setStreamingText(trimmedPrompt); 
       } else {
-        throw new Error("API mengembalikan hasil prompt yang tidak valid.");
+        throw new Error("Respons dari AI tidak valid atau tidak berisi prompt.");
       }
-
     } catch (err) {
       console.error("Error analyzing image:", err);
       setError(err instanceof Error ? err.message : "Terjadi error yang tidak diketahui saat analisis.");
@@ -120,7 +120,6 @@ export function ImageToPrompt({ open, onOpenChange, onPromptGenerated }: ImageTo
       setIsAnalyzing(false);
     }
   };
-
   const usePrompt = () => {
     if (generatedPrompt) {
       onPromptGenerated(generatedPrompt)
