@@ -76,72 +76,50 @@ export function ImageToPrompt({ open, onOpenChange, onPromptGenerated }: ImageTo
     }
   }
 
-  const analyzeImage = async () => {
-    if (!compressedImage) return
+  // Ganti fungsi analyzeImage di dalam file: components/image-to-prompt.tsx
 
-    setIsAnalyzing(true)
-    setStreamingText("")
-    setGeneratedPrompt("")
-    setError(null)
+  const analyzeImage = async () => {
+    if (!compressedImage) return;
+
+    setIsAnalyzing(true);
+    setStreamingText("");
+    setGeneratedPrompt("");
+    setError(null);
 
     try {
-      const response = await fetch("/api/analyze-image", {
+      // PERUBAHAN UTAMA: Menggunakan endpoint yang BENAR untuk analisis gambar
+      // dan mengirim gambar sebagai body permintaan.
+      const response = await fetch("https://image.pollinations.ai/prompt", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: compressedImage }),
-      })
+        headers: {
+          "Content-Type": "image/jpeg", // Kirim gambar sebagai tipe kontennya langsung
+        },
+        body: await (await fetch(compressedImage)).blob(), // Ambil data blob dari data URL gambar
+      });
 
       if (!response.ok) {
-        throw new Error(`Analysis failed with status: ${response.status}`)
-      }
-
-      const reader = response.body?.getReader()
-      if (!reader) {
-        throw new Error("Failed to get response reader.")
+        const errorText = await response.text();
+        throw new Error(`Analisis gagal: Status ${response.status}. Pesan: ${errorText}`);
       }
       
-      const decoder = new TextDecoder()
-      let fullResponse = ""
+      // Endpoint ini tidak streaming, ia mengembalikan JSON langsung
+      const result = await response.json();
+      const promptText = result.prompt;
 
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-
-        const chunk = decoder.decode(value, { stream: true });
-        
-        // SSE format sends data chunks like "data: { ... }\n\n"
-        const lines = chunk.split("\n\n");
-        for(const line of lines) {
-            if (line.startsWith("data: ")) {
-                const dataStr = line.substring(6);
-                if (dataStr.trim() === "[DONE]") continue;
-
-                try {
-                    const parsed = JSON.parse(dataStr);
-                    const content = parsed?.choices?.[0]?.delta?.content;
-                    if (content) {
-                      fullResponse += content;
-                      setStreamingText(fullResponse);
-                    }
-                } catch (e) {
-                    // Ignore non-JSON chunks that might appear in the stream
-                }
-            }
-        }
-      }
-
-      if (fullResponse.trim()) {
-        setGeneratedPrompt(fullResponse.trim())
+      if (promptText && typeof promptText === 'string' && promptText.trim()) {
+        setGeneratedPrompt(promptText.trim());
+        setStreamingText(promptText.trim()); // Juga set streaming text untuk konsistensi tampilan
       } else {
-        throw new Error("Analysis returned an empty description.")
+        throw new Error("API mengembalikan hasil prompt yang tidak valid.");
       }
+
     } catch (err) {
-      console.error("Error analyzing image:", err)
-      setError(err instanceof Error ? err.message : "An unknown error occurred during analysis.");
+      console.error("Error analyzing image:", err);
+      setError(err instanceof Error ? err.message : "Terjadi error yang tidak diketahui saat analisis.");
     } finally {
-      setIsAnalyzing(false)
+      setIsAnalyzing(false);
     }
-  }
+  };
 
   const usePrompt = () => {
     if (generatedPrompt) {
