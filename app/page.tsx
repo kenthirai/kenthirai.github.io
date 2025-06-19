@@ -48,7 +48,7 @@ import {
 import { ToastContainer, useToast } from "@/components/toast"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ImageToPrompt } from "@/components/image-to-prompt"
-import { VisualFeedback, ProgressBar } from "@/components/visual-feedback" // Dihapus: LoadingAnimation
+import { VisualFeedback, ProgressBar } from "@/components/visual-feedback"
 import { VideoPromptCreator } from "@/components/video-prompt-creator"
 import { EnhancedPromptCreator } from "@/components/enhanced-prompt-creator"
 
@@ -204,7 +204,12 @@ export default function AIImageGenerator() {
   };
 
   useEffect(() => {
-    if (isGenerating) {
+    // Gunakan flag untuk mencegah eksekusi ganda jika isGenerating berubah terlalu cepat
+    let isProcessing = false;
+
+    if (isGenerating && !isProcessing) {
+      isProcessing = true;
+      
       const processGeneration = () => {
         try {
           const totalCost = 1 * batchCount;
@@ -254,9 +259,11 @@ export default function AIImageGenerator() {
           setIsGenerating(false);
         }
       };
-      processGeneration();
+      
+      // Memberi sedikit jeda sebelum menjalankan proses, untuk memastikan UI update
+      setTimeout(processGeneration, 50);
     }
-  }, [isGenerating, batchCount, coins, dalleApiKey, generatedImages, negativePrompt, prompt, seed, selectedModel, selectedQuality.label, selectedSize.height, selectedSize.label, selectedSize.width, showError, success]);
+  }, [isGenerating]);
 
 
   const handleTranslate = async () => {
@@ -1082,25 +1089,28 @@ export default function AIImageGenerator() {
         {/* SEMUA DIALOG FUNGSIONALITAS YANG HILANG DIKEMBALIKAN DI SINI */}
         <Dialog open={showDalleModal} onOpenChange={setShowDalleModal}>
           <DialogContent className="dark:bg-gray-800 dark:border-gray-700">
-            <DialogHeader>
-              <DialogTitle className="dark:text-white">DALL-E 3 API Key Required</DialogTitle>
-            </DialogHeader>
-            {/* ... konten dalle modal ... */}
+            <DialogHeader><DialogTitle className="dark:text-white">DALL-E 3 API Key Required</DialogTitle></DialogHeader>
+            <div className="space-y-4">
+              <p className="text-sm text-gray-600 dark:text-gray-400">To use DALL-E 3, please enter your OpenAI API key.</p>
+              <div>
+                <Label htmlFor="apikey" className="dark:text-gray-200">OpenAI API Key</Label>
+                <Input id="apikey" type="password" placeholder="sk-..." value={tempApiKey} onChange={(e) => setTempApiKey(e.target.value)} className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={handleDalleApiSubmit} className="flex-1">Save & Use DALL-E</Button>
+                <Button variant="outline" onClick={() => { setShowDalleModal(false); setTempApiKey(""); setSelectedModel("flux");}} className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700">Cancel</Button>
+              </div>
+            </div>
           </DialogContent>
         </Dialog>
 
         <Dialog open={showResetSettingsModal} onOpenChange={setShowResetSettingsModal}>
           <DialogContent className="sm:max-w-md dark:bg-gray-800 dark:border-gray-700">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2 dark:text-white"><RotateCcw className="w-5 h-5" />Reset Settings</DialogTitle>
-            </DialogHeader>
+            <DialogHeader><DialogTitle className="flex items-center gap-2 dark:text-white"><RotateCcw className="w-5 h-5" />Reset Settings</DialogTitle></DialogHeader>
             <div className="space-y-4">
               <p className="text-sm text-gray-600 dark:text-gray-400">This will reset all settings to their default values:</p>
               <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1 ml-4">
-                <li>• Model: Flux</li>
-                <li>• Size: 3:4 Portrait</li>
-                <li>• Quality: HD</li>
-                <li>• Batch Count: 1</li>
+                <li>• Model: Flux</li><li>• Size: 3:4 Portrait</li><li>• Quality: HD</li><li>• Batch Count: 1</li>
               </ul>
               <div className="flex gap-2">
                 <Button onClick={resetToDefaults} className="flex-1">Reset to Defaults</Button>
@@ -1112,13 +1122,50 @@ export default function AIImageGenerator() {
 
         <Dialog open={showTextToAudio} onOpenChange={(isOpen) => { setShowTextToAudio(isOpen); if (!isOpen) stopAudio(); }}>
           <DialogContent className="sm:max-w-2xl dark:bg-gray-800 dark:border-gray-700">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2 dark:text-white"><Volume2 className="w-5 h-5" />Text to Audio Generator</DialogTitle>
-            </DialogHeader>
-            {/* ... konten text to audio ... */}
+            <DialogHeader><DialogTitle className="flex items-center gap-2 dark:text-white"><Volume2 className="w-5 h-5" />Text to Audio Generator</DialogTitle></DialogHeader>
+             <div className="space-y-4">
+              <div>
+                <Label htmlFor="audioText" className="dark:text-gray-200">Enter text to convert to audio (max 1000 characters)</Label>
+                <Textarea id="audioText" placeholder="Enter the text you want to convert to audio..." value={audioText} onChange={(e) => setAudioText(e.target.value)} rows={4} maxLength={1000} className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{audioText.length}/1000 characters</div>
+              </div>
+              {generatedAudioUrl && (
+                <div className="border rounded-lg p-3 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                  <Label className="text-sm font-medium dark:text-gray-200">Generated Audio:</Label>
+                  <div className="flex items-center gap-2 mt-2">
+                     <audio ref={audioRef} controls className="w-full"><source src={generatedAudioUrl} type="audio/mpeg" />Your browser does not support the audio element.</audio>
+                    <Button onClick={() => downloadAudio(generatedAudioUrl, audioText)} size="sm" variant="outline" className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-600"><Download className="w-4 h-4" /></Button>
+                  </div>
+                </div>
+              )}
+              <div className="flex gap-2">
+                <Button onClick={generateAudio} disabled={isGeneratingAudio || !audioText.trim()} className="flex-1">{isGeneratingAudio ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />Generating Audio...</>) : (<><Volume2 className="w-4 h-4 mr-2" />Generate Audio</>)}</Button>
+                <Button variant="outline" onClick={() => { setShowTextToAudio(false); setAudioText(""); setGeneratedAudioUrl(""); stopAudio();}} className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700">Close</Button>
+              </div>
+            </div>
           </DialogContent>
         </Dialog>
 
+        <Dialog open={showResetModal} onOpenChange={setShowResetModal}>
+          <DialogContent className="sm:max-w-md dark:bg-gray-800 dark:border-gray-700">
+            <DialogHeader><DialogTitle className="flex items-center gap-2 dark:text-white"><Lock className="w-5 h-5" />Manual Coin Reset</DialogTitle></DialogHeader>
+            <div className="space-y-4">
+              <p className="text-sm text-gray-600 dark:text-gray-400">Enter the admin password to manually reset your coins to 100.</p>
+              <div>
+                <Label htmlFor="resetPassword" className="dark:text-gray-200">Admin Password</Label>
+                <div className="relative">
+                  <Input id="resetPassword" type={showPassword ? "text" : "password"} placeholder="Enter admin password..." value={resetPassword} onChange={(e) => setResetPassword(e.target.value)} className="dark:bg-gray-700 dark:border-gray-600 dark:text-white pr-10" disabled={isResetting}/>
+                  <Button type="button" variant="ghost" size="sm" className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent dark:text-gray-400 dark:hover:text-white" onClick={() => setShowPassword(!showPassword)} disabled={isResetting}>{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</Button>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={handleManualReset} className="flex-1" disabled={isResetting || !resetPassword.trim()}>{isResetting ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />Resetting...</>) : ("Reset Coins")}</Button>
+                <Button variant="outline" onClick={() => { setShowResetModal(false); setResetPassword(""); setShowPassword(false);}} className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700" disabled={isResetting}>Cancel</Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+        
         <ImageToPrompt open={showImageToPrompt} onOpenChange={setShowImageToPrompt} onPromptGenerated={(prompt) => { setPrompt(prompt); success("Prompt Generated", "Image has been analyzed and prompt created!"); }} />
         <VideoPromptCreator open={showVideoPromptCreator} onOpenChange={setShowVideoPromptCreator} onPromptGenerated={(prompt) => { setPrompt(prompt); success("Video Prompt Created", "Your video generation prompt has been created!"); }} />
         <EnhancedPromptCreator open={showEnhancedPromptCreator} onOpenChange={setShowEnhancedPromptCreator} onPromptGenerated={(prompt) => { setPrompt(prompt); success("Enhanced Prompt Created", "Your detailed prompt has been generated!"); }} />
