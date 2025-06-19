@@ -2,7 +2,8 @@
 
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+// PERBAIKAN: Menambahkan 'useRef' ke dalam import dari React
+import { useState, useEffect, useRef, useCallback } from "react" 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,7 +14,6 @@ import { Slider } from "@/components/ui/slider"
 import { useToast } from "@/components/toast"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ImageToPrompt } from "@/components/image-to-prompt"
-// Impor PromptManager yang baru
 import { PromptManager, type SavedPrompt } from "@/components/prompt-manager"
 
 import {
@@ -60,6 +60,41 @@ const GeneratingOverlay = () => (
     <p className="text-gray-600 dark:text-gray-300">Please wait, this may take a moment.</p>
   </div>
 );
+
+// Komponen terpisah untuk grid gambar agar lebih rapi
+const ImageGrid = ({ images, onAllImagesLoaded }: { images: GeneratedImage[], onAllImagesLoaded: () => void }) => {
+    const imageLoadPromises = useRef<Promise<any>[]>([]);
+    
+    useEffect(() => {
+        // Setiap kali gambar berubah, kita tunggu semuanya selesai dimuat
+        const imageElements = document.querySelectorAll<HTMLImageElement>('#image-grid-item');
+        imageLoadPromises.current = Array.from(imageElements).map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(resolve => {
+                img.onload = resolve;
+                img.onerror = resolve; // Tetap resolve meski error agar tidak stuck
+            });
+        });
+
+        Promise.all(imageLoadPromises.current).then(() => {
+            onAllImagesLoaded();
+        });
+    }, [images, onAllImagesLoaded]);
+
+    return (
+        <div className="grid grid-cols-2 gap-4">
+            {images.map((image) => (
+                <div key={image.id} className="group relative aspect-square">
+                    <img id="image-grid-item" src={image.url} alt={image.prompt} className="w-full h-full object-cover rounded-lg transition-all duration-300 group-hover:brightness-75" />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity p-2 text-white flex flex-col justify-end">
+                        <p className="text-xs font-mono">{image.model} @ {image.seed}</p>
+                        <p className="text-sm font-semibold truncate">{image.prompt}</p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
 
 
 export default function AIImageGenerator() {
@@ -152,10 +187,7 @@ export default function AIImageGenerator() {
         } catch (err) {
             console.error("Image generation failed:", err);
             showError("Generation Failed", err instanceof Error ? err.message : "An unknown error occurred.");
-        } finally {
-            // Kita akan set isGenerating ke false setelah gambar selesai dimuat, bukan di sini
-            // Ini akan ditangani oleh event `onLoad` pada gambar
-        }
+        } 
     }, 100); // Penundaan 100ms
   }, [prompt, settings, coins, showError, success]);
 
@@ -307,10 +339,8 @@ export default function AIImageGenerator() {
             </div>
             
             <div className="relative min-h-[400px] bg-gray-100 dark:bg-gray-800/50 rounded-lg p-4">
-              {/* PERBAIKAN: Tampilkan overlay loading di sini */}
               {status.isGenerating && <GeneratingOverlay />}
               
-              {/* PERBAIKAN: Tampilkan pesan jika tidak ada gambar dan tidak sedang loading */}
               {!status.isGenerating && generatedImages.length === 0 && (
                 <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 dark:text-gray-400">
                   <ImageIcon className="w-16 h-16 mb-4" />
@@ -319,7 +349,6 @@ export default function AIImageGenerator() {
                 </div>
               )}
 
-              {/* Tampilkan gambar jika ada */}
               {generatedImages.length > 0 && (
                 <ImageGrid images={generatedImages} onAllImagesLoaded={handleAllImagesLoaded} />
               )}
@@ -345,38 +374,3 @@ export default function AIImageGenerator() {
     </div>
   )
 }
-
-// Komponen terpisah untuk grid gambar agar lebih rapi
-const ImageGrid = ({ images, onAllImagesLoaded }: { images: GeneratedImage[], onAllImagesLoaded: () => void }) => {
-    const imageLoadPromises = useRef<Promise<any>[]>([]);
-    
-    useEffect(() => {
-        // Setiap kali gambar berubah, kita tunggu semuanya selesai dimuat
-        const imageElements = document.querySelectorAll<HTMLImageElement>('#image-grid-item');
-        imageLoadPromises.current = Array.from(imageElements).map(img => {
-            if (img.complete) return Promise.resolve();
-            return new Promise(resolve => {
-                img.onload = resolve;
-                img.onerror = resolve; // Tetap resolve meski error agar tidak stuck
-            });
-        });
-
-        Promise.all(imageLoadPromises.current).then(() => {
-            onAllImagesLoaded();
-        });
-    }, [images, onAllImagesLoaded]);
-
-    return (
-        <div className="grid grid-cols-2 gap-4">
-            {images.map((image) => (
-                <div key={image.id} className="group relative aspect-square">
-                    <img id="image-grid-item" src={image.url} alt={image.prompt} className="w-full h-full object-cover rounded-lg transition-all duration-300 group-hover:brightness-75" />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity p-2 text-white flex flex-col justify-end">
-                        <p className="text-xs font-mono">{image.model} @ {image.seed}</p>
-                        <p className="text-sm font-semibold truncate">{image.prompt}</p>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-};
