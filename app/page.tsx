@@ -43,6 +43,7 @@ import {
   Wand2,
   Video,
   Languages,
+  X as CloseIcon, // Mengganti nama X agar tidak konflik
 } from "lucide-react"
 import { ToastContainer, useToast } from "@/components/toast"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -51,6 +52,7 @@ import { VisualFeedback, LoadingAnimation, ProgressBar, FloatingFeedback } from 
 import { VideoPromptCreator } from "@/components/video-prompt-creator"
 import { EnhancedPromptCreator } from "@/components/enhanced-prompt-creator"
 
+// --- INTERFACE DAN DATA TETAP SAMA ---
 interface GeneratedImage {
   id: string
   prompt: string
@@ -63,7 +65,7 @@ interface GeneratedImage {
   liked: boolean
   views: number
 }
-
+// ... (Interface lainnya tetap sama) ...
 interface SavedPrompt {
   id: string
   text: string
@@ -118,7 +120,71 @@ const promptSuggestions = [
   "Steampunk airship floating in cloudy sky",
 ]
 
+
+// --- PERUBAHAN 1: MEMBUAT KOMPONEN LIGHTBOX KUSTOM DI SINI ---
+const Lightbox = ({ image, onClose, onZoomChange, zoomLevel }: { image: GeneratedImage | null, onClose: () => void, onZoomChange: (level: number) => void, zoomLevel: number }) => {
+  if (!image) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      onClick={onClose} // Menutup lightbox jika mengklik background
+    >
+      <div 
+        className="relative w-full h-full flex items-center justify-center overflow-auto p-4"
+        onClick={(e) => e.stopPropagation()} // Mencegah klik di dalam gambar menutup lightbox
+      >
+        <img
+          src={image.url || "/placeholder.svg"}
+          alt={image.prompt}
+          className="max-w-none max-h-none transition-transform duration-300"
+          style={{ transform: `scale(${zoomLevel / 100})` }}
+        />
+      </div>
+
+      {/* Tombol Close di pojok kanan atas */}
+      <Button
+        onClick={onClose}
+        variant="ghost"
+        className="absolute top-4 right-4 h-10 w-10 p-0 rounded-full bg-black/50 text-white hover:bg-white/20 hover:text-white"
+        title="Close"
+      >
+        <CloseIcon className="w-6 h-6" />
+      </Button>
+
+      {/* Kontrol Zoom di bawah tengah */}
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/50 backdrop-blur-md p-2 rounded-full">
+        <Button
+          onClick={() => onZoomChange(Math.max(25, zoomLevel - 25))}
+          variant="ghost"
+          className="h-8 w-8 p-0 text-white hover:bg-white/20 hover:text-white"
+        >
+          <ZoomOut className="w-5 h-5" />
+        </Button>
+        <span className="text-sm text-white w-12 text-center">{zoomLevel}%</span>
+        <Button
+          onClick={() => onZoomChange(Math.min(400, zoomLevel + 25))}
+          variant="ghost"
+          className="h-8 w-8 p-0 text-white hover:bg-white/20 hover:text-white"
+        >
+          <ZoomIn className="w-5 h-5" />
+        </Button>
+        <Button
+          onClick={() => onZoomChange(100)}
+          variant="ghost"
+          className="h-8 w-8 p-0 text-white hover:bg-white/20 hover:text-white"
+        >
+          <RotateCcw className="w-5 h-5" />
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+
 export default function AIImageGenerator() {
+  // --- STATE DAN FUNGSI LAINNYA TIDAK BERUBAH ---
+  // ... (semua state dari useState dan fungsi lainnya tetap sama) ...
   const [showPromptCreator, setShowPromptCreator] = useState(false)
   const [showImageToPrompt, setShowImageToPrompt] = useState(false)
   const [showVideoPromptCreator, setShowVideoPromptCreator] = useState(false)
@@ -773,7 +839,7 @@ export default function AIImageGenerator() {
     setIsGenerating(true)
     setError(null)
     setFeedbackType("generating")
-    setShowVisualFeedback(true)
+    // setShowVisualFeedback(true) // Kita mungkin tidak perlu ini lagi
     setGenerationProgress(0)
     saveSettings()
 
@@ -899,9 +965,14 @@ export default function AIImageGenerator() {
 
   const openZoomModal = (image: GeneratedImage) => {
     setZoomedImage(image)
-    setShowZoomModal(true)
+    setShowZoomModal(true) // --- PERUBAHAN 2: GUNAKAN STATE INI ---
     setZoomLevel(100)
     incrementViews(image.id)
+  }
+  
+  const closeZoomModal = () => {
+      setShowZoomModal(false);
+      setZoomedImage(null);
   }
 
   const downloadImage = async (url: string, prompt: string) => {
@@ -1260,50 +1331,34 @@ export default function AIImageGenerator() {
             </Card>
 
             {generatedImages.length > 0 && (
-              <Card className="mt-4 sm:mt-6 dark:bg-gray-800 dark:border-gray-700">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg sm:text-xl dark:text-white">
-                      Generated Images ({generatedImages.length})
-                    </CardTitle>
-                    <Button
-                      onClick={clearHistory}
-                      variant="outline"
-                      size="sm"
-                      className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
-                    >
-                      <Trash2 className="w-3 sm:w-4 h-3 sm:h-4 mr-1" />
-                      <span className="hidden sm:inline">Clear All</span>
-                      <span className="sm:hidden">Clear</span>
-                    </Button>
+                <div className="mt-4 sm:mt-6">
+                  <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-lg sm:text-xl font-semibold dark:text-white">
+                          Generated Images ({generatedImages.length})
+                      </h2>
+                      <Button
+                          onClick={clearHistory}
+                          variant="outline"
+                          size="sm"
+                          className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
+                      >
+                          <Trash2 className="w-3 sm:w-4 h-3 sm:h-4 mr-1" />
+                          <span className="hidden sm:inline">Clear All</span>
+                          <span className="sm:hidden">Clear</span>
+                      </Button>
                   </div>
-                </CardHeader>
-                <CardContent>
-                  {/* --- PERUBAHAN 3: HASIL GAMBAR TANPA PEMBUNGKUS --- */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     {generatedImages.map((image) => (
-                      <div key={image.id} className="group relative aspect-square">
+                      <div key={image.id} className="group relative aspect-square" onClick={() => openZoomModal(image)}>
                         <img
                           src={image.url || "/placeholder.svg"}
                           alt={image.prompt}
-                          className="aspect-square w-full h-full object-cover rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
+                          className="aspect-square w-full h-full object-cover rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
                         />
-                        {/* Overlay and Actions on Hover */}
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-opacity duration-300 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 rounded-lg p-2">
-                           <div className="flex-grow"></div>
-                           <p className="text-white text-xs text-center line-clamp-2 mb-2 px-1">{image.prompt}</p>
-                           <div className="flex items-center justify-center gap-2 bg-black/30 backdrop-blur-sm p-1.5 rounded-full">
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-opacity duration-300 flex flex-col items-center justify-end opacity-0 group-hover:opacity-100 rounded-lg p-2">
+                           <div className="flex items-center justify-center gap-2 bg-black/40 backdrop-blur-sm p-1.5 rounded-full">
                               <Button
-                                onClick={() => openZoomModal(image)}
-                                size="sm"
-                                variant="ghost"
-                                className="h-7 w-7 p-0 text-white hover:bg-white/20 hover:text-white"
-                                title="Zoom"
-                              >
-                                <ZoomIn className="w-4 h-4" />
-                              </Button>
-                              <Button
-                                onClick={() => toggleLike(image.id)}
+                                onClick={(e) => { e.stopPropagation(); toggleLike(image.id); }}
                                 size="sm"
                                 variant="ghost"
                                 className="h-7 w-7 p-0 text-white hover:bg-white/20 hover:text-white"
@@ -1312,7 +1367,7 @@ export default function AIImageGenerator() {
                                 <Heart className={`w-4 h-4 ${image.liked ? "fill-red-500 text-red-500" : ""}`} />
                               </Button>
                               <Button
-                                onClick={() => downloadImage(image.url, image.prompt)}
+                                onClick={(e) => { e.stopPropagation(); downloadImage(image.url, image.prompt); }}
                                 size="sm"
                                 variant="ghost"
                                 className="h-7 w-7 p-0 text-white hover:bg-white/20 hover:text-white"
@@ -1325,8 +1380,7 @@ export default function AIImageGenerator() {
                       </div>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
+                </div>
             )}
           </div>
 
@@ -1413,6 +1467,54 @@ export default function AIImageGenerator() {
           </div>
         </div>
         
+        {/* --- PERUBAHAN 2: MENGGANTI DIALOG DENGAN LIGHTBOX --- */}
+        {showZoomModal && <Lightbox image={zoomedImage} onClose={closeZoomModal} onZoomChange={setZoomLevel} zoomLevel={zoomLevel} />}
+        
+        {/* --- DIALOG-DIALOG LAINNYA TETAP SAMA --- */}
+        <Dialog open={showDalleModal} onOpenChange={setShowDalleModal}>
+          <DialogContent className="dark:bg-gray-800 dark:border-gray-700">
+            <DialogHeader>
+              <DialogTitle className="dark:text-white">DALL-E 3 API Key Required</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                To use DALL-E 3, please enter your OpenAI API key. Your key will be stored locally and used only for
+                image generation.
+              </p>
+              <div>
+                <Label htmlFor="apikey" className="dark:text-gray-200">
+                  OpenAI API Key
+                </Label>
+                <Input
+                  id="apikey"
+                  type="password"
+                  placeholder="sk-..."
+                  value={tempApiKey}
+                  onChange={(e) => setTempApiKey(e.target.value)}
+                  className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={handleDalleApiSubmit} className="flex-1">
+                  Save & Use DALL-E
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowDalleModal(false)
+                    setTempApiKey("")
+                    setSelectedModel("flux")
+                  }}
+                  className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+        
+        {/* Dialog-dialog lainnya tetap di sini (showPromptManager, showResetModal, dll.) */}
         <Dialog open={showTextToAudio} onOpenChange={(isOpen) => {
             setShowTextToAudio(isOpen);
             if (!isOpen) {
@@ -1677,112 +1779,6 @@ export default function AIImageGenerator() {
           </DialogContent>
         </Dialog>
 
-        <Dialog open={showZoomModal} onOpenChange={setShowZoomModal}>
-          <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden dark:bg-gray-800 dark:border-gray-700">
-            <DialogHeader>
-              <DialogTitle className="flex items-center justify-between dark:text-white">
-                <span>Image Viewer</span>
-                <div className="flex items-center gap-2">
-                  <Button
-                    onClick={() => setZoomLevel(Math.max(25, zoomLevel - 25))}
-                    size="sm"
-                    variant="outline"
-                    className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    <ZoomOut className="w-4 h-4" />
-                  </Button>
-                  <span className="text-sm dark:text-gray-200">{zoomLevel}%</span>
-                  <Button
-                    onClick={() => setZoomLevel(Math.min(400, zoomLevel + 25))}
-                    size="sm"
-                    variant="outline"
-                    className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    <ZoomIn className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    onClick={() => setZoomLevel(100)}
-                    size="sm"
-                    variant="outline"
-                    className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    <RotateCcw className="w-4 h-4" />
-                  </Button>
-                </div>
-              </DialogTitle>
-            </DialogHeader>
-            {zoomedImage && (
-              <div className="overflow-auto max-h-[70vh]">
-                <img
-                  src={zoomedImage.url || "/placeholder.svg"}
-                  alt={zoomedImage.prompt}
-                  style={{ transform: `scale(${zoomLevel / 100})`, transformOrigin: "top left" }}
-                  className="max-w-none"
-                />
-                <div className="mt-4 space-y-2">
-                  <p className="text-sm dark:text-gray-200">
-                    <strong>Prompt:</strong> {zoomedImage.prompt}
-                  </p>
-                  <div className="flex gap-2">
-                    <Badge className="dark:bg-gray-600 dark:text-gray-200">{zoomedImage.model.toUpperCase()}</Badge>
-                    <Badge variant="outline" className="dark:border-gray-600 dark:text-gray-300">
-                      {zoomedImage.quality}
-                    </Badge>
-                    <Badge variant="outline" className="dark:border-gray-600 dark:text-gray-300">
-                      {zoomedImage.size}
-                    </Badge>
-                    <Badge variant="outline" className="dark:border-gray-600 dark:text-gray-300">
-                      Seed: {zoomedImage.seed}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={showDalleModal} onOpenChange={setShowDalleModal}>
-          <DialogContent className="dark:bg-gray-800 dark:border-gray-700">
-            <DialogHeader>
-              <DialogTitle className="dark:text-white">DALL-E 3 API Key Required</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                To use DALL-E 3, please enter your OpenAI API key. Your key will be stored locally and used only for
-                image generation.
-              </p>
-              <div>
-                <Label htmlFor="apikey" className="dark:text-gray-200">
-                  OpenAI API Key
-                </Label>
-                <Input
-                  id="apikey"
-                  type="password"
-                  placeholder="sk-..."
-                  value={tempApiKey}
-                  onChange={(e) => setTempApiKey(e.target.value)}
-                  className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                />
-              </div>
-              <div className="flex gap-2">
-                <Button onClick={handleDalleApiSubmit} className="flex-1">
-                  Save & Use DALL-E
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setShowDalleModal(false)
-                    setTempApiKey("")
-                    setSelectedModel("flux")
-                  }}
-                  className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
-                >
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
 
         <Dialog open={showResetSettingsModal} onOpenChange={setShowResetSettingsModal}>
           <DialogContent className="sm:max-w-md dark:bg-gray-800 dark:border-gray-700">
@@ -1912,9 +1908,6 @@ export default function AIImageGenerator() {
           onComplete={() => setShowVisualFeedback(false)}
         />
         
-        {/* --- PERUBAHAN 2: SPINNER LOADING PADA BODY DIHAPUS --- */}
-        {/* <LoadingAnimation isVisible={isGenerating} /> */}
-
         <ProgressBar progress={generationProgress} isVisible={isGenerating && generationProgress > 0} />
 
         <FloatingFeedback
