@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kebijakan Privasi | Kenthir AI Image</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Kebijakan Privasi Kenthir AI Image menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.">
+    <meta name="keywords" content="kebijakan privasi, privasi data, perlindungan data, GDPR, cookie policy">
+    <meta name="author" content="Kenthir AI Image">
+    
+    <!-- Styling yang konsisten dengan halaman utama -->
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --container-bg: #fff;
+            --highlight-bg: #f8f9fa;
+            --border-color: #ccc;
+        }
+
+        .dark-mode {
+            --primary: #5d7af0;
+            --secondary: #6a63e6;
+            --accent: #6ba8f1;
+            --bg-color: #121212;
+            --text-color: #f0f0f0;
+            --container-bg: #1e1e1e;
+            --highlight-bg: #2d2d2d;
+            --border-color: #444;
+            --light: #2d2d2d;
+            --dark: #f0f0f0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .container {
+            max-width: 900px; 
+            margin: 60px auto;
+            background: var(--container-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        h2 {
+            color: var(--secondary);
+            margin-top: 40px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+        
+        h3 {
+            color: var(--accent);
+            margin-top: 25px;
+        }
+        
+        p, ul, ol {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        ul, ol {
+            padding-left: 30px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        .highlight-box {
+            background: var(--highlight-bg);
+            border-left: 5px solid var(--accent);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .last-updated {
+            text-align: right;
+            font-style: italic;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-top: 40px;
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode-toggle i {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        #darkModeIcon {
+            display: none;
+        }
+
+        .dark-mode #lightModeIcon {
+            display: none;
+        }
+
+        .dark-mode #darkModeIcon {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .dark-mode-toggle {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    
+    <!-- Preload Font Awesome -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"></noscript>
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+        <i class="fas fa-sun" id="lightModeIcon" aria-hidden="true"></i>
+        <i class="fas fa-moon" id="darkModeIcon" aria-hidden="true"></i>
+    </button>
+
+    <div class="container">
+        <h1><i class="fas fa-shield-alt" aria-hidden="true"></i> Kebijakan Privasi</h1>
+        
+        <div class="highlight-box">
+            <p>Terakhir diperbarui: 6 April 2025</p>
+            <p>Kebijakan Privasi ini menjelaskan bagaimana Kenthir AI Image ("kami", "kita", atau "kami") mengumpulkan, menggunakan, dan membagikan informasi pribadi Anda ketika Anda mengunjungi situs kami atau berpartisipasi dalam challenge kami.</p>
+        </div>
+        
+        <h2>1. Informasi yang Kami Kumpulkan</h2>
+        <p>Kami mengumpulkan beberapa jenis informasi dari dan tentang pengguna situs web kami, termasuk:</p>
+        
+        <h3>Informasi yang Anda Berikan Langsung</h3>
+        <ul>
+            <li>Nama lengkap</li>
+            <li>Alamat email</li>
+            <li>Profil media sosial (opsional)</li>
+            <li>Pengalaman dengan AI Image Generator</li>
+            <li>Ide/Konsep Generator yang ingin dibuat</li>
+        </ul>
+        
+        <h3>Informasi yang Dikumpulkan Secara Otomatis</h3>
+        <ul>
+            <li>Alamat IP dan jenis perangkat</li>
+            <li>Informasi browser dan sistem operasi</li>
+            <li>Halaman yang dikunjungi dan waktu akses</li>
+            <li>Data cookies (lihat bagian Cookie Policy di bawah)</li>
+        </ul>
+        
+        <h2>2. Bagaimana Kami Menggunakan Informasi Anda</h2>
+        <p>Kami menggunakan informasi yang kami kumpulkan untuk berbagai tujuan, termasuk:</p>
+        <ul>
+            <li>Menyediakan, mengoperasikan, dan memelihara situs web kami</li>
+            <li>Memproses pendaftaran challenge dan mengelola partisipasi</li>
+            <li>Mengkomunikasikan informasi tentang challenge dan pembaruan</li>
+            <li>Memahami dan menganalisis bagaimana Anda menggunakan situs kami</li>
+            <li>Mengembangkan produk, layanan, fitur, dan fungsi baru</li>
+            <li>Mencegah penipuan dan meningkatkan keamanan situs</li>
+            <li>Mematuhi kewajiban hukum dan peraturan yang berlaku</li>
+        </ul>
+        
+        <h2>3. Berbagi Informasi Anda</h2>
+        <p>Kami tidak menjual atau menyewakan informasi pribadi Anda kepada pihak ketiga. Kami dapat membagikan informasi Anda dalam situasi berikut:</p>
+        <ul>
+            <li><strong>Penyedia Layanan:</strong> Dengan vendor, konsultan, dan penyedia layanan lain yang membutuhkan informasi tersebut untuk melakukan pekerjaan atas nama kami.</li>
+            <li><strong>Kepatuhan Hukum:</strong> Jika diperlukan untuk mematuhi hukum, peraturan, proses hukum, atau permintaan pemerintah yang berlaku.</li>
+            <li><strong>Perlindungan Hak dan Keselamatan:</strong> Jika kami yakin pengungkapan diperlukan untuk melindungi hak, properti, atau keselamatan kami, pengguna kami, atau orang lain.</li>
+            <li><strong>Kerjasama dengan Sponsor Challenge:</strong> Jika challenge disponsori, kami dapat membagikan informasi peserta dengan sponsor untuk tujuan administrasi hadiah.</li>
+        </ul>
+        
+        <h2>4. Cookie dan Teknologi Pelacakan</h2>
+        <p>Kami menggunakan cookies dan teknologi pelacakan serupa untuk melacak aktivitas di situs kami dan menyimpan informasi tertentu.</p>
+        
+        <h3>Jenis Cookies yang Kami Gunakan</h3>
+        <ul>
+            <li><strong>Cookies Esensial:</strong> Diperlukan untuk pengoperasian situs web kami.</li>
+            <li><strong>Cookies Fungsi:</strong> Memungkinkan kami mengingat pilihan Anda.</li>
+            <li><strong>Cookies Analitik:</strong> Membantu kami memahami bagaimana pengguna berinteraksi dengan situs web.</li>
+            <li><strong>Cookies Pemasaran:</strong> Digunakan untuk menampilkan iklan yang relevan.</li>
+        </ul>
+        
+        <p>Anda dapat mengatur atau menonaktifkan cookies melalui pengaturan browser Anda. Namun, jika Anda menonaktifkan cookies, beberapa bagian situs mungkin tidak berfungsi dengan baik.</p>
+        
+        <h2>5. Keamanan Data</h2>
+        <p>Kami menerapkan tindakan keamanan teknis dan organisasi yang sesuai untuk melindungi informasi pribadi yang kami kumpulkan dan proses. Namun, tidak ada metode transmisi melalui Internet atau penyimpanan elektronik yang 100% aman, sehingga kami tidak dapat menjamin keamanan mutlak.</p>
+        
+        <h2>6. Penyimpanan Data</h2>
+        <p>Kami akan menyimpan informasi pribadi Anda hanya selama diperlukan untuk tujuan yang dijelaskan dalam Kebijakan Privasi ini, atau sebagaimana diwajibkan oleh hukum.</p>
+        
+        <h2>7. Hak Privasi Anda</h2>
+        <p>Tergantung pada yurisdiksi Anda, Anda mungkin memiliki hak tertentu terkait informasi pribadi Anda, termasuk:</p>
+        <ul>
+            <li>Hak untuk mengakses dan menerima salinan informasi pribadi Anda</li>
+            <li>Hak untuk memperbaiki informasi pribadi yang tidak akurat</li>
+            <li>Hak untuk meminta penghapusan informasi pribadi Anda</li>
+            <li>Hak untuk membatasi atau menolak pemrosesan data Anda</li>
+            <li>Hak untuk menarik persetujuan yang sebelumnya diberikan</li>
+        </ul>
+        
+        <p>Untuk menggunakan hak-hak ini, silakan hubungi kami menggunakan informasi kontak di bawah.</p>
+        
+        <h2>8. Perubahan pada Kebijakan Privasi</h2>
+        <p>Kami dapat memperbarui Kebijakan Privasi kami dari waktu ke waktu. Kami akan memberi tahu Anda tentang perubahan apa pun dengan memposting Kebijakan Privasi baru di halaman ini dan memperbarui tanggal "Terakhir diperbarui" di bagian atas.</p>
+        
+        <h2>9. Hubungi Kami</h2>
+        <p>Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami:</p>
+        <ul>
+            <li>Email: <a href="mailto:info@kenthir.my.id">info@kenthir.my.id</a></li>
+            <li>Melalui halaman kontak di situs web kami</li>
+        </ul>
+        
+        <div class="last-updated">
+            <p>Dokumen ini terakhir diperbarui pada 6 April 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Save user preference
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+        });
+    </script>
+</body>
+</html>
