@@ -1,1 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HTML Fixer Code for Rizqi Olivera">
+  <title>RIZQI O AI | Fixer Code</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #222;
+      color: #f0f0f0;
+    }
+    .container {
+      max-width: 100%; 
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+    .code-container {
+      background-color: #111;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 15px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      max-height: 60vh;
+      overflow-y: auto;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .copy-btn {
+      display: block;
+      margin: 15px auto;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    .copy-btn:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .success-message {
+      text-align: center;
+      color: #4CAF50;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
+    /* Scrollbar styling */
+    .code-container::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    .code-container::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    .code-container::-webkit-scrollbar-thumb {
+      background: #4CAF50;
+      border-radius: 5px;
+    }
+    .code-container::-webkit-scrollbar-thumb:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RIZQI O AI Fixer Code &lt;/&gt;</h1>
+    <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+    <div class="success-message" id="successMessage">✓ Code copied to clipboard!</div>
+    <div class="code-container" id="codeContainer">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;title&gt;AI Image Generator&lt;/title&gt;
+  &lt;style&gt;
+    :root {
+      --primary-color: #6a11cb;
+      --secondary-color: #2575fc;
+      --background-gradient: linear-gradient(135deg, #0f52ba, #a1c4fd);
+      --card-bg: rgba(255, 255, 255, 0.1);
+      --text-color: #fff;
+      --border-radius: 0.5rem;
+      --box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--background-gradient);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+    
+    h1 {
+      margin: 1rem 0;
+      text-align: center;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+    
+    .generator-container {
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 1rem;
+    }
+    
+    .generator {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+    }
+    
+    textarea, select, input {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.3rem 0;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--text-color);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    
+    textarea:focus, select:focus, input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.5);
+    }
+    
+    textarea::placeholder, input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    
+    button:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .loading {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: var(--text-color);
+      text-align: center;
+      display: none;
+    }
+    
+    .images {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 1rem;
+    }
+    
+    .image-card {
+      position: relative;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      aspect-ratio: 1/1;
+      background: rgba(0,0,0,0.1);
+    }
+    
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    
+    .image-card:hover img {
+      transform: scale(1.03);
+    }
+    
+    .download-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.3s;
+    }
+    
+    .download-btn:hover {
+      background: rgba(0,0,0,0.9);
+      transform: translateY(-2px);
+    }
+    
+    .loading-animation {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      z-index: 10;
+    }
+    
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .generator {
+        padding: 1rem;
+      }
+      
+      .images {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 0.5rem;
+      }
+      
+      .generator {
+        padding: 0.75rem;
+      }
+      
+      textarea, select, input {
+        padding: 0.6rem;
+      }
+      
+      button {
+        padding: 0.6rem;
+      }
+      
+      .images {
+        grid-template-columns: 1fr;
+      }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="generator-container"&gt;
+    &lt;h1&gt;AI Image Generator&lt;/h1&gt;
+    &lt;div class="generator"&gt;
+      &lt;div class="form-group"&gt;
+        &lt;label for="prompt"&gt;Image Prompt&lt;/label&gt;
+        &lt;textarea id="prompt" rows="3" placeholder="Describe the image you want to generate..."&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+      
+      &lt;div class="form-group"&gt;
+        &lt;label for="model"&gt;AI Model&lt;/label&gt;
+        &lt;select id="model"&gt;
+          &lt;option value="Stable Diffusion"&gt;Stable Diffusion&lt;/option&gt;
+          &lt;option value="DALL-E"&gt;DALL-E&lt;/option&gt;
+          &lt;option value="FLUX"&gt;FLUX&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      
+      &lt;div class="form-group"&gt;
+        &lt;label for="style"&gt;Style&lt;/label&gt;
+        &lt;select id="style"&gt;
+          &lt;option value="Digital Art"&gt;Digital Art&lt;/option&gt;
+          &lt;option value="Photorealistic"&gt;Photorealistic&lt;/option&gt;
+          &lt;option value="Painting"&gt;Painting&lt;/option&gt;
+          &lt;option value="3D Render"&gt;3D Render&lt;/option&gt;
+          &lt;option value="Anime"&gt;Anime&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      
+      &lt;div class="form-group"&gt;
+        &lt;label for="effect"&gt;Effect&lt;/label&gt;
+        &lt;select id="effect"&gt;
+          &lt;option value="None"&gt;None&lt;/option&gt;
+          &lt;option value="Vibrant Colors"&gt;Vibrant Colors&lt;/option&gt;
+          &lt;option value="Soft Focus"&gt;Soft Focus&lt;/option&gt;
+          &lt;option value="Cinematic"&gt;Cinematic&lt;/option&gt;
+          &lt;option value="HDR"&gt;HDR&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      
+      &lt;div class="form-group"&gt;
+        &lt;label for="width"&gt;Width (512-1024)&lt;/label&gt;
+        &lt;input type="number" id="width" min="512" max="1024" value="512" /&gt;
+      &lt;/div&gt;
+      
+      &lt;div class="form-group"&gt;
+        &lt;label for="height"&gt;Height (512-1024)&lt;/label&gt;
+        &lt;input type="number" id="height" min="512" max="1024" value="512" /&gt;
+      &lt;/div&gt;
+      
+      &lt;div class="form-group"&gt;
+        &lt;label for="steps"&gt;Steps (20-100)&lt;/label&gt;
+        &lt;input type="number" id="steps" min="20" max="100" value="50" /&gt;
+      &lt;/div&gt;
+      
+      &lt;button onclick="generateImage()"&gt;Generate Image&lt;/button&gt;
+      &lt;div class="loading" id="loading"&gt;Generating image...&lt;/div&gt;
+      &lt;div class="loading-animation" id="loadingAnimation"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 
+  &lt;div class="images" id="imageGrid"&gt;&lt;/div&gt;
+
+  &lt;script&gt;
+    async function generateImage() {
+      const prompt = document.getElementById("prompt").value.trim();
+      const model = document.getElementById("model").value;
+      const style = document.getElementById("style").value;
+      const effect = document.getElementById("effect").value;
+      const width = document.getElementById("width").value;
+      const height = document.getElementById("height").value;
+      const steps = document.getElementById("steps").value;
+      const loading = document.getElementById("loading");
+      const loadingAnimation = document.getElementById("loadingAnimation");
+      const imageGrid = document.getElementById("imageGrid");
+
+      if (!prompt) {
+        alert("Please enter a prompt.");
+        return;
+      }
+
+      // Validate dimensions
+      if (width < 512 || width > 1024 || height < 512 || height > 1024) {
+        alert("Width and height must be between 512 and 1024.");
+        return;
+      }
+
+      loading.style.display = "block";
+      loadingAnimation.style.display = "block";
+
+      const fullPrompt = `${prompt} | model: ${model} | style: ${style} | effect: ${effect}`;
+      const apiUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=${width}&height=${height}&steps=${steps}`;
+
+      try {
+        const img = new Image();
+        img.src = apiUrl;
+        img.alt = prompt;
+        
+        const card = document.createElement("div");
+        card.className = "image-card";
+        
+        const downloadLink = document.createElement("a");
+        downloadLink.href = apiUrl;
+        downloadLink.download = `ai-image-${Date.now()}.jpg`;
+        downloadLink.innerHTML = '&lt;svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"&gt;&lt;path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/&gt;&lt;path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/&gt;&lt;/svg&gt; Download';
+        downloadLink.className = "download-btn";
+
+        img.onload = () => {
+          loading.style.display = "none";
+          loadingAnimation.style.display = "none";
+          card.appendChild(img);
+          card.appendChild(downloadLink);
+          imageGrid.prepend(card);
+        };
+
+        img.onerror = () => {
+          loading.style.display = "none";
+          loadingAnimation.style.display = "none";
+          alert("Failed to generate image. Please try a different prompt or check your connection.");
+        };
+      } catch (err) {
+        loading.style.display = "none";
+        loadingAnimation.style.display = "none";
+        alert("An error occurred. Please try again later.");
+        console.error("Image generation error:", err);
+      }
+    }
+    
+    // Allow form submission with Enter key
+    document.getElementById("prompt").addEventListener("keydown", function(e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        generateImage();
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+    </div>
+  </div>
+
+  <script>
+    function copyCode() {
+      const codeContainer = document.getElementById('codeContainer');
+      const range = document.createRange();
+      range.selectNode(codeContainer);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      window.getSelection().removeAllRanges();
+      
+      // Show success message
+      const successMessage = document.getElementById('successMessage');
+      successMessage.style.display = 'block';
+      setTimeout(() => {
+        successMessage.style.display = 'none';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
