@@ -1,1 +1,179 @@
-hdhsh
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5;url=https://app.kenthir.my.id">
+    <title>Redirecting to AI Image Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: rgba(0, 82, 255, 0.8);
+            --secondary-color: rgba(154, 34, 211, 0.91);
+            --accent-color: #2499f2;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #ecf0f1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .redirect-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            transition: var(--transition);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: var(--border-radius);
+            margin: 25px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+        
+        .redirect-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 10px 15px;
+            border: 1px solid var(--accent-color);
+            border-radius: var(--border-radius);
+        }
+        
+        .redirect-link:hover {
+            color: white;
+            background-color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+
+        @media (max-width: 600px) {
+            .redirect-container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <h1><i class="fas fa-magic-wand-sparkles"></i> Advanced AI Image Generator</h1>
+        <p>You are being redirected to our application. Please wait...</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text">
+            <span>0%</span>
+            <span id="countdown">5 seconds remaining</span>
+            <span>100%</span>
+        </div>
+        
+        <p>If you are not redirected automatically, <a href="https://app.kenthir.my.id" class="redirect-link">click here to continue</a></p>
+    </div>
+    
+    <div class="footer">
+        <p>&copy; <span id="currentYear"></span> Advanced AI Image Generator. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Progress bar animation
+        const progressBar = document.getElementById('progressBar');
+        const countdownElement = document.getElementById('countdown');
+        const totalTime = 5000; // 5 seconds
+        const intervalTime = 50; // update every 50ms
+        const increments = 100 / (totalTime / intervalTime);
+        let progress = 0;
+        let timeLeft = totalTime / 1000; // in seconds
+        
+        const updateProgressBar = setInterval(() => {
+            progress += increments;
+            timeLeft = ((totalTime - (progress / 100 * totalTime)) / 1000).toFixed(1);
+            
+            progressBar.style.width = `${progress}%`;
+            countdownElement.textContent = `${timeLeft}s remaining`;
+            
+            if (progress >= 100) {
+                clearInterval(updateProgressBar);
+                countdownElement.textContent = 'Redirecting now...';
+                window.location.href = "https://app.kenthir.my.id";
+            }
+        }, intervalTime);
+        
+        // Fallback redirect after totalTime
+        setTimeout(() => {
+            window.location.href = "https://app.kenthir.my.id";
+        }, totalTime);
+    </script>
+</body>
+</html>
