@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Toto Online - Singapura">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toto Online Singapore!</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Toastr CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Toastr JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <style>
+    /* Tema Hitam dengan Aksen Kuning */
+    body {
+      background-color: #121212; /* Warna latar belakang hitam */
+      color: #ffffff; /* Warna teks putih */
+      padding-bottom: 120px; /* Untuk memberi ruang bagi bottom navigation dan notifikasi */
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1f1f1f; /* Warna latar bottom navigation */
+      padding: 10px;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-around;
+    }
+    .bottom-nav a {
+      color: #ffc107; /* Warna aksen kuning untuk ikon */
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+    .notification-container {
+      position: fixed;
+      bottom: 60px; /* Letakkan di atas bottom navigation */
+      right: 20px;
+      z-index: 1000;
+    }
+    .history-table {
+      margin-top: 20px;
+    }
+    .button-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .red-number {
+      color: #ffc107; /* Warna aksen kuning untuk angka acak */
+      font-weight: bold;
+    }
+    .modal-content {
+      background-color: #1f1f1f; /* Warna latar modal */
+      color: #ffffff; /* Warna teks modal */
+    }
+    .modal-header {
+      border-bottom: 1px solid #333; /* Garis pemisah header modal */
+    }
+    .modal-footer {
+      border-top: 1px solid #333; /* Garis pemisah footer modal */
+    }
+    .btn-warning {
+      background-color: #ffc107; /* Warna kuning untuk tombol */
+      border-color: #ffc107;
+      color: #121212; /* Warna teks hitam */
+    }
+    .btn-primary {
+      background-color: #1f1f1f; /* Warna latar tombol */
+      border-color: #ffc107; /* Warna border kuning */
+      color: #ffc107; /* Warna teks kuning */
+    }
+    .btn-secondary {
+      background-color: #333; /* Warna latar tombol sekunder */
+      border-color: #333;
+      color: #ffffff; /* Warna teks putih */
+    }
+    .alert-info {
+      background-color: #ffc107; /* Warna latar notifikasi */
+      border-color: #000; /* Warna border kuning */
+      color: #232323; /* Warna teks kuning */
+    }
+    .table {
+      color: #ffffff; /* Warna teks tabel */
+    }
+    .table-bordered {
+      border-color: #333; /* Warna border tabel */
+    }
+    .table thead th {
+      border-color: #333; /* Warna border header tabel */
+    }
+    .table tbody td {
+      border-color: #333; /* Warna border body tabel */
+    }
+    .progress {
+      background-color: #333; /* Warna latar progress bar */
+      height: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      position: relative;
+    }
+    .progress-bar {
+      background-color: #ffc107; /* Warna kuning untuk progress bar */
+      transition: width 0.5s ease-in-out; /* Animasi progress bar */
+    }
+    .progress-info {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      color: #ffffff; /* Warna teks info */
+      line-height: 20px; /* Sesuaikan dengan tinggi progress bar */
+    }
+   /* Spinner Dotted */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .spinner-dotted {
+      border: 8px dotted #ffc107; /* Warna kuning */
+      border-top: 8px dotted transparent; /* Transparan di bagian atas */
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1.5s linear infinite;
+      animation-timing-function: ease-in-out; /* Animasi lebih halus */
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 50%; /* Lebar progress bar */
+      background-color: #333; /* Warna background gelap */
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .progress-bar {
+      height: 20px;
+      background-color: #ffc107; /* Warna kuning */
+      border-radius: 10px;
+      width: 0%; /* Mulai dari 0% */
+      transition: width 0.5s ease-in-out; /* Animasi progres */
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 10px;
+      color: #ffffff; /* Warna teks putih */
+    }
+
+    /* Transisi */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #121212;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    #mainContent {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .stats-card {
+      background-color: #1f1f1f; /* Warna latar kartu statistik */
+      border: 1px solid #333; /* Warna border kartu */
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .stats-card h5 {
+      color: #ffc107; /* Warna teks judul kartu */
+    }
+    .stats-card p {
+      color: #ffffff; /* Warna teks konten kartu */
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    .status-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #28a745; /* Warna hijau untuk status online */
+    }
+    .status-text {
+      color: #fff; /* Warna hijau untuk teks status */
+      font-size: 0.9rem;
+    }
+
+    /* Warna kuning untuk checkbox */
+    input[type="checkbox"] {
+      accent-color: #ffc107; /* Warna kuning */
+    }
+
+    /* Slider dengan background gelap dan warna progresif kuning */
+    input[type="range"] {
+      -webkit-appearance: none; /* Menghilangkan tampilan default */
+      width: 100%;
+      height: 8px;
+      background: #333; /* Warna background gelap */
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    input[type="range"]:hover {
+      opacity: 1; /* Lebih terang saat dihover */
+    }
+
+    /* Warna progresif kuning */
+    input[type="range"]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      background: #333; /* Warna background gelap */
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #ffc107; /* Warna kuning */
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff; /* Border putih */
+      margin-top: -6px; /* Sesuaikan posisi thumb */
+    }
+
+    /* Untuk Firefox */
+    input[type="range"]::-moz-range-track {
+      width: 100%;
+      height: 8px;
+      background: #333; /* Warna background gelap */
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #ffc107; /* Warna kuning */
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff; /* Border putih */
+    }
+
+    /* Untuk Microsoft Edge */
+    input[type="range"]::-ms-track {
+      width: 100%;
+      height: 8px;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
+    }
+
+    input[type="range"]::-ms-fill-lower {
+      background: #ffc107; /* Warna kuning untuk bagian terisi */
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-ms-fill-upper {
+      background: #333; /* Warna background gelap */
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-ms-thumb {
+      width: 20px;
+      height: 20px;
+      background: #ffc107; /* Warna kuning */
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff; /* Border putih */
+    }
+    .time-container {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #ffffff; /* Warna teks putih */
+}
+
+.time-container p {
+  margin: 5px 0;
+}
+  </style>
+</head>
+<body>
+	<!-- Loading Screen -->
+<div id="loadingScreen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #121212; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000;">
+  <div class="spinner-dotted"></div>
+  <div class="progress-container" style="width: 50%; margin-top: 20px;">
+    <div class="progress-bar"></div>
+  </div>
+  <div class="progress-text">Mohon tunggu...</div>
+</div>
+
+<!-- Konten Utama (Sembunyikan sementara) -->
+<div id="mainContent" style="display: none;">
+  <div class="container mt-5">
+    <!-- Judul dengan Ikon Koin -->
+    <h1 class="text-center">
+      <i class="fas fa-coins" style="color: #ffc107;"></i> Toto Online Singapura
+    </h1>
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Status Online -->
+        <div class="status-indicator">
+          <div class="status-dot" id="statusDot"></div>
+          <span class="status-text" id="statusText">Online</span>
+        </div>
+            <!-- Dropdown untuk Memilih Tipe Grafik -->
+    <div class="mt-3">
+      <label for="chartType">Pilih Tipe Grafik:</label>
+      <select id="chartType" class="form-select">
+        <option value="line">Line Chart</option>
+        <option value="bar">Bar Chart</option>
+        <option value="pie">Pie Chart</option>
+      </select>
+    </div>
+    
+        <!-- Toggle untuk Menampilkan/Menyembunyikan Dataset -->
+    <div class="mt-3">
+      <input type="checkbox" id="toggleSGP" checked> <label for="toggleSGP">SGP</label>
+      <input type="checkbox" id="toggleIRD" checked> <label for="toggleIRD">IRD</label>
+      <input type="checkbox" id="toggleGHT" checked> <label for="toggleGHT">GHT</label>
+      <input type="checkbox" id="toggleRTX" checked> <label for="toggleRTX">RTX</label>
+    </div>
+        <canvas id="combinedChart"></canvas>
+        <p class="text-center mt-2">
+          Update /<span id="updateIntervalText">5</span> Detik: 
+          <span id="count1" class="red-number">0</span> (SGP), 
+          <span id="count2" class="red-number">0</span> (IRD), 
+          <span id="count3" class="red-number">0</span> (GHT),
+          <span id="count4" class="red-number">0</span> (RTX)
+        </p>
+      </div>
+    </div>
+
+    <!-- Progress Bar dengan Info -->
+    <div class="progress">
+      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      <div id="progressInfo" class="progress-info">Loading data...</div>
+    </div>
+        <!-- Slider untuk Mengatur Interval Pembaruan Data -->
+    <div class="mt-3">
+      <label for="intervalSlider">Interval Pembaruan Data (detik):</label>
+      <input type="range" id="intervalSlider" min="1" max="10" value="5" class="form-range">
+      <span id="intervalValue">5</span> detik
+    </div>
+
+    <!-- Tooltip untuk Tombol Pause -->
+    <div class="button-container">
+      <button id="pauseButton" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Pause/Resume pembaruan data">
+        <i class="fas fa-pause"></i> Pause
+      </button>
+      <button id="refreshButton" class="btn btn-primary">
+        <i class="fas fa-sync"></i> Refresh
+      </button>
+      <div class="time-container">
+  <p><strong>Waktu Indonesia:</strong> <span id="timeIndonesia"></span></p>
+  <p><strong>Waktu Singapura:</strong> <span id="timeSingapore"></span></p>
+  <p><strong>Waktu Hongkong:</strong> <span id="timeHongkong"></span></p>
+  <p><strong>Waktu Sidney:</strong> <span id="timeSydney"></span></p> <!-- Waktu Sidney -->
+</div>
+    </div>
+
+    <!-- Tabel Riwayat -->
+    <div class="row history-table">
+      <div class="col-md-12">
+        <h4>Riwayat Angka</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>SGP</th>
+              <th>IRD</th>
+              <th>GHT</th>
+              <th>RTX</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody">
+            <!-- Riwayat akan ditampilkan di sini -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Statistik Ringkas -->
+    <div class="row mt-4">
+      <div class="col-md-3">
+        <div class="stats-card">
+          <h5>Total Data</h5>
+          <p id="totalData">0</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card">
+          <h5>Rata-rata</h5>
+          <p id="averageData">0</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card">
+          <h5>Nilai Tertinggi</h5>
+          <p id="maxData">0</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card">
+          <h5>Nilai Terendah</h5>
+          <p id="minData">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification-container"></div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+      <a href="#" data-bs-toggle="modal" data-bs-target="#homeModal"><i class="fas fa-home"></i></a>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#chartModal"><i class="fas fa-chart-line"></i></a>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#notifModal"><i class="fas fa-bell"></i></a>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user"></i></a>
+    </div>
+
+    <!-- Modal untuk Home -->
+    <div class="modal fade" id="homeModal" tabindex="-1" aria-labelledby="homeModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="homeModalLabel"><i class="fas fa-home"></i> Home</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Selamat datang di halaman utama! Di sini Anda dapat melihat grafik dan data real-time.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal untuk Chart -->
+    <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="chartModalLabel"><i class="fas fa-chart-line"></i> Chart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Grafik ini menampilkan data real-time untuk SGP, IRD, GHT, dan RTX. Anda dapat melihat perubahan data setiap 5 detik.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal untuk Notifikasi -->
+    <div class="modal fade" id="notifModal" tabindex="-1" aria-labelledby="notifModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="notifModalLabel"><i class="fas fa-bell"></i> Notifikasi</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Notifikasi akan muncul setiap 6 detik untuk memberikan informasi terbaru tentang data SGP, IRD, GHT, dan RTX.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal untuk User -->
+    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="userModalLabel"><i class="fas fa-user"></i> Profil Pengguna</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Anda dapat mengelola profil pengguna di sini. Fitur ini masih dalam pengembangan.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal untuk Detail Data -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="detailModalLabel">Detail Data</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p id="detailContent"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animasi Loading -->
+    <div id="loadingSpinner" class="spinner-border text-warning" role="status" style="display: none;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+
+    <!-- Filter Data Berdasarkan Tanggal -->
+    <div class="mt-3">
+      <label for="startDate">Tanggal Mulai:</label>
+      <input type="date" id="startDate">
+      <label for="endDate">Tanggal Akhir:</label>
+      <input type="date" id="endDate">
+      <button id="filterButton" class="btn btn-secondary">Filter</button>
+    </div>
+    </div>
+
+    <script>
+ // Fungsi untuk mensimulasikan loading
+    function simulateLoading() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      const mainContent = document.getElementById('mainContent');
+      const progressBar = document.querySelector('.progress-bar');
+      const progressText = document.querySelector('.progress-text');
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        // Logika progres: lebih cepat di awal, melambat di akhir
+        if (progress < 80) {
+          progress += 10; // Naikkan 10% setiap 300ms di awal
+        } else if (progress < 95) {
+          progress += 3; // Naikkan 3% setiap 300ms di tengah
+        } else {
+          progress += 1; // Naikkan 1% setiap 300ms di akhir
+        }
+
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `Mohon tunggu... ${progress}%`;
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          // Tambahkan efek fade out untuk loading screen
+          loadingScreen.style.opacity = '0';
+          setTimeout(() => {
+            loadingScreen.style.display = 'none'; // Sembunyikan loading screen
+            mainContent.style.display = 'block';  // Tampilkan konten utama
+            mainContent.style.opacity = '1';      // Efek fade in untuk konten utama
+          }, 500); // Tunggu 500ms untuk transisi fade out
+        }
+      }, 300); // Update setiap 300ms
+    }
+
+    // Jalankan simulasi loading saat halaman dimuat
+    window.onload = simulateLoading;
+
+      // Inisialisasi Chart
+      const ctx = document.getElementById('combinedChart').getContext('2d');
+      let combinedChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['1', '2', '3', '4', '5', '6', '7'],
+          datasets: [
+            {
+              label: 'SGP',
+              data: [], // Data awal kosong
+              borderColor: '#ffc107', // Warna kuning untuk SGP
+              borderWidth: 2,
+              fill: false
+            },
+            {
+              label: 'IRD',
+              data: [], // Data awal kosong
+              borderColor: '#17a2b8', // Warna biru untuk IRD
+              borderWidth: 2,
+              fill: false
+            },
+            {
+              label: 'GHT',
+              data: [], // Data awal kosong
+              borderColor: '#dc3545', // Warna merah untuk GHT
+              borderWidth: 2,
+              fill: false
+            },
+            {
+              label: 'RTX',
+              data: [], // Data awal kosong
+              borderColor: '#6f42c1', // Warna ungu untuk RTX
+              borderWidth: 2,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: '#333', // Warna grid sumbu Y
+              },
+              ticks: {
+                color: '#ffffff', // Warna teks sumbu Y
+              }
+            },
+            x: {
+              grid: {
+                color: '#333', // Warna grid sumbu X
+              },
+              ticks: {
+                color: '#ffffff', // Warna teks sumbu X
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: '#ffffff', // Warna teks legenda
+              }
+            }
+          }
+        }
+      });
+
+      // Fungsi untuk menghasilkan 4 digit angka acak (antara 1000 dan 9999)
+      function generateRandom4Digit() {
+        return Math.floor(Math.random() * 9000 + 1000); // Angka antara 1000 dan 9999
+      }
+
+      // Fungsi untuk menghasilkan total 4 digit (antara 1000 dan 9999)
+      function generateTotal4Digit() {
+        return Math.floor(Math.random() * 9000 + 1000); // Angka antara 1000 dan 9999
+      }
+
+      // Fungsi untuk menginisialisasi data acak
+      function initializeRandomData() {
+        combinedChart.data.datasets.forEach(dataset => {
+          dataset.data = Array.from({ length: 7 }, () => generateRandom4Digit());
+        });
+        combinedChart.update();
+      }
+
+      // Fungsi untuk menambahkan riwayat ke tabel
+      function addHistory(sgp, ird, ght, RTX) {
+        const historyBody = document.getElementById('historyBody');
+        const newRow = document.createElement('tr');
+        const time = new Date().toLocaleTimeString(); // Waktu saat ini
+
+        newRow.innerHTML = `
+          <td>${time}</td>
+          <td><span class="red-number">${sgp}</span></td>
+          <td><span class="red-number">${ird}</span></td>
+          <td><span class="red-number">${ght}</span></td>
+          <td><span class="red-number">${RTX}</span></td>
+        `;
+
+        // Tambahkan baris baru ke tabel
+        historyBody.prepend(newRow);
+
+        // Jika riwayat lebih dari 10 baris, hapus baris terakhir
+        if (historyBody.children.length > 10) {
+          historyBody.removeChild(historyBody.lastChild);
+        }
+      }
+
+      // Fungsi untuk mengupdate statistik ringkas
+      function updateStats() {
+        const counts = [
+          parseInt(document.getElementById('count1').textContent),
+          parseInt(document.getElementById('count2').textContent),
+          parseInt(document.getElementById('count3').textContent),
+          parseInt(document.getElementById('count4').textContent)
+        ];
+        const total = counts.reduce((a, b) => a + b, 0); // Total data
+        const average = (total / counts.length).toFixed(2); // Rata-rata
+        const max = Math.max(...counts); // Nilai tertinggi
+        const min = Math.min(...counts); // Nilai terendah
+
+        // Update elemen statistik
+        document.getElementById('totalData').textContent = total;
+        document.getElementById('averageData').textContent = average;
+        document.getElementById('maxData').textContent = max;
+        document.getElementById('minData').textContent = min;
+      }
+
+      // Fungsi untuk mengupdate progress bar dan info
+      function updateProgressBar() {
+        const progressBar = document.getElementById('progressBar');
+        const progressInfo = document.getElementById('progressInfo');
+        const counts = [
+          parseInt(document.getElementById('count1').textContent),
+          parseInt(document.getElementById('count2').textContent),
+          parseInt(document.getElementById('count3').textContent),
+          parseInt(document.getElementById('count4').textContent)
+        ];
+        const total = counts.reduce((a, b) => a + b, 0); // Total dari SGP, IRD, GHT, dan RTX
+        const progress = (total / 40000) * 100; // Hitung persentase progress (maksimal 40000)
+        progressBar.style.width = `${progress}%`;
+        progressBar.setAttribute('aria-valuenow', progress);
+
+        // Update info progress bar
+        if (progress < 100) {
+          progressInfo.textContent = `Memproses data... ${Math.round(progress)}%`;
+        } else {
+          progressInfo.textContent = `Data telah sepenuhnya diproses!`;
+        }
+      }
+
+      // Fungsi untuk mengupdate status online
+      function updateOnlineStatus() {
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        statusDot.style.backgroundColor = '#28a745'; // Warna hijau untuk online
+        statusText.textContent = 'Online';
+      }
+
+      // Variabel untuk kontrol pembaruan data
+      let isPaused = false;
+      let updateInterval = setInterval(updateChart, 5000);
+
+      // Fungsi untuk mengupdate data chart
+      function updateChart() {
+        if (isPaused) return; // Jika di-pause, hentikan pembaruan
+
+        const counts = [];
+        combinedChart.data.datasets.forEach((dataset, index) => {
+          const newData = dataset.data.map(() => generateRandom4Digit());
+          dataset.data = newData;
+
+          // Hitung total data per menit (4 digit)
+          const total = generateTotal4Digit(); // Total acak 4 digit
+          document.getElementById(`count${index + 1}`).textContent = total;
+          counts.push(total);
+        });
+        combinedChart.update();
+
+        // Tambahkan riwayat ke tabel
+        addHistory(counts[0], counts[1], counts[2], counts[3]);
+
+        // Update progress bar
+        updateProgressBar();
+
+        // Update statistik ringkas
+        updateStats();
+
+        // Update status online
+        updateOnlineStatus();
+      }
+
+      // Inisialisasi data acak pertama kali
+      initializeRandomData();
+
+      // Fungsi untuk pause/resume pembaruan data
+      document.getElementById('pauseButton').addEventListener('click', () => {
+        isPaused = !isPaused;
+        const pauseButton = document.getElementById('pauseButton');
+        if (isPaused) {
+          pauseButton.innerHTML = '<i class="fas fa-play"></i> Resume';
+          pauseButton.classList.remove('btn-warning');
+          pauseButton.classList.add('btn-success');
+          document.getElementById('statusDot').style.backgroundColor = '#dc3545'; // Warna merah untuk offline
+          document.getElementById('statusText').textContent = 'Offline';
+        } else {
+          pauseButton.innerHTML = '<i class="fas fa-pause"></i> Pause';
+          pauseButton.classList.remove('btn-success');
+          pauseButton.classList.add('btn-warning');
+          document.getElementById('statusDot').style.backgroundColor = '#28a745'; // Warna hijau untuk online
+          document.getElementById('statusText').textContent = 'Online';
+        }
+      });
+
+      // Fungsi untuk refresh data
+      document.getElementById('refreshButton').addEventListener('click', () => {
+        initializeRandomData(); // Inisialisasi ulang data acak
+        document.getElementById('historyBody').innerHTML = ''; // Kosongkan riwayat
+        updateProgressBar(); // Reset progress bar
+        updateStats(); // Reset statistik
+      });
+
+      // Fungsi untuk menampilkan notifikasi relevan setiap 5 detik
+      function showRelevantNotification() {
+        const messages = [
+          "Data terbaru telah diperbarui!",
+          "Perubahan signifikan terdeteksi pada data!",
+          "Pembaruan data berhasil dilakukan!",
+          "Data SGP, IRD, GHT, dan RTX telah diupdate!",
+          "Sistem memastikan data selalu akurat!",
+          "Data real-time telah diproses dengan sukses!",
+          "Tren terbaru terdeteksi pada grafik!",
+          "Pembaruan otomatis berjalan lancar!",
+          "Data terkini tersedia untuk analisis!",
+          "Sistem berhasil memvalidasi data terbaru!",
+          "Analisis data terbaru telah selesai!",
+          "Grafik telah diperbarui dengan data terkini!",
+          "Sistem sedang memproses data dengan cepat!",
+          "Data historis telah disimpan dengan aman!",
+          "Pembaruan grafik berhasil dijalankan!"
+        ];
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)]; // Pilih pesan acak
+
+        const notification = document.createElement('div');
+        notification.className = 'alert alert-info';
+        notification.innerHTML = `${randomMessage} <span class="float-end"><i class="fas fa-times"></i></span>`;
+        document.querySelector('.notification-container').appendChild(notification);
+
+        // Hapus notifikasi setelah 3 detik
+        setTimeout(() => notification.remove(), 3000);
+      }
+      setInterval(showRelevantNotification, 10000);
+
+      // Inisialisasi tooltip
+      $(document).ready(function(){
+        $('[data-bs-toggle="tooltip"]').tooltip();
+      });
+
+      // Dropdown untuk Memilih Tipe Grafik
+      document.getElementById('chartType').addEventListener('change', function() {
+        combinedChart.config.type = this.value;
+        combinedChart.update();
+      });
+
+      // Fungsi untuk mengupdate progres slider
+      function updateSliderProgress() {
+        const slider = document.getElementById('intervalSlider');
+        const progress = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+        slider.style.setProperty('--progress', `${progress}%`);
+      }
+
+      // Event listener untuk slider
+      document.getElementById('intervalSlider').addEventListener('input', function() {
+        updateSliderProgress();
+        const interval = this.value;
+        document.getElementById('intervalValue').textContent = interval;
+        document.getElementById('updateIntervalText').textContent = interval; // Update teks interval
+        clearInterval(updateInterval);
+        updateInterval = setInterval(updateChart, interval * 1000);
+      });
+
+      // Inisialisasi progres slider saat halaman dimuat
+      updateSliderProgress();
+
+      // Toggle untuk Menampilkan/Menyembunyikan Dataset
+      document.getElementById('toggleSGP').addEventListener('change', function() {
+        combinedChart.data.datasets[0].hidden = !this.checked;
+        combinedChart.update();
+      });
+      document.getElementById('toggleIRD').addEventListener('change', function() {
+        combinedChart.data.datasets[1].hidden = !this.checked;
+        combinedChart.update();
+      });
+      document.getElementById('toggleGHT').addEventListener('change', function() {
+        combinedChart.data.datasets[2].hidden = !this.checked;
+        combinedChart.update();
+      });
+      document.getElementById('toggleRTX').addEventListener('change', function() {
+        combinedChart.data.datasets[3].hidden = !this.checked;
+        combinedChart.update();
+      });
+
+      // Fungsi untuk menampilkan detail data di modal
+document.querySelectorAll('#historyBody tr').forEach(row => {
+  row.addEventListener('click', () => {
+    // Ambil data dari baris yang diklik
+    const time = row.cells[0].textContent;
+    const sgp = row.cells[1].textContent;
+    const ird = row.cells[2].textContent;
+    const ght = row.cells[3].textContent;
+    const rtx = row.cells[4].textContent;
+
+    // Isi konten modal dengan detail data
+    document.getElementById('detailContent').innerHTML = `
+      <p><strong>Waktu:</strong> ${time}</p>
+      <p><strong>SGP:</strong> ${sgp}</p>
+      <p><strong>IRD:</strong> ${ird}</p>
+      <p><strong>GHT:</strong> ${ght}</p>
+      <p><strong>RTX:</strong> ${rtx}</p>
+    `;
+
+    // Tampilkan modal menggunakan Bootstrap
+    const detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+    detailModal.show();
+  });
+});
+
+      // Animasi Loading saat Memuat Data
+      function updateChartWithLoading() {
+        document.getElementById('loadingSpinner').style.display = 'block';
+        setTimeout(() => {
+          updateChart();
+          document.getElementById('loadingSpinner').style.display = 'none';
+        }, 1000);
+      }
+
+      // Filter Data Berdasarkan Tanggal
+      document.getElementById('filterButton').addEventListener('click', () => {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        // Lakukan filter data berdasarkan tanggal
+        alert(`Filter data dari ${startDate} hingga ${endDate}`);
+      });
+      // Fungsi untuk mengupdate waktu
+function updateTime() {
+  const options = {
+    timeZone: 'Asia/Jakarta',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  };
+
+  // Waktu Indonesia (WIB)
+  const timeIndonesia = new Date().toLocaleTimeString('id-ID', options);
+  document.getElementById('timeIndonesia').textContent = timeIndonesia;
+
+  // Waktu Singapura (SGT)
+  options.timeZone = 'Asia/Singapore';
+  const timeSingapore = new Date().toLocaleTimeString('en-SG', options);
+  document.getElementById('timeSingapore').textContent = timeSingapore;
+
+  // Waktu Hongkong (HKT)
+  options.timeZone = 'Asia/Hong_Kong';
+  const timeHongkong = new Date().toLocaleTimeString('en-HK', options);
+  document.getElementById('timeHongkong').textContent = timeHongkong;
+
+  // Waktu Sidney (AEST)
+  options.timeZone = 'Australia/Sydney';
+  const timeSydney = new Date().toLocaleTimeString('en-AU', options);
+  document.getElementById('timeSydney').textContent = timeSydney; // Tambahkan ini
+}
+
+// Update waktu setiap detik
+setInterval(updateTime, 1000);
+
+// Panggil fungsi pertama kali untuk menampilkan waktu segera
+updateTime();
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

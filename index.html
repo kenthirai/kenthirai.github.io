@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Meta Tag SEO -->
+  <meta name="description" content="Kenthir AI Tools sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
+  <meta name="keywords" content="Kenthir AI, AI, Gambar AI, Teknologi AI, Solusi Inovatif, Pengembangan AI, KenthirAi tools">
+  <meta name="author" content="Kenthir AI">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kenthir AI Tools">
+  <meta property="og:description" content="Kenthir AI Tools sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
+  <meta property="og:image" content="trial.png"> <!-- Ganti dengan URL gambar Anda -->
+  <meta property="og:url" content="https://kenthir.my.id"> <!-- Ganti dengan URL website Anda -->
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Under Construction - Kenthir AI">
+  <meta name="twitter:description" content="Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan. Tunggu kehadiran kami!">
+  <meta name="twitter:image" content="https://trial.png"> <!-- Ganti dengan URL gambar Anda -->
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://kenthir.my.id"> <!-- Ganti dengan URL website Anda -->
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"> <!-- Ganti dengan URL favicon Anda -->
+  	
+  <title>Kenthir AI Tools</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Font Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+      margin: 0;
+      padding: 0;
+      height: 100vh; /* Pastikan body mengambil tinggi penuh viewport */
+      display: grid;
+      place-items: center; /* Pusatkan konten secara vertikal dan horizontal */
+      background-color: #f0f0f0; /* Warna latar belakang default */
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0d6efd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      z-index: 1001; /* Pastikan loading screen di atas top bar */
+    }
+
+    .loading-screen.hidden {
+      display: none;
+    }
+
+    .loading-screen .spinner-border {
+      width: 3rem;
+      height: 3rem;
+      border-width: 0.25em;
+    }
+
+    .loading-screen .progress {
+      width: 300px;
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .loading-screen .progress-bar {
+      background-color: #fab802;
+      transition: width 0.3s ease;
+    }
+
+    .loading-screen .loading-info {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    /* Dark Mode */
+    .dark-mode {
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    .dark-mode .modal-content {
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+
+    .dark-mode .modal-header {
+      border-bottom: 1px solid #333;
+    }
+
+    .dark-mode .modal-title {
+      color: #ffffff;
+    }
+
+    .dark-mode .btn-close {
+      filter: invert(1);
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #ddd;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000; /* Pastikan top bar di bawah loading screen */
+      height: 60px; /* Tinggi tetap untuk top bar */
+    }
+
+    .top-bar.dark-mode {
+      background-color: #1e1e1e;
+      border-bottom: 1px solid #333;
+    }
+
+    .top-bar .language-selector {
+      margin-right: auto;
+    }
+
+    .top-bar .language-selector select {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    .top-bar .dark-mode-toggle {
+      margin-right: 10px;
+    }
+
+    .top-bar .settings-button {
+      margin-right: 10px;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 600px; /* Batasi lebar konten */
+      width: 90%; /* Lebar konten 90% dari parent (untuk responsif) */
+      padding: 20px;
+      background-color: white; /* Warna latar belakang konten */
+      color: #232323;
+      border-radius: 10px; /* Tambahkan sudut melengkung */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan */
+      text-align: center; /* Pusatkan teks */
+      margin-top: 80px; /* Beri jarak dari top bar */
+    }
+
+    /* Countdown Timer */
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px; /* Jarak antara elemen countdown */
+      margin-top: 20px;
+    }
+
+    .countdown-item {
+      background-color: #0d6efd; /* Warna latar belakang countdown */
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 80px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .countdown-item:hover {
+      transform: translateY(-5px); /* Efek hover naik sedikit */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Bayangan lebih besar saat hover */
+    }
+
+    .countdown-item span {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .countdown-item small {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Floating Facebook Button */
+    .floating-facebook-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #1877f2; /* Warna Facebook */
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%; /* Membuat tombol bulat */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
+      z-index: 1000; /* Pastikan tombol di atas konten lain */
+      transition: background-color 0.3s ease;
+    }
+
+    .floating-facebook-button:hover {
+      background-color: #165dbb; /* Warna Facebook saat hover */
+    }
+
+    /* Dark Mode untuk Floating Button */
+    .dark-mode .floating-facebook-button {
+      background-color: #1877f2; /* Tetap biru di dark mode */
+    }
+
+    .dark-mode .floating-facebook-button:hover {
+      background-color: #165dbb; /* Warna hover di dark mode */
+    }
+
+    /* Cookies Consent Banner */
+    .cookies-consent {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #0d6efd;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      z-index: 1000;
+      display: none;
+    }
+
+    .cookies-consent.dark-mode {
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+
+    .cookies-consent button {
+      background-color: #fab802;
+      border: none;
+      padding: 8px 16px;
+      margin-left: 10px;
+      cursor: pointer;
+      color: #000;
+      border-radius: 5px;
+    }
+
+    .cookies-consent button:hover {
+      background-color: #e0a800;
+    }
+
+    .cookies-consent button.reject {
+      background-color: #ff4444;
+      color: white;
+    }
+
+    .cookies-consent button.reject:hover {
+      background-color: #cc0000;
+    }
+
+    /* Dropdown, Textarea, dan Tombol Generate */
+    .ai-generator {
+      max-width: 600px;
+      width: 90%;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .ai-generator label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .ai-generator select,
+    .ai-generator textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      margin-bottom: 15px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .ai-generator textarea {
+      resize: vertical; /* Biarkan pengguna mengubah tinggi textarea */
+      min-height: 100px;
+    }
+
+    .ai-generator button {
+      width: 100%;
+      padding: 10px;
+      background-color: #b8b8b8;
+      color: #777; 
+      border: none;
+      border-radius: 5px;
+      cursor: not-allowed; /* Kursor tidak diperbolehkan karena tombol nonaktif */
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .ai-generator button i {
+      font-size: 18px;
+    }
+    /* Styling untuk teks "Klik Saya" */
+	.klik-saya-text {
+	  text-align: center;
+	  margin-top: 50px;
+	  font-size: 14px;
+	  color: #666;
+	  font-weight: 500;
+	}
+
+    /* Media Query untuk perangkat mobile */
+    @media (max-width: 767.98px) {
+      /* Sembunyikan teks pada tombol dark mode */
+      #dark-mode-toggle span {
+        display: none;
+      }
+
+      /* Sembunyikan teks pada tombol pengaturan tema */
+      .settings-button .text {
+        display: none;
+      }
+
+      /* Sesuaikan padding dan ukuran tombol agar lebih proporsional */
+      #dark-mode-toggle,
+      .settings-button {
+        padding: 5px 10px;
+      }
+
+      /* Sesuaikan ukuran ikon agar lebih sesuai */
+      #dark-mode-toggle i,
+      .settings-button i {
+        font-size: 1.2rem;
+      }
+
+      /* Sesuaikan warna tombol dark mode pada mode gelap */
+      .dark-mode #dark-mode-toggle {
+        color: #ffffff; /* Warna teks dan ikon putih */
+        border-color: #ffffff; /* Warna border putih */
+      }
+
+      .dark-mode #dark-mode-toggle:hover {
+        color: #000000; /* Warna teks dan ikon hitam saat hover */
+        background-color: #ffffff; /* Warna latar belakang putih saat hover */
+      }
+
+      /* Sesuaikan margin-top untuk konten utama di mobile */
+      .main-content {
+        margin-top: 70px; /* Sesuaikan jarak dari top bar */
+      }
+
+      /* Sesuaikan ukuran countdown di mobile */
+      .countdown-item {
+        min-width: 60px;
+        padding: 10px;
+      }
+
+      .countdown-item span {
+        font-size: 1.2rem;
+      }
+
+      .countdown-item small {
+        font-size: 0.8rem;
+      }
+    }}
+  }
+  /* Styling untuk Tombol Switch */
+.form-switch .form-check-input {
+  width: 5em;
+  height: 2.5em;
+  margin-left: 0;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+.form-check-label {
+	color: #eb4034;
+	}
+	
+/* Styling untuk slider range */
+#quality-slider {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  -webkit-appearance: none; /* Hilangkan gaya default browser */
+  appearance: none;
+  background: transparent; /* Latar belakang transparan */
+}
+
+/* Styling untuk track (jalur slider) */
+#quality-slider::-webkit-slider-runnable-track {
+  height: 8px;
+  background: linear-gradient(to right, #ff4444 var(--fill-percentage), #ddd var(--fill-percentage)); /* Warna merah mengisi secara progresif */
+  border-radius: 5px; 
+}
+
+#quality-slider::-moz-range-track {
+  height: 8px;
+  background: linear-gradient(to right, #ff4444 var(--fill-percentage), #ddd var(--fill-percentage)); /* Warna merah mengisi secara progresif */
+  border-radius: 5px;
+}
+
+/* Styling untuk thumb (tombol geser) */
+#quality-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Hilangkan gaya default browser */
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #eb4034; /* Warna merah untuk thumb */
+  border: 2px solid #cc0000; /* Border merah gelap */
+  border-radius: 50%; /* Bentuk bulat */
+  cursor: pointer;
+  margin-top: -6px; /* Sesuaikan posisi thumb */
+}
+
+#quality-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #eb4034; /* Warna merah untuk thumb */
+  border: 2px solid #cc0000; /* Border merah gelap */
+  border-radius: 50%; /* Bentuk bulat */
+  cursor: pointer;
+}
+#quality-label {
+	padding-bottom: 50px; 
+	}
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen">
+    <div class="spinner-border text-light" role="status"></div>
+    <div class="progress mt-4">
+      <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+    </div>
+    <div class="loading-info mt-3">
+      <p id="progress-text">0%</p>
+      <p>Memuat Kenthir AI...</p>
+    </div>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <select id="language-select">
+        <option value="id">Bahasa Indonesia</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <!-- Dark Mode Toggle -->
+    <button id="dark-mode-toggle" class="btn btn-outline-dark dark-mode-toggle">
+      <i class="fas fa-moon"></i>
+      <span>Dark Mode</span>
+    </button>
+    <!-- Settings Button -->
+    <button class="btn btn-primary settings-button" data-bs-toggle="modal" data-bs-target="#settingsModal" title="Pengaturan Tema">
+      <i class="fas fa-tools"></i>
+      <span class="text">Pengaturan Tema</span>
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1 id="main-title">Dalam Perbaikan <i class="fas fa-laptop-code"></i></h1>
+    <p class="lead" id="main-description">Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan.</p>
+    <p id="main-commitment">Kami berkomitmen untuk menghadirkan teknologi AI yang mudah digunakan dan bermanfaat bagi semua orang. Tunggu kehadiran kami! 🚀</p>
+    <div id="countdown" class="mt-4">
+      <div class="countdown-container">
+        <div class="countdown-item">
+          <span id="countdown-days">0</span>
+          <small>Hari</small>
+        </div>
+        <div class="countdown-item">
+          <span id="countdown-hours">0</span>
+          <small>Jam</small>
+        </div>
+        <div class="countdown-item">
+          <span id="countdown-minutes">0</span>
+          <small>Menit</small>
+        </div>
+        <div class="countdown-item">
+          <span id="countdown-seconds">0</span>
+          <small>Detik</small>
+        </div>
+      </div>
+    </div>    
+    <!-- Toggle Button for AI Generate Image -->
+    <button id="toggle-ai-generator" class="btn btn-primary mt-4">
+      <i class="fas fa-robot"></i> Kenthir AI Tools V6
+    </button>
+
+<div id="ai-generator-section" class="ai-generator mt-4" style="display: none;">      
+  <h2>Kenthir AI Image</h2>
+  <label for="ai-model">Pilih Model AI:</label>
+      <select id="ai-model">
+        <option value="dalle3">DALL-E 3</option>
+        <option value="leonardo">LEONARDO</option>
+        <option disabled value="midjourney">MIDJOURNEY V6</option>
+        <option value="flux-pro">FLUX [PRO]</option>
+        <option disabled value="flux-dev">FLUX [Dev]</option>
+        <option value="imagen3">Imagen 3</option>
+        <option value="bing">Bing</option>
+        <option value="tensor-art">Tensor Art</option>
+                <option value="tensor-art">Stable Diffusion XL</option>
+        <option disabled value="recraft-v3">Recraft V3</option>
+                <option disabled value="playground-ai">Playground AI</option>
+      </select>
+        <label for="ai-resolusi">Resolusi:</label>
+      <select id="ai-resolusi">
+        <option value="square">1024X1024</option>
+        <option disabled value="portrait">1792x1024</option>
+        <option disabled value="landscape">1024x1792</option>
+      </select>
+      
+      <!-- Tambahkan di bawah dropdown resolusi -->
+<label for="quality-slider">Kualitas Gambar:</label>
+<input type="range" id="quality-slider" min="1" max="3" step="1" value="1">
+<div id="quality-label">Standar</div>
+
+  <label for="ai-prompt">Masukkan Prompt:</label>
+  <textarea id="ai-prompt" placeholder="Tulis prompt di sini [pastikan dengan bahasa Inggris]..."></textarea>
+<p>Sementara saya disable dulu! 😁</p>
+  <!-- Tombol Generate -->
+  <button disabled id="generate-button">
+    <i class="fas fa-lock"></i> GENERATE
+  </button>
+  <!-- Tombol Switch On/Off -->
+<div class="form-check form-switch mt-3">
+  <input class="form-check-input" type="checkbox" id="deepai-switch">
+  <label class="form-check-label" for="deepai-switch">Aktifkan NSFW Content</label>
+</div>
+  
+  <!-- Hasil Gambar -->
+  <div id="generated-image-container" class="mt-4" style="display: none;">
+    <img id="generated-image" src="" alt="Generated Image" class="img-fluid">
+  </div>
+</div>
+
+
+  <!-- Floating Facebook Button -->
+  <a href="https://web.facebook.com/groups/2790873117754989/" class="floating-facebook-button" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Modal Settings -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="settingsModalLabel">Pengaturan Tema</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label for="color-picker">Pilih Warna Tema:</label>
+          <input type="color" id="color-picker" value="#0d6efd" class="form-control">
+          <button id="reset-color" class="btn btn-secondary btn-sm mt-3">Reset Warna</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center mt-5 py-3">
+    <p>&copy; <span id="year"></span> Kenthir AI. Made with ♥️</p>
+  </footer>
+
+  <!-- Cookies Consent Banner -->
+  <div id="cookies-consent" class="cookies-consent">
+    <p>Kami menggunakan cookies untuk meningkatkan pengalaman Anda. Dengan melanjutkan, Anda setuju dengan penggunaan cookies kami.</p>
+    <button id="accept-cookies">Setuju</button>
+    <button id="reject-cookies" class="reject">Tolak</button>
+  </div>
+
+  <!-- Bootstrap 5 JS and Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS -->
+  <script>
+    // Loading Screen
+    const loadingScreen = document.querySelector('.loading-screen');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    let progress = 0;
+
+    const interval = setInterval(() => {
+      progress += 1;
+      progressBar.style.width = `${progress}%`;
+      progressText.textContent = `${progress}%`;
+      if (progress >= 100) {
+        clearInterval(interval);
+        loadingScreen.classList.add('hidden');
+        // Tampilkan cookies consent setelah 5 detik
+        setTimeout(showCookiesConsent, 5000); // 5000ms = 5 detik
+      }
+    }, 30); // Update setiap 50ms untuk animasi yang lebih smooth
+
+    // Countdown Timer
+    const countdownDays = document.getElementById('countdown-days');
+    const countdownHours = document.getElementById('countdown-hours');
+    const countdownMinutes = document.getElementById('countdown-minutes');
+    const countdownSeconds = document.getElementById('countdown-seconds');
+    const targetDate = new Date('2025-05-25T00:00:00').getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownDays.textContent = days;
+      countdownHours.textContent = hours;
+      countdownMinutes.textContent = minutes;
+      countdownSeconds.textContent = seconds;
+
+      if (distance < 0) {
+        clearInterval(countdownInterval);
+        document.getElementById('countdown').innerHTML = '<h2>Website Sudah Live!</h2>';
+      }
+    };
+
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+    const topBar = document.querySelector('.top-bar');
+    let isDarkMode = false;
+
+    darkModeToggle.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      body.classList.toggle('dark-mode');
+      topBar.classList.toggle('dark-mode');
+      if (isDarkMode) {
+        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
+        body.style.backgroundColor = '#121212'; // Warna gelap default
+        body.style.color = '#ffffff';
+        darkModeToggle.style.color = '#ffffff'; // Warna teks dan ikon putih
+        darkModeToggle.style.borderColor = '#ffffff'; // Warna border putih
+      } else {
+        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+        applyUserColor(userColor); // Kembalikan ke warna yang dipilih pengguna
+        darkModeToggle.style.color = '#000000'; // Warna teks dan ikon hitam
+        darkModeToggle.style.borderColor = '#000000'; // Warna border hitam
+      }
+    });
+
+    // Color Picker
+    const colorPicker = document.getElementById('color-picker');
+    const resetColorButton = document.getElementById('reset-color');
+    let userColor = '#f5f5f5'; // Warna default
+
+    colorPicker.addEventListener('input', (e) => {
+      userColor = e.target.value;
+      applyUserColor(userColor);
+    });
+
+    resetColorButton.addEventListener('click', () => {
+      userColor = '#f5f5f5'; // Reset ke warna default
+      colorPicker.value = userColor;
+      applyUserColor(userColor);
+    });
+
+    // Fungsi untuk menerapkan warna yang dipilih pengguna
+    function applyUserColor(color) {
+      if (!isDarkMode) {
+        body.style.backgroundColor = color;
+        body.style.color = getContrastColor(color);
+      }
+      darkModeToggle.style.borderColor = getContrastColor(color);
+      darkModeToggle.style.color = getContrastColor(color);
+    }
+
+    // Fungsi untuk menentukan warna kontras
+    function getContrastColor(hexColor) {
+      const r = parseInt(hexColor.slice(1, 3), 16);
+      const g = parseInt(hexColor.slice(3, 5), 16);
+      const b = parseInt(hexColor.slice(5, 7), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      return brightness > 128 ? '#000000' : '#ffffff';
+    }
+
+    // Dynamic Year in Footer
+    const year = document.getElementById('year');
+    year.textContent = new Date().getFullYear();
+
+    // Cookies Consent Banner
+    const cookiesConsent = document.getElementById('cookies-consent');
+    const acceptCookiesButton = document.getElementById('accept-cookies');
+    const rejectCookiesButton = document.getElementById('reject-cookies');
+
+    // Fungsi untuk menampilkan cookies consent
+    function showCookiesConsent() {
+      if (!localStorage.getItem('cookies-consent')) {
+        cookiesConsent.style.display = 'block';
+      }
+    }
+
+    // Tambahkan event listener untuk tombol setuju
+    acceptCookiesButton.addEventListener('click', () => {
+      localStorage.setItem('cookies-consent', 'accepted');
+      cookiesConsent.style.display = 'none';
+    });
+
+    // Tambahkan event listener untuk tombol tolak
+    rejectCookiesButton.addEventListener('click', () => {
+      localStorage.setItem('cookies-consent', 'rejected');
+      cookiesConsent.style.display = 'none';
+    });
+
+    // Multi Bahasa
+    const languageSelect = document.getElementById('language-select');
+    const mainTitle = document.getElementById('main-title');
+    const mainDescription = document.getElementById('main-description');
+    const mainCommitment = document.getElementById('main-commitment');
+
+    const translations = {
+      id: {
+        title: "Dalam Perbaikan",
+        description: "Kenthir AI sedang dalam pengembangan. Kami fokus pada teknologi Gambar AI untuk memberikan solusi inovatif di masa depan.",
+        commitment: "Kami berkomitmen untuk menghadirkan teknologi AI yang mudah digunakan dan bermanfaat bagi semua orang. Tunggu kehadiran kami! 🚀",
+      },
+      en: {
+        title: "Under Construction",
+        description: "Kenthir AI is under development. We are focusing on Image AI technology to provide innovative solutions in the future.",
+        commitment: "We are committed to delivering AI technology that is easy to use and beneficial for everyone. Stay tuned for our launch! 🚀",
+      },
+    };
+
+    languageSelect.addEventListener('change', (e) => {
+      const selectedLanguage = e.target.value;
+      mainTitle.textContent = translations[selectedLanguage].title;
+      mainDescription.textContent = translations[selectedLanguage].description;
+      mainCommitment.textContent = translations[selectedLanguage].commitment;
+    });
+    
+// Fungsi untuk Generate Gambar dengan API DeepAI
+const generateButton = document.getElementById('generate-button');
+const aiPrompt = document.getElementById('ai-prompt');
+const generatedImageContainer = document.getElementById('generated-image-container');
+const generatedImage = document.getElementById('generated-image');
+
+generateButton.addEventListener('click', async () => {
+  const prompt = aiPrompt.value.trim();
+
+  if (!prompt) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Silakan masukkan prompt terlebih dahulu!',
+    });
+    return;
+  }
+
+  Swal.fire({
+    title: 'Generating Image...',
+    text: 'Mohon tunggu sebentar...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  try {
+    const apiKey = '7469d816-9c98-4560-9162-ae6519137926'; // Ganti dengan API key Anda
+    const url = 'https://api.deepai.org/api/text2img';
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Api-Key': apiKey,
+      },
+      body: JSON.stringify({ text: prompt }),
+    });
+
+    const data = await response.json();
+    console.log('API Response:', data); // Log response dari API
+
+    if (data.output_url) {
+      generatedImage.src = data.output_url;
+      generatedImageContainer.style.display = 'block';
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Gambar berhasil dihasilkan.',
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Gagal menghasilkan gambar. Silakan coba lagi.',
+      });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Terjadi kesalahan. Silakan cek konsol untuk detailnya.',
+    });
+  }
+});
+
+    // Toggle AI Generator Section
+    const toggleAIGeneratorButton = document.getElementById('toggle-ai-generator');
+    const aiGeneratorSection = document.getElementById('ai-generator-section');
+
+    toggleAIGeneratorButton.addEventListener('click', () => {
+      if (aiGeneratorSection.style.display === 'none') {
+        aiGeneratorSection.style.display = 'block';
+      } else {
+        aiGeneratorSection.style.display = 'none';
+      }
+    });
+
+    // Sesuaikan tema cookies consent dengan dark mode
+    if (isDarkMode) {
+      cookiesConsent.classList.add('dark-mode');
+    }
+    
+// Event Listener untuk Tombol Switch
+document.getElementById('deepai-switch').addEventListener('change', function() {
+  if (this.checked) {
+    Swal.fire({
+      title: 'PERINGATAN NSFW ⚠️',
+      html: `
+        <p>Konten ini mengandung materi yang mungkin tidak pantas atau tidak sesuai untuk semua usia. Materi dapat bersifat eksplisit, konten dewasa, atau hal-hal yang sensitif.</p>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="agree-terms">
+          <label class="form-check-label" for="agree-terms">Saya telah berusia 18+</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="agree-privacy">
+          <label class="form-check-label" for="agree-privacy">Saya memahami dan bertanggung jawab atas risiko dalam mengakses konten ini.</label>
+        </div>
+      `,
+      icon: 'info',
+      confirmButtonText: 'Mengerti',
+      confirmButtonColor: '#eb3437',
+      preConfirm: () => {
+        const agreeTerms = document.getElementById('agree-terms').checked;
+        const agreePrivacy = document.getElementById('agree-privacy').checked;
+
+        if (!agreeTerms || !agreePrivacy) {
+          Swal.showValidationMessage('Anda harus menyetujui semua syarat dan ketentuan.');
+          return false;
+        }
+        return true;
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Lakukan sesuatu jika pengguna menyetujui
+        Swal.fire('Berhasil!', 'Anda telah menyetujui syarat dan ketentuan.', 'success');
+      }
+    });
+  }
+});
+
+// Slider Kualitas Gambar
+const qualitySlider = document.getElementById('quality-slider');
+const qualityLabel = document.getElementById('quality-label');
+
+qualitySlider.addEventListener('input', () => {
+  const value = qualitySlider.value;
+  const max = qualitySlider.max;
+  const min = qualitySlider.min;
+  
+  // Hitung persentase pengisian warna
+  const fillPercentage = ((value - min) / (max - min)) * 100 + '%';
+  
+  // Terapkan persentase pengisian ke CSS variable
+  qualitySlider.style.setProperty('--fill-percentage', fillPercentage);
+
+  // Update teks kualitas
+  let qualityText;
+  switch (value) {
+    case '1':
+      qualityText = '<strong>Standar</strong>';
+      break;
+    case '2':
+      qualityText = '<strong>HD</strong>';
+      break;
+    case '3':
+      qualityText = '<strong>Ultra</strong>';
+      break;
+    default:
+      qualityText = '<strong>Standar</strong>';
+  }
+  qualityLabel.innerHTML = qualityText;
+});
+
+// Inisialisasi nilai awal
+qualitySlider.dispatchEvent(new Event('input'));
+  </script>
+</body>
+</html>

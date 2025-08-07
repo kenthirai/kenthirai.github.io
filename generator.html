@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="3;url=https://kenthir.my.id/generator/">
+    <title>Kenthir AI Pro - Redirecting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7E57C2;
+            --primary-dark: #5E35B1;
+            --secondary: #26C6DA;
+            --accent: #FFA000;
+            --light: #F5F5F7;
+            --dark: #263238;
+            --success: #66BB6A;
+            --warning: #FFA726;
+            --error: #EF5350;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --bg-color: #F5F5F7;
+            --text-color: #263238;
+            --card-bg: white;
+        }
+
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1E1E1E;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(126, 87, 194, 0.2);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: rgba(126, 87, 194, 0.1);
+            color: var(--primary);
+        }
+
+        /* Progress bar styles */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(126, 87, 194, 0.1);
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .countdown {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <div class="container">
+        <h1><i class="fas fa-magic"></i> Kenthir AI Pro</h1>
+        <p class="subtitle">Redirecting to the AI Art Generator</p>
+        
+        <div class="loading-spinner"></div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="countdown" id="countdown">Redirecting in 3 seconds...</div>
+        
+        <p>You are being redirected to our generator page. Please wait...</p>
+        
+        <p>If you are not redirected automatically, <a href="https://kenthir.my.id/generator/" class="btn">click here</a></p>
+    </div>
+
+    <script>
+        // Initialize dark mode
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            
+            // Start the progress bar animation
+            startCountdown();
+        });
+
+        function toggleDarkMode() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const isDark = document.body.classList.toggle('dark-mode');
+            
+            if (isDark) {
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('darkMode', 'false');
+            }
+        }
+
+        function startCountdown() {
+            const progressBar = document.getElementById('progressBar');
+            const countdownElement = document.getElementById('countdown');
+            const redirectTime = 3; // 3 seconds
+            let timeLeft = redirectTime;
+            
+            // Update every 100ms for smoother progress bar
+            const interval = setInterval(() => {
+                timeLeft -= 0.1;
+                const progress = ((redirectTime - timeLeft) / redirectTime) * 100;
+                progressBar.style.width = `${progress}%`;
+                
+                // Update countdown text every second
+                if (Math.ceil(timeLeft) !== Math.ceil(timeLeft + 0.1)) {
+                    if (timeLeft > 0) {
+                        countdownElement.textContent = `Redirecting in ${Math.ceil(timeLeft)} second${Math.ceil(timeLeft) === 1 ? '' : 's'}...`;
+                    } else {
+                        countdownElement.textContent = 'Redirecting now...';
+                    }
+                }
+                
+                // Clear interval when time is up
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>

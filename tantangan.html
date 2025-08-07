@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <title>Challenge Membuat Generator Gambar AI Tanpa Coding | Kenthir AI Image</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Ikuti challenge membuat generator gambar AI tanpa perlu coding! Untuk pemula hingga tingkat lanjut. Tools mudah, eye catching, hasil profesional. Daftar sekarang dan buat tools AI-mu sendiri!">
+    <meta name="keywords" content="generator gambar AI, challenge AI, tanpa coding, AI untuk pemula, ruangriung, AI image generator, tools AI, belajar AI mudah">
+    <meta name="author" content="Kenthir AI Image">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kenthir.my.id/tantangan.html">
+    <meta property="og:title" content="Challenge Membuat Generator Gambar AI Tanpa Coding">
+    <meta property="og:description" content="Buat generator gambar AI sendiri tanpa perlu skill coding. Untuk semua level, dari pemula hingga profesional. Daftar sekarang!">
+    <meta property="og:image" content="https://kenthir.my.id/tantangan.png">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://kenthir.my.id/tantangan">
+    <meta name="twitter:title" content="Challenge Membuat Generator Gambar AI Tanpa Coding">
+    <meta name="twitter:description" content="Tantangan seru buat generator gambar AI tanpa coding! Cocok untuk pemula. Tools mudah, hasil keren. Yuk ikutan!">
+    <meta name="twitter:image" content="https://kenthir.my.id/tantangan.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kenthir.my.id/tantangan.html">
+    
+    <!-- Preload Font Awesome -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"></noscript>
+
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --container-bg: #fff;
+            --highlight-bg: #f8f9fa;
+            --border-color: #ccc;
+        }
+
+        .dark-mode {
+            --primary: #5d7af0;
+            --secondary: #6a63e6;
+            --accent: #6ba8f1;
+            --bg-color: #121212;
+            --text-color: #f0f0f0;
+            --container-bg: #1e1e1e;
+            --highlight-bg: #2d2d2d;
+            --border-color: #444;
+            --light: #2d2d2d;
+            --dark: #f0f0f0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .container {
+            max-width: 900px; 
+            margin: 60px auto;
+            background: var(--container-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        h2 {
+            color: var(--secondary);
+            margin-top: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+        
+        p, ul, ol {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        ul, ol {
+            padding-left: 30px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        ul li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        ol li {
+            counter-increment: step-counter;
+        }
+        
+        ol li::before {
+            content: counter(step-counter);
+            color: white;
+            background: var(--primary);
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+            margin-right: 10px;
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            border-radius: 50%;
+            margin-left: -35px;
+            position: absolute;
+            left: 0;
+        }
+        
+        .highlight-box {
+            background: var(--highlight-bg);
+            border-left: 5px solid var(--accent);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button {
+            display: block;
+            width: 80%;
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cta-button:hover, .cta-button:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.6);
+            outline: none;
+        }
+        
+        .tool-highlight {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+        
+        .tool-card {
+            background: var(--container-bg);
+            border-radius: 10px;
+            padding: 15px;
+            width: 120px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .tool-card:hover, .tool-card:focus {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tool-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .social-share {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .social-share a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--highlight-bg);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-share a:hover, .social-share a:focus {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* FAQ Styles */
+        .faq-container {
+            margin: 40px 0;
+        }
+        
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: var(--accent);
+        }
+        
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 15px 20px;
+            background: var(--highlight-bg);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+        
+        .faq-question:after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active:after {
+            content: '-';
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: var(--container-bg);
+        }
+        
+        .faq-answer.show {
+            padding: 20px;
+            max-height: 500px;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 0;
+        }
+
+        /* Join Page Styles */
+        #joinPage {
+            display: none;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        input, textarea, select {
+            width: 80%;
+            padding: 12px 15px;
+            margin: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--container-bg);
+            color: var(--text-color);
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .confirmation {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(75, 181, 67, 0.1);
+            border-radius: 8px;
+            margin-top: 30px;
+            border-left: 5px solid var(--success);
+        }
+        
+        .confirmation i {
+            color: var(--success);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .confirmation h2 {
+            color: var(--success);
+            margin-top: 0;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover, .back-button:focus {
+            text-decoration: underline;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover, .dark-mode-toggle:focus {
+            transform: scale(1.1);
+            outline: none;
+        }
+
+        .dark-mode-toggle i {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        #darkModeIcon {
+            display: none;
+        }
+
+        .dark-mode #lightModeIcon {
+            display: none;
+        }
+
+        .dark-mode #darkModeIcon {
+            display: block;
+        }
+        
+        /* Back to Top Button - Modern Style */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 99;
+            border: none;
+            outline: none;
+            transform: scale(0.8);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        .back-to-top:hover, .back-to-top:focus {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 6px 25px rgba(67, 97, 238, 0.4);
+            transform: scale(1.05) translateY(-3px);
+        }
+
+        .back-to-top:active {
+            transform: scale(0.95);
+        }
+
+        .back-to-top i {
+            font-size: 1.4rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-top:hover i {
+            transform: translateY(-2px);
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(72, 149, 239, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(72, 149, 239, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(72, 149, 239, 0); }
+        }
+
+        .back-to-top.pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+
+            .dark-mode-toggle {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .cta-button {
+                width: 90%;
+                padding: 12px;
+            }
+            
+            .tool-card {
+                width: 100px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tool-card {
+                width: 80px;
+                font-size: 0.9rem;
+            }
+            
+            .tool-card i {
+                font-size: 1.5rem;
+            }
+        }
+    /* Ganti CSS console dengan yang ini */
+    .ai-console-container {
+        margin-top: 50px;
+        margin-bottom: 50px; 
+        margin-left: 20px;
+        margin-right: 20px; 
+    }
+    
+    .ai-console {
+        background-color: #1e1e1e; /* Dark background for light mode */
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 1px solid #444;
+    }
+    
+    .console-header {
+        background-color: #2d2d2d;
+        padding: 8px 15px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #444;
+    }
+    
+    .console-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .console-dot.red {
+        background-color: #ff5f56;
+    }
+    
+    .console-dot.yellow {
+        background-color: #ffbd2e;
+    }
+    
+    .console-dot.green {
+        background-color: #27c93f;
+    }
+    
+    .console-title {
+        margin-left: 10px;
+        font-family: monospace;
+        font-size: 0.9rem;
+        color: #f0f0f0;
+    }
+    
+    .console-content {
+        padding: 15px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9rem;
+        color: #f0f0f0;
+        height: 300px;
+        overflow-y: auto;
+        background-color: #1e1e1e;
+    }
+    
+    .console-message {
+        margin-bottom: 8px;
+        line-height: 1.4;
+        white-space: pre-wrap;
+    }
+    
+    .console-message.info {
+        color: #4895ef;
+    }
+    
+    .console-message.success {
+        color: #4bb543;
+    }
+    
+    .console-message.warning {
+        color: #ffbd2e;
+    }
+    
+    .console-message.error {
+        color: #ff5f56;
+    }
+    
+    .console-message.system {
+        color: #9e9e9e;
+    }
+
+    /* Dark mode styles - akan membalik warna */
+    .dark-mode .ai-console {
+        background-color: #f8f9fa; /* Light background for dark mode */
+        border: 1px solid #ddd;
+    }
+    
+    .dark-mode .console-header {
+        background-color: #e9ecef;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .dark-mode .console-title {
+        color: #333;
+    }
+    
+    .dark-mode .console-content {
+        color: #333;
+        background-color: #f8f9fa;
+    }
+    
+    .dark-mode .console-message.info {
+        color: #3a6ea5;
+    }
+    
+    .dark-mode .console-message.success {
+        color: #2e7d32;
+    }
+    
+    .dark-mode .console-message.warning {
+        color: #c17900;
+    }
+    
+    .dark-mode .console-message.error {
+        color: #c62828;
+    }
+    
+    .dark-mode .console-message.system {
+        color: #666;
+    }
+    
+    @media (max-width: 768px) {
+        .console-content {
+            height: 200px;
+            font-size: 0.8rem;
+        }
+    }
+        /* Tambahkan CSS ini */
+    .countdown-container {
+        text-align: center;
+        margin: 40px 0;
+        padding: 20px;
+        background-color: rgba(72, 149, 239, 0.1);
+        border-radius: 10px;
+        border-left: 5px solid var(--accent);
+    }
+    
+    .countdown-timer {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px auto;
+        flex-wrap: wrap;
+    }
+    
+    .countdown-item {
+        background-color: var(--container-bg);
+        padding: 15px 20px;
+        border-radius: 8px;
+        min-width: 80px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .countdown-number {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: var(--primary);
+        display: block;
+        line-height: 1;
+    }
+    
+    .countdown-label {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        opacity: 0.8;
+        margin-top: 5px;
+        display: block;
+    }
+    
+    .countdown-end {
+        margin-top: 15px;
+        font-size: 0.9rem;
+        color: var(--text-color);
+        opacity: 0.8;
+    }
+    
+    @media (max-width: 768px) {
+        .countdown-item {
+            padding: 12px 15px;
+            min-width: 70px;
+        }
+        
+        .countdown-number {
+            font-size: 1.8rem;
+        }
+        
+        .countdown-label {
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .countdown-timer {
+            gap: 10px;
+        }
+        
+        .countdown-item {
+            padding: 10px 12px;
+            min-width: 60px;
+        }
+        
+        .countdown-number {
+            font-size: 1.5rem;
+        }
+    }
+/* Cookie Consent Styles */
+.cookie-consent {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 900px;
+    background: var(--container-bg);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    border: 1px solid var(--border-color);
+}
+
+.cookie-consent.show {
+    display: block;
+    opacity: 1;
+}
+
+.cookie-consent p {
+    margin: 0 0 15px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.cookie-consent-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.cookie-consent-button {
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cookie-consent-accept {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+.cookie-consent-accept:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
+
+.cookie-consent-decline {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.cookie-consent-decline:hover {
+    background: var(--highlight-bg);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .cookie-consent {
+        width: 95%;
+        bottom: 10px;
+    }
+    
+    .cookie-consent-buttons {
+        flex-direction: column;
+    }
+    
+    .cookie-consent-button {
+        width: 100%;
+    }
+}
+/* Sidebar Styles - Fixed Version */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 998;
+    display: none;
+}
+
+.sidebar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    background: var(--container-bg);
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+}
+
+.sidebar-container.show {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    padding: 20px;
+    padding-top:30px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--highlight-bg);
+}
+
+.sidebar-menu {
+    padding: 20px 0;
+}
+
+.sidebar-menu h3 {
+    padding: 0 20px 10px;
+    color: var(--primary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu li a:hover {
+    background: var(--highlight-bg);
+    color: var(--primary);
+}
+
+/* Pastikan sidebar toggle di kiri atas */
+.sidebar-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: var(--container-bg);
+    border: 1px solid var(--border-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Perbaikan Posisi Dark Mode Toggle */
+.dark-mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px; /* Pindah ke kanan */
+    left: auto; /* Pastikan tidak ada konflik dengan properti left */
+    z-index: 1000;
+    background: var(--container-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+    .dark-mode-toggle {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .sidebar-toggle {
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+    }
+}
+/* Atur warna ikon toggle menu agar selalu terlihat */
+.sidebar-toggle i {
+    color: var(--primary); /* Gunakan warna primary (biru) yang kontras */
+}
+
+.dark-mode .sidebar-toggle i {
+    color: var(--accent); /* Atau gunakan warna accent untuk dark mode */
+}
+
+/* Pastikan tombol toggle memiliki latar belakang yang kontras */
+.sidebar-toggle {
+    background-color: var(--container-bg);
+    border: 1px solid var(--border-color);
+}
+    </style>
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+        <i class="fas fa-sun" id="lightModeIcon" aria-hidden="true"></i>
+        <i class="fas fa-moon" id="darkModeIcon" aria-hidden="true"></i>
+    </button>
+<!-- Sidebar Structure -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<aside class="sidebar-container" id="sidebar">
+    <div class="sidebar-header">
+        <span style="padding-top:50px">Menu Navigasi</span>
+        <button id="sidebarClose">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+<nav class="sidebar-menu">
+    <h3>Menu Utama</h3>
+    <ul>
+        <li><a href="#challengePage"><i class="fas fa-home"></i> Beranda Challenge</a></li>
+        <li><a href="tutorial/"><i class="fas fa-rocket"></i> Tutorial+Deploy</a></li>
+        <li><a href="tutorial-perchance.html"><i class="fas fa-graduation-cap"></i> Tutorial</a></li>
+        <li><a href="generator.html"><i class="fas fa-cogs"></i> Generator AI</a></li>
+        <li><a href="advanced-generator/"><i class="fas fa-hand-sparkles"></i> Advanved AI Generator</a></li>
+                <li><a href="kenthir-pro.html"><i class="fas fa-magic-wand-sparkles"></i> AI Studio Pro</a></li>
+        <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
+    </ul>
+    
+    <h3>Tools AI</h3>
+    <ul>
+        <li><a href="#tools"><i class="fas fa-project-diagram"></i> Daftar Tools</a></li>
+        <li><a href="#console"><i class="fas fa-terminal"></i> AI Console</a></li>
+    </ul>
+</nav>
+</aside>
+    <!-- Challenge Page-->
+    <div class="container" id="challengePage">
+        <h1><i class="fas fa-robot" aria-hidden="true"></i> Challenge Membuat Tools Generator Gambar AI</h1>
+        
+        <div class="highlight-box">
+            <p>Halo anggota grup Facebook AI Image!</p>
+            <p>Saya punya ide menarik, nih untuk mengajak kalian semua berpartisipasi dalam sebuah tantangan seru: <strong style="color:red">Membuat Generator Gambar AI, meskipun Anda tidak memiliki latar belakang coding.</strong> Selama ini, kita sudah banyak melaksanakan challenge-challenge kreatif, seperti swap face, challenge antar-grup, atau challenge individu. Semua itu tentu sangat menyenangkan dan membuktikan bahwa kita bisa berkarya dengan teknologi yang ada.</p>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+    <!-- a href="https://m.me/j/AbbkeqHK0cT0EZE0/" class="cta-button" style="width: auto; display: inline-block; padding: 12px 25px;">
+        <i class="fab fa-facebook-messenger" aria-hidden="true"></i> Gabung Group Chat Diskusi
+        </a-->
+</div>
+        
+        <p>Namun, ada satu hal penting yang patut kita renungkan: sejauh ini, kita hanya menjadi penikmat tools yang dibuat oleh orang lain. Kita belum pernah mencoba menciptakan tools kita sendiri. Padahal, teknologi AI saat ini sudah sangat canggih, bahkan memungkinkan kita untuk membuat generator gambar AI tanpa harus memiliki pengetahuan mendalam tentang coding. Ini adalah kesempatan emas bagi kita untuk mulai belajar dan berinovasi bersama!</p>
+        
+        <p>Yang menarik, kita tidak perlu pusing memahami coding beserta segala kerumitannya. <span style="border-bottom: 3px solid red">hal ini sama kayak waktu kita upload gambar AI di grup selama ini — toh kita ga perlu belajar desain dari nol, kan? tinggal ketik di kolom prompt, tunggu sebentar maka, gambar akan ujug-ujug di tampilkan. <i>Hehe...</i> </span>begitu juga dengan challenge yang akan kita adakan, Dengan teknologi terkini, siapa pun bisa menciptakan karya keren tanpa perlu keahlian teknis khusus!".</p>
+        
+        <h2><i class="fas fa-question-circle" aria-hidden="true"></i> Mengapa Harus Menciptakan Generator Gambar AI?</h2>
+        <ul>
+            <li><strong>Mengurangi Ketergantungan pada Tools Lain:</strong> Saatnya kita tidak hanya menjadi penonton dengan menggunakan tools buatan orang lain, tapi kita juga mampu menciptakan sesuatu yang bermanfaat untuk komunitas kita masing-masing 😁.</li>
+            <li><strong>Belajar dan Berkembang Bersama:</strong> Meskipun Anda tidak memiliki basic tentang <span style="white-space: pre-wrap; font-family: monospace; unicode-bidi: plaintext">pemrograman/coding,</span> jangan ragu! tidak ada syarat coding dalam challenge kali ini, proses ini akan memperkenalkan kita pada cara kerja AI secara praktis.</li>
+            <li><strong>Memberikan Nilai Tambah ke Komunitas:</strong> Jika kita berhasil menciptakan generator gambar AI yang bermanfaat, ini bisa menjadi kontribusi nyata bagi perkembangan teknologi lokal.</li>
+            <li><strong>Menjadi Inspirasi bagi Orang Lain:</strong> Proyek ini bisa menginspirasi anggota grup lainnya untuk menciptakan inovasi serupa di masa depan.</li>
+        </ul>
+        
+        <h2><i class="fas fa-list-alt" aria-hidden="true"></i> Apa yang Harus Kita Buat?</h2>
+        <div class="highlight-box">
+            <p>Kita akan membuat generator gambar AI dengan spesifikasi berikut:</p>
+            <ul>
+                <li><strong>Minimalis:</strong> Tampilan antarmuka harus sederhana, bersih, dan tidak membingungkan pengguna.</li>
+                <li><strong>Mudah Diakses:</strong> Alat ini harus user-friendly sehingga bisa digunakan oleh siapa saja, bahkan oleh orang yang tidak memiliki latar belakang teknis.</li>
+                <li><strong>Powerful:</strong> Meskipun sederhana, generator ini harus mampu menghasilkan gambar yang berkualitas tinggi dan sesuai dengan permintaan pengguna.</li>
+                <li><strong>Fungsional:</strong> Semua fitur yang ada harus bekerja dengan baik tanpa kendala teknis.</li>
+            </ul>
+        </div>
+        
+        <h2><i id="tools" class="fas fa-cogs" aria-hidden="true"></i> Bagaimana Cara Memulainya?</h2>
+        <p>Jangan khawatir jika Anda merasa bingung atau tidak tahu harus mulai dari mana. Berikut beberapa langkah awal yang bisa Anda ikuti: atau anda bisa lihat &rarr;
+  <a href="tutorial-perchance.html" target="_blank" rel="noopener noreferrer">
+    <i class="fas fa-graduation-cap"></i> Tutorial Perchance 
+  </a></p>
+        <ol>
+            <li><strong>Pelajari Platform No-Code:</strong> Ada banyak platform seperti perchance.org, <strike>Gradio, Streamlit, github atau bahkan Canva</strike> yang bisa digunakan untuk membuat antarmuka sederhana tanpa coding.</li>
+            <li><strong>Gunakan API Model AI:</strong> Anda bisa memanfaatkan API dari model AI yang sudah ada, seperti perchance,<strike> Hugging Face, Replicate, atau OpenAI.</strike> Dengan ini, kita bisa menggunakan teknologi AI tanpa harus membangun model dari nol.</li>
+            <li><strong>Berkolaborasi dengan Anggota Lain:</strong> Jika Anda merasa kesulitan, jangan ragu untuk berkolaborasi dengan anggota grup lainnya. Diskusikan ide Anda, bagi tugas, dan buat sesuatu yang luar biasa bersama-sama.</li>
+            <li><strong>Ikuti Tutorial Online:</strong> Ada banyak tutorial gratis di YouTube atau blog yang bisa membantu Anda memulai. Cari yang sesuai dengan level pemahaman Anda.</li>
+        </ol>
+        
+        <div class="tool-highlight">
+            <div class="tool-card">
+                <i class="fas fa-project-diagram" aria-hidden="true"></i>
+                <div>Gradio</div>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-stream" aria-hidden="true"></i>
+                <div>Streamlit</div>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-robot" aria-hidden="true"></i>
+                <div>Hugging Face</div>
+            </div>
+            <div class="tool-card">
+                <i class="fab fa-microsoft" aria-hidden="true"></i>
+                <div>OpenAI</div>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-cubes" aria-hidden="true"></i>
+                <div>Replicate</div>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-magic" aria-hidden="true"></i>
+                <div>Perchance</div>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-brain" aria-hidden="true"></i>
+                <div>Qwen</div>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <div>DeepSeek</div>
+            </div>
+        </div>
+
+        
+        <button id="joinButton" class="cta-button">
+            <i class="fas fa-hand-paper" aria-hidden="true"></i> Saya Siap Berpartisipasi!
+        </button>
+        
+                <div id="tutorial" style="text-align: center; margin: 30px 0;">
+    <a href="tutorial-perchance.html" class="cta-button" style="width: auto; display: inline-block; padding: 12px 25px;">
+        <i class="fas fa-rocket" aria-hidden="true"></i> Lihat Tutorial Perchance
+    </a>
+                    <a href="tutorial/" class="cta-button" style="width: auto; display: inline-block; padding: 12px 25px;">
+        <i class="fas fa-graduation-cap" aria-hidden="true"></i> Lihat Tutorial + Deploy
+                    </a>
+</div>
+    <!-- Tambahkan ini di bagian HTML (bisa di bawah social share atau di tempat yang sesuai) -->
+<div class="countdown-container">
+    <h2><i class="fas fa-clock"></i> Waktu Tersisa untuk Bergabung:</h2>
+    <div class="countdown-timer" id="countdownTimer">
+        <div class="countdown-item">
+            <span class="countdown-number" id="days">00</span>
+            <span class="countdown-label">Hari</span>
+        </div>
+        <div class="countdown-item">
+            <span class="countdown-number" id="hours">00</span>
+            <span class="countdown-label">Jam</span>
+        </div>
+        <div class="countdown-item">
+            <span class="countdown-number" id="minutes">00</span>
+            <span class="countdown-label">Menit</span>
+        </div>
+        <div class="countdown-item">
+            <span class="countdown-number" id="seconds">00</span>
+            <span class="countdown-label">Detik</span>
+        </div>
+    </div>
+    <p class="countdown-end">Batas akhir: 20 April 2025 pukul 23:59 WIB</p>
+   <!-- Histats.com  (div with counter) --><div id="histats_counter"></div>
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4942240,4,428,112,75,00011111']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4942240&101" alt="" border="0"></a></noscript>
+<!-- Histats.com  END  -->
+
+</div>    
+        
+        <h2><i id="faq" class="fas fa-question-circle" aria-hidden="true"></i> Pertanyaan yang Sering Diajukan (FAQ)</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">1. Apakah benar-benar tidak perlu coding untuk mengikuti challenge ini?</button>
+                <div class="faq-answer">
+                    <p>Ya benar! Challenge ini dirancang khusus untuk mereka yang tidak memiliki latar belakang coding. Kita akan menggunakan platform no-code seperti perchance.org, Gradio, Streamlit, github, dan tools lain yang memungkinkan pembuatan antarmuka visual tanpa menulis kode.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">2. Apa saja persyaratan untuk mengikuti challenge ini?</button>
+                <div class="faq-answer">
+                    <p>Persyaratan utama adalah:</p>
+                    <ul>
+                        <li>Keinginan untuk belajar tentang AI</li>
+                        <li>Akun email yang aktif</li>
+                        <li>Koneksi internet yang stabil</li>
+                        <li>Komputer/laptop /Ponsel dengan browser modern</li>
+                    </ul>
+                    <p>Tidak ada persyaratan teknis khusus seperti kemampuan coding.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">3. Berapa lama waktu yang dibutuhkan untuk menyelesaikan challenge?</button>
+                <div class="faq-answer">
+                    <p>Waktu yang dibutuhkan bervariasi tergantung kompleksitas generator yang ingin Anda buat. Secara umum:</p>
+                    <ul>
+                        <li>Generator sederhana: 2-5 jam</li>
+                        <li>Generator dengan fitur menengah: 5-10 jam</li>
+                        <li>Generator kompleks: 10-20 jam</li>
+                    </ul>
+                    <p>Anda bisa mengatur waktu pengerjaan sesuai kesibukan Anda.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">4. Apakah boleh bekerja dalam tim?</button>
+                <div class="faq-answer">
+                    <p>Sangat boleh! Kami bahkan mendorong kolaborasi antar anggota. Anda bisa:</p>
+                    <ul>
+                        <li>Membentuk tim dengan 2-3 orang</li>
+                        <li>Membagi tugas berdasarkan keahlian</li>
+                        <li>Belajar bersama-sama</li>
+                    </ul>
+                    <p>Pastikan untuk menyebutkan semua anggota tim saat mendaftar.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">5. Apakah ada biaya untuk mengikuti challenge ini?</button>
+                <div class="faq-answer">
+                    <p>Tidak ada biaya sama sekali. Challenge ini sepenuhnya gratis. Kami menggunakan tools yang tersedia secara gratis seperti:</p>
+                    <ul>
+                        <li>Gradio (gratis untuk proyek sederhana)</li>
+                        <li>Hugging Face Spaces (gratis dengan batasan tertentu)</li>
+                        <li>API gratis dari berbagai penyedia model AI</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">6. Bagaimana cara penilaian hasil challenge?</button>
+                <div class="faq-answer">
+                    <p>Kriteria penilaian meliputi:</p>
+                    <ul>
+                        <li><strong>Kemudahan Penggunaan (30%)</strong> - Seberapa user-friendly generator Anda</li>
+                        <li><strong>Kreativitas (25%)</strong> - Keunikan konsep dan fitur</li>
+                        <li><strong>Kualitas Hasil (25%)</strong> - Kualitas gambar yang dihasilkan</li>
+                        <li><strong>Fungsionalitas (20%)</strong> - Kelengkapan dan kehandalan fitur</li>
+                    </ul>
+                </div>
+            </div>
+            
+<div class="faq-item">
+    <button class="faq-question">7. Apa hadiah untuk pemenang challenge?</button>
+    <div class="faq-answer">
+        <p>Total hadiah sebesar Rp 600.000 akan dibagikan kepada tiga pemenang:</p>
+        <ul>
+            <li><strong>Juara 1:</strong> Rp 300.000 + sertifikat digital</li>
+            <li><strong>Juara 2:</strong> Rp 200.000 + sertifikat digital</li>
+            <li><strong>Juara 3:</strong> Rp 100.000 + sertifikat digital</li>
+        </ul>
+        <p>Selain itu, semua peserta akan mendapatkan sertifikat digital partisipasi.</p>
+    </div>
+</div>
+            
+            <div class="faq-item">
+                <button class="faq-question">8. Bagaimana jika saya benar-benar pemula di bidang AI?</button>
+                <div class="faq-answer">
+                    <p>Jangan khawatir! Challenge ini dirancang untuk berbagai level:</p>
+                    <ul>
+                        <li>Kami menyediakan tutorial step-by-step disini <a href="tutorial-perchance.html">Tutorial Perchance</a></li>
+                        <li>Ada forum diskusi untuk bertanya</li>
+                        <li>Anda bisa mulai dengan template sederhana</li>
+                        <li>Komunitas akan saling membantu</li>
+                    </ul>
+                    <p>Justru ini kesempatan terbaik untuk memulai belajar AI!</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">9. Bolehkah saya menggunakan generator yang sudah pernah saya buat sebelumnya?</button>
+                <div class="faq-answer">
+                    <p>Kami lebih menghargai karya baru yang dibuat khusus untuk challenge ini. Namun, Anda boleh:</p>
+                    <ul>
+                        <li>Mengembangkan ide dari proyek sebelumnya</li>
+                        <li>Menggunakan komponen yang sudah ada</li>
+                        <li>Meningkatkan versi generator lama</li>
+                    </ul>
+                    <p>Yang penting ada peningkatan signifikan dan sesuai dengan tema challenge.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">10. Bagaimana cara submit hasil karya saya?</button>
+                <div class="faq-answer">
+                    <p>Proses submission sangat mudah:</p>
+                    <ol>
+                        <li>Deploy generator Anda di platform pilihan (Gradio, Hugging Face Spaces, dll)</li>
+                        <li>Isi form submission yang akan kami berikan mendekati deadline</li>
+                        <li>Sertakan link ke generator Anda dan deskripsi singkat</li>
+                        <li>Lampirkan screenshot antarmuka (opsional)</li>
+                    </ol>
+                    <p>Kami akan mengirimkan panduan lengkap via email setelah Anda mendaftar.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <p>Yuk, Mulai Sekarang! Ini adalah kesempatan bagi kita untuk membuktikan bahwa kita tidak hanya bisa menikmati teknologi, tetapi juga bisa menciptakan sesuatu yang bermanfaat. Mari kita eksplorasi potensi AI bersama-sama dan tunjukkan bahwa komunitas kita adalah komunitas yang inovatif dan kreatif.</p>
+        </div>
+        
+        <p>Siap untuk bergabung? Jika ada pertanyaan atau ide tambahan, silakan tulis ide anda via email di <pre>info@kenthir.my.id</pre> Saya sangat antusias untuk melihat apa yang bisa kita capai bersama!</p>
+        
+        <div class="social-share">
+            <a href="#" id="shareFacebook" title="Bagikan di Facebook" aria-label="Bagikan di Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a href="#" id="shareTwitter" title="Bagikan di Twitter" aria-label="Bagikan di Twitter"><i class="fab fa-x-twitter" aria-hidden="true"></i></a>
+            <a href="#" id="shareWhatsApp" title="Bagikan di WhatsApp" aria-label="Bagikan di WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+            <a href="#" id="shareEmail" title="Bagikan via Email" aria-label="Bagikan via Email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+        </div>
+    </div>
+
+    <!-- Join Page -->
+    <div class="container" id="joinPage">
+        <h1><i class="fas fa-user-plus" aria-hidden="true"></i> Formulir Pendaftaran Challenge</h1>
+        
+        <div class="intro-text">
+            <p>Isi formulir berikut untuk bergabung dalam challenge membuat generator gambar AI. Kami akan menghubungi Anda melalui email setelah pendaftaran.</p>
+        </div>
+        
+        <form id="joinForm" action="mailto:info@kenthir.my.id" method="post" enctype="text/plain">
+            <div class="form-group">
+                <label for="name"><i class="fas fa-user" aria-hidden="true"></i> Nama Lengkap</label>
+                <input type="text" id="name" name="name" required placeholder="Masukkan nama lengkap Anda">
+            </div>
+            
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope" aria-hidden="true"></i> Alamat Email</label>
+                <input type="email" id="email" name="email" required placeholder="contoh@email.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="facebook"><i class="fab fa-facebook" aria-hidden="true"></i> Profil Facebook (Opsional)</label>
+                <input type="url" id="facebook" name="facebook" placeholder="https://facebook.com/username">
+            </div>
+            
+            <div class="form-group">
+                <label for="experience"><i class="fas fa-star" aria-hidden="true"></i> Pengalaman dengan AI Image Generator</label>
+                <select id="experience" name="experience" required>
+                    <option value="" disabled selected>Pilih pengalaman Anda</option>
+                    <option value="pemula">Pemula (Baru belajar)</option>
+                    <option value="menengah">Menengah (Pernah mencoba beberapa tools)</option>
+                    <option value="mahir">Mahir (Sering menggunakan berbagai tools AI)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="ideas"><i class="fas fa-lightbulb" aria-hidden="true"></i> Ide/Konsep Generator yang Ingin Dibuat</label>
+                <textarea id="ideas" name="ideas" placeholder="Jelaskan ide Anda secara singkat (jenis generator, fitur khusus, dll)" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-users" aria-hidden="true"></i> Cara Berpartisipasi</label>
+                <div style="margin-top: 10px;">
+                    <label style="display: inline-flex; align-items: center; margin-right: 20px;">
+                        <input type="radio" name="participation" value="individu" checked style="width: auto; margin-right: 8px;"> Individu
+                    </label>
+                    <label style="display: inline-flex; align-items: center;">
+                        <input type="radio" name="participation" value="tim" style="width: auto; margin-right: 8px;"> Tim (sebutkan anggota di kolom ide)
+                    </label>
+                </div>
+            </div>
+            
+            <button type="submit" class="cta-button">
+                <i class="fas fa-paper-plane" aria-hidden="true"></i> Kirim Pendaftaran
+            </button>
+        </form>
+        
+        <div class="confirmation" id="confirmation">
+            <i class="fas fa-check-circle" aria-hidden="true"></i>
+            <h2>Pendaftaran Terkirim!</h2>
+            <p>Terima kasih telah mendaftar challenge ini. Kami akan menghubungi Anda melalui email dalam 1-2 hari kerja.</p>
+            <p>Silakan cek folder spam jika tidak menemukan email kami.</p>
+        </div>
+
+        <a href="#" class="back-button" id="backButton">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i> Kembali ke Halaman Challenge
+        </a>
+    </div>
+    
+       <div id="console" class="ai-console-container">
+    <h2><i class="fas fa-terminal"></i> AI Activity Console</h2>
+    <div class="ai-console">
+        <div class="console-header">
+            <span class="console-dot red"></span>
+            <span class="console-dot yellow"></span>
+            <span class="console-dot green"></span>
+            <span class="console-title">AI-Generator.log</span>
+        </div>
+        <div class="console-content" id="aiConsoleContent">
+            <!-- Pesan console akan muncul di sini -->
+        </div>
+    </div>
+</div>
+    
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </button>
+<!-- Cookie Consent Banner -->
+<div class="cookie-consent" id="cookieConsent">
+    <p>Kami menggunakan cookie untuk meningkatkan pengalaman Anda di situs ini. Dengan melanjutkan, Anda menyetujui penggunaan cookie sesuai dengan <a href="assets/kebijakan-privasi.html" style="color: var(--primary);">Kebijakan Privasi</a> kami.</p>
+    <div class="cookie-consent-buttons">
+        <button class="cookie-consent-button cookie-consent-decline" id="declineCookies">Tolak</button>
+        <button class="cookie-consent-button cookie-consent-accept" id="acceptCookies">Setuju</button>
+    </div>
+</div>
+
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Save user preference
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+        });
+
+        // Navigation between pages
+        const joinButton = document.getElementById('joinButton');
+        const backButton = document.getElementById('backButton');
+        const challengePage = document.getElementById('challengePage');
+        const joinPage = document.getElementById('joinPage');
+
+        if (joinButton && backButton && challengePage && joinPage) {
+            joinButton.addEventListener('click', function() {
+                challengePage.style.display = 'none';
+                joinPage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            backButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                joinPage.style.display = 'none';
+                challengePage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Form submission
+        const joinForm = document.getElementById('joinForm');
+        const confirmation = document.getElementById('confirmation');
+
+        if (joinForm && confirmation) {
+            joinForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!this.checkValidity()) {
+                    this.reportValidity();
+                    return;
+                }
+                
+                // Show confirmation
+                confirmation.style.display = 'block';
+                confirmation.scrollIntoView({ behavior: 'smooth' });
+                
+                try {
+                    // Submit form via email
+                    this.submit();
+                    
+                    // Reset form
+                    this.reset();
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    alert('Terjadi kesalahan saat mengirim formulir. Silakan coba lagi.');
+                }
+            });
+        }
+
+        // FAQ Toggle Functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const isActive = button.classList.contains('active');
+                const answer = button.nextElementSibling;
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-question').forEach(otherButton => {
+                    if (otherButton !== button) {
+                        otherButton.classList.remove('active');
+                        otherButton.nextElementSibling.classList.remove('show');
+                    }
+                });
+                
+                // Toggle current FAQ
+                button.classList.toggle('active');
+                answer.classList.toggle('show');
+            });
+        });
+
+        // Social Share Functionality
+        const currentUrl = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(document.title);
+        const description = encodeURIComponent("Bergabunglah dengan Challenge Membuat Generator Gambar AI Tanpa Coding!");
+
+        // Facebook Share
+        document.getElementById('shareFacebook')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`, 'facebook-share-dialog', 'width=800,height=600');
+        });
+
+        // Twitter Share
+        document.getElementById('shareTwitter')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open(`https://twitter.com/intent/tweet?text=${title}&url=${currentUrl}`, 'twitter-share-dialog', 'width=800,height=600');
+        });
+
+        // WhatsApp Share
+        document.getElementById('shareWhatsApp')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open(`https://wa.me/?text=${title}%20${currentUrl}`, 'whatsapp-share-dialog', 'width=800,height=600');
+        });
+
+        // Email Share
+        document.getElementById('shareEmail')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = `mailto:?subject=${title}&body=${description}%0D%0A%0D%0ABaca selengkapnya: ${currentUrl}`;
+        });
+       
+        // Back to Top Button
+        const backToTopButton = document.getElementById('backToTop');
+
+        if (backToTopButton) {
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('show');
+                    // Add pulse effect when first appearing
+                    if (!backToTopButton.classList.contains('has-appeared')) {
+                        backToTopButton.classList.add('pulse');
+                        backToTopButton.classList.add('has-appeared');
+                        setTimeout(() => {
+                            backToTopButton.classList.remove('pulse');
+                        }, 3000);
+                    }
+                } else {
+                    backToTopButton.classList.remove('show');
+                    backToTopButton.classList.remove('has-appeared');
+                }
+            });
+
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                
+                // Add click feedback
+                backToTopButton.classList.add('pulse');
+                setTimeout(() => {
+                    backToTopButton.classList.remove('pulse');
+                }, 1000);
+            });
+        }
+            // Tambahkan script ini di bagian script
+    // Daftar pesan AI yang relevan
+    const aiMessages = [
+        { type: 'system', message: 'Initializing AI image generation subsystem...' },
+        { type: 'info', message: 'Loading Stable Diffusion model weights...' },
+        { type: 'success', message: 'Model loaded successfully (v1.5, 768x768, 25 steps)' },
+        { type: 'info', message: 'Connecting to GPU backend...' },
+        { type: 'success', message: 'Connected to NVIDIA RTX 3090 (24GB VRAM)' },
+        { type: 'info', message: 'Initializing text encoder...' },
+        { type: 'warning', message: 'Low VRAM warning: Consider reducing batch size' },
+        { type: 'info', message: 'Ready for prompt processing' },
+        { type: 'info', message: 'User prompt: "a futuristic cityscape at night, neon lights, cyberpunk style"' },
+        { type: 'info', message: 'Processing prompt with CLIP...' },
+        { type: 'info', message: 'Generating latent space representation...' },
+        { type: 'info', message: 'Diffusion steps: 0/25' },
+        { type: 'info', message: 'Diffusion steps: 5/25' },
+        { type: 'info', message: 'Diffusion steps: 10/25' },
+        { type: 'info', message: 'Diffusion steps: 15/25' },
+        { type: 'info', message: 'Diffusion steps: 20/25' },
+        { type: 'info', message: 'Diffusion steps: 25/25' },
+        { type: 'success', message: 'Image generation complete' },
+        { type: 'info', message: 'Applying post-processing (ESRGAN upscaling 2x)' },
+        { type: 'success', message: 'Final image ready (1536x1536, 32-bit PNG)' },
+        { type: 'system', message: 'Waiting for next prompt...' },
+        { type: 'info', message: 'User prompt: "portrait of an astronaut with a cat, cinematic lighting"' },
+        { type: 'info', message: 'Processing prompt with CLIP...' },
+        { type: 'error', message: 'NSFW content detected - filtering activated' },
+        { type: 'warning', message: 'Prompt modified for safety: "portrait of an astronaut with a cat, cinematic lighting, family-friendly"' },
+        { type: 'info', message: 'Generating latent space representation...' }
+    ];
+
+    // Pesan tambahan untuk variasi
+    const extraMessages = [
+        { type: 'info', message: 'Optimizing memory usage...' },
+        { type: 'system', message: 'Auto-saving model checkpoint...' },
+        { type: 'info', message: 'Checking for model updates...' },
+        { type: 'success', message: 'Model up to date' },
+        { type: 'info', message: 'User connected via API endpoint' },
+        { type: 'info', message: 'Processing batch of 4 images' },
+        { type: 'warning', message: 'High memory usage detected (18/24GB)' },
+        { type: 'info', message: 'Adjusting scheduler parameters...' },
+        { type: 'success', message: 'Performance optimized' }
+    ];
+
+    // Fungsi untuk menambahkan pesan ke console
+    function addConsoleMessage(messageObj) {
+        const consoleElement = document.getElementById('aiConsoleContent');
+        const messageElement = document.createElement('div');
+        messageElement.className = `console-message ${messageObj.type}`;
+        messageElement.textContent = `[${new Date().toLocaleTimeString()}] ${messageObj.message}`;
+        consoleElement.appendChild(messageElement);
+        consoleElement.scrollTop = consoleElement.scrollHeight;
+    }
+
+    // Fungsi untuk menghasilkan pesan acak
+    function generateRandomMessage() {
+        // Gabungkan semua pesan
+        const allMessages = [...aiMessages, ...extraMessages];
+        
+        // Ambil pesan acak
+        const randomMessage = allMessages[Math.floor(Math.random() * allMessages.length)];
+        
+        // Buat variasi pesan
+        const variedMessage = {
+            type: randomMessage.type,
+            message: randomMessage.message
+                .replace(/v\d\.\d/, `v1.${Math.floor(Math.random() * 5)}`)
+                .replace(/\d+GB/, `${Math.floor(Math.random() * 8) + 16}GB`)
+                .replace(/\d+x\d+/, `${Math.floor(Math.random() * 3) * 512 + 512}x${Math.floor(Math.random() * 3) * 512 + 512}`)
+                .replace(/\d+\/\d+ steps/, `${Math.floor(Math.random() * 20)}/${Math.floor(Math.random() * 20) + 20} steps`)
+        };
+        
+        return variedMessage;
+    }
+
+    // Inisialisasi console
+    function initConsole() {
+        const consoleElement = document.getElementById('aiConsoleContent');
+        if (!consoleElement) return;
+        
+        // Tampilkan pesan awal
+        aiMessages.slice(0, 5).forEach((msg, index) => {
+            setTimeout(() => {
+                addConsoleMessage(msg);
+            }, index * 800);
+        });
+        
+        // Setup infinite loop
+        let messageCount = 5;
+        const intervalId = setInterval(() => {
+            if (messageCount < aiMessages.length) {
+                addConsoleMessage(aiMessages[messageCount]);
+                messageCount++;
+            } else {
+                // Setelah semua pesan awal ditampilkan, tambahkan pesan acak
+                addConsoleMessage(generateRandomMessage());
+                
+                // Kadang tambahkan beberapa pesan sekaligus
+                if (Math.random() > 0.7) {
+                    setTimeout(() => {
+                        addConsoleMessage(generateRandomMessage());
+                    }, 500);
+                }
+            }
+        }, 1500);
+        
+            // Tambahkan script ini
+    function updateCountdown() {
+        // Set tanggal target: 20 April 2025 pukul 23:59 WIB
+        const targetDate = new Date('April 20, 2025 23:59:00 GMT+0700');
+        const now = new Date();
+        const difference = targetDate - now;
+        
+        // Jika waktu sudah habis
+        if (difference <= 0) {
+            document.getElementById('countdownTimer').innerHTML = 
+                '<div class="countdown-ended">Pendaftaran telah ditutup!</div>';
+            return;
+        }
+        
+        // Hitung hari, jam, menit, detik
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        
+        // Update tampilan
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    // Jalankan countdown segera dan update setiap detik
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    
+    // Pastikan countdown berfungsi saat mode gelap/terang diubah
+    document.getElementById('darkModeToggle')?.addEventListener('click', updateCountdown);
+        
+        // Bersihkan interval saat komponen tidak lagi digunakan
+        return () => clearInterval(intervalId);
+    }
+
+    // Jalankan console saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', () => {
+        initConsole();
+        
+        // Tambahkan juga ke dark mode toggle untuk memastikan console berjalan
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', () => {
+                // Pastikan console tetap berjalan setelah mode diubah
+                initConsole();
+            });
+        }
+    });
+// Cookie Consent Functionality
+function showCookieConsent() {
+    // Check if user has already made a choice
+    if (localStorage.getItem('cookieConsent') === null) {
+        setTimeout(() => {
+            const cookieConsent = document.getElementById('cookieConsent');
+            cookieConsent.classList.add('show');
+        }, 5000); // Show after 5 seconds
+    }
+}
+
+function setupCookieConsent() {
+    const acceptCookies = document.getElementById('acceptCookies');
+    const declineCookies = document.getElementById('declineCookies');
+    const cookieConsent = document.getElementById('cookieConsent');
+
+    if (acceptCookies && declineCookies && cookieConsent) {
+        acceptCookies.addEventListener('click', () => {
+            localStorage.setItem('cookieConsent', 'accepted');
+            cookieConsent.classList.remove('show');
+            // You can add additional cookie setting logic here
+        });
+
+        declineCookies.addEventListener('click', () => {
+            localStorage.setItem('cookieConsent', 'declined');
+            cookieConsent.classList.remove('show');
+            // You can add additional cookie rejection logic here
+        });
+
+        // Show the consent banner if no choice has been made
+        showCookieConsent();
+    }
+}
+
+// Initialize cookie consent when DOM is loaded
+document.addEventListener('DOMContentLoaded', setupCookieConsent);
+// Sidebar Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarClose = document.getElementById('sidebarClose');
+    
+    function toggleSidebar() {
+        sidebar.classList.toggle('show');
+        sidebarOverlay.style.display = sidebar.classList.contains('show') ? 'block' : 'none';
+    }
+    
+    sidebarToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleSidebar();
+    });
+    
+    sidebarClose.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleSidebar();
+    });
+    
+    sidebarOverlay.addEventListener('click', function() {
+        toggleSidebar();
+    });
+    
+    // Close sidebar when clicking a link (for mobile)
+    document.querySelectorAll('.sidebar-menu a').forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 768) {
+                toggleSidebar();
+            }
+        });
+    });
+});
+    </script>
+</body>
+</html>

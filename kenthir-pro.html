@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5; url=https://kenthir.my.id/kenthir-pro/">
+    <title>Redirecting to Kenthir Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --primary-light: #b57edc;
+            --secondary: #88d3ce;
+            --dark: #2a2a3c;
+            --light: #f8f9fa;
+            --accent: #ff6b6b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(110, 69, 226, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 30px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .redirect-message {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .redirect-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .redirect-link:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            color: var(--primary-light);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Art Studio Pro</h1>
+        <p class="subtitle">You are being redirected to Kenthir Pro</p>
+        
+        <div class="spinner"></div>
+        
+        <p class="redirect-message">
+            Redirecting in 5 seconds...<br>
+            If you are not redirected automatically, please click 
+            <a href="https://kenthir.my.id/kenthir-pro/" class="redirect-link">this link</a>.
+        </p>
+        
+        <p class="footer">
+            &copy; <span id="currentYear"></span> KenthirAI. All rights reserved.
+        </p>
+    </div>
+
+    <script>
+        // Update tahun dinamis
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Redirect segera jika diinginkan (opsional)
+        // window.location.href = "https://kenthir.my.id/kenthir-pro/";
+    </script>
+</body>
+</html>
