@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Penerjemah online Pegon-Indonesia dan Indonesia-Pegon. Terjemahkan tulisan Pegon ke Latin atau sebaliknya dengan mudah dan akurat.">
+    <meta name="keywords" content="penerjemah Pegon, terjemahan Pegon, tulisan Pegon, transliterasi Pegon, bahasa melayu">
+    <meta name="author" content="Penerjemah Pegon ke Indonesia">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#232323">
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kenthir.my.id/">
+    <meta property="og:title" content="Penerjemah Pegon-Indonesia Online">
+    <meta property="og:description" content="Terjemahkan tulisan Pegon ke Latin atau sebaliknya dengan mudah dan akurat.">
+    <meta property="og:image" content="assets/banner.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kenthir.my.id/">
+    <meta property="twitter:title" content="Penerjemah Pegon-Indonesia Online">
+    <meta property="twitter:description" content="Terjemahkan tulisan Pegon ke Latin atau sebaliknya dengan mudah dan akurat.">
+    <meta property="twitter:image" content="assets/banner.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+
+    <title>Penerjemah Pegon-Indonesia</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="assets/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-language"></i>  Pegon Online</h1>
+        <div class="language-indicator auto-mode" id="languageIndicator">
+            <span id="detectedLang">Mode: Deteksi Otomatis</span>
+        </div>
+        
+        <div class="language-options" id="languageOptions" style="display: none;">
+            <div class="option-group">
+                <label for="sourceLanguage"><i class="fas fa-globe"></i> Bahasa Sumber:</label>
+                <select id="sourceLanguage">
+                    <option value="auto">Deteksi Otomatis</option>
+                    <option value="indonesia">Indonesia</option>
+                    <option value="english">Inggris</option>
+                    <option value="javanese">Jawa</option>
+                    <option value="sundanese">Sunda</option>
+                    <option value="malay">Melayu</option>
+                    <option value="dutch">Belanda</option>
+                    <option value="arabic">Arab (Latin)</option>
+                    <option value="other">Lainnya</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="translator-box">
+            <div class="text-area-container">
+                <div class="label">
+                    <i class="fas fa-font"></i>
+                    <span id="sourceLabel">Tulisan</span>
+                </div>
+                <textarea id="sourceText" placeholder="Masukkan teks di sini..."></textarea>
+                <div class="char-count" id="sourceCharCount">0 karakter</div>
+                <div class="button-group">
+                    <button class="btn btn-primary" id="translateBtn">
+                        <i class="fas fa-exchange-alt"></i> Terjemahkan
+                    </button>
+                    <button class="btn btn-secondary" id="copySource">
+                        <i class="far fa-copy"></i> Salin
+                    </button>
+                    <button class="btn btn-secondary" id="clearSource">
+                        <i class="far fa-trash-alt"></i> Hapus
+                    </button>
+                    <button class="btn btn-tertiary" id="toggleDirection">
+                        <i class="fas fa-random"></i> Mode Manual
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-area-container">
+                <div class="label">
+                    <i class="fas fa-font"></i>
+                    <span id="targetLabel">Terjemahan Pegon</span>
+                </div>
+                <textarea id="targetText" placeholder="Hasil terjemahan akan muncul di sini..." readonly></textarea>
+                <div class="char-count" id="targetCharCount">0 karakter</div>
+                <div class="button-group">
+                    <button class="btn btn-secondary" id="copyTarget">
+                        <i class="far fa-copy"></i> Salin
+                    </button>
+                    <button class="btn btn-secondary" id="clearTarget">
+                        <i class="far fa-trash-alt"></i> Hapus
+                    </button>
+                    <button class="btn btn-info" id="helpBtn">
+                        <i class="fas fa-question-circle"></i> Bantuan
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Sedang menerjemahkan...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/main.js"></script>
+</body>
+</html>
