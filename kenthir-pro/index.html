@@ -1,1 +1,2410 @@
-kenthir
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Art Studio Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --primary-light: #b57edc;
+            --secondary: #88d3ce;
+            --dark: #2a2a3c;
+            --light: #f8f9fa;
+            --accent: #ff6b6b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-weight: 300;
+        }
+        
+        .generator-section {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+        
+        .prompt-container {
+            margin-bottom: 20px;
+        }
+        
+        .prompt-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 1rem;
+            min-height: 100px;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+        
+        .prompt-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
+        }
+        
+        .prompt-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .clear-btn {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        
+        .clear-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .enhance-btn {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        
+        .enhance-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* IMPROVED SLIDER STYLES */
+        .range-container {
+            margin-top: 25px;
+            position: relative;
+        }
+
+        .range-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .range-title {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .range-value {
+            background: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            min-width: 45px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(110, 69, 226, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .slider-container {
+            position: relative;
+            height: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            outline: none;
+            margin: 10px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Track Fill */
+        input[type="range"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: var(--fill-percentage, 50%);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 10px;
+            z-index: 2;
+        }
+
+        /* Thumb Styles */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            position: relative;
+            z-index: 3;
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Firefox Support */
+        input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            position: relative;
+            z-index: 3;
+        }
+
+        input[type="range"]::-moz-range-progress {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            height: 8px;
+            border-radius: 10px;
+        }
+
+        /* Tooltip */
+        .slider-tooltip {
+            position: absolute;
+            top: -35px;
+            left: var(--tooltip-position, 50%);
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        input[type="range"]:hover + .slider-tooltip {
+            opacity: 1;
+        }
+
+        /* Rest of your existing styles... */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #eee;
+            background: white;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
+        }
+        
+        select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
+        }
+        
+        .resolution-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .resolution-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .resolution-btn:hover {
+            border-color: var(--primary);
+        }
+        
+        .resolution-btn.active {
+            border-color: var(--primary);
+            background-color: rgba(110, 69, 226, 0.1);
+        }
+        
+        .custom-resolution {
+            display: none;
+            margin-top: 10px;
+        }
+        
+        .custom-resolution.active {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .custom-resolution input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+        }
+        
+        .generate-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(110, 69, 226, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(110, 69, 226, 0.4);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .result-actions {
+            display: none;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .download-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .download-btn:hover {
+            background: #5d3ac9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(110, 69, 226, 0.3);
+        }
+        
+        .share-btn {
+            background: white;
+            color: var(--dark);
+            border: 2px solid #eee;
+        }
+        
+        .share-btn:hover {
+            border-color: var(--primary);
+            background: rgba(110, 69, 226, 0.05);
+        }
+        
+        .regenerate-btn {
+            background: white;
+            color: var(--dark);
+            border: 2px solid #eee;
+        }
+        
+        .regenerate-btn:hover {
+            border-color: var(--accent);
+            background: rgba(255, 107, 107, 0.05);
+        }
+        
+        .generated-image {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin: 0 auto;
+        }
+        
+        .loading {
+            display: none;
+            margin: 20px auto;
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(110, 69, 226, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 1/1;
+            background: #f5f5f5;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item .resolution-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+        
+        .gallery-item .actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-item:hover .actions {
+            opacity: 1;
+        }
+        
+        .gallery-item .actions button {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gallery-item .actions button:hover {
+            background: var(--primary);
+            transform: scale(1.1);
+        }
+        
+        /* Advanced Features Panel */
+        .advanced-features {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .advanced-features.active {
+            display: block;
+        }
+        
+        .feature-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .feature-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .feature-tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .feature-tab:hover:not(.active) {
+            border-bottom-color: #ddd;
+        }
+        
+        .feature-content {
+            display: none;
+        }
+        
+        .feature-content.active {
+            display: block;
+        }
+        
+        .upscale-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .upscale-btn {
+            padding: 10px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .upscale-btn:hover {
+            border-color: var(--primary);
+        }
+        
+        .upscale-btn.active {
+            border-color: var(--primary);
+            background-color: rgba(110, 69, 226, 0.1);
+        }
+        
+        .style-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .style-option {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1/1;
+        }
+        
+        .style-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .style-option:hover img {
+            transform: scale(1.05);
+        }
+        
+        .style-option .checkmark {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .style-option.active .checkmark {
+            opacity: 1;
+        }
+        
+        .edit-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .edit-tool {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .ai-analysis {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .ai-analysis h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .ai-analysis p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .variation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .variation-item {
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1/1;
+            background: #f5f5f5;
+        }
+        
+        .variation-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .control-group {
+                width: 100%;
+            }
+            
+            .resolution-options {
+                flex-wrap: wrap;
+            }
+            
+            .resolution-btn {
+                min-width: calc(50% - 10px);
+            }
+            
+            .result-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .prompt-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .clear-btn, .enhance-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .feature-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .feature-tab {
+                flex: 1;
+                min-width: 50%;
+                text-align: center;
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+            
+            .upscale-options, .style-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Spinner for enhance button */
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Inpainting/Outpainting canvas */
+        .canvas-container {
+            position: relative;
+            margin: 20px auto;
+            max-width: 100%;
+        }
+        
+        #editing-canvas {
+            max-width: 100%;
+            border-radius: 8px;
+            display: block;
+        }
+        
+        .canvas-tools {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        .canvas-tool-btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: white;
+            border: 2px solid #eee;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .canvas-tool-btn.active {
+            border-color: var(--primary);
+            background: rgba(110, 69, 226, 0.1);
+        }
+        
+        .brush-size-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .brush-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.7;
+        }
+            /* Footer Styles */
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--dark-gray);
+    }
+
+    body.light-mode footer {
+      border-top: 1px solid var(--gray);
+    }
+
+    .footer-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      background: rgba(138, 43, 226, 0.1);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .footer-btn:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(138, 43, 226, 0.2);
+    }
+
+    .footer-text {
+      color: var(--primary-light);
+      font-size: 0.9rem;
+    }
+            /* Back Button */
+    .back-btn {
+      color: var(--primary-light);
+      background: #cfd1d4;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateX(-3px);
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Generator Tab -->
+        <div id="generator" class="tab-content active">
+            <header>
+                      <div style="display: flex; align-items: center; gap: 1rem;">
+        <a href="../tantangan.html" class="back-btn" title="Kembali ke Tantangan">
+            <i class="fas fa-arrow-left"></i>
+ </a>
+                      </div>
+                <h1>AI Art Studio Pro</h1>
+                <p class="subtitle">Create stunning visuals in any aspect ratio</p>
+            </header>
+            
+            <div class="generator-section">
+                <div class="prompt-container">
+                	<span style="color: var(--primary); font-weight: bold; font-size: 1.2em">Enter your prompt</span>
+                		
+                	<textarea class="prompt-input" id="prompt-input" placeholder="Describe your dream artwork (e.g. 'A majestic lion in the savannah at sunset')"></textarea>
+                    <div class="prompt-actions">
+                        <button class="clear-btn" id="clear-btn">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button class="enhance-btn" id="enhance-btn">
+                            <i class="fas fa-wand-magic-sparkles"></i> Enhance
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="model">Image Model</label>
+                        <select id="model">
+                            <option value="default">Default (Stable Diffusion)</option>
+                            <option value="sdxl">Stable Diffusion XL</option>
+                            <option value="kandinsky">Kandinsky</option>
+                            <option value="deepfloyd">DeepFloyd</option>
+                            <option value="dalle">DALL-E Mini</option>
+                            <option value="flux">FLUX</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Image Resolution</label>
+                        <div class="resolution-options">
+                            <button class="resolution-btn active" data-res="portrait" data-width="768" data-height="1024">
+                                Portrait<br>(768×1024)
+                            </button>
+                            <button class="resolution-btn" data-res="square" data-width="1024" data-height="1024">
+                                Square<br>(1024×1024)
+                            </button>
+                            <button class="resolution-btn" data-res="landscape" data-width="1024" data-height="768">
+                                Landscape<br>(1024×768)
+                            </button>
+                            <button class="resolution-btn" data-res="custom">
+                                Custom
+                            </button>
+                        </div>
+                        
+                        <div class="custom-resolution" id="custom-resolution">
+                            <input type="number" id="custom-width" placeholder="Width" min="256" max="2048" value="1024">
+                            <span style="display: flex; align-items: center;">×</span>
+                            <input type="number" id="custom-height" placeholder="Height" min="256" max="2048" value="768">
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Advanced Settings</label>
+                        <div class="range-container">
+                            <div class="range-header">
+                                <span class="range-title">Creativity</span>
+                                <span class="range-value" id="creativity-value">50%</span>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="creativity" min="0" max="100" value="50">
+                                <div class="slider-tooltip" id="creativity-tooltip">50%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="range-container" style="margin-top: 20px;">
+                            <div class="range-header">
+                                <span class="range-title">Detail Level</span>
+                                <span class="range-value" id="detail-value">70%</span>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="detail" min="0" max="100" value="70">
+                                <div class="slider-tooltip" id="detail-tooltip">70%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="generate-btn" id="generate-btn">
+                    <i class="fas fa-magic"></i> Generate Image
+                </button>
+            </div>
+            
+            <div class="result-container">
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your artwork...</p>
+                    <p id="generation-info" style="font-size: 0.9rem; color: #666; margin-top: 5px;"></p>
+                </div>
+                <img id="generated-image" class="generated-image" alt="Generated AI Art">
+                <div class="result-actions" id="result-actions">
+                    <button class="action-btn download-btn" id="download-btn">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button class="action-btn share-btn" id="share-btn">
+                        <i class="fas fa-share"></i> Share
+                    </button>
+                    <button class="action-btn regenerate-btn" id="regenerate-btn">
+                        <i class="fas fa-sync-alt"></i> Regenerate
+                    </button>
+                    <button class="action-btn advanced-btn" id="advanced-btn" style="background: white; color: var(--primary); border: 2px solid var(--primary);">
+                        <i class="fas fa-cogs"></i> Advanced Tools
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Advanced Features Panel -->
+            <div class="advanced-features" id="advanced-features">
+                <div class="feature-tabs">
+                    <div class="feature-tab active" data-tab="upscale">Upscale</div>
+                    <div class="feature-tab" data-tab="style">Style Transfer</div>
+                    <div class="feature-tab" data-tab="edit">Edit</div>
+                    <div class="feature-tab" data-tab="variations">Variations</div>
+                    <div class="feature-tab" data-tab="inpaint">Inpainting</div>
+                </div>
+                
+                <!-- Upscale Content -->
+                <div class="feature-content active" id="upscale-content">
+                    <p>Enhance your image quality with AI upscaling:</p>
+                    <div class="upscale-options">
+                        <button class="upscale-btn" data-scale="2">2× Upscale</button>
+                        <button class="upscale-btn" data-scale="4">4× Upscale</button>
+                        <button class="upscale-btn" data-scale="8">8× Upscale</button>
+                        <button class="upscale-btn" data-scale="custom">Custom Scale</button>
+                    </div>
+                    <div class="range-container" style="margin-top: 20px; display: none;" id="custom-scale-container">
+                        <div class="range-header">
+                            <span class="range-title">Scale Factor</span>
+                            <span class="range-value" id="scale-value">2.0×</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="scale-factor" min="1" max="8" step="0.1" value="2">
+                            <div class="slider-tooltip" id="scale-tooltip">2.0×</div>
+                        </div>
+                    </div>
+                    <button class="generate-btn" id="upscale-btn" style="margin-top: 20px;">
+                        <i class="fas fa-expand"></i> Upscale Image
+                    </button>
+                </div>
+                
+                <!-- Style Transfer Content -->
+                <div class="feature-content" id="style-content">
+                    <p>Apply artistic styles to your image:</p>
+                    <div class="style-options">
+                        <div class="style-option" data-style="van-gogh">
+                            <img src="https://image.pollinations.ai/prompt/Van%20Gogh%20style%20texture?width=200&height=200" alt="Van Gogh">
+                            <div class="checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="style-option" data-style="picasso">
+                            <img src="https://image.pollinations.ai/prompt/Picasso%20style%20texture?width=200&height=200" alt="Picasso">
+                            <div class="checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="style-option" data-style="watercolor">
+                            <img src="https://image.pollinations.ai/prompt/Watercolor%20texture?width=200&height=200" alt="Watercolor">
+                            <div class="checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="style-option" data-style="anime">
+                            <img src="https://image.pollinations.ai/prompt/Anime%20style%20texture?width=200&height=200" alt="Anime">
+                            <div class="checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="style-option" data-style="cyberpunk">
+                            <img src="https://image.pollinations.ai/prompt/Cyberpunk%20style%20texture?width=200&height=200" alt="Cyberpunk">
+                            <div class="checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="style-option" data-style="oil-painting">
+                            <img src="https://image.pollinations.ai/prompt/Oil%20painting%20texture?width=200&height=200" alt="Oil Painting">
+                            <div class="checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                    </div>
+                    <div class="range-container" style="margin-top: 20px;">
+                        <div class="range-header">
+                            <span class="range-title">Style Strength</span>
+                            <span class="range-value" id="style-strength-value">70%</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="style-strength" min="0" max="100" value="70">
+                            <div class="slider-tooltip" id="style-strength-tooltip">70%</div>
+                        </div>
+                    </div>
+                    <button class="generate-btn" id="style-transfer-btn" style="margin-top: 20px;">
+                        <i class="fas fa-paint-brush"></i> Apply Style
+                    </button>
+                </div>
+                
+                <!-- Edit Content -->
+                <div class="feature-content" id="edit-content">
+                    <p>Adjust image properties:</p>
+                    <div class="edit-tools">
+                        <div class="edit-tool">
+                            <div class="range-container">
+                                <div class="range-header">
+                                    <span class="range-title">Brightness</span>
+                                    <span class="range-value" id="brightness-value">0%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" id="brightness" min="-100" max="100" value="0">
+                                    <div class="slider-tooltip" id="brightness-tooltip">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edit-tool">
+                            <div class="range-container">
+                                <div class="range-header">
+                                    <span class="range-title">Contrast</span>
+                                    <span class="range-value" id="contrast-value">0%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" id="contrast" min="-100" max="100" value="0">
+                                    <div class="slider-tooltip" id="contrast-tooltip">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edit-tool">
+                            <div class="range-container">
+                                <div class="range-header">
+                                    <span class="range-title">Saturation</span>
+                                    <span class="range-value" id="saturation-value">0%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" id="saturation" min="-100" max="100" value="0">
+                                    <div class="slider-tooltip" id="saturation-tooltip">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="generate-btn" id="apply-edits-btn" style="margin-top: 20px;">
+                        <i class="fas fa-check"></i> Apply Edits
+                    </button>
+                    <button class="action-btn" id="reset-edits-btn" style="margin-top: 10px; width: 100%; background: white; border: 2px solid #eee;">
+                        <i class="fas fa-undo"></i> Reset Adjustments
+                    </button>
+                    
+                    <div class="ai-analysis" id="ai-analysis">
+                        <h4><i class="fas fa-robot"></i> AI Analysis</h4>
+                        <p id="analysis-text">Generate an image to get AI analysis of its content.</p>
+                    </div>
+                </div>
+                
+                <!-- Variations Content -->
+                <div class="feature-content" id="variations-content">
+                    <p>Generate similar variations of your image:</p>
+                    <div class="range-container" style="margin-top: 15px;">
+                        <div class="range-header">
+                            <span class="range-title">Variation Strength</span>
+                            <span class="range-value" id="variation-strength-value">50%</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="variation-strength" min="0" max="100" value="50">
+                            <div class="slider-tooltip" id="variation-strength-tooltip">50%</div>
+                        </div>
+                    </div>
+                    <div class="range-container" style="margin-top: 15px;">
+                        <div class="range-header">
+                            <span class="range-title">Number of Variations</span>
+                            <span class="range-value" id="variation-count-value">4</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="variation-count" min="1" max="8" step="1" value="4">
+                            <div class="slider-tooltip" id="variation-count-tooltip">4</div>
+                        </div>
+                    </div>
+                    <button class="generate-btn" id="generate-variations-btn" style="margin-top: 20px;">
+                        <i class="fas fa-copy"></i> Generate Variations
+                    </button>
+                    
+                    <div class="variation-grid" id="variation-grid">
+                        <!-- Variations will be added here -->
+                    </div>
+                </div>
+                
+                <!-- Inpainting/Outpainting Content -->
+                <div class="feature-content" id="inpaint-content">
+                    <p>Edit parts of your image or extend it:</p>
+                    <div class="canvas-container">
+                        <canvas id="editing-canvas"></canvas>
+                    </div>
+                    <div class="canvas-tools">
+                        <button class="canvas-tool-btn active" data-tool="brush">
+                            <i class="fas fa-paint-brush"></i> Brush
+                        </button>
+                        <button class="canvas-tool-btn" data-tool="erase">
+                            <i class="fas fa-eraser"></i> Eraser
+                        </button>
+                        <button class="canvas-tool-btn" data-tool="rect">
+                            <i class="fas fa-vector-square"></i> Rectangle
+                        </button>
+                    </div>
+                    <div class="brush-size-control">
+                        <span>Brush Size:</span>
+                        <input type="range" id="brush-size" min="1" max="50" value="10">
+                        <div class="brush-preview" id="brush-preview"></div>
+                    </div>
+                    <div class="prompt-container" style="margin-top: 15px;">
+                        <span style="color: var(--primary); font-weight: bold; font-size: 1em">Edit Prompt</span>
+                        <textarea class="prompt-input" id="inpaint-prompt" placeholder="Describe what you want to add or change in the masked area" style="min-height: 60px;"></textarea>
+                    </div>
+                    <div class="canvas-actions" style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="action-btn" id="inpaint-btn" style="flex: 1;">
+                            <i class="fas fa-magic"></i> Inpaint
+                        </button>
+                        <button class="action-btn" id="outpaint-btn" style="flex: 1;">
+                            <i class="fas fa-expand"></i> Outpaint
+                        </button>
+                        <button class="action-btn" id="reset-canvas-btn" style="background: white; border: 2px solid #eee;">
+                            <i class="fas fa-undo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gallery Tab -->
+        <div id="gallery" class="tab-content">
+            <h2>Your Gallery</h2>
+            <p>All your generated artworks in one place</p>
+            
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Gallery items will be added dynamically -->
+            </div>
+        </div>
+    </div>
+
+          <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+        <a href="../tantangan.html" class="footer-btn">
+          <i class="fas fa-arrow-left"></i>
+          <span>Kembali ke Tantangan</span>
+        </a>
+        <p class="footer-text">
+          &copy; <span id="currentYear"></span> KenthirAI. All rights reserved.
+        </p>
+          </div>
+    
+<script>
+    // Update tahun dinamis
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Tab Navigation
+    const navItems = document.querySelectorAll('.nav-item');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all items
+            navItems.forEach(navItem => navItem.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked item
+            item.classList.add('active');
+            
+            // Show corresponding tab content
+            const tabId = item.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+    
+    // Enhanced Sliders with Tooltips
+    const creativitySlider = document.getElementById('creativity');
+    const creativityValue = document.getElementById('creativity-value');
+    const creativityTooltip = document.getElementById('creativity-tooltip');
+    
+    const detailSlider = document.getElementById('detail');
+    const detailValue = document.getElementById('detail-value');
+    const detailTooltip = document.getElementById('detail-tooltip');
+    
+    function updateSlider(slider, valueElement, tooltip) {
+        const value = slider.value;
+        valueElement.textContent = `${value}%`;
+        tooltip.textContent = `${value}%`;
+        
+        // Update fill percentage
+        slider.style.setProperty('--fill-percentage', `${value}%`);
+        
+        // Update tooltip position
+        const percent = (value / slider.max) * 100;
+        tooltip.style.setProperty('--tooltip-position', `${percent}%`);
+        
+        // Add pulse animation to value display
+        valueElement.style.animation = 'none';
+        void valueElement.offsetWidth; // Trigger reflow
+        valueElement.style.animation = 'pulse 0.3s ease';
+    }
+    
+    function handleSliderMove(slider, valueElement, tooltip) {
+        updateSlider(slider, valueElement, tooltip);
+        
+        // Show tooltip on interaction
+        tooltip.style.opacity = '1';
+        setTimeout(() => {
+            tooltip.style.opacity = '0';
+        }, 1000);
+    }
+    
+    creativitySlider.addEventListener('input', () => {
+        handleSliderMove(creativitySlider, creativityValue, creativityTooltip);
+    });
+    
+    detailSlider.addEventListener('input', () => {
+        handleSliderMove(detailSlider, detailValue, detailTooltip);
+    });
+    
+    // Initialize sliders
+    updateSlider(creativitySlider, creativityValue, creativityTooltip);
+    updateSlider(detailSlider, detailValue, detailTooltip);
+    
+    // Add pulse animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Resolution options
+    const resolutionBtns = document.querySelectorAll('.resolution-btn');
+    const customResolution = document.getElementById('custom-resolution');
+    let currentResolution = 'portrait';
+    let currentWidth = 768;
+    let currentHeight = 1024;
+    
+    resolutionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            resolutionBtns.forEach(b => b.classList.remove('active'));
+            
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            const resType = btn.getAttribute('data-res');
+            currentResolution = resType;
+            
+            if (resType === 'custom') {
+                customResolution.classList.add('active');
+                // Use current custom values
+            } else {
+                customResolution.classList.remove('active');
+                currentWidth = parseInt(btn.getAttribute('data-width'));
+                currentHeight = parseInt(btn.getAttribute('data-height'));
+            }
+        });
+    });
+    
+    // Custom resolution inputs
+    const customWidth = document.getElementById('custom-width');
+    const customHeight = document.getElementById('custom-height');
+    
+    customWidth.addEventListener('input', () => {
+        currentWidth = parseInt(customWidth.value) || 1024;
+    });
+    
+    customHeight.addEventListener('input', () => {
+        currentHeight = parseInt(customHeight.value) || 768;
+    });
+    
+    // Generate image using Pollinations.ai
+    const generateBtn = document.getElementById('generate-btn');
+    const promptInput = document.getElementById('prompt-input');
+    const generatedImage = document.getElementById('generated-image');
+    const loading = document.getElementById('loading');
+    const generationInfo = document.getElementById('generation-info');
+    const galleryGrid = document.getElementById('gallery-grid');
+    const resultActions = document.getElementById('result-actions');
+    const downloadBtn = document.getElementById('download-btn');
+    const shareBtn = document.getElementById('share-btn');
+    const regenerateBtn = document.getElementById('regenerate-btn');
+    const advancedBtn = document.getElementById('advanced-btn');
+    const advancedFeatures = document.getElementById('advanced-features');
+    
+    let currentImageUrl = '';
+    let currentPrompt = '';
+    let originalImageUrl = '';
+    
+    // Helper function to add/update URL parameters
+    function updateUrlParam(url, param, value) {
+        const urlObj = new URL(url);
+        urlObj.searchParams.set(param, value);
+        return urlObj.toString();
+    }
+    
+    // Advanced features
+    const featureTabs = document.querySelectorAll('.feature-tab');
+    const featureContents = document.querySelectorAll('.feature-content');
+    
+    // Show/hide advanced features
+    advancedBtn.addEventListener('click', () => {
+        advancedFeatures.classList.toggle('active');
+        if (advancedFeatures.classList.contains('active')) {
+            advancedBtn.innerHTML = '<i class="fas fa-times"></i> Close Tools';
+            analyzeImage();
+        } else {
+            advancedBtn.innerHTML = '<i class="fas fa-cogs"></i> Advanced Tools';
+        }
+    });
+    
+    // Feature tabs navigation
+    featureTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs and contents
+            featureTabs.forEach(t => t.classList.remove('active'));
+            featureContents.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            tab.classList.add('active');
+            
+            // Show corresponding content
+            const tabId = tab.getAttribute('data-tab');
+            document.getElementById(`${tabId}-content`).classList.add('active');
+            
+            // Initialize canvas if inpainting tab
+            if (tabId === 'inpaint') {
+                initCanvas();
+            }
+        });
+    });
+    
+    // Function to save generated image to localStorage
+    function saveToLocalStorage(imageData) {
+        try {
+            // Get existing gallery from localStorage or initialize empty array
+            const gallery = JSON.parse(localStorage.getItem('aiArtGallery')) || [];
+            
+            // Add new image data
+            gallery.unshift(imageData);
+            
+            // Save back to localStorage (limit to 50 items to prevent excessive storage)
+            localStorage.setItem('aiArtGallery', JSON.stringify(gallery.slice(0, 50)));
+            
+            return true;
+        } catch (error) {
+            console.error('Error saving to localStorage:', error);
+            return false;
+        }
+    }
+    
+    // Function to load gallery from localStorage
+    function loadGalleryFromStorage() {
+        try {
+            const gallery = JSON.parse(localStorage.getItem('aiArtGallery')) || [];
+            return gallery;
+        } catch (error) {
+            console.error('Error loading gallery from storage:', error);
+            return [];
+        }
+    }
+    
+    generateBtn.addEventListener('click', async () => {
+        currentPrompt = promptInput.value.trim();
+        const model = document.getElementById('model').value;
+        const creativity = document.getElementById('creativity').value / 100;
+        const detail = document.getElementById('detail').value / 100;
+        
+        // For custom resolution, get current values
+        if (currentResolution === 'custom') {
+            currentWidth = parseInt(customWidth.value) || 1024;
+            currentHeight = parseInt(customHeight.value) || 768;
+        }
+        
+        if (!currentPrompt) {
+            alert('Please enter a prompt');
+            return;
+        }
+        
+        // Validate dimensions
+        if (currentWidth < 256 || currentWidth > 2048 || 
+            currentHeight < 256 || currentHeight > 2048) {
+            alert('Resolution must be between 256 and 2048 pixels');
+            return;
+        }
+        
+        // Show loading
+        generatedImage.style.display = 'none';
+        resultActions.style.display = 'none';
+        loading.style.display = 'block';
+        generationInfo.textContent = `Generating ${currentWidth}×${currentHeight} image with ${model} model...`;
+        
+        try {
+            // Construct the API URL for Pollinations.ai
+            let apiUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(currentPrompt)}?width=${currentWidth}&height=${currentHeight}&nologo=true`;
+            
+            // Add model if not default
+            if (model !== 'default') {
+                apiUrl += `&model=${model}`;
+            }
+            
+            // Special parameters for FLUX
+            if (model === 'flux') {
+                apiUrl += '&flux=true';
+            }
+            
+            currentImageUrl = apiUrl;
+            originalImageUrl = apiUrl;
+            
+            // Set the image source
+            generatedImage.src = currentImageUrl;
+            
+            // When image loads
+            generatedImage.onload = () => {
+                loading.style.display = 'none';
+                generatedImage.style.display = 'block';
+                resultActions.style.display = 'flex';
+                
+                // Prepare data to save
+                const imageData = {
+                    url: currentImageUrl,
+                    prompt: currentPrompt,
+                    width: currentWidth,
+                    height: currentHeight,
+                    model: model,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Save to localStorage
+                saveToLocalStorage(imageData);
+                
+                // Add to gallery
+                addToGallery(currentImageUrl, currentPrompt, currentWidth, currentHeight, model);
+                
+                // Analyze the image
+                analyzeImage();
+            };
+            
+            // Handle errors
+            generatedImage.onerror = () => {
+                loading.style.display = 'none';
+                alert('Failed to generate image. Please try again.');
+            };
+            
+        } catch (error) {
+            console.error('Error:', error);
+            loading.style.display = 'none';
+            alert('An error occurred. Please try again.');
+        }
+    });
+    
+    // Download functionality
+    downloadBtn.addEventListener('click', () => {
+        if (!currentImageUrl) return;
+        
+        // Create a temporary anchor element
+        const link = document.createElement('a');
+        link.href = currentImageUrl;
+        
+        // Create a filename based on prompt and timestamp
+        const filename = `ai-art-${currentPrompt.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase()}-${Date.now()}.jpg`;
+        link.download = filename;
+        
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+    
+    // Share functionality
+    shareBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) return;
+        
+        try {
+            // First download the image blob
+            const response = await fetch(currentImageUrl);
+            const blob = await response.blob();
+            const file = new File([blob], 'ai-art.jpg', { type: blob.type });
+            
+            if (navigator.share && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: 'AI Generated Art',
+                    text: `Check out this AI generated image: "${currentPrompt}"`,
+                    files: [file]
+                });
+            } else {
+                // Fallback for browsers that don't support file sharing
+                const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this AI generated image: "${currentPrompt}"`)}&url=${encodeURIComponent(currentImageUrl)}`;
+                window.open(shareUrl, '_blank');
+            }
+        } catch (error) {
+            console.error('Error sharing:', error);
+            // Fallback to copy link
+            try {
+                await navigator.clipboard.writeText(currentImageUrl);
+                alert('Image link copied to clipboard!');
+            } catch (err) {
+                alert('Could not share image. Please try downloading it instead.');
+            }
+        }
+    });
+    
+    // Regenerate functionality
+    regenerateBtn.addEventListener('click', () => {
+        generateBtn.click();
+    });
+    
+    // Clear prompt functionality
+    const clearBtn = document.getElementById('clear-btn');
+    
+    clearBtn.addEventListener('click', () => {
+        promptInput.value = '';
+        promptInput.focus();
+    });
+    
+    // Enhance prompt functionality
+    const enhanceBtn = document.getElementById('enhance-btn');
+    
+    enhanceBtn.addEventListener('click', async () => {
+        const currentPrompt = promptInput.value.trim();
+        
+        if (!currentPrompt) {
+            alert('Please enter a prompt first');
+            return;
+        }
+        
+        // Show loading state
+        enhanceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enhancing...';
+        enhanceBtn.disabled = true;
+        
+        try {
+            // Call Pollinations.ai text generation API
+            const response = await fetch(`https://text.pollinations.ai/prompt/Enhance%20this%20image%20description:%20${encodeURIComponent(currentPrompt)}`);
+            
+            if (!response.ok) {
+                throw new Error('Failed to enhance prompt');
+            }
+            
+            const enhancedPrompt = await response.text();
+            promptInput.value = enhancedPrompt;
+        } catch (error) {
+            console.error('Error enhancing prompt:', error);
+            alert('Failed to enhance prompt. Please try again.');
+        } finally {
+            // Reset button state
+            enhanceBtn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> Enhance';
+            enhanceBtn.disabled = false;
+        }
+    });
+    
+    // Gallery functionality
+    function addToGallery(imageUrl, prompt, width, height, model = 'default') {
+        // Create gallery item
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.innerHTML = `
+            <img src="${imageUrl}" alt="${prompt}">
+            <div class="resolution-badge">${width}×${height}</div>
+            <div class="actions">
+                <button class="gallery-download" title="Download">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="gallery-share" title="Share">
+                    <i class="fas fa-share"></i>
+                </button>
+            </div>
+        `;
+        
+        // Add event listeners for gallery actions
+        galleryItem.querySelector('.gallery-download').addEventListener('click', (e) => {
+            e.stopPropagation();
+            downloadGalleryItem(imageUrl, prompt);
+        });
+        
+        galleryItem.querySelector('.gallery-share').addEventListener('click', (e) => {
+            e.stopPropagation();
+            shareGalleryItem(imageUrl, prompt);
+        });
+        
+        // Add to gallery at the beginning
+        galleryGrid.prepend(galleryItem);
+    }
+    
+    function downloadGalleryItem(imageUrl, prompt) {
+        const link = document.createElement('a');
+        link.href = imageUrl;
+        const filename = `ai-art-${prompt.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase()}-${Date.now()}.jpg`;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+    async function shareGalleryItem(imageUrl, prompt) {
+        try {
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+            const file = new File([blob], 'ai-art.jpg', { type: blob.type });
+            
+            if (navigator.share && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: 'AI Generated Art',
+                    text: `Check out this AI generated image: "${prompt}"`,
+                    files: [file]
+                });
+            } else {
+                const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this AI generated image: "${prompt}"`)}&url=${encodeURIComponent(imageUrl)}`;
+                window.open(shareUrl, '_blank');
+            }
+        } catch (error) {
+            console.error('Error sharing:', error);
+            try {
+                await navigator.clipboard.writeText(imageUrl);
+                alert('Image link copied to clipboard!');
+            } catch (err) {
+                alert('Could not share image. Please try downloading it instead.');
+            }
+        }
+    }
+    
+    // Fetch available models from Pollinations.ai API
+    async function fetchModels() {
+        try {
+            const response = await fetch('https://image.pollinations.ai/models');
+            if (!response.ok) throw new Error('Failed to fetch models');
+            const models = await response.json();
+            
+            const modelSelect = document.getElementById('model');
+            modelSelect.innerHTML = '';
+            
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = 'default';
+            defaultOption.textContent = 'Default (Stable Diffusion)';
+            modelSelect.appendChild(defaultOption);
+            
+            // Add fetched models
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.id;
+                option.textContent = model.name;
+                if (model.id === 'flux') option.textContent += ' (FLUX)';
+                modelSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error fetching models:', error);
+            // Fallback to default options if API fails
+        }
+    }
+    
+    // Initialize the gallery when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+        // Load saved images from localStorage
+        const savedGallery = loadGalleryFromStorage();
+        if (savedGallery.length > 0) {
+            savedGallery.forEach(item => {
+                addToGallery(item.url, item.prompt, item.width, item.height, item.model);
+            });
+        } else {
+            // If no saved items, show examples
+            initGallery();
+        }
+        
+        fetchModels();
+    });
+    
+    // Initialize with some example gallery items
+    function initGallery() {
+        const examples = [
+            { 
+                url: 'https://image.pollinations.ai/prompt/A%20majestic%20lion%20in%20the%20savannah%20at%20sunset?width=768&height=1024&nologo=true', 
+                prompt: 'A majestic lion in the savannah at sunset',
+                width: 768, 
+                height: 1024,
+                model: 'default'
+            },
+            { 
+                url: 'https://image.pollinations.ai/prompt/Futuristic%20city%20at%20night%20with%20neon%20lights?width=1024&height=1024&nologo=true', 
+                prompt: 'Futuristic city at night with neon lights',
+                width: 1024, 
+                height: 1024,
+                model: 'sdxl'
+            },
+            { 
+                url: 'https://image.pollinations.ai/prompt/Serene%20mountain%20landscape%20with%20a%20lake?width=1024&height=768&nologo=true', 
+                prompt: 'Serene mountain landscape with a lake',
+                width: 1024, 
+                height: 768,
+                model: 'default'
+            },
+            { 
+                url: 'https://image.pollinations.ai/prompt/Wonder%20woman%20wearing%20hat%20at%20night?width=1024&height=768&model=flux&nologo=true',  
+                prompt: 'Wonder woman wearing hat at night',
+                width: 1024, 
+                height: 768,
+                model: 'flux'
+            }
+        ];
+        
+        examples.forEach(example => {
+            addToGallery(example.url, example.prompt, example.width, example.height, example.model);
+        });
+    }
+    
+    // Advanced Features Implementation
+    
+    // Upscale functionality
+    const upscaleBtns = document.querySelectorAll('.upscale-btn');
+    const customScaleContainer = document.getElementById('custom-scale-container');
+    const scaleFactorSlider = document.getElementById('scale-factor');
+    const scaleValue = document.getElementById('scale-value');
+    const scaleTooltip = document.getElementById('scale-tooltip');
+    const upscaleBtn = document.getElementById('upscale-btn');
+    
+    upscaleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            upscaleBtns.forEach(b => b.classList.remove('active'));
+            
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            const scaleType = btn.getAttribute('data-scale');
+            
+            if (scaleType === 'custom') {
+                customScaleContainer.style.display = 'block';
+                scaleFactorSlider.value = 2;
+                updateScaleSlider();
+            } else {
+                customScaleContainer.style.display = 'none';
+                scaleFactorSlider.value = scaleType;
+                updateScaleSlider();
+            }
+        });
+    });
+    
+    scaleFactorSlider.addEventListener('input', updateScaleSlider);
+    
+    function updateScaleSlider() {
+        const value = scaleFactorSlider.value;
+        scaleValue.textContent = `${value}×`;
+        scaleTooltip.textContent = `${value}×`;
+        scaleFactorSlider.style.setProperty('--fill-percentage', `${(value / scaleFactorSlider.max) * 100}%`);
+    }
+    
+    upscaleBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
+        
+        const scale = parseFloat(scaleFactorSlider.value);
+        
+        loading.style.display = 'block';
+        generationInfo.textContent = `Upscaling image by ${scale}×...`;
+        
+        try {
+            // In a real app, you would call an upscaling API here
+            // For demo purposes, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Update URL with upscale parameter and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('upscale', scale);
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const upscaledUrl = urlObj.toString();
+            
+            // Update the image
+            generatedImage.src = upscaledUrl;
+            currentImageUrl = upscaledUrl;
+            
+            // Save the upscaled version
+            const imageData = {
+                url: currentImageUrl,
+                prompt: currentPrompt,
+                width: currentWidth * scale,
+                height: currentHeight * scale,
+                model: 'upscaled',
+                timestamp: new Date().toISOString()
+            };
+            
+            saveToLocalStorage(imageData);
+            addToGallery(currentImageUrl, currentPrompt + ` (Upscaled ${scale}×)`, currentWidth * scale, currentHeight * scale, 'upscaled');
+            
+            loading.style.display = 'none';
+        } catch (error) {
+            console.error('Error upscaling image:', error);
+            loading.style.display = 'none';
+            alert('Failed to upscale image. Please try again.');
+        }
+    });
+    
+    // Style transfer functionality
+    const styleOptions = document.querySelectorAll('.style-option');
+    const styleStrengthSlider = document.getElementById('style-strength');
+    const styleStrengthValue = document.getElementById('style-strength-value');
+    const styleStrengthTooltip = document.getElementById('style-strength-tooltip');
+    const styleTransferBtn = document.getElementById('style-transfer-btn');
+    
+    let selectedStyle = '';
+    
+    styleOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            // Remove active class from all options
+            styleOptions.forEach(o => o.classList.remove('active'));
+            
+            // Add active class to clicked option
+            option.classList.add('active');
+            selectedStyle = option.getAttribute('data-style');
+        });
+    });
+    
+    styleStrengthSlider.addEventListener('input', () => {
+        handleSliderMove(styleStrengthSlider, styleStrengthValue, styleStrengthTooltip);
+    });
+    
+    // Initialize style strength slider
+    updateSlider(styleStrengthSlider, styleStrengthValue, styleStrengthTooltip);
+    
+    styleTransferBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
+        
+        if (!selectedStyle) {
+            alert('Please select a style');
+            return;
+        }
+        
+        const strength = styleStrengthSlider.value / 100;
+        
+        loading.style.display = 'block';
+        generationInfo.textContent = `Applying ${selectedStyle} style...`;
+        
+        try {
+            // In a real app, you would call a style transfer API here
+            // For demo purposes, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Update URL with style parameters and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('style', selectedStyle);
+            urlObj.searchParams.set('strength', strength);
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const styledUrl = urlObj.toString();
+            
+            // Update the image
+            generatedImage.src = styledUrl;
+            currentImageUrl = styledUrl;
+            
+            // Save the styled version
+            const imageData = {
+                url: currentImageUrl,
+                prompt: currentPrompt + ` (${selectedStyle} style)`,
+                width: currentWidth,
+                height: currentHeight,
+                model: 'styled',
+                timestamp: new Date().toISOString()
+            };
+            
+            saveToLocalStorage(imageData);
+            addToGallery(currentImageUrl, currentPrompt + ` (${selectedStyle} style)`, currentWidth, currentHeight, 'styled');
+            
+            loading.style.display = 'none';
+        } catch (error) {
+            console.error('Error applying style:', error);
+            loading.style.display = 'none';
+            alert('Failed to apply style. Please try again.');
+        }
+    });
+    
+    // Image editing functionality
+    const brightnessSlider = document.getElementById('brightness');
+    const brightnessValue = document.getElementById('brightness-value');
+    const brightnessTooltip = document.getElementById('brightness-tooltip');
+    
+    const contrastSlider = document.getElementById('contrast');
+    const contrastValue = document.getElementById('contrast-value');
+    const contrastTooltip = document.getElementById('contrast-tooltip');
+    
+    const saturationSlider = document.getElementById('saturation');
+    const saturationValue = document.getElementById('saturation-value');
+    const saturationTooltip = document.getElementById('saturation-tooltip');
+    
+    const applyEditsBtn = document.getElementById('apply-edits-btn');
+    const resetEditsBtn = document.getElementById('reset-edits-btn');
+    
+    // Initialize sliders
+    updateSlider(brightnessSlider, brightnessValue, brightnessTooltip);
+    updateSlider(contrastSlider, contrastValue, contrastTooltip);
+    updateSlider(saturationSlider, saturationValue, saturationTooltip);
+    
+    // Add event listeners
+    brightnessSlider.addEventListener('input', () => {
+        handleSliderMove(brightnessSlider, brightnessValue, brightnessTooltip);
+        previewEdits();
+    });
+    
+    contrastSlider.addEventListener('input', () => {
+        handleSliderMove(contrastSlider, contrastValue, contrastTooltip);
+        previewEdits();
+    });
+    
+    saturationSlider.addEventListener('input', () => {
+        handleSliderMove(saturationSlider, saturationValue, saturationTooltip);
+        previewEdits();
+    });
+    
+    // Preview edits on canvas
+    function previewEdits() {
+        if (!currentImageUrl) return;
+        
+        const brightness = brightnessSlider.value;
+        const contrast = contrastSlider.value;
+        const saturation = saturationSlider.value;
+        
+        // In a real app, you would apply these filters to the image
+        // For demo, we'll just update the CSS filter
+        generatedImage.style.filter = `
+            brightness(${1 + brightness / 100})
+            contrast(${1 + contrast / 100})
+            saturate(${1 + saturation / 100})
+        `;
+    }
+    
+    // Apply edits
+    applyEditsBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
+        
+        const brightness = brightnessSlider.value;
+        const contrast = contrastSlider.value;
+        const saturation = saturationSlider.value;
+        
+        loading.style.display = 'block';
+        generationInfo.textContent = `Applying image adjustments...`;
+        
+        try {
+            // In a real app, you would call an image processing API here
+            // For demo purposes, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Update URL with edit parameters and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('brightness', brightness);
+            urlObj.searchParams.set('contrast', contrast);
+            urlObj.searchParams.set('saturation', saturation);
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const editedUrl = urlObj.toString();
+            
+            // Update the image (remove the temporary CSS filter)
+            generatedImage.style.filter = 'none';
+            generatedImage.src = editedUrl;
+            currentImageUrl = editedUrl;
+            
+            // Save the edited version
+            const imageData = {
+                url: currentImageUrl,
+                prompt: currentPrompt + ` (edited)`,
+                width: currentWidth,
+                height: currentHeight,
+                model: 'edited',
+                timestamp: new Date().toISOString()
+            };
+            
+            saveToLocalStorage(imageData);
+            addToGallery(currentImageUrl, currentPrompt + ` (edited)`, currentWidth, currentHeight, 'edited');
+            
+            loading.style.display = 'none';
+        } catch (error) {
+            console.error('Error applying edits:', error);
+            loading.style.display = 'none';
+            alert('Failed to apply edits. Please try again.');
+        }
+    });
+    
+    // Reset edits
+    resetEditsBtn.addEventListener('click', () => {
+        brightnessSlider.value = 0;
+        contrastSlider.value = 0;
+        saturationSlider.value = 0;
+        
+        updateSlider(brightnessSlider, brightnessValue, brightnessTooltip);
+        updateSlider(contrastSlider, contrastValue, contrastTooltip);
+        updateSlider(saturationSlider, saturationValue, saturationTooltip);
+        
+        generatedImage.style.filter = 'none';
+    });
+    
+    // AI Analysis functionality
+    const analysisText = document.getElementById('analysis-text');
+    
+    async function analyzeImage() {
+        if (!currentImageUrl || !advancedFeatures.classList.contains('active')) return;
+        
+        analysisText.textContent = 'Analyzing image...';
+        
+        try {
+            // In a real app, you would call an image analysis API here
+            // For demo purposes, we'll simulate it with a timeout and mock response
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Mock analysis results based on prompt
+            const mockAnalysis = generateMockAnalysis(currentPrompt);
+            analysisText.textContent = mockAnalysis;
+        } catch (error) {
+            console.error('Error analyzing image:', error);
+            analysisText.textContent = 'Could not analyze image. Please try again.';
+        }
+    }
+    
+    function generateMockAnalysis(prompt) {
+        // This is just for demo purposes
+        // In a real app, you'd use an actual image analysis API
+        const subjects = ['landscape', 'portrait', 'animal', 'object', 'fantasy scene', 'cityscape'];
+        const styles = ['realistic', 'surreal', 'abstract', 'impressionist', 'digital art', 'painterly'];
+        const qualities = ['high contrast', 'vibrant colors', 'soft lighting', 'dramatic shadows', 'detailed textures'];
+        const emotions = ['peaceful', 'energetic', 'mysterious', 'joyful', 'melancholic', 'powerful'];
+        
+        const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+        const randomStyle = styles[Math.floor(Math.random() * styles.length)];
+        const randomQuality = qualities[Math.floor(Math.random() * qualities.length)];
+        const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+        
+        return `This image appears to be a ${randomSubject} rendered in a ${randomStyle} style. It features ${randomQuality} and evokes a ${randomEmotion} mood. The composition is well-balanced with attention to detail. The color palette is harmonious and enhances the overall visual impact.`;
+    }
+    
+    // Variations functionality
+    const variationStrengthSlider = document.getElementById('variation-strength');
+    const variationStrengthValue = document.getElementById('variation-strength-value');
+    const variationStrengthTooltip = document.getElementById('variation-strength-tooltip');
+    
+    const variationCountSlider = document.getElementById('variation-count');
+    const variationCountValue = document.getElementById('variation-count-value');
+    const variationCountTooltip = document.getElementById('variation-count-tooltip');
+    
+    const generateVariationsBtn = document.getElementById('generate-variations-btn');
+    const variationGrid = document.getElementById('variation-grid');
+    
+    // Initialize sliders
+    updateSlider(variationStrengthSlider, variationStrengthValue, variationStrengthTooltip);
+    updateSlider(variationCountSlider, variationCountValue, variationCountTooltip);
+    
+    // Add event listeners
+    variationStrengthSlider.addEventListener('input', () => {
+        handleSliderMove(variationStrengthSlider, variationStrengthValue, variationStrengthTooltip);
+    });
+    
+    variationCountSlider.addEventListener('input', () => {
+        handleSliderMove(variationCountSlider, variationCountValue, variationCountTooltip);
+    });
+    
+    generateVariationsBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
+        
+        const strength = variationStrengthSlider.value / 100;
+        const count = parseInt(variationCountSlider.value);
+        
+        loading.style.display = 'block';
+        generationInfo.textContent = `Generating ${count} variations...`;
+        
+        try {
+            // Clear previous variations
+            variationGrid.innerHTML = '';
+            
+            // In a real app, you would call a variations API here
+            // For demo purposes, we'll simulate it with a timeout and mock images
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Generate mock variations
+            for (let i = 0; i < count; i++) {
+                // Update URL with variation parameters and ensure nologo=true is present
+                const urlObj = new URL(currentImageUrl);
+                urlObj.searchParams.set('variation', i + 1);
+                urlObj.searchParams.set('strength', strength);
+                if (!urlObj.searchParams.has('nologo')) {
+                    urlObj.searchParams.set('nologo', 'true');
+                }
+                const variationUrl = urlObj.toString();
+                
+                // Create variation item
+                const variationItem = document.createElement('div');
+                variationItem.className = 'variation-item';
+                variationItem.innerHTML = `<img src="${variationUrl}" alt="Variation ${i + 1}">`;
+                
+                // Add click handler to use this variation
+                variationItem.addEventListener('click', () => {
+                    generatedImage.src = variationUrl;
+                    currentImageUrl = variationUrl;
+                });
+                
+                variationGrid.appendChild(variationItem);
+            }
+            
+            loading.style.display = 'none';
+        } catch (error) {
+            console.error('Error generating variations:', error);
+            loading.style.display = 'none';
+            alert('Failed to generate variations. Please try again.');
+        }
+    });
+    
+    // Inpainting/Outpainting functionality
+    let canvas, ctx, isDrawing = false, lastX = 0, lastY = 0, currentTool = 'brush';
+    const brushSizeSlider = document.getElementById('brush-size');
+    const brushPreview = document.getElementById('brush-preview');
+    const inpaintPrompt = document.getElementById('inpaint-prompt');
+    const inpaintBtn = document.getElementById('inpaint-btn');
+    const outpaintBtn = document.getElementById('outpaint-btn');
+    const resetCanvasBtn = document.getElementById('reset-canvas-btn');
+    const canvasTools = document.querySelectorAll('.canvas-tool-btn');
+    
+    function initCanvas() {
+        if (!currentImageUrl) return;
+        
+        canvas = document.getElementById('editing-canvas');
+        ctx = canvas.getContext('2d');
+        
+        // Set canvas dimensions to match image
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.src = currentImageUrl;
+        
+        img.onload = function() {
+            // Limit canvas size for mobile devices
+            const maxWidth = Math.min(img.width, window.innerWidth - 40);
+            const scale = maxWidth / img.width;
+            const canvasWidth = img.width * scale;
+            const canvasHeight = img.height * scale;
+            
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            
+            // Draw image on canvas
+            ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+            
+            // Initialize brush preview
+            updateBrushPreview();
+        };
+        
+        // Set up event listeners
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+        
+        // Touch support
+        canvas.addEventListener('touchstart', handleTouch);
+        canvas.addEventListener('touchmove', handleTouch);
+        canvas.addEventListener('touchend', stopDrawing);
+    }
+    
+    function handleTouch(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent(
+            e.type === 'touchstart' ? 'mousedown' : 'mousemove',
+            {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            }
+        );
+        canvas.dispatchEvent(mouseEvent);
+    }
+    
+    function startDrawing(e) {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+    
+    function draw(e) {
+        if (!isDrawing) return;
+        
+        ctx.strokeStyle = currentTool === 'erase' ? 'white' : 'rgba(110, 69, 226, 0.5)';
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = brushSizeSlider.value;
+        
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+    
+    function stopDrawing() {
+        isDrawing = false;
+    }
+    
+    function updateBrushPreview() {
+        const size = brushSizeSlider.value;
+        brushPreview.style.width = `${size}px`;
+        brushPreview.style.height = `${size}px`;
+        brushPreview.style.transform = 'translate(-50%, -50%)';
+    }
+    
+    brushSizeSlider.addEventListener('input', updateBrushPreview);
+    
+    canvasTools.forEach(tool => {
+        tool.addEventListener('click', () => {
+            canvasTools.forEach(t => t.classList.remove('active'));
+            tool.classList.add('active');
+            currentTool = tool.getAttribute('data-tool');
+        });
+    });
+    
+    inpaintBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
+        
+        const prompt = inpaintPrompt.value.trim();
+        if (!prompt) {
+            alert('Please describe what you want to add or change in the masked area');
+            return;
+        }
+        
+        loading.style.display = 'block';
+        generationInfo.textContent = 'Inpainting image...';
+        
+        try {
+            // Get the canvas data as an image
+            const imageData = canvas.toDataURL('image/png');
+            
+            // In a real app, you would send this to an inpainting API
+            // For demo, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            
+            // Update URL with inpainting parameters and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('inpaint', 'true');
+            urlObj.searchParams.set('prompt', encodeURIComponent(prompt));
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const inpaintedUrl = urlObj.toString();
+            
+            // Update the image
+            generatedImage.src = inpaintedUrl;
+            currentImageUrl = inpaintedUrl;
+            
+            // Save the inpainted version
+            const imageDataObj = {
+                url: currentImageUrl,
+                prompt: currentPrompt + ` (inpainted: ${prompt})`,
+                width: currentWidth,
+                height: currentHeight,
+                model: 'inpainted',
+                timestamp: new Date().toISOString()
+            };
+            
+            saveToLocalStorage(imageDataObj);
+            addToGallery(currentImageUrl, currentPrompt + ` (inpainted: ${prompt})`, currentWidth, currentHeight, 'inpainted');
+            
+            loading.style.display = 'none';
+            
+            // Reset canvas
+            initCanvas();
+        } catch (error) {
+            console.error('Error inpainting image:', error);
+            loading.style.display = 'none';
+            alert('Failed to inpaint image. Please try again.');
+        }
+    });
+    
+    outpaintBtn.addEventListener('click', async () => {
+        if (!currentImageUrl) {
+            alert('Please generate an image first');
+            return;
+        }
+        
+        const prompt = inpaintPrompt.value.trim();
+        if (!prompt) {
+            alert('Please describe what you want to add to expand the image');
+            return;
+        }
+        
+        loading.style.display = 'block';
+        generationInfo.textContent = 'Outpainting image...';
+        
+        try {
+            // Get the canvas data as an image
+            const imageData = canvas.toDataURL('image/png');
+            
+            // In a real app, you would send this to an outpaining API
+            // For demo, we'll just simulate it with a timeout
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            
+            // Update URL with outpainting parameters and ensure nologo=true is present
+            const urlObj = new URL(currentImageUrl);
+            urlObj.searchParams.set('outpaint', 'true');
+            urlObj.searchParams.set('prompt', encodeURIComponent(prompt));
+            if (!urlObj.searchParams.has('nologo')) {
+                urlObj.searchParams.set('nologo', 'true');
+            }
+            const outpaintedUrl = urlObj.toString();
+            
+            // Update the image
+            generatedImage.src = outpaintedUrl;
+            currentImageUrl = outpaintedUrl;
+            
+            // Save the outpainted version
+            const imageDataObj = {
+                url: currentImageUrl,
+                prompt: currentPrompt + ` (outpainted: ${prompt})`,
+                width: currentWidth * 1.2, // Simulate expanded size
+                height: currentHeight * 1.2,
+                model: 'outpainted',
+                timestamp: new Date().toISOString()
+            };
+            
+            saveToLocalStorage(imageDataObj);
+            addToGallery(currentImageUrl, currentPrompt + ` (outpainted: ${prompt})`, currentWidth * 1.2, currentHeight * 1.2, 'outpainted');
+            
+            loading.style.display = 'none';
+            
+            // Reset canvas
+            initCanvas();
+        } catch (error) {
+            console.error('Error outpaining image:', error);
+            loading.style.display = 'none';
+            alert('Failed to outpaint image. Please try again.');
+        }
+    });
+    
+    resetCanvasBtn.addEventListener('click', initCanvas);
+</script>
+</body>
+</html>
