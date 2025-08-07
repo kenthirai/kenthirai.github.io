@@ -1,1 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype AI Image</title>
+    <meta name="description" content="Masih Prototipe dan terus dikembangkan! Generate beautiful AI-powered images with our free tool. Create custom artwork, portraits, landscapes and more with simple text prompts.">
+    <meta name="keywords" content="AI image generator, artificial intelligence art, text to image, AI art creator, digital art generator">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kenthir.my.id">
+    <meta property="og:title" content="Prototype AI Image  | Create Stunning Art with AI Technology">
+    <meta property="og:description" content="Generate beautiful AI-powered images with our free tool. Create custom artwork with simple text prompts.">
+    <meta property="og:image" content="https://kenthir.my.id/assets/generator.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kenthir.my.id/assets/generator.png/">
+    <meta property="twitter:title" content="AI Image Generator | Create Stunning Art with AI Technology">
+    <meta property="twitter:description" content="Generate beautiful AI-powered images with our free tool. Create custom artwork with simple text prompts.">
+    <meta property="twitter:image" content="https://kenthir.my.id/assets/generator.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kenthir.my.id/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#4f46e5">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="author" content="Your Company Name">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <meta name="language" content="English">
+    <meta name="rating" content="general">
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AI Image Generator",
+      "description": "Generate beautiful AI-powered images with our free tool.",
+      "url": "https://yourwebsite.com/",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="assets/navigation.js"></script>
+    <link rel="stylesheet" href="assets/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-magic"></i> Prototype AI Image</h1>
+        
+<div class="input-group">
+    <label for="prompt"><i class="fas fa-comment-alt"></i> Describe your image</label>
+    <div class="textarea-wrapper">
+        <textarea id="prompt" placeholder="A beautiful sunset over mountains..."></textarea>
+        <button id="clearPromptBtn" class="clear-prompt-btn" title="Clear prompt">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+        
+<div class="advanced-toggle" id="advancedToggle">
+    <span><i class="fas fa-sliders-h"></i> Advanced Options</span>
+    <i class="toggle-icon fas fa-chevron-down"></i> <!-- Changed class to toggle-icon -->
+</div>
+        
+        <div class="advanced-params" id="advancedParams">
+<div class="params-grid">
+    <div class="input-group">
+        <label for="imageSize"><i class="fas fa-expand"></i> Image Size</label>
+        <select id="imageSize">
+            <option value="1024x1792" selected>1024 × 1792 (Portrait)</option>
+            <option value="1024x1024">1024 × 1024 (Square)</option>
+            <option value="1792x1024">1792 × 1024 (Landscape)</option>
+        </select>
+    </div>
+    
+    <div class="input-group">
+        <label for="model"><i class="fas fa-cog"></i> AI Model</label>
+<select id="model" class="form-select">
+    <option value="flux">Flux (Standard)</option>
+    <option value="turbo">Turbo (Fast)</option>
+    <option value="gptimage">GPTImage (Advanced)</option>
+</select>
+    </div>
+    
+    <!-- New Quality Selector -->
+    <div class="input-group">
+        <label for="quality"><i class="fas fa-star"></i> Image Quality</label>
+        <select id="quality">
+            <option value="standard">Standard</option>
+            <option value="hd" selected>HD</option>
+            <option value="ultra">Ultra HD</option>
+            <option value="premium">Premium</option>
+        </select>
+    </div>
+    
+    <div class="input-group">
+        <label for="seed"><i class="fas fa-seedling"></i> Seed Number</label>
+        <input type="text" id="seed" placeholder="Random seed will be generated">
+    </div>
+</div>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="enhance" checked>
+                    Enhance prompt automatically
+                </label>
+                
+                <label class="checkbox-label">
+                    <input type="checkbox" id="nologo" checked>
+                    Remove watermark/logo
+                </label>
+                
+                <label class="checkbox-label">
+                    <input type="checkbox" id="private">
+                    Private generation (no caching)
+                </label>
+            </div>
+        </div>
+        
+        <div class="slide-container" id="slideContainer">
+            <div class="slide-progress" id="slideProgress"></div>
+            <div class="slide-track" id="slideTrack">Slide to Generate</div>
+            <div class="slide-thumb" id="slideThumb">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+        </div>
+        
+        <div class="error-message" id="errorMessage">
+            <i class="fas fa-exclamation-circle"></i> <span id="errorText"></span>
+        </div>
+        
+        <div class="image-container">
+            <div class="placeholder" id="placeholder">
+                <i class="fas fa-image"></i>
+                <p>Your generated image will appear here</p>
+            </div>
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner"></i>
+                <p>Generating your image...</p>
+            </div>
+            <img id="generatedImage" alt="Generated image">
+        </div>
+        
+        <div class="image-actions">
+            <button class="action-btn" id="downloadBtn" style="display: none;">
+                <i class="fas fa-download"></i> Download
+            </button>
+            <button class="action-btn" id="historyBtn">
+                <i class="fas fa-history"></i> View History
+            </button>
+        </div>
+    </div>
 
+<script src="assets/main.js"></script>
+<script src="assets/history.js"></script>
+<script src="assets/promptGen.js"></script>
+<script src="assets/gallery.js"></script>
+<script src="assets/clear-prompt.js"></script>
+<script src="assets/model.js"></script>
+<script src="assets/reset.js"></script>
+<script src="assets/blink.js"></script>
+<script src="assets/floatingads.js"></script>
+</body>
+</html>

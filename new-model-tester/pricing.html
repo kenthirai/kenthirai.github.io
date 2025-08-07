@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Prototype AI Image</title>
+    <meta name="description" content="Choose the perfect plan for your AI image generation needs. Affordable pricing for individuals and businesses.">
+    <meta name="keywords" content="AI image pricing, AI art plans, image generator cost, AI subscription">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kenthir.my.id/pricing.html">
+    <meta property="og:title" content="Pricing | Prototype AI Image Generator">
+    <meta property="og:description" content="Choose the perfect plan for your AI image generation needs. Affordable pricing for individuals and businesses.">
+    <meta property="og:image" content="https://kenthir.my.id/assets/pricing.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kenthir.my.id/pricing.html">
+    <meta property="twitter:title" content="Pricing | Prototype AI Image Generator">
+    <meta property="twitter:description" content="Choose the perfect plan for your AI image generation needs. Affordable pricing for individuals and businesses.">
+    <meta property="twitter:image" content="https://kenthir.my.id/assets/pricing.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kenthir.my.id/pricing.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#4f46e5">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="author" content="Your Company Name">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <meta name="language" content="English">
+    <meta name="rating" content="general">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="assets/navigation.js"></script>
+    <link rel="stylesheet" href="assets/main.css">
+    <style>
+        /* Additional styles specific to pricing page */
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .pricing-header p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .pricing-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            background: var(--bg);
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 
+                inset 3px 3px 5px var(--shadow-dark),
+                inset -3px -3px 5px var(--shadow-light);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .pricing-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .pricing-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 
+                3px 3px 6px var(--shadow-dark),
+                -3px -3px 6px var(--shadow-light);
+        }
+        
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .pricing-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 
+                8px 8px 15px var(--shadow-dark),
+                -8px -8px 15px var(--shadow-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                12px 12px 20px var(--shadow-dark),
+                -12px -12px 20px var(--shadow-light);
+        }
+        
+        .pricing-card.popular {
+            position: relative;
+            border: 2px solid var(--primary);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .pricing-card-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .pricing-card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .pricing-card-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .pricing-card-period {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .pricing-card-desc {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            flex-grow: 1;
+        }
+        
+        .pricing-features {
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+        
+        .pricing-feature i {
+            color: var(--primary);
+            margin-right: 0.75rem;
+            font-size: 0.8rem;
+        }
+        
+        .pricing-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: auto;
+            box-shadow: 
+                3px 3px 6px var(--shadow-dark),
+                -3px -3px 6px var(--shadow-light);
+        }
+        
+        .pricing-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .pricing-btn.secondary {
+            background: var(--bg);
+            color: var(--primary);
+            margin-top: 1rem;
+        }
+        
+        .pricing-btn.secondary:hover {
+            background: var(--shadow-light);
+        }
+        
+        .faq-section {
+            margin-top: 4rem;
+        }
+        
+        .faq-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .faq-item {
+            margin-bottom: 1rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 
+                5px 5px 10px var(--shadow-dark),
+                -5px -5px 10px var(--shadow-light);
+        }
+        
+        .faq-question {
+            padding: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            color: var(--primary);
+        }
+        
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-answer {
+            padding: 0 1.25rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 1.25rem 1.25rem;
+            max-height: 500px;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="pricing-header">
+            <h1><i class="fas fa-tags"></i> Pricing Plans</h1>
+            <p>Choose the perfect plan for your AI image generation needs. Start for free and upgrade when you need more power.</p>
+        </div>
+        
+        <div class="pricing-tabs">
+            <div class="pricing-tab active" id="monthlyTab">Monthly</div>
+            <div class="pricing-tab" id="yearlyTab">Yearly (Save 20%)</div>
+        </div>
+        
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <div class="pricing-card-header">
+                    <h3 class="pricing-card-title">Free</h3>
+                    <div class="pricing-card-price">$0</div>
+                    <div class="pricing-card-period">forever</div>
+                </div>
+                <p class="pricing-card-desc">Perfect for trying out our AI image generator with basic features.</p>
+                
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> 10 images per month
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Standard resolution (1024×1024)
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Basic AI models
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Watermarked images
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Community support
+                    </div>
+                </div>
+                
+                <button class="pricing-btn">Get Started</button>
+            </div>
+            
+            <div class="pricing-card popular">
+                <div class="popular-badge">Most Popular</div>
+                <div class="pricing-card-header">
+                    <h3 class="pricing-card-title">Pro</h3>
+                    <div class="pricing-card-price monthly-price">$9.99</div>
+                    <div class="pricing-card-price yearly-price" style="display: none;">$7.99</div>
+                    <div class="pricing-card-period monthly-text">per month</div>
+                    <div class="pricing-card-period yearly-text" style="display: none;">per month, billed annually</div>
+                </div>
+                <p class="pricing-card-desc">For creators and professionals who need more power and flexibility.</p>
+                
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> 100 images per month
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> High resolution (up to 1792×1024)
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Advanced AI models
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> No watermarks
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Priority support
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Commercial license
+                    </div>
+                </div>
+                
+                <button class="pricing-btn">Upgrade Now</button>
+                <button class="pricing-btn secondary">Try 7 days free</button>
+            </div>
+            
+            <div class="pricing-card">
+                <div class="pricing-card-header">
+                    <h3 class="pricing-card-title">Enterprise</h3>
+                    <div class="pricing-card-price monthly-price">$29.99</div>
+                    <div class="pricing-card-price yearly-price" style="display: none;">$23.99</div>
+                    <div class="pricing-card-period monthly-text">per month</div>
+                    <div class="pricing-card-period yearly-text" style="display: none;">per month, billed annually</div>
+                </div>
+                <p class="pricing-card-desc">For businesses and power users with unlimited needs.</p>
+                
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Unlimited images
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Ultra HD resolution (up to 2048×2048)
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> All AI models including experimental
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> No watermarks
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> 24/7 priority support
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Commercial license
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> API access
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Custom model training
+                    </div>
+                </div>
+                
+                <button class="pricing-btn">Contact Sales</button>
+            </div>
+        </div>
+        
+        <div class="faq-section">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What payment methods do you accept?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and in some regions, bank transfers. All payments are processed securely through our payment partners.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I cancel my subscription anytime?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, you can cancel your subscription at any time. If you cancel during a billing period, you'll continue to have access to the paid features until the end of that billing cycle.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you offer discounts for non-profits or students?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! We offer special discounts for verified students, educators, and non-profit organizations. Please contact our support team with proof of status to learn more about our educational and non-profit pricing.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What happens if I exceed my monthly image limit?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>If you exceed your monthly image limit on a paid plan, you'll have the option to purchase additional image packs or upgrade to a higher plan. On the free plan, you'll need to wait until your monthly quota resets or upgrade to a paid plan.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is there a limit on how I can use the generated images?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Free plan images include a watermark and are for personal use only. Paid plans include a commercial license that allows you to use the images in commercial projects, with attribution not required. However, you cannot resell or redistribute the images as-is.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between monthly and yearly pricing
+        document.getElementById('monthlyTab').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('yearlyTab').classList.remove('active');
+            
+            document.querySelectorAll('.monthly-price').forEach(el => el.style.display = 'block');
+            document.querySelectorAll('.yearly-price').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.monthly-text').forEach(el => el.style.display = 'block');
+            document.querySelectorAll('.yearly-text').forEach(el => el.style.display = 'none');
+        });
+        
+        document.getElementById('yearlyTab').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('monthlyTab').classList.remove('active');
+            
+            document.querySelectorAll('.monthly-price').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.yearly-price').forEach(el => el.style.display = 'block');
+            document.querySelectorAll('.monthly-text').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.yearly-text').forEach(el => el.style.display = 'block');
+        });
+        
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+                
+                // Close other open items
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
