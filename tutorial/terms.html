@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syarat & Ketentuan - Generator Gambar AI</title>
+    <meta name="description" content="Syarat dan ketentuan penggunaan Generator Gambar AI">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        :root {
+            /* Light mode colors */
+            --primary: #4A6CF7;
+            --secondary: #9C27B0;
+            --accent: #7E57C2;
+            --text: #263238;
+            --background: #F5F7FF;
+            --card-bg: #FFFFFF;
+            --border: #E0E0E0;
+            --footer-bg: #f0f2f5;
+            --footer-text: #666;
+        }
+
+        /* Dark mode colors */
+        [data-theme="dark"] {
+            --text: #E0E0E0;
+            --background: #121212;
+            --card-bg: #1E1E1E;
+            --border: #333333;
+            --footer-bg: #1a1a1a;
+            --footer-text: #aaa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--background);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .terms-container {
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: background-color 0.3s ease;
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-bottom: 15px;
+            font-size: 2.2rem;
+        }
+        
+        h2 {
+            margin-top: 40px;
+            color: var(--primary);
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent);
+            font-size: 1.5rem;
+        }
+        
+        h3 {
+            margin-top: 30px;
+            font-size: 1.2rem;
+        }
+        
+        p, ul {
+            margin-bottom: 15px;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Dark mode toggle button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .last-updated {
+            text-align: right;
+            font-style: italic;
+            color: var(--text);
+            opacity: 0.8;
+            margin-top: 40px;
+        }
+        
+        footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-nav {
+            margin-top: 15px;
+        }
+        
+        .footer-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .footer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .terms-container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                width: 36px;
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <div class="terms-container">
+        <h1><i class="fas fa-file-contract"></i> Syarat & Ketentuan</h1>
+        
+        <div class="last-updated">Terakhir diperbarui: <span id="currentDate"></span></div>
+        
+        <h2>1. Penerimaan Syarat</h2>
+        <p>Dengan mengakses atau menggunakan Generator Gambar AI ("Layanan"), Anda setuju untuk terikat oleh Syarat dan Ketentuan ini. Jika Anda tidak setuju dengan bagian mana pun dari syarat ini, Anda tidak boleh menggunakan Layanan kami.</p>
+        
+        <h2>2. Deskripsi Layanan</h2>
+        <p>Generator Gambar AI adalah layanan yang memungkinkan pengguna untuk membuat gambar menggunakan kecerdasan buatan berdasarkan teks yang dimasukkan (prompt).</p>
+        
+        <h2>3. Penggunaan yang Diperbolehkan</h2>
+        <p>Anda setuju untuk menggunakan Layanan hanya untuk tujuan yang sah dan sesuai dengan:</p>
+        <ul>
+            <li>Semua hukum dan peraturan yang berlaku</li>
+            <li>Hak-hak pihak ketiga</li>
+            <li>Kebijakan dan panduan kami</li>
+        </ul>
+        
+        <h2>4. Larangan</h2>
+        <p>Anda dilarang menggunakan Layanan untuk:</p>
+        <ul>
+            <li>Membuat konten yang melanggar hukum, melecehkan, diskriminatif, atau berbahaya</li>
+            <li>Membuat konten pornografi atau eksplisit</li>
+            <li>Meniru identitas orang atau entitas lain</li>
+            <li>Melanggar hak kekayaan intelektual</li>
+            <li>Mengganggu atau mencoba mengganggu keamanan Layanan</li>
+        </ul>
+        
+        <h2>5. Kepemilikan Konten</h2>
+        <h3>5.1 Konten yang Anda Buat</h3>
+        <p>Anda mempertahankan kepemilikan atas gambar yang Anda buat menggunakan Layanan ini. Namun, dengan menggunakan Layanan, Anda memberikan kami lisensi non-eksklusif untuk menggunakan konten tersebut untuk tujuan operasional dan perbaikan Layanan.</p>
+        
+        <h3>5.2 Pembatasan Komersial</h3>
+        <p>Gambar yang dihasilkan dapat digunakan untuk tujuan pribadi dan komersial, dengan ketentuan:</p>
+        <ul>
+            <li>Anda tidak boleh mengklaim bahwa gambar tersebut dibuat sepenuhnya oleh manusia</li>
+            <li>Anda bertanggung jawab penuh atas penggunaan gambar tersebut</li>
+            <li>Penggunaan untuk konten yang melanggar hukum tetap dilarang</li>
+        </ul>
+        
+        <h2>6. Akun Pengguna</h2>
+        <p>Beberapa fitur mungkin memerlukan pembuatan akun. Anda bertanggung jawab untuk:</p>
+        <ul>
+            <li>Menjaga kerahasiaan informasi akun Anda</li>
+            <li>Segera memberi tahu kami tentang penggunaan yang tidak sah</li>
+            <li>Memastikan informasi akun akurat dan terbaru</li>
+        </ul>
+        
+        <h2>7. Pembatasan Tanggung Jawab</h2>
+        <p>Layanan disediakan "apa adanya" tanpa jaminan apa pun. Kami tidak bertanggung jawab atas:</p>
+        <ul>
+            <li>Ketidakakuratan atau kesalahan dalam gambar yang dihasilkan</li>
+            <li>Kerusakan langsung, tidak langsung, insidental, atau konsekuensial</li>
+            <li>Konten yang dibuat oleh pengguna lain</li>
+        </ul>
+        
+        <h2>8. Perubahan pada Layanan</h2>
+        <p>Kami berhak untuk:</p>
+        <ul>
+            <li>Memodifikasi atau menghentikan Layanan kapan saja</li>
+            <li>Mengubah harga (jika ada) tanpa pemberitahuan</li>
+            <li>Membatasi akses Anda ke Layanan tanpa pemberitahuan atau tanggung jawab</li>
+        </ul>
+        
+        <h2>9. Perubahan Syarat</h2>
+        <p>Kami dapat memperbarui Syarat dan Ketentuan ini dari waktu ke waktu. Perubahan akan diberitahukan melalui postingan di situs web kami.</p>
+        
+        <h2>10. Hukum yang Berlaku</h2>
+        <p>Syarat dan Ketentuan ini diatur oleh dan ditafsirkan sesuai dengan hukum Indonesia. Setiap sengketa akan diselesaikan di pengadilan yang berwenang di Indonesia.</p>
+        
+        <h2>11. Hubungi Kami</h2>
+        <p>Jika Anda memiliki pertanyaan tentang Syarat dan Ketentuan ini, silakan hubungi kami melalui:</p>
+        <ul>
+            <li>Email: info@kenthir.my.id</li>
+            <li>Formulir kontak di situs web kami</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>Syarat & Ketentuan &copy; <span id="currentYear"></span></p>
+        <div class="footer-nav">
+            <a href="index.html" class="footer-btn">
+                <i class="fas fa-home"></i> Kembali ke Beranda
+            </a>
+            <a href="privacy.html" class="footer-btn">
+                <i class="fas fa-shield-alt"></i> Kebijakan Privasi
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Fungsi toggle mode gelap
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const htmlElement = document.documentElement;
+        
+        // Cek preferensi sistem
+        if (prefersDarkScheme.matches && !localStorage.getItem('theme')) {
+            htmlElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        // Toggle manual
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                htmlElement.removeAttribute('data-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+        
+        // Pertahankan pilihan tema
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            htmlElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else if (savedTheme === 'light') {
+            htmlElement.removeAttribute('data-theme');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        
+        // Tanggal saat ini
+        const currentDate = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').textContent = currentDate.toLocaleDateString('id-ID', options);
+        
+        // Dynamic Year in Footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

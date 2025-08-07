@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kebijakan Privasi - Generator Gambar AI</title>
+    <meta name="description" content="Kebijakan privasi untuk Generator Gambar AI">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        :root {
+            /* Light mode colors */
+            --primary: #4A6CF7;
+            --secondary: #9C27B0;
+            --accent: #7E57C2;
+            --text: #263238;
+            --background: #F5F7FF;
+            --card-bg: #FFFFFF;
+            --border: #E0E0E0;
+            --footer-bg: #f0f2f5;
+            --footer-text: #666;
+        }
+
+        /* Dark mode colors */
+        [data-theme="dark"] {
+            --text: #E0E0E0;
+            --background: #121212;
+            --card-bg: #1E1E1E;
+            --border: #333333;
+            --footer-bg: #1a1a1a;
+            --footer-text: #aaa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--background);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .policy-container {
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: background-color 0.3s ease;
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-bottom: 15px;
+            font-size: 2.2rem;
+        }
+        
+        h2 {
+            margin-top: 40px;
+            color: var(--primary);
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent);
+            font-size: 1.5rem;
+        }
+        
+        h3 {
+            margin-top: 30px;
+            font-size: 1.2rem;
+        }
+        
+        p, ul {
+            margin-bottom: 15px;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Dark mode toggle button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .last-updated {
+            text-align: right;
+            font-style: italic;
+            color: var(--text);
+            opacity: 0.8;
+            margin-top: 40px;
+        }
+        
+        footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-nav {
+            margin-top: 15px;
+        }
+        
+        .footer-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .footer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .policy-container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                width: 36px;
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <div class="policy-container">
+        <h1><i class="fas fa-shield-alt"></i> Kebijakan Privasi</h1>
+        
+        <div class="last-updated">Terakhir diperbarui: <span id="currentDate"></span></div>
+        
+        <h2>1. Pengenalan</h2>
+        <p>Kebijakan Privasi ini menjelaskan bagaimana Generator Gambar AI ("kami", "kita", atau "aplikasi kami") mengumpulkan, menggunakan, dan melindungi informasi yang Anda berikan saat menggunakan layanan kami.</p>
+        
+        <h2>2. Informasi yang Kami Kumpulkan</h2>
+        <h3>2.1 Informasi yang Anda Berikan</h3>
+        <ul>
+            <li><strong>Prompt Gambar:</strong> Teks yang Anda masukkan untuk menghasilkan gambar AI</li>
+            <li><strong>Preferensi:</strong> Pengaturan yang Anda pilih (model AI, ukuran gambar, dll)</li>
+        </ul>
+        
+        <h3>2.2 Informasi yang Dikumpulkan Secara Otomatis</h3>
+        <ul>
+            <li><strong>Data Teknis:</strong> Alamat IP, jenis browser, versi browser, halaman yang dikunjungi</li>
+            <li><strong>Penggunaan:</strong> Waktu dan durasi kunjungan, kesalahan yang terjadi</li>
+        </ul>
+        
+        <h2>3. Cara Kami Menggunakan Informasi</h2>
+        <p>Kami menggunakan informasi yang dikumpulkan untuk:</p>
+        <ul>
+            <li>Menyediakan dan memelihara layanan kami</li>
+            <li>Memperbaiki dan mengoptimalkan pengalaman pengguna</li>
+            <li>Menganalisis penggunaan layanan untuk perbaikan</li>
+            <li>Mendeteksi dan mencegah penyalahgunaan</li>
+        </ul>
+        
+        <h2>4. Penyimpanan Data</h2>
+        <p>Kami menerapkan praktik terbaik untuk melindungi informasi Anda:</p>
+        <ul>
+            <li>Prompt gambar disimpan sementara di memori untuk pemrosesan</li>
+            <li>Gambar yang dihasilkan disimpan di server selama maksimal 30 hari</li>
+            <li>Data penggunaan disimpan secara anonim untuk analitik</li>
+        </ul>
+        
+        <h2>5. Pembagian Data</h2>
+        <p>Kami tidak menjual atau membagikan data pribadi Anda kepada pihak ketiga, kecuali:</p>
+        <ul>
+            <li>Dengan persetujuan Anda</li>
+            <li>Untuk memenuhi kewajiban hukum</li>
+            <li>Untuk melindungi hak dan properti kami</li>
+            <li>Dengan penyedia layanan yang membantu operasi kami (dengan perjanjian kerahasiaan)</li>
+        </ul>
+        
+        <h2>6. Keamanan Data</h2>
+        <p>Kami menggunakan langkah-langkah keamanan yang wajar untuk melindungi informasi Anda, termasuk:</p>
+        <ul>
+            <li>Enkripsi data dalam transit (HTTPS)</li>
+            <li>Pembatasan akses ke data sensitif</li>
+            <li>Pemantauan sistem secara teratur</li>
+        </ul>
+        
+        <h2>7. Hak Anda</h2>
+        <p>Anda memiliki hak untuk:</p>
+        <ul>
+            <li>Mengakses informasi pribadi yang kami simpan</li>
+            <li>Meminta koreksi data yang tidak akurat</li>
+            <li>Meminta penghapusan data pribadi Anda</li>
+            <li>Menolak pemrosesan data tertentu</li>
+        </ul>
+        
+        <h2>8. Perubahan Kebijakan</h2>
+        <p>Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Perubahan akan diberitahukan melalui postingan di situs web kami.</p>
+        
+        <h2>9. Hubungi Kami</h2>
+        <p>Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami melalui:</p>
+        <ul>
+            <li>Email: info@kenthir.my.id</li>
+            <li>Formulir kontak di situs web kami</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>Kebijakan Privasi &copy; <span id="currentYear"></span></p>
+        <div class="footer-nav">
+            <a href="index.html" class="footer-btn">
+                <i class="fas fa-home"></i> Kembali ke Beranda
+            </a>
+            <a href="terms.html" class="footer-btn">
+                <i class="fas fa-file-alt"></i> Syarat & Ketentuan
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Fungsi toggle mode gelap
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const htmlElement = document.documentElement;
+        
+        // Cek preferensi sistem
+        if (prefersDarkScheme.matches && !localStorage.getItem('theme')) {
+            htmlElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        // Toggle manual
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                htmlElement.removeAttribute('data-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+        
+        // Pertahankan pilihan tema
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            htmlElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else if (savedTheme === 'light') {
+            htmlElement.removeAttribute('data-theme');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        
+        // Tanggal saat ini
+        const currentDate = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').textContent = currentDate.toLocaleDateString('id-ID', options);
+        
+        // Dynamic Year in Footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

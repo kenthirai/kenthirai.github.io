@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#4A6CF7">
+    <title>Tutorial Lengkap Generator Gambar AI + Domain .my.id + Deploy ke GitHub Pages</title>
+    <meta name="description" content="Panduan lengkap membuat generator gambar AI dengan Pollinations API, domain .my.id dari IDWebhost, dan deploy gratis ke GitHub Pages">
+    <meta name="keywords" content="tutorial AI, generator gambar, pollinations.ai, domain .my.id, github pages, idwebhost, deepseek ai">
+    <meta name="author" content="Arif Tirtana">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kentir.my.id/">
+    <meta property="og:title" content="Tutorial Lengkap Generator Gambar AI">
+    <meta property="og:description" content="Panduan lengkap membuat generator gambar AI dengan domain .my.id dan GitHub Pages">
+    <meta property="og:image" content="assets/meta-preview.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kentir.my.id/">
+    <meta property="twitter:title" content="Tutorial Lengkap Generator Gambar AI">
+    <meta property="twitter:description" content="Panduan lengkap membuat generator gambar AI dengan domain .my.id dan GitHub Pages">
+    <meta property="twitter:image" content="assets/meta-preview.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kenthir.my.id/">
+    
+    <!-- Mobile App Meta -->
+    <meta name="apple-mobile-web-app-title" content="AI Generator">
+    <meta name="application-name" content="AI Generator">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <!-- Preconnect untuk CDN dan API -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://image.pollinations.ai">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <div class="tutorial-container">
+        <h1>Tutorial Lengkap Generator AI + Domain + Deploy</h1>
+        
+        <div class="note">
+            <strong>Teknologi yang digunakan:</strong> Deepseek AI (pembuat kode), Pollinations.ai (API gambar AI), IDWebhost (domain .my.id), GitHub Pages (hosting gratis)
+        </div>
+        
+        <!-- Langkah 1 -->
+        <div class="step">
+            <div class="step-number">1</div>
+            <h2>Buat Kode Website dengan Deepseek AI</h2>
+            
+            <h3>1.1 Akses Deepseek AI</h3>
+            <ol>
+                <li>Buka <a href="https://chat.deepseek.com/" target="_blank" rel="noopener noreferrer">Deepseek Chat</a></li>
+                <li>Buat akun gratis atau login jika sudah punya</li>
+            </ol>
+            
+            <h3>1.2 Kirim Prompt Spesifik</h3>
+            <p>Gunakan prompt berikut atau bisa Anda kembangkan lagi sesuai kebutuhan masing-masing untuk membuat generator gambar AI:</p>
+            
+                        <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i> Copy Prompt</button>
+                <div class="code-block">
+buatkan website generator gambar AI menggunakan parameter pollinations AI: 
+Generate Image: `GET https://image.pollinations.ai/prompt/{prompt}`
+
+List Models: `GET https://image.pollinations.ai/models`</div>
+            </div>
+            <p>Atau berikut</p>
+            
+            <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i> Copy Prompt</button>
+                <div class="code-block">
+/* Buatkan kode website generator gambar AI dengan fitur:
+1. Input text area untuk prompt gambar
+2. Pilihan model AI (Stable Diffusion, DALL-E, FLUX)
+3. Parameter: width (512-1024), height (512-1024), steps (20-100)
+4. Tombol generate yang mengakses API pollinations.ai
+5. Tampilkan hasil gambar dalam grid responsive
+6. Fitur download gambar
+7. Desain modern dengan gradien biru-ungu
+8. Animasi loading saat proses generate
+9. Error handling untuk API response
+
+Gunakan:
+- HTML5, CSS3 modern dengan flexbox/grid
+- Vanilla JavaScript ES6
+- API endpoint: https://image.pollinations.ai/prompt/{prompt}
+- Contoh parameter: ?width=512&height=512&steps=50
+
+Buat dalam satu file HTML dengan CSS dan JS embedded */</div>
+            </div>
+            
+            <div class="note">
+                <strong>Tips:</strong> Anda bisa modifikasi prompt dengan menambahkan:
+                <ul>
+                    <li>"Tambahkan pilihan style (realistic, anime, painting)"</li>
+                    <li>"Buat dark/light mode toggle"</li>
+                    <li>"Tambahkan history prompt (local storage)"</li>
+                    <li>"Tambahkan fitur share ke media sosial"</li>
+                </ul>
+            </div>
+            
+            <h3>1.3 Simpan Kode yang Dihasilkan</h3>
+            <ol>
+                <li>Copy seluruh kode dari Deepseek</li>
+                <li>Buat file baru bernama <strong>index.html</strong></li>
+                <li>Paste kode tersebut dan simpan</li>
+                <li>Buka file di browser untuk mengetes fungsionalitas dasar</li>
+            </ol>
+            
+            <div class="warning">
+                <strong>Perhatian:</strong> Pastikan kode yang dihasilkan sudah termasuk semua fitur yang diminta dalam prompt. Jika ada yang kurang, Anda bisa meminta Deepseek untuk menyempurnakannya.
+            </div>
+        </div>
+        
+        <!-- Langkah 2 -->
+        <div class="step">
+            <div class="step-number">2</div>
+            <h2>Optimasi Kode untuk Pollinations API</h2>
+            
+            <h3>2.1 Contoh Kode Dasar</h3>
+            <p>Berikut struktur dasar yang akan dihasilkan Deepseek:</p>
+            
+            <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i> Copy Code</button>
+                <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;AI Image Generator&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7ff;
+            margin: 0;
+            padding: 20px;
+        }
+            .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            background: linear-gradient(135deg, #4A6CF7, #9C27B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+        #result {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .image-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;h1&gt;AI Image Generator&lt;/h1&gt;
+        &lt;div class="controls"&gt;
+            &lt;textarea id="prompt" placeholder="Describe the image..." rows="3"&gt;&lt;/textarea&gt;
+            &lt;button id="generate"&gt;Generate&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div id="result"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        document.getElementById('generate').addEventListener('click', () => {
+            const prompt = document.getElementById('prompt').value;
+            if (!prompt) return alert('Please enter a prompt');
+            
+            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`;
+            
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = prompt;
+            img.classList.add('image-card');
+            document.getElementById('result').appendChild(img);
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+            </div>
+            
+            <h3>2.2 Kode yang Dioptimasi <span style="color:red">(opsional)<span></span></h3>
+            <p>Tambahkan fitur berikut untuk pengalaman lebih baik:</p>
+            
+            <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i> Copy Code</button>
+                <div class="code-block">
+// Optimasi JavaScript
+const generateImage = async () => {
+    const prompt = document.getElementById('prompt').value;
+    const model = document.getElementById('model').value || 'stable-diffusion';
+    const width = document.getElementById('width').value || 512;
+    const height = document.getElementById('height').value || 512;
+    const steps = document.getElementById('steps').value || 50;
+    
+    if (!prompt) {
+        showAlert('Masukkan prompt terlebih dahulu', 'error');
+        return;
+    }
+    
+    // Tampilkan loading
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('result').innerHTML = '';
+    
+    try {
+        // Generate 4 variasi gambar
+        for (let i = 0; i < 4; i++) {
+            const seed = Math.floor(Math.random() * 10000);
+            const imgUrl = `https://image.pollinations.ai/prompt/${
+                model}:${encodeURIComponent(prompt)}?width=${width}&height=${height}&steps=${steps}&seed=${seed}`;
+            
+            const imgCard = document.createElement('div');
+            imgCard.className = 'image-card';
+            
+            const img = document.createElement('img');
+            img.src = imgUrl;
+            img.alt = prompt;
+            img.loading = 'lazy';
+            
+            img.onerror = () => {
+                imgCard.innerHTML = '<p>Gagal memuat gambar. Coba prompt lain.</p>';
+                imgCard.style.padding = '15px';
+                imgCard.style.textAlign = 'center';
+            };
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download';
+            downloadBtn.onclick = () => downloadImage(imgUrl, prompt);
+            
+            imgCard.appendChild(img);
+            imgCard.appendChild(downloadBtn);
+            document.getElementById('result').appendChild(imgCard);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showAlert('Gagal generate gambar', 'error');
+    } finally {
+        document.getElementById('loading').style.display = 'none';
+    }
+};
+
+// Fungsi download gambar
+const downloadImage = (url, filename) => {
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.blob();
+        })
+        .then(blob => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `ai-image-${filename.substring(0, 20)}-${Date.now()}.jpg`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
+        .catch(error => {
+            console.error('Download error:', error);
+            showAlert('Gagal mengunduh gambar', 'error');
+        });
+};
+
+// Fungsi tampilkan alert
+const showAlert = (message, type) => {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert ${type}`;
+    alertDiv.textContent = message;
+    document.body.appendChild(alertDiv);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
+};
+
+// Event listener untuk tombol generate
+document.getElementById('generateBtn').addEventListener('click', generateImage);
+
+// Event listener untuk tekan Enter di textarea
+document.getElementById('prompt').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        generateImage();
+    }
+});</div>
+            </div>
+            
+            <div class="note">
+                <strong>Penjelasan Optimasi:</strong>
+                <ul>
+                    <li>Menambahkan error handling yang lebih baik</li>
+                    <li>Mendukung multiple image generation dengan seed berbeda</li>
+                    <li>Fitur download yang lebih reliable</li>
+                    <li>Animasi loading saat proses generate</li>
+                    <li>Dukungan untuk model dan parameter berbeda</li>
+                    <li>Alert system yang lebih user friendly</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Langkah 3 -->
+        <div class="step">
+            <div class="step-number">3</div>
+            <h2>Beli Domain .my.id di IDWebhost</h2>
+            
+            <h3>3.1 Registrasi Domain</h3>
+            <ol>
+                <li>Kunjungi <a href=https://beli.idwebhost.com/promo-domainid/" target="_blank" rel="noopener noreferrer">IDWebhost</a></li>
+                <li>Cari domain .my.id yang tersedia (contoh: aigenerator.my.id)</li>
+                <li>Klik "Pesan Sekarang" dan ikuti proses checkout</li>
+                <li>Verifikasi email dari PANDI untuk aktivasi domain</li>
+            </ol>
+            
+            <div class="warning">
+                <strong>Penting:</strong> Domain .my.id membutuhkan verifikasi identitas. Pastikan data registrasi sesuai dengan KTP/SIM. Proses verifikasi biasanya memakan waktu 1-2 hari kerja. <span style="color:red" font-weight:bold">(agar aktivasi lebih cepat, pastikan pembayaran melalui QRIS)</span>
+                <div style="margin-top: 10px;">
+                    <img src="https://beli.idwebhost.com/themes/landingpage/default/assets/img/promo-domainid/lp-promo-domainid.webp" alt="Pembayaran QRIS IDWebhost" style="max-width: 300px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <p style="font-size: 0.9em; color: #666; text-align: center;">Harga Domain Rp. 3000 1 April - 30 Juni 2025</p>
+                </div>
+            </div>
+            
+            <h3>3.2 Konfigurasi DNS</h3>
+            <p>Setelah domain aktif:</p>
+            <ol>
+                <li>Login ke member area IDWebhost</li>
+                <li>Pilih "Domain Saya" > "Manage Domain"</li>
+                <li>Pilih "DNS Management"</li>
+                <li>Tambahkan record berikut:</li>
+            </ol>
+            
+            <div class="terminal">
+# Record A untuk domain utama
+Type: A | Name: @ | Value: 185.199.108.153 | TTL: 14400
+Type: A | Name: @ | Value: 185.199.109.153 | TTL: 14400
+Type: A | Name: @ | Value: 185.199.110.153 | TTL: 14400
+Type: A | Name: @ | Value: 185.199.111.153 | TTL: 14400
+
+# Record CNAME untuk www
+Type: CNAME | Name: www | Value: username.github.io | TTL: 14400
+            </div>
+            
+            <div class="note">
+                <strong>Catatan:</strong> Ganti "username" dengan username GitHub Anda. Jika menggunakan organization, formatnya adalah: organizationname.github.io
+            </div>
+        </div>
+        
+        <!-- Langkah 4 -->
+        <div class="step">
+            <div class="step-number">4</div>
+            <h2>Deploy ke GitHub Pages</h2>
+            
+            <h3>4.1 Buat Repository GitHub</h3>
+            <ol>
+                <li>Buka <a href="https://github.com/new" target="_blank" rel="noopener noreferrer">github.com/new</a></li>
+                <li>Beri nama: <strong>username.github.io</strong> (ganti dengan username GitHub Anda)</li>
+                <li>Pilih "Public"</li>
+                <li>Centang "Add a README file"</li>
+                <li>Klik "Create repository"</li>
+            </ol>
+            
+            <h3>4.2 Upload Kode Website</h3>
+            <p><strong>Metode 1: Via Web Interface</strong></p>
+            <ol>
+                <li>Di repository baru, klik "Add file" > "Upload files"</li>
+                <li>Drag & drop file index.html</li>
+                <li>Klik "Commit changes"</li>
+            </ol>
+            
+            <p><strong>Metode 2: Via Git Command Line</strong></p>
+            <div class="terminal">
+# Clone repository
+git clone https://github.com/username/username.github.io.git
+
+# Masuk ke direktori
+cd username.github.io
+
+# Copy file HTML ke direktori
+cp /path/ke/index.html .
+
+# Commit dan push
+git add .
+git commit -m "Add AI image generator"
+git push origin main
+            </div>
+            
+            <h3>4.3 Setting Custom Domain</h3>
+            <ol>
+                <li>Di repository, buka "Settings" > "Pages"</li>
+                <li>Di "Custom domain", masukkan domain Anda (contoh: aigenerator.my.id)</li>
+                <li>Klik "Save"</li>
+                <li>Buat file CNAME berisi domain Anda (tanpa http/https)</li>
+                <li>Commit perubahan</li>
+            </ol>
+            
+            <div class="note">
+                <strong>Propagasi DNS:</strong> Butuh waktu 1-24 jam sampai domain bisa diakses. Cek progres di <a href="https://www.whatsmydns.net/" target="_blank" rel="noopener noreferrer">WhatsMyDNS.net</a> dengan memasukkan domain Anda.
+            </div>
+            
+            <div class="warning">
+                <strong>Penting:</strong> Pastikan repository Anda public dan GitHub Pages sudah aktif. Anda bisa cek di Settings > Pages, harus ada tulisan "Your site is live at https://username.github.io".
+            </div>
+        </div>
+        
+        <!-- Langkah 5 -->
+        <div class="step">
+            <div class="step-number">5</div>
+            <h2>Verifikasi dan Peluncuran</h2>
+            
+            <h3>5.1 Tes Website</h3>
+            <ol>
+                <li>Buka domain Anda di browser (contoh: https://aigenerator.my.id)</li>
+                <li>Masukkan prompt dan klik generate</li>
+                <li>Pastikan gambar muncul dan bisa didownload</li>
+                <li>Test di berbagai device dan browser</li>
+            </ol>
+            
+            <h3>5.2 Optimasi Tambahan</h3>
+            <p>Tambahkan fitur ini untuk pengalaman lebih baik:</p>
+            
+            <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i> Copy Code</button>
+                <div class="code-block">
+// Tambahkan di HTML
+&lt;div class="params"&gt;
+    &lt;select id="model"&gt;
+        &lt;option value="stable-diffusion"&gt;Stable Diffusion&lt;/option&gt;
+        &lt;option value="dall-e"&gt;DALL-E&lt;/option&gt;
+        &lt;option value="kandinsky"&gt;Kandinsky&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;input type="number" id="width" placeholder="Width" min="256" max="1024" value="512"&gt;
+    &lt;input type="number" id="height" placeholder="Height" min="256" max="1024" value="512"&gt;
+    &lt;input type="number" id="steps" placeholder="Steps" min="20" max="100" value="50"&gt;
+    &lt;select id="style"&gt;
+        &lt;option value=""&gt;Default Style&lt;/option&gt;
+        &lt;option value="realistic"&gt;Realistic&lt;/option&gt;
+        &lt;option value="anime"&gt;Anime&lt;/option&gt;
+        &lt;option value="painting"&gt;Painting&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;
+
+// Tambahkan di CSS
+.params {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+.params select, .params input {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: var(--card-bg);
+    color: var(--text);
+    transition: all 0.3s ease;
+}
+.params select:focus, .params input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.2);
+}
+
+// Tambahkan di JavaScript
+// Simpan prompt terakhir ke localStorage
+localStorage.setItem('lastPrompt', prompt);
+const lastPrompt = localStorage.getItem('lastPrompt');
+if (lastPrompt) {
+    document.getElementById('prompt').value = lastPrompt;
+}
+
+// Tambahkan fitur share
+const shareImage = (imgUrl, prompt) => {
+    if (navigator.share) {
+        navigator.share({
+            title: 'AI Generated Image',
+            text: `Check out this AI generated image: ${prompt}`,
+            url: imgUrl,
+        }).catch(console.error);
+    } else {
+        // Fallback untuk browser yang tidak support Web Share API
+        const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`AI generated image: ${prompt}`)}&url=${encodeURIComponent(imgUrl)}`;
+        window.open(shareUrl, '_blank');
+    }
+};
+
+// Tambahkan tombol share di setiap gambar
+const shareBtn = document.createElement('button');
+shareBtn.innerHTML = '<i class="fas fa-share-alt"></i> Share';
+shareBtn.onclick = () => shareImage(imgUrl, prompt);
+imgCard.appendChild(shareBtn);</div>
+            </div>
+            
+            <div class="note">
+                <strong>Fitur Tambahan:</strong>
+                <ul>
+                    <li>Pilihan model AI lebih banyak</li>
+                    <li>Pilihan style gambar</li>
+                    <li>Penyimpanan prompt terakhir</li>
+                    <li>Fitur share gambar</li>
+                    <li>Tampilan yang lebih responsif</li>
+                </ul>
+            </div>
+            
+            <a href="https://kenthir.my.id/generator.html" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-desktop"></i> Lihat Demo 1</a>
+            <a href="https://kenthir.my.id/kenthir-pro.html" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-desktop"></i> Lihat Demo 2</a>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;"> 
+            <!--strong>Jika ada yang perlu ditanyakan silahkan klik tombol dibawah:</strong>
+            <a href="https://m.me/j/AbbkeqHK0cT0EZE0/" class="cta-button" style="width: auto; display: inline-block; padding: 12px 25px;">
+                <i class="fab fa-facebook-messenger" aria-hidden="true"></i> Gabung Group Chat Diskusi
+        </a-->
+        </div>
+    </div>
+
+    <!-- Bagian Share Tutorial -->
+    <div class="share-tutorial">
+        <h3>Bagikan Tutorial Ini</h3>
+        <div class="share-tutorial-buttons">
+            <a href="#" class="share-tutorial-btn twitter-share" id="shareTwitter">
+                <i class="fab fa-x-twitter"></i> Twitter
+            </a>
+            <a href="#" class="share-tutorial-btn facebook-share" id="shareFacebook">
+                <i class="fab fa-facebook-f"></i> Facebook
+            </a>
+            <a href="#" class="share-tutorial-btn instagram-share" id="shareInstagram">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="#" class="share-tutorial-btn linkedin-share" id="shareLinkedIn">
+                <i class="fab fa-linkedin-in"></i> LinkedIn
+            </a>
+            <a href="#" class="share-tutorial-btn whatsapp-share" id="shareWhatsApp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer>
+        <p>Tutorial Generator Gambar AI &copy; <span id="currentYear"></span> - All Rights Reserved</p>
+        <div class="footer-nav">
+            <a href="../tantangan.html" class="footer-btn">
+                <i class="fas fa-arrow-left"></i> Kembali ke Tantangan
+            </a>
+            <a href="privacy.html" class="footer-btn">
+                <i class="fas fa-lock"></i> Kebijakan Privasi
+            </a>
+            <a href="terms.html" class="footer-btn">
+                <i class="fas fa-file-alt"></i> Syarat & Ketentuan
+            </a>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>
