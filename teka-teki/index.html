@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotak Toggle Dengan Tautan</title>
+    <!-- Memuat Tailwind CSS untuk styling responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Menggunakan font Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Gaya kustom untuk transisi konten yang mulus */
+        .content-transition {
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- ============================================== -->
+    <!-- 1. LOADING SCREEN (Terlihat di awal) -->
+    <!-- ============================================== -->
+    <div id="loadingScreen" class="fixed inset-0 bg-gray-900 flex flex-col items-center justify-center z-50 transition-opacity duration-1000 ease-in-out">
+        <div class="text-center text-white p-6 rounded-lg">
+            <h1 class="text-3xl font-extrabold mb-4 animate-pulse">Memuat Konten...</h1>
+            <div class="w-64 h-3 bg-gray-700 rounded-full overflow-hidden shadow-inner">
+                <div id="progressBar" class="h-full bg-teal-400 transition-all duration-100" style="width: 0%;"></div>
+            </div>
+            <p id="percentageText" class="mt-3 text-xl font-bold">0%</p>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 2. MAIN CONTENT (Tersembunyi di awal) -->
+    <!-- ============================================== -->
+    <div id="mainContent" class="hidden w-full h-full flex items-center justify-center">
+        
+        <!-- Kotak Interaktif -->
+        <div id="interactiveBox"
+             class="content-transition
+                    w-full max-w-sm h-64
+                    bg-blue-600 text-white
+                    rounded-2xl shadow-xl
+                    flex items-center justify-center
+                    cursor-pointer select-none
+                    transform hover:scale-[1.02] active:scale-[0.98]">
+
+            <!-- Konten Awal / Teks Status (Selalu terlihat) -->
+            <div id="statusContent" class="text-center content-transition p-4">
+                <svg id="clickIcon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2 transition-transform duration-500" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 19l-7-7 7-7m4 14l7-7-7-7"/>
+                </svg>
+                <p id="statusText" class="font-bold text-xl">Klik Kotak Ini!</p>
+                <p id="helpText" class="text-sm opacity-80 mt-1">Buka Tautan Tersembunyi...</p>
+            </div>
+
+            <!-- Konten Hasil (Gambar + Tautan Tombol) - Awalnya tersembunyi dan di luar jangkauan -->
+            <div id="resultContent" 
+                 class="text-center 
+                        absolute 
+                        w-full max-w-sm h-64 p-4
+                        bg-white text-gray-800 rounded-2xl
+                        opacity-0 pointer-events-none content-transition
+                        flex flex-col items-center justify-center">
+
+                <!-- Gambar Placeholder -->
+                <img src="https://placehold.co/120x80/2563eb/ffffff?text=PESAN" 
+                     onerror="this.onerror=null;this.src='https://placehold.co/120x80/2563eb/ffffff?text=Image';" 
+                     alt="Gambar hasil klik" 
+                     class="w-32 h-20 rounded-lg shadow-md mb-4 mx-auto object-cover"/>
+                
+                <p class="font-bold text-lg mb-4 text-gray-700">Terima kasih telah berinteraksi!</p>
+                
+                <!-- TOMBOL TAUTAN BARU -->
+                <a id="linkButton" href="https://www.facebook.com/share/r/1A6tycLAYj/" target="_blank"
+                   class="inline-flex items-center justify-center 
+                          bg-indigo-600 hover:bg-indigo-700 
+                          text-white font-semibold py-2 px-6 
+                          rounded-full shadow-lg transition duration-300 
+                          transform hover:scale-105 active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 12.03c0 4.418-4.707 8-10.5 8S0 16.448 0 12.03s4.707-8 10.5-8c3.085 0 5.861 1.258 7.844 3.275l-1.42 1.42c-1.528-1.55-3.666-2.527-6.424-2.527-4.965 0-9 3.033-9 6.832 0 3.799 4.035 6.832 9 6.832s9-3.033 9-6.832c0-1.879-.817-3.576-2.12-4.887l-2.001 2.001H15V6.75h6V12.03z"/>
+                    </svg>
+                    Kunjungi Tautan Rahasia
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Variabel untuk konten interaktif
+        const box = document.getElementById('interactiveBox');
+        const statusContent = document.getElementById('statusContent');
+        const resultContent = document.getElementById('resultContent');
+        const statusText = document.getElementById('statusText');
+        const helpText = document.getElementById('helpText');
+        const clickIcon = document.getElementById('clickIcon');
+        // BARU: Ambil elemen tombol tautan
+        const linkButton = document.getElementById('linkButton'); 
+        let isOpen = false; 
+
+        // Konstanta untuk kelas Tailwind
+        const INITIAL_BOX_CLASSES = ['bg-blue-600', 'text-white', 'hover:scale-[1.02]', 'active:scale-[0.98]'];
+        const RESULT_BOX_CLASSES = ['bg-white', 'shadow-2xl', 'ring-4', 'ring-blue-400', 'cursor-default', 'scale-100'];
+
+        // --- FUNGSI TOGGLE ---
+        function toggleContent() {
+            // Pastikan fungsi hanya berjalan setelah loading selesai
+            if (document.getElementById('loadingScreen').classList.contains('hidden')) {
+                isOpen = !isOpen; // Balikkan status
+
+                if (isOpen) {
+                    // --- STATE: TERBUKA ---
+                    box.classList.remove(...INITIAL_BOX_CLASSES);
+                    box.classList.add(...RESULT_BOX_CLASSES);
+                    
+                    statusContent.classList.add('opacity-0');
+                    
+                    setTimeout(() => {
+                        statusContent.classList.add('hidden');
+                        
+                        // Hapus pointer-events agar tombol di konten hasil bisa di-klik
+                        resultContent.classList.remove('absolute', 'pointer-events-none');
+                        resultContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'relative');
+                        
+                        setTimeout(() => {
+                            resultContent.classList.remove('opacity-0');
+                        }, 50); 
+                    }, 500); 
+
+                    statusText.textContent = "Konten Terbuka";
+                    helpText.textContent = "Klik untuk Tutup";
+                    clickIcon.style.transform = 'rotate(90deg)';
+                    
+                } else {
+                    // --- STATE: TERTUTUP ---
+                    box.classList.remove(...RESULT_BOX_CLASSES);
+                    box.classList.add(...INITIAL_BOX_CLASSES);
+
+                    resultContent.classList.add('opacity-0');
+
+                    setTimeout(() => {
+                        // Tambahkan pointer-events-none agar kotak bisa di-klik lagi untuk membuka
+                        resultContent.classList.remove('flex', 'flex-col', 'items-center', 'justify-center', 'relative');
+                        resultContent.classList.add('absolute', 'pointer-events-none');
+                        
+                        statusContent.classList.remove('hidden');
+                        setTimeout(() => {
+                            statusContent.classList.remove('opacity-0');
+                        }, 50); 
+                    }, 500); 
+
+                    statusText.textContent = "Klik Kotak Ini!";
+                    helpText.textContent = "Buka Tautan Tersembunyi...";
+                    clickIcon.style.transform = 'rotate(0deg)';
+                }
+            }
+        }
+
+        // --- FIX: Cegah klik tombol dari memicu toggle pada kotak induk ---
+        linkButton.addEventListener('click', function(event) {
+            // Menghentikan penyebaran event klik ke elemen induk (interactiveBox)
+            event.stopPropagation();
+        });
+
+        // Event listener utama untuk kotak
+        box.addEventListener('click', toggleContent);
+
+
+        // --- FUNGSI LOADING ---
+        function startLoading() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const mainContent = document.getElementById('mainContent');
+            const progressBar = document.getElementById('progressBar');
+            const percentageText = document.getElementById('percentageText');
+
+            let progress = 0;
+            const duration = 10000; // 10 detik
+            const intervalTime = 100; // Update setiap 100ms
+            const totalSteps = duration / intervalTime;
+            const stepIncrement = 100 / totalSteps;
+
+            const loadingInterval = setInterval(() => {
+                progress += stepIncrement;
+                
+                if (progress > 100) {
+                    progress = 100;
+                }
+
+                const progressInt = Math.floor(progress);
+                
+                // Update UI Loading
+                percentageText.textContent = `${progressInt}%`;
+                progressBar.style.width = `${progressInt}%`;
+
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    
+                    // Sembunyikan loading screen dengan transisi opacity (durasi 1s)
+                    loadingScreen.classList.add('opacity-0');
+                    
+                    // Tunggu hingga transisi selesai sebelum menghapus elemen
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        loadingScreen.classList.remove('opacity-0'); 
+
+                        // Tampilkan konten utama
+                        mainContent.classList.remove('hidden');
+                    }, 1000); // 1000ms sesuai dengan durasi transisi CSS
+                }
+            }, intervalTime);
+        }
+
+        // Mulai loading saat seluruh elemen HTML telah dimuat
+        window.onload = startLoading;
+    </script>
+
+</body>
+</html>
+
