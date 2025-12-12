@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta name="description" content="Panduan lengkap hukum Tajwid Nun Sukun dan Tanwin: Idzhar Halqi, Idgham Bighunnah, Idgham Bilaghunnah, Iqlab, dan Ikhfa Haqiqi. Belajar mengaji jadi mudah dan interaktif.">
-    <meta name="keywords" content="hukum nun sukun, nun mati, tanwin, tajwid, idzhar halqi, idgham bighunnah, idgham bilaghunnah, iqlab, ikhfa haqiqi, belajar al-quran">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Panduan lengkap hukum Tajwid: Nun Sukun, Mim Sukun, Qalqalah, dan Alif Lam. Belajar mengaji jadi mudah dan interaktif.">
+    <meta name="keywords" content="tajwid, nun sukun, mim sukun, qalqalah, alif lam syamsiyah, qamariyah, belajar mengaji, al quran">
     <meta name="author" content="TajwidPedia">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="Hukum Nun Sukun & Tanwin - Belajar Tajwid Mudah">
-    <meta property="og:description" content="Pelajari diagram dan cara baca hukum Nun Sukun & Tanwin dengan mudah.">
-    <meta property="og:image" content="https://www.kenthir.my.id/tajwidpedia/tajwidpedia.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="TajwidPedia - Belajar Tajwid Lengkap">
+    <meta property="og:description" content="Pelajari hukum Nun Sukun, Mim Sukun, Qalqalah & lainnya dengan ilustrasi menarik.">
+    <meta property="og:image" content="https://kenthir.my.id/tajwidpedia/tajwidpedia.jpg">
     <meta property="og:type" content="website">
 
-    <title>Hukum Nun Sukun & Tanwin</title>
+    <title>TajwidPedia - Panduan Tajwid Lengkap</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -29,7 +29,7 @@
         }
         .font-arabic {
             font-family: 'Amiri', serif;
-            line-height: 1.6;
+            line-height: 1.8;
         }
         .card-hover {
             transition: all 0.3s ease;
@@ -38,269 +38,408 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
+        /* Hide scrollbar for category nav on mobile */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="text-slate-800 pb-20">
 
-    <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-100">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="bg-emerald-100 p-2 rounded-lg">
-                    <i data-lucide="book-open" class="text-emerald-600 w-5 h-5"></i>
+    <!-- Navbar -->
+    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between py-3 md:h-20">
+                <!-- Logo -->
+                <div class="flex items-center justify-between mb-3 md:mb-0">
+                    <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                        <div class="bg-emerald-100 p-2 rounded-lg">
+                            <i data-lucide="book-open" class="text-emerald-600 w-5 h-5"></i>
+                        </div>
+                        <span class="font-bold text-xl tracking-tight text-slate-800">Tajwid<span class="text-emerald-600">Pedia</span></span>
+                    </div>
+                    <!-- Mobile Menu Button (Optional implementation) -->
                 </div>
-                <span class="font-bold text-xl tracking-tight text-slate-800">Tajwid<span class="text-emerald-600">Pedia</span></span>
-            </div>
-            <div class="text-sm font-medium text-slate-500 hidden sm:block bg-slate-100 px-3 py-1 rounded-full">
-                Belajar Mengaji Jadi Mudah
+
+                <!-- Navigation Links (Horizontal Scroll on Mobile) -->
+                <div class="flex overflow-x-auto no-scrollbar gap-2 md:gap-6 pb-1 md:pb-0 text-sm font-medium text-slate-600">
+                    <a href="#nun-sukun" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Nun Sukun</a>
+                    <a href="#mim-sukun" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Mim Sukun</a>
+                    <a href="#qalqalah" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Qalqalah</a>
+                    <a href="#alif-lam" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Alif Lam</a>
+                </div>
             </div>
         </div>
     </nav>
 
+    <!-- Header Section -->
     <header class="text-center pt-10 pb-12 px-4 relative overflow-hidden">
-        
         <div class="absolute top-10 left-1/2 transform -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/5 rounded-full blur-3xl -z-10"></div>
 
-        <h1 class="text-3xl md:text-5xl font-bold mb-6 text-slate-900 leading-tight">
-            Hukum <span class="text-emerald-600">Nun Sukun</span> <br class="md:hidden"> & Tanwin
+        <h1 class="text-3xl md:text-5xl font-bold mb-4 text-slate-900 leading-tight">
+            Panduan Belajar <span class="text-emerald-600">Tajwid</span>
         </h1>
-
-        <div class="relative w-full max-w-2xl mx-auto mb-8 group">
-            <img src="https://www.kenthir.my.id/tajwidpedia/tajwidpedia.jpg" 
-                 alt="Ilustrasi Tajwid" 
-                 class="w-full rounded-2xl shadow-xl border-4 border-white transform group-hover:scale-[1.01] transition-transform duration-500">
-            
-            <div class="absolute -top-4 -left-4 bg-white p-3 rounded-xl shadow-lg animate-bounce border border-slate-100 hidden md:block">
-                <span class="font-arabic text-3xl text-emerald-600">نْ</span>
-            </div>
-            <div class="absolute -bottom-4 -right-4 bg-white p-3 rounded-xl shadow-lg animate-bounce border border-slate-100 hidden md:block" style="animation-delay: 1s;">
-                <span class="font-arabic text-3xl text-emerald-600">ًــٍــٌ</span>
-            </div>
-        </div>
-
         <p class="max-w-2xl mx-auto text-slate-600 text-lg mb-8">
-            Apabila Nun Sukun (نْ) atau Tanwin bertemu dengan huruf-huruf hijaiyah, maka hukum bacaannya terbagi menjadi 5 bagian utama.
+            Mempelajari cara membaca Al-Qur'an dengan baik dan benar.
         </p>
 
-        <div class="flex justify-center items-center gap-4">
-            <a href="#materi" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-8 rounded-full transition-colors shadow-lg shadow-emerald-200">
+        <!-- Illustration -->
+        <div class="relative w-full max-w-2xl mx-auto mb-8 group">
+            <img src="https://kenthir.my.id/tajwidpedia/tajwidpedia.jpg" alt="Ilustrasi Tajwid" class="w-full rounded-2xl shadow-xl border-4 border-white transform group-hover:scale-[1.01] transition-transform duration-500 object-cover max-h-[400px]">
+        </div>
+
+        <div class="flex justify-center gap-4">
+            <a href="#nun-sukun" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-8 rounded-full transition-colors shadow-lg shadow-emerald-200">
                 Mulai Belajar
             </a>
         </div>
     </header>
 
-    <main id="materi" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 scroll-mt-20">
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-24">
 
-            <div class="bg-white rounded-2xl p-6 border-t-4 border-red-500 shadow-sm card-hover relative overflow-hidden group">
-                <div class="absolute top-0 right-0 bg-red-100 text-red-600 px-3 py-1 rounded-bl-lg text-sm font-bold">1</div>
-                <h3 class="text-xl font-bold text-red-600 mb-2 flex items-center gap-2">
-                    Idzhar Halqi
-                    <span class="font-arabic text-slate-400 text-lg">(إِظْهَار حَلْقِي)</span>
-                </h3>
-                <p class="text-sm text-slate-600 mb-4 bg-red-50 p-3 rounded-lg border border-red-100">
-                    <strong>Cara Baca:</strong> Jelas & Terang (tanpa dengung). Keluar dari tenggorokan.
-                </p>
-                <div class="mb-4">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">6 Huruf:</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-700 font-arabic text-2xl rounded-full border border-red-200">ء</span>
-                        <span class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-700 font-arabic text-2xl rounded-full border border-red-200">ح</span>
-                        <span class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-700 font-arabic text-2xl rounded-full border border-red-200">خ</span>
-                        <span class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-700 font-arabic text-2xl rounded-full border border-red-200">ع</span>
-                        <span class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-700 font-arabic text-2xl rounded-full border border-red-200">غ</span>
-                        <span class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-700 font-arabic text-2xl rounded-full border border-red-200">هـ</span>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-slate-100">
-                    <p class="text-xs text-slate-400 mb-1">Contoh:</p>
-                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
-                        <span class="text-sm">Man Aamana</span>
-                        <span class="font-arabic text-xl">مَنْ آمَنَ</span>
-                    </div>
+        <!-- SECTION 1: NUN SUKUN & TANWIN -->
+        <section id="nun-sukun" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="bg-emerald-100 text-emerald-700 p-3 rounded-xl">
+                    <span class="font-arabic text-2xl font-bold">نْ / ً ٍ ٌ</span>
+                </span>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Hukum Nun Sukun & Tanwin</h2>
+                    <p class="text-slate-500">Terbagi menjadi 5 hukum bacaan.</p>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-6 border-t-4 border-orange-400 shadow-sm card-hover relative overflow-hidden group">
-                <div class="absolute top-0 right-0 bg-orange-100 text-orange-600 px-3 py-1 rounded-bl-lg text-sm font-bold">2</div>
-                <h3 class="text-xl font-bold text-orange-500 mb-2 flex items-center gap-2">
-                    Idgham Bighunnah
-                </h3>
-                <p class="text-sm text-slate-600 mb-4 bg-orange-50 p-3 rounded-lg border border-orange-100">
-                    <strong>Cara Baca:</strong> Dimasukkan (dilebur) disertai dengung (Ghunnah) selama 2 harakat.
-                </p>
-                <div class="mb-4">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">4 Huruf (YANMU):</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="w-10 h-10 flex items-center justify-center bg-orange-50 text-orange-600 font-arabic text-2xl rounded-full border border-orange-200">ي</span>
-                        <span class="w-10 h-10 flex items-center justify-center bg-orange-50 text-orange-600 font-arabic text-2xl rounded-full border border-orange-200">ن</span>
-                        <span class="w-10 h-10 flex items-center justify-center bg-orange-50 text-orange-600 font-arabic text-2xl rounded-full border border-orange-200">م</span>
-                        <span class="w-10 h-10 flex items-center justify-center bg-orange-50 text-orange-600 font-arabic text-2xl rounded-full border border-orange-200">و</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1. Idzhar Halqi -->
+                <div class="bg-white rounded-2xl p-6 border-t-4 border-red-500 shadow-sm card-hover">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-red-600">Idzhar Halqi</h3>
+                        <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded font-bold">JELAS</span>
                     </div>
-                </div>
-                
-                <div class="mt-4 bg-pink-50 border border-pink-200 rounded-lg p-3 relative">
-                    <div class="absolute -top-3 -left-2 bg-pink-500 text-white text-[10px] px-2 py-1 rounded-full font-bold shadow-sm">PENGECUALIAN</div>
-                    <h4 class="font-bold text-pink-600 text-sm mt-1">Idzhar Mutlaq</h4>
-                    <p class="text-xs text-slate-600 mt-1 mb-2">Jika Nun Sukun bertemu Ya/Waw dalam <strong>satu kata</strong>, dibaca JELAS.</p>
-                    <div class="grid grid-cols-2 gap-2 text-center">
-                        <div class="bg-white p-1 rounded border border-pink-100">
-                            <span class="font-arabic text-lg block">الدُّنْيَا</span>
-                            <span class="text-[10px] text-slate-400">Ad-Dunya</span>
-                        </div>
-                        <div class="bg-white p-1 rounded border border-pink-100">
-                            <span class="font-arabic text-lg block">بُنْيَانٌ</span>
-                            <span class="text-[10px] text-slate-400">Bunyanun</span>
-                        </div>
-                        <div class="bg-white p-1 rounded border border-pink-100">
-                            <span class="font-arabic text-lg block">صِنْوَانٌ</span>
-                            <span class="text-[10px] text-slate-400">Sinwanun</span>
-                        </div>
-                         <div class="bg-white p-1 rounded border border-pink-100">
-                            <span class="font-arabic text-lg block">قِنْوَانٌ</span>
-                            <span class="text-[10px] text-slate-400">Qinwanun</span>
+                    <p class="text-sm text-slate-600 mb-4">Dibaca jelas tanpa dengung. Keluar dari tenggorokan.</p>
+                    <div class="bg-red-50 p-3 rounded-lg border border-red-100 mb-3">
+                        <p class="text-xs text-red-500 font-bold mb-2">6 HURUF:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="font-arabic text-xl text-red-700">ء</span>
+                            <span class="font-arabic text-xl text-red-700">هـ</span>
+                            <span class="font-arabic text-xl text-red-700">ع</span>
+                            <span class="font-arabic text-xl text-red-700">ح</span>
+                            <span class="font-arabic text-xl text-red-700">غ</span>
+                            <span class="font-arabic text-xl text-red-700">خ</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="bg-white rounded-2xl p-6 border-t-4 border-sky-400 shadow-sm card-hover relative overflow-hidden group">
-                <div class="absolute top-0 right-0 bg-sky-100 text-sky-600 px-3 py-1 rounded-bl-lg text-sm font-bold">3</div>
-                <h3 class="text-xl font-bold text-sky-500 mb-2 flex items-center gap-2">
-                    Idgham Bilaghunnah
-                </h3>
-                <p class="text-sm text-slate-600 mb-4 bg-sky-50 p-3 rounded-lg border border-sky-100">
-                    <strong>Cara Baca:</strong> Dimasukkan (dilebur) sepenuhnya <strong>tanpa</strong> dengung.
-                </p>
-                <div class="mb-4">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">2 Huruf:</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="w-10 h-10 flex items-center justify-center bg-sky-50 text-sky-600 font-arabic text-2xl rounded-full border border-sky-200">ل</span>
-                        <span class="w-10 h-10 flex items-center justify-center bg-sky-50 text-sky-600 font-arabic text-2xl rounded-full border border-sky-200">ر</span>
+                <!-- 2. Idgham Bighunnah -->
+                <div class="bg-white rounded-2xl p-6 border-t-4 border-orange-400 shadow-sm card-hover">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-orange-500">Idgham Bighunnah</h3>
+                        <span class="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded font-bold">DENGUNG</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Dilebur/dimasukkan dengan dengung (2 harakat).</p>
+                    <div class="bg-orange-50 p-3 rounded-lg border border-orange-100 mb-3">
+                        <p class="text-xs text-orange-600 font-bold mb-2">4 HURUF (YANMU):</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="font-arabic text-xl text-orange-700">ي</span>
+                            <span class="font-arabic text-xl text-orange-700">ن</span>
+                            <span class="font-arabic text-xl text-orange-700">م</span>
+                            <span class="font-arabic text-xl text-orange-700">و</span>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-slate-400 mt-2 bg-slate-50 p-2 rounded">
+                        *Kecuali dalam satu kata (Idzhar Mutlaq), dibaca Jelas. Contoh: <span class="font-arabic">الدُّنْيَا</span>
                     </div>
                 </div>
-                <div class="mt-4 pt-4 border-t border-slate-100">
-                    <p class="text-xs text-slate-400 mb-1">Contoh:</p>
-                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
-                        <span class="text-sm">Mil Ladunhu</span>
-                        <span class="font-arabic text-xl">مِنْ لَدُنْهُ</span>
+
+                <!-- 3. Idgham Bilaghunnah -->
+                <div class="bg-white rounded-2xl p-6 border-t-4 border-sky-400 shadow-sm card-hover">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-sky-500">Idgham Bilaghunnah</h3>
+                        <span class="bg-sky-100 text-sky-600 text-xs px-2 py-1 rounded font-bold">TANPA DENGUNG</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Dilebur sepenuhnya tanpa suara hidung.</p>
+                    <div class="bg-sky-50 p-3 rounded-lg border border-sky-100 mb-3">
+                        <p class="text-xs text-sky-600 font-bold mb-2">2 HURUF:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="font-arabic text-xl text-sky-700">ل</span>
+                            <span class="font-arabic text-xl text-sky-700">ر</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Iqlab -->
+                <div class="bg-white rounded-2xl p-6 border-t-4 border-purple-500 shadow-sm card-hover">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-purple-600">Iqlab</h3>
+                        <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded font-bold">JADI MIM</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Mengganti bunyi Nun menjadi Mim (م) + dengung.</p>
+                    <div class="bg-purple-50 p-3 rounded-lg border border-purple-100 mb-3">
+                        <p class="text-xs text-purple-600 font-bold mb-2">1 HURUF:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="font-arabic text-xl text-purple-700">ب</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Ikhfa Haqiqi -->
+                <div class="bg-white rounded-2xl p-6 border-t-4 border-emerald-500 shadow-sm card-hover md:col-span-2">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-emerald-600">Ikhfa Haqiqi</h3>
+                        <span class="bg-emerald-100 text-emerald-600 text-xs px-2 py-1 rounded font-bold">SAMAR</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Dibaca samar-samar antara Idzhar dan Idgham + dengung. Bunyi "N" bersiap menuju huruf didepannya.</p>
+                    <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                        <p class="text-xs text-emerald-600 font-bold mb-2">15 HURUF:</p>
+                        <div class="grid grid-cols-8 gap-2">
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ت</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ث</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ج</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">د</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ذ</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ز</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">س</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ش</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ص</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ض</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ط</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ظ</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ف</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ق</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center">ك</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MIM SUKUN -->
+        <section id="mim-sukun" class="scroll-mt-28 border-t border-slate-200 pt-12">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="bg-blue-100 text-blue-700 p-3 rounded-xl">
+                    <span class="font-arabic text-2xl font-bold">مْ</span>
+                </span>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Hukum Mim Sukun</h2>
+                    <p class="text-slate-500">Terbagi menjadi 3 hukum bacaan.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 1. Ikhfa Syafawi -->
+                <div class="bg-white rounded-2xl p-6 border-t-4 border-teal-500 shadow-sm card-hover">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-teal-600">Ikhfa Syafawi</h3>
+                        <span class="font-arabic text-slate-400">(إخفاء شفوي)</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4 bg-teal-50 p-3 rounded border border-teal-100">
+                        <strong>Cara Baca:</strong> Samar-samar di bibir disertai dengung. Bibir tidak rapat sempurna.
+                    </p>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-xs font-bold text-slate-400">Mim Mati Bertemu:</span>
+                        <div class="flex items-center gap-2">
+                            <span class="w-10 h-10 flex items-center justify-center bg-teal-100 text-teal-700 font-arabic text-2xl rounded-full">ب</span>
+                            <span class="text-sm font-semibold text-slate-600">(Ba)</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-100">
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
+                            <span class="text-xs">Tarmiihim Bi...</span>
+                            <span class="font-arabic text-lg text-teal-700">تَرْمِيهِمْ بِحِجَارَةٍ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Idgham Mimi -->
+                <div class="bg-white rounded-2xl p-6 border-t-4 border-blue-500 shadow-sm card-hover">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-blue-600">Idgham Mimi</h3>
+                        <span class="font-arabic text-slate-400">(إدغام ميمي)</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4 bg-blue-50 p-3 rounded border border-blue-100">
+                        <strong>Cara Baca:</strong> Mim pertama dimasukkan ke Mim kedua disertai dengung.
+                    </p>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-xs font-bold text-slate-400">Mim Mati Bertemu:</span>
+                        <div class="flex items-center gap-2">
+                            <span class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 font-arabic text-2xl rounded-full">م</span>
+                            <span class="text-sm font-semibold text-slate-600">(Mim)</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-100">
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
+                            <span class="text-xs">Lahum Maa...</span>
+                            <span class="font-arabic text-lg text-blue-700">لَهُمْ مَا يَشَاءُونَ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Idzhar Syafawi -->
+                <div class="bg-white rounded-2xl p-6 border-t-4 border-indigo-500 shadow-sm card-hover">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-indigo-600">Idzhar Syafawi</h3>
+                        <span class="font-arabic text-slate-400">(إظهار شفوي)</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4 bg-indigo-50 p-3 rounded border border-indigo-100">
+                        <strong>Cara Baca:</strong> Jelas di bibir dengan mulut tertutup rapat tanpa dengung.
+                    </p>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-xs font-bold text-slate-400">Mim Mati Bertemu:</span>
+                        <p class="text-sm text-slate-700 font-medium">Semua huruf <span class="text-red-500">KECUALI</span> Mim (م) & Ba (ب).</p>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-100">
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
+                            <span class="text-xs">Hum Naa'imuun</span>
+                            <span class="font-arabic text-lg text-indigo-700">هُمْ نَائِمُوْنَ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: QALQALAH -->
+        <section id="qalqalah" class="scroll-mt-28 border-t border-slate-200 pt-12">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="bg-amber-100 text-amber-700 p-3 rounded-xl">
+                    <i data-lucide="activity" class="w-8 h-8"></i>
+                </span>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Hukum Qalqalah</h2>
+                    <p class="text-slate-500">Pantulan suara pada huruf tertentu.</p>
+                </div>
+            </div>
+
+            <!-- Huruf Qalqalah -->
+            <div class="bg-amber-50 rounded-xl p-6 mb-8 border border-amber-200 text-center">
+                <p class="text-amber-800 font-bold mb-4 uppercase tracking-widest">5 Huruf Qalqalah (BAJU DI TOKO)</p>
+                <div class="flex justify-center gap-4 md:gap-8 flex-wrap">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
+                        <span class="font-arabic text-3xl text-amber-600">ب</span>
+                    </div>
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
+                        <span class="font-arabic text-3xl text-amber-600">ج</span>
+                    </div>
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
+                        <span class="font-arabic text-3xl text-amber-600">د</span>
+                    </div>
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
+                        <span class="font-arabic text-3xl text-amber-600">ط</span>
+                    </div>
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
+                        <span class="font-arabic text-3xl text-amber-600">ق</span>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-6 border-t-4 border-purple-500 shadow-sm card-hover relative overflow-hidden group md:col-span-1 lg:col-span-1">
-                <div class="absolute top-0 right-0 bg-purple-100 text-purple-600 px-3 py-1 rounded-bl-lg text-sm font-bold">4</div>
-                <h3 class="text-xl font-bold text-purple-600 mb-2 flex items-center gap-2">
-                    Iqlab
-                    <span class="font-arabic text-slate-400 text-lg">(إِقْلَاب)</span>
-                </h3>
-                <p class="text-sm text-slate-600 mb-4 bg-purple-50 p-3 rounded-lg border border-purple-100">
-                    <strong>Cara Baca:</strong> Mengganti bunyi Nun mati/Tanwin menjadi <strong>Mim (م)</strong> disertai dengung.
-                </p>
-                <div class="mb-4">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">1 Huruf:</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="w-12 h-12 flex items-center justify-center bg-purple-50 text-purple-600 font-arabic text-3xl rounded-full border border-purple-200 shadow-sm">ب</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Sugra -->
+                <div class="bg-white rounded-2xl p-6 border-l-4 border-amber-400 shadow-sm relative overflow-hidden">
+                    <h3 class="text-xl font-bold text-amber-600 mb-2">Qalqalah Sugra (Kecil)</h3>
+                    <p class="text-slate-600 text-sm mb-4">Terjadi jika huruf Qalqalah mati asli di tengah kata. Pantulannya <strong>ringan</strong>.</p>
+                    <div class="bg-slate-50 p-4 rounded-lg flex items-center justify-between border border-slate-100">
+                        <span class="text-sm text-slate-500">Contoh: Yaq-tho'uun</span>
+                        <span class="font-arabic text-2xl text-slate-800">يَقْطَعُونَ</span>
                     </div>
                 </div>
-                <div class="mt-4 pt-4 border-t border-slate-100">
-                    <p class="text-xs text-slate-400 mb-1">Contoh:</p>
-                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
-                        <span class="text-sm">Mim Ba'di</span>
-                        <span class="font-arabic text-xl">مِنْ بَعْدِ</span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="bg-white rounded-2xl p-6 border-t-4 border-emerald-500 shadow-sm card-hover relative overflow-hidden group md:col-span-2 lg:col-span-2">
-                <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-600 px-3 py-1 rounded-bl-lg text-sm font-bold">5</div>
-                <h3 class="text-xl font-bold text-emerald-600 mb-2 flex items-center gap-2">
-                    Ikhfa Haqiqi
-                    <span class="font-arabic text-slate-400 text-lg">(إِخْفَاء حَقِيقِي)</span>
-                </h3>
-                <p class="text-sm text-slate-600 mb-4 bg-emerald-50 p-3 rounded-lg border border-emerald-100">
-                    <strong>Cara Baca:</strong> Samar-samar antara Idzhar dan Idgham disertai dengung (Ghunnah) 2 harakat. Bunyi "N" terdengar samar siap masuk ke huruf berikutnya.
-                </p>
-                <div class="mb-4">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">15 Huruf Sisa:</p>
-                    <div class="grid grid-cols-5 sm:grid-cols-8 gap-2">
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ت</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ث</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ج</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">د</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ذ</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ز</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">س</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ش</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ص</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ض</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ط</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ظ</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ف</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ق</span>
-                        <span class="h-10 flex items-center justify-center bg-emerald-50 text-emerald-700 font-arabic text-xl rounded border border-emerald-200 hover:bg-emerald-100 cursor-default">ك</span>
+                <!-- Kubra -->
+                <div class="bg-white rounded-2xl p-6 border-l-4 border-amber-700 shadow-sm relative overflow-hidden">
+                    <h3 class="text-xl font-bold text-amber-800 mb-2">Qalqalah Kubra (Besar)</h3>
+                    <p class="text-slate-600 text-sm mb-4">Terjadi jika huruf Qalqalah mati karena waqaf (berhenti) di akhir kata. Pantulannya <strong>kuat/jelas</strong>.</p>
+                    <div class="bg-slate-50 p-4 rounded-lg flex items-center justify-between border border-slate-100">
+                        <span class="text-sm text-slate-500">Contoh: Al-Falaq</span>
+                        <span class="font-arabic text-2xl text-slate-800">الْفَلَقِ</span>
                     </div>
                 </div>
             </div>
+        </section>
 
-        </div>
-
-        <div class="mt-12 bg-slate-800 text-white rounded-2xl p-8 text-center shadow-lg relative overflow-hidden">
-            <div class="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl"></div>
-            
-            <h2 class="text-2xl font-bold mb-6 relative z-10">Ringkasan Cepat</h2>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm relative z-10">
-                <div class="p-4 bg-slate-700/50 backdrop-blur rounded-xl border border-slate-600 hover:border-red-400 transition-colors">
-                    <span class="block text-red-400 font-bold mb-1 text-lg">Idzhar</span>
-                    Jelas
-                </div>
-                <div class="p-4 bg-slate-700/50 backdrop-blur rounded-xl border border-slate-600 hover:border-orange-400 transition-colors">
-                    <span class="block text-orange-400 font-bold mb-1 text-lg">Bi-Ghunnah</span>
-                    Dengung
-                </div>
-                <div class="p-4 bg-slate-700/50 backdrop-blur rounded-xl border border-slate-600 hover:border-sky-400 transition-colors">
-                    <span class="block text-sky-400 font-bold mb-1 text-lg">Bila-Ghunnah</span>
-                    Tanpa Dengung
-                </div>
-                <div class="p-4 bg-slate-700/50 backdrop-blur rounded-xl border border-slate-600 hover:border-purple-400 transition-colors">
-                    <span class="block text-purple-400 font-bold mb-1 text-lg">Iqlab</span>
-                    Jadi Mim
-                </div>
-                <div class="p-4 bg-slate-700/50 backdrop-blur rounded-xl border border-slate-600 hover:border-emerald-400 transition-colors col-span-2 md:col-span-1">
-                    <span class="block text-emerald-400 font-bold mb-1 text-lg">Ikhfa</span>
-                    Samar
+        <!-- SECTION 4: ALIF LAM -->
+        <section id="alif-lam" class="scroll-mt-28 border-t border-slate-200 pt-12">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="bg-slate-100 text-slate-700 p-3 rounded-xl">
+                    <span class="font-arabic text-2xl font-bold">ال</span>
+                </span>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Hukum Alif Lam (Al-Ta'rif)</h2>
+                    <p class="text-slate-500">Cara membaca awalan 'Al' pada kata benda.</p>
                 </div>
             </div>
-        </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Qamariyah -->
+                <div class="group cursor-pointer">
+                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative overflow-hidden transition-all hover:border-blue-300">
+                        <div class="absolute -right-6 -top-6 bg-blue-50 w-24 h-24 rounded-full"></div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                            <i data-lucide="moon" class="w-5 h-5 text-blue-500"></i> Al-Qamariyah
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">"Al" dibaca Jelas. (Seperti melihat Bulan yang terang).</p>
+                        <p class="text-xs text-slate-400 mb-2">Huruf: ء ب غ ح ج ك و خ ف ع ق ي م هـ</p>
+                        <div class="bg-blue-50 p-3 rounded text-center">
+                            <span class="font-arabic text-xl text-slate-800">الْقَمَرُ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Syamsiyah -->
+                <div class="group cursor-pointer">
+                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative overflow-hidden transition-all hover:border-orange-300">
+                        <div class="absolute -right-6 -top-6 bg-orange-50 w-24 h-24 rounded-full"></div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                            <i data-lucide="sun" class="w-5 h-5 text-orange-500"></i> Al-Syamsiyah
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">"Al" lebur ke huruf berikutnya. (Seperti Bintang hilang saat Matahari terbit).</p>
+                        <p class="text-xs text-slate-400 mb-2">Huruf: Tanda Tasydid pada huruf setelah Al.</p>
+                        <div class="bg-orange-50 p-3 rounded text-center">
+                            <span class="font-arabic text-xl text-slate-800">الشَّمْسُ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </main>
 
-    <footer class="mt-12 border-t border-slate-200 bg-white">
-        <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between text-slate-500 text-sm">
-            <div class="mb-4 md:mb-0">
-                <span class="font-bold text-slate-700">TajwidPedia</span> &copy; 2024
+    <footer class="mt-20 border-t border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-center md:text-left">
+                    <span class="font-bold text-slate-800 text-lg">Tajwid<span class="text-emerald-600">Pedia</span></span>
+                    <p class="text-slate-500 text-sm mt-1">Belajar mengaji mudah, kapan saja & dimana saja.</p>
+                </div>
+                <div class="flex gap-6 text-sm text-slate-500">
+                    <a href="#" class="hover:text-emerald-600 transition-colors">Tentang</a>
+                    <a href="#" class="hover:text-emerald-600 transition-colors">Kontak</a>
+                    <a href="#" class="hover:text-emerald-600 transition-colors">Privasi</a>
+                </div>
             </div>
-            <div class="flex items-center gap-6">
-                <a href="#" class="hover:text-emerald-600 transition-colors">Tentang Kami</a>
-                <a href="#" class="hover:text-emerald-600 transition-colors">Kontak</a>
+            <div class="text-center text-xs text-slate-400 mt-8">
+                &copy; 2024 TajwidPedia. Dibuat dengan cinta untuk Al-Qur'an.
             </div>
         </div>
     </footer>
 
     <script>
-        // Initialize Lucide icons
+        // Initialize Icons
         lucide.createIcons();
 
-        // Simple interactive effect for Arabic letters
+        // Hover Effect for Arabic
         const letters = document.querySelectorAll('.font-arabic');
         letters.forEach(letter => {
             letter.addEventListener('mouseover', () => {
-                letter.style.transform = 'scale(1.2) rotate(5deg)';
-                letter.style.transition = 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                if(letter.textContent.length < 5) { // Only animate single/short letters
+                    letter.style.transform = 'scale(1.2)';
+                    letter.style.transition = 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    letter.style.display = 'inline-block';
+                }
             });
             letter.addEventListener('mouseout', () => {
-                letter.style.transform = 'scale(1) rotate(0deg)';
+                letter.style.transform = 'scale(1)';
             });
         });
     </script>
