@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
+    <!-- PENTING: Charset harus di baris pertama -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -17,9 +18,23 @@
     <meta property="og:type" content="website">
 
     <title>TajwidPedia - Panduan Tajwid Lengkap</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FONT STRATEGY: Load font secara terpisah untuk stabilitas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Font Latin (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Arab (Amiri & Noto Naskh) - Kita load keduanya -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -27,10 +42,30 @@
             background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
         }
+        
+        /* CSS FIX: Font Stack Super Lengkap */
+        /* Ini akan mencoba font satu per satu sampai menemukan yang ada di HP/Laptop user */
         .font-arabic {
-            font-family: 'Amiri', serif;
-            line-height: 1.8;
+            font-family: 
+                'Amiri',                  /* Google Font utama */
+                'Noto Naskh Arabic',      /* Google Font cadangan */
+                'Scheherazade',           /* Font Arab standar SIL */
+                'Traditional Arabic',     /* Windows standar */
+                'Sakkal Majalla',         /* Windows standar */
+                'Geeza Pro',              /* MacOS / iOS standar */
+                'Arial',                  /* Font universal (pasti ada) */
+                'Times New Roman',        /* Font universal */
+                serif;
+            line-height: 2.0;
+            direction: rtl;
+            unicode-bidi: embed;
         }
+        
+        /* Memperbesar ukuran font arab sedikit agar lebih jelas jika fallback ke Arial */
+        .font-arabic-lg {
+            font-size: 1.2em; 
+        }
+
         .card-hover {
             transition: all 0.3s ease;
         }
@@ -38,7 +73,6 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
-        /* Hide scrollbar for category nav on mobile */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -62,10 +96,9 @@
                         </div>
                         <span class="font-bold text-xl tracking-tight text-slate-800">Tajwid<span class="text-emerald-600">Pedia</span></span>
                     </div>
-                    <!-- Mobile Menu Button (Optional implementation) -->
                 </div>
 
-                <!-- Navigation Links (Horizontal Scroll on Mobile) -->
+                <!-- Navigation Links -->
                 <div class="flex overflow-x-auto no-scrollbar gap-2 md:gap-6 pb-1 md:pb-0 text-sm font-medium text-slate-600">
                     <a href="#nun-sukun" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Nun Sukun</a>
                     <a href="#mim-sukun" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Mim Sukun</a>
@@ -105,7 +138,7 @@
         <section id="nun-sukun" class="scroll-mt-28">
             <div class="flex items-center gap-4 mb-8">
                 <span class="bg-emerald-100 text-emerald-700 p-3 rounded-xl">
-                    <span class="font-arabic text-2xl font-bold">نْ / ً ٍ ٌ</span>
+                    <span class="font-arabic font-arabic-lg text-2xl font-bold" lang="ar">نْ / ً ٍ ٌ</span>
                 </span>
                 <div>
                     <h2 class="text-3xl font-bold text-slate-800">Hukum Nun Sukun & Tanwin</h2>
@@ -117,19 +150,22 @@
                 <!-- 1. Idzhar Halqi -->
                 <div class="bg-white rounded-2xl p-6 border-t-4 border-red-500 shadow-sm card-hover">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-bold text-red-600">Idzhar Halqi</h3>
-                        <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded font-bold">JELAS</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-red-600">Idzhar Halqi</h3>
+                            <span class="font-arabic text-slate-400 text-lg block mt-1" lang="ar">إِظْهَار حَلْقِي</span>
+                        </div>
+                        <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded font-bold h-fit">JELAS</span>
                     </div>
-                    <p class="text-sm text-slate-600 mb-4">Dibaca jelas tanpa dengung. Keluar dari tenggorokan.</p>
+                    <p class="text-sm text-slate-600 mb-4 mt-2">Dibaca jelas tanpa dengung. Keluar dari tenggorokan.</p>
                     <div class="bg-red-50 p-3 rounded-lg border border-red-100 mb-3">
                         <p class="text-xs text-red-500 font-bold mb-2">6 HURUF:</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="font-arabic text-xl text-red-700">ء</span>
-                            <span class="font-arabic text-xl text-red-700">هـ</span>
-                            <span class="font-arabic text-xl text-red-700">ع</span>
-                            <span class="font-arabic text-xl text-red-700">ح</span>
-                            <span class="font-arabic text-xl text-red-700">غ</span>
-                            <span class="font-arabic text-xl text-red-700">خ</span>
+                            <span class="font-arabic text-xl text-red-700 w-8 text-center" lang="ar">ء</span>
+                            <span class="font-arabic text-xl text-red-700 w-8 text-center" lang="ar">هـ</span>
+                            <span class="font-arabic text-xl text-red-700 w-8 text-center" lang="ar">ع</span>
+                            <span class="font-arabic text-xl text-red-700 w-8 text-center" lang="ar">ح</span>
+                            <span class="font-arabic text-xl text-red-700 w-8 text-center" lang="ar">غ</span>
+                            <span class="font-arabic text-xl text-red-700 w-8 text-center" lang="ar">خ</span>
                         </div>
                     </div>
                 </div>
@@ -137,36 +173,42 @@
                 <!-- 2. Idgham Bighunnah -->
                 <div class="bg-white rounded-2xl p-6 border-t-4 border-orange-400 shadow-sm card-hover">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-bold text-orange-500">Idgham Bighunnah</h3>
-                        <span class="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded font-bold">DENGUNG</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-orange-500">Idgham Bighunnah</h3>
+                            <span class="font-arabic text-slate-400 text-lg block mt-1" lang="ar">إِدْغَام بِغُنَّة</span>
+                        </div>
+                        <span class="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded font-bold h-fit">DENGUNG</span>
                     </div>
-                    <p class="text-sm text-slate-600 mb-4">Dilebur/dimasukkan dengan dengung (2 harakat).</p>
+                    <p class="text-sm text-slate-600 mb-4 mt-2">Dilebur/dimasukkan dengan dengung (2 harakat).</p>
                     <div class="bg-orange-50 p-3 rounded-lg border border-orange-100 mb-3">
                         <p class="text-xs text-orange-600 font-bold mb-2">4 HURUF (YANMU):</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="font-arabic text-xl text-orange-700">ي</span>
-                            <span class="font-arabic text-xl text-orange-700">ن</span>
-                            <span class="font-arabic text-xl text-orange-700">م</span>
-                            <span class="font-arabic text-xl text-orange-700">و</span>
+                            <span class="font-arabic text-xl text-orange-700 w-8 text-center" lang="ar">ي</span>
+                            <span class="font-arabic text-xl text-orange-700 w-8 text-center" lang="ar">ن</span>
+                            <span class="font-arabic text-xl text-orange-700 w-8 text-center" lang="ar">م</span>
+                            <span class="font-arabic text-xl text-orange-700 w-8 text-center" lang="ar">و</span>
                         </div>
                     </div>
                     <div class="text-[10px] text-slate-400 mt-2 bg-slate-50 p-2 rounded">
-                        *Kecuali dalam satu kata (Idzhar Mutlaq), dibaca Jelas. Contoh: <span class="font-arabic">الدُّنْيَا</span>
+                        *Kecuali 1 kata (Idzhar Mutlaq), Jelas. Cth: <span class="font-arabic" lang="ar">الدُّنْيَا</span>
                     </div>
                 </div>
 
                 <!-- 3. Idgham Bilaghunnah -->
                 <div class="bg-white rounded-2xl p-6 border-t-4 border-sky-400 shadow-sm card-hover">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-bold text-sky-500">Idgham Bilaghunnah</h3>
-                        <span class="bg-sky-100 text-sky-600 text-xs px-2 py-1 rounded font-bold">TANPA DENGUNG</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-sky-500">Idgham Bilaghunnah</h3>
+                            <span class="font-arabic text-slate-400 text-lg block mt-1" lang="ar">إِدْغَام بِلَا غُنَّة</span>
+                        </div>
+                        <span class="bg-sky-100 text-sky-600 text-xs px-2 py-1 rounded font-bold h-fit">TANPA DENGUNG</span>
                     </div>
-                    <p class="text-sm text-slate-600 mb-4">Dilebur sepenuhnya tanpa suara hidung.</p>
+                    <p class="text-sm text-slate-600 mb-4 mt-2">Dilebur sepenuhnya tanpa suara hidung.</p>
                     <div class="bg-sky-50 p-3 rounded-lg border border-sky-100 mb-3">
                         <p class="text-xs text-sky-600 font-bold mb-2">2 HURUF:</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="font-arabic text-xl text-sky-700">ل</span>
-                            <span class="font-arabic text-xl text-sky-700">ر</span>
+                            <span class="font-arabic text-xl text-sky-700 w-8 text-center" lang="ar">ل</span>
+                            <span class="font-arabic text-xl text-sky-700 w-8 text-center" lang="ar">ر</span>
                         </div>
                     </div>
                 </div>
@@ -174,14 +216,17 @@
                 <!-- 4. Iqlab -->
                 <div class="bg-white rounded-2xl p-6 border-t-4 border-purple-500 shadow-sm card-hover">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-bold text-purple-600">Iqlab</h3>
-                        <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded font-bold">JADI MIM</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-purple-600">Iqlab</h3>
+                            <span class="font-arabic text-slate-400 text-lg block mt-1" lang="ar">إِقْلَاب</span>
+                        </div>
+                        <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded font-bold h-fit">JADI MIM</span>
                     </div>
-                    <p class="text-sm text-slate-600 mb-4">Mengganti bunyi Nun menjadi Mim (م) + dengung.</p>
+                    <p class="text-sm text-slate-600 mb-4 mt-2">Mengganti bunyi Nun menjadi Mim (م) + dengung.</p>
                     <div class="bg-purple-50 p-3 rounded-lg border border-purple-100 mb-3">
                         <p class="text-xs text-purple-600 font-bold mb-2">1 HURUF:</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="font-arabic text-xl text-purple-700">ب</span>
+                            <span class="font-arabic text-xl text-purple-700 w-8 text-center" lang="ar">ب</span>
                         </div>
                     </div>
                 </div>
@@ -189,28 +234,31 @@
                 <!-- 5. Ikhfa Haqiqi -->
                 <div class="bg-white rounded-2xl p-6 border-t-4 border-emerald-500 shadow-sm card-hover md:col-span-2">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-bold text-emerald-600">Ikhfa Haqiqi</h3>
-                        <span class="bg-emerald-100 text-emerald-600 text-xs px-2 py-1 rounded font-bold">SAMAR</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-emerald-600">Ikhfa Haqiqi</h3>
+                            <span class="font-arabic text-slate-400 text-lg block mt-1" lang="ar">إِخْفَاء حَقِيقِي</span>
+                        </div>
+                        <span class="bg-emerald-100 text-emerald-600 text-xs px-2 py-1 rounded font-bold h-fit">SAMAR</span>
                     </div>
-                    <p class="text-sm text-slate-600 mb-4">Dibaca samar-samar antara Idzhar dan Idgham + dengung. Bunyi "N" bersiap menuju huruf didepannya.</p>
+                    <p class="text-sm text-slate-600 mb-4 mt-2">Dibaca samar-samar antara Idzhar dan Idgham + dengung. Bunyi "N" bersiap menuju huruf didepannya.</p>
                     <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
                         <p class="text-xs text-emerald-600 font-bold mb-2">15 HURUF:</p>
                         <div class="grid grid-cols-8 gap-2">
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ت</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ث</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ج</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">د</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ذ</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ز</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">س</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ش</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ص</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ض</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ط</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ظ</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ف</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ق</span>
-                            <span class="font-arabic text-lg text-emerald-700 text-center">ك</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ت</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ث</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ج</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">د</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ذ</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ز</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">س</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ش</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ص</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ض</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ط</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ظ</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ف</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ق</span>
+                            <span class="font-arabic text-lg text-emerald-700 text-center" lang="ar">ك</span>
                         </div>
                     </div>
                 </div>
@@ -221,7 +269,7 @@
         <section id="mim-sukun" class="scroll-mt-28 border-t border-slate-200 pt-12">
             <div class="flex items-center gap-4 mb-8">
                 <span class="bg-blue-100 text-blue-700 p-3 rounded-xl">
-                    <span class="font-arabic text-2xl font-bold">مْ</span>
+                    <span class="font-arabic font-arabic-lg text-2xl font-bold" lang="ar">مْ</span>
                 </span>
                 <div>
                     <h2 class="text-3xl font-bold text-slate-800">Hukum Mim Sukun</h2>
@@ -233,8 +281,10 @@
                 <!-- 1. Ikhfa Syafawi -->
                 <div class="bg-white rounded-2xl p-6 border-t-4 border-teal-500 shadow-sm card-hover">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-bold text-teal-600">Ikhfa Syafawi</h3>
-                        <span class="font-arabic text-slate-400">(إخفاء شفوي)</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-teal-600">Ikhfa Syafawi</h3>
+                            <span class="font-arabic text-slate-400 text-lg block mt-1" lang="ar">إِخْفَاء شَفَوِي</span>
+                        </div>
                     </div>
                     <p class="text-sm text-slate-600 mb-4 bg-teal-50 p-3 rounded border border-teal-100">
                         <strong>Cara Baca:</strong> Samar-samar di bibir disertai dengung. Bibir tidak rapat sempurna.
@@ -242,14 +292,14 @@
                     <div class="flex flex-col gap-2">
                         <span class="text-xs font-bold text-slate-400">Mim Mati Bertemu:</span>
                         <div class="flex items-center gap-2">
-                            <span class="w-10 h-10 flex items-center justify-center bg-teal-100 text-teal-700 font-arabic text-2xl rounded-full">ب</span>
+                            <span class="w-10 h-10 flex items-center justify-center bg-teal-100 text-teal-700 font-arabic text-2xl rounded-full" lang="ar">ب</span>
                             <span class="text-sm font-semibold text-slate-600">(Ba)</span>
                         </div>
                     </div>
                     <div class="mt-3 pt-3 border-t border-slate-100">
                         <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
                             <span class="text-xs">Tarmiihim Bi...</span>
-                            <span class="font-arabic text-lg text-teal-700">تَرْمِيهِمْ بِحِجَارَةٍ</span>
+                            <span class="font-arabic text-lg text-teal-700" lang="ar">تَرْمِيهِمْ بِحِجَارَةٍ</span>
                         </div>
                     </div>
                 </div>
@@ -257,8 +307,10 @@
                 <!-- 2. Idgham Mimi -->
                 <div class="bg-white rounded-2xl p-6 border-t-4 border-blue-500 shadow-sm card-hover">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-bold text-blue-600">Idgham Mimi</h3>
-                        <span class="font-arabic text-slate-400">(إدغام ميمي)</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-600">Idgham Mimi</h3>
+                            <span class="font-arabic text-slate-400 text-lg block mt-1" lang="ar">إِدْغَام مِيمِي</span>
+                        </div>
                     </div>
                     <p class="text-sm text-slate-600 mb-4 bg-blue-50 p-3 rounded border border-blue-100">
                         <strong>Cara Baca:</strong> Mim pertama dimasukkan ke Mim kedua disertai dengung.
@@ -266,14 +318,14 @@
                     <div class="flex flex-col gap-2">
                         <span class="text-xs font-bold text-slate-400">Mim Mati Bertemu:</span>
                         <div class="flex items-center gap-2">
-                            <span class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 font-arabic text-2xl rounded-full">م</span>
+                            <span class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 font-arabic text-2xl rounded-full" lang="ar">م</span>
                             <span class="text-sm font-semibold text-slate-600">(Mim)</span>
                         </div>
                     </div>
                     <div class="mt-3 pt-3 border-t border-slate-100">
                         <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
                             <span class="text-xs">Lahum Maa...</span>
-                            <span class="font-arabic text-lg text-blue-700">لَهُمْ مَا يَشَاءُونَ</span>
+                            <span class="font-arabic text-lg text-blue-700" lang="ar">لَهُمْ مَا يَشَاءُونَ</span>
                         </div>
                     </div>
                 </div>
@@ -281,8 +333,10 @@
                 <!-- 3. Idzhar Syafawi -->
                 <div class="bg-white rounded-2xl p-6 border-t-4 border-indigo-500 shadow-sm card-hover">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-bold text-indigo-600">Idzhar Syafawi</h3>
-                        <span class="font-arabic text-slate-400">(إظهار شفوي)</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-indigo-600">Idzhar Syafawi</h3>
+                            <span class="font-arabic text-slate-400 text-lg block mt-1" lang="ar">إِظْهَار شَفَوِي</span>
+                        </div>
                     </div>
                     <p class="text-sm text-slate-600 mb-4 bg-indigo-50 p-3 rounded border border-indigo-100">
                         <strong>Cara Baca:</strong> Jelas di bibir dengan mulut tertutup rapat tanpa dengung.
@@ -294,7 +348,7 @@
                     <div class="mt-3 pt-3 border-t border-slate-100">
                         <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
                             <span class="text-xs">Hum Naa'imuun</span>
-                            <span class="font-arabic text-lg text-indigo-700">هُمْ نَائِمُوْنَ</span>
+                            <span class="font-arabic text-lg text-indigo-700" lang="ar">هُمْ نَائِمُوْنَ</span>
                         </div>
                     </div>
                 </div>
@@ -318,19 +372,19 @@
                 <p class="text-amber-800 font-bold mb-4 uppercase tracking-widest">5 Huruf Qalqalah (BAJU DI TOKO)</p>
                 <div class="flex justify-center gap-4 md:gap-8 flex-wrap">
                     <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
-                        <span class="font-arabic text-3xl text-amber-600">ب</span>
+                        <span class="font-arabic font-arabic-lg text-3xl text-amber-600" lang="ar">ب</span>
                     </div>
                     <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
-                        <span class="font-arabic text-3xl text-amber-600">ج</span>
+                        <span class="font-arabic font-arabic-lg text-3xl text-amber-600" lang="ar">ج</span>
                     </div>
                     <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
-                        <span class="font-arabic text-3xl text-amber-600">د</span>
+                        <span class="font-arabic font-arabic-lg text-3xl text-amber-600" lang="ar">د</span>
                     </div>
                     <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
-                        <span class="font-arabic text-3xl text-amber-600">ط</span>
+                        <span class="font-arabic font-arabic-lg text-3xl text-amber-600" lang="ar">ط</span>
                     </div>
                     <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-sm border border-amber-100">
-                        <span class="font-arabic text-3xl text-amber-600">ق</span>
+                        <span class="font-arabic font-arabic-lg text-3xl text-amber-600" lang="ar">ق</span>
                     </div>
                 </div>
             </div>
@@ -342,7 +396,7 @@
                     <p class="text-slate-600 text-sm mb-4">Terjadi jika huruf Qalqalah mati asli di tengah kata. Pantulannya <strong>ringan</strong>.</p>
                     <div class="bg-slate-50 p-4 rounded-lg flex items-center justify-between border border-slate-100">
                         <span class="text-sm text-slate-500">Contoh: Yaq-tho'uun</span>
-                        <span class="font-arabic text-2xl text-slate-800">يَقْطَعُونَ</span>
+                        <span class="font-arabic text-2xl text-slate-800" lang="ar">يَقْطَعُونَ</span>
                     </div>
                 </div>
 
@@ -352,7 +406,7 @@
                     <p class="text-slate-600 text-sm mb-4">Terjadi jika huruf Qalqalah mati karena waqaf (berhenti) di akhir kata. Pantulannya <strong>kuat/jelas</strong>.</p>
                     <div class="bg-slate-50 p-4 rounded-lg flex items-center justify-between border border-slate-100">
                         <span class="text-sm text-slate-500">Contoh: Al-Falaq</span>
-                        <span class="font-arabic text-2xl text-slate-800">الْفَلَقِ</span>
+                        <span class="font-arabic text-2xl text-slate-800" lang="ar">الْفَلَقِ</span>
                     </div>
                 </div>
             </div>
@@ -362,7 +416,7 @@
         <section id="alif-lam" class="scroll-mt-28 border-t border-slate-200 pt-12">
             <div class="flex items-center gap-4 mb-8">
                 <span class="bg-slate-100 text-slate-700 p-3 rounded-xl">
-                    <span class="font-arabic text-2xl font-bold">ال</span>
+                    <span class="font-arabic font-arabic-lg text-2xl font-bold" lang="ar">ال</span>
                 </span>
                 <div>
                     <h2 class="text-3xl font-bold text-slate-800">Hukum Alif Lam (Al-Ta'rif)</h2>
@@ -381,7 +435,7 @@
                         <p class="text-sm text-slate-600 mb-4">"Al" dibaca Jelas. (Seperti melihat Bulan yang terang).</p>
                         <p class="text-xs text-slate-400 mb-2">Huruf: ء ب غ ح ج ك و خ ف ع ق ي م هـ</p>
                         <div class="bg-blue-50 p-3 rounded text-center">
-                            <span class="font-arabic text-xl text-slate-800">الْقَمَرُ</span>
+                            <span class="font-arabic text-xl text-slate-800" lang="ar">الْقَمَرُ</span>
                         </div>
                     </div>
                 </div>
@@ -396,7 +450,7 @@
                         <p class="text-sm text-slate-600 mb-4">"Al" lebur ke huruf berikutnya. (Seperti Bintang hilang saat Matahari terbit).</p>
                         <p class="text-xs text-slate-400 mb-2">Huruf: Tanda Tasydid pada huruf setelah Al.</p>
                         <div class="bg-orange-50 p-3 rounded text-center">
-                            <span class="font-arabic text-xl text-slate-800">الشَّمْسُ</span>
+                            <span class="font-arabic text-xl text-slate-800" lang="ar">الشَّمْسُ</span>
                         </div>
                     </div>
                 </div>
@@ -419,7 +473,7 @@
                 </div>
             </div>
             <div class="text-center text-xs text-slate-400 mt-8">
-                &copy; 2024 TajwidPedia. Dibuat dengan cinta untuk Al-Qur'an.
+                &copy; 2025 TajwidPedia. Dibuat dengan cinta untuk Al-Qur'an.
             </div>
         </div>
     </footer>
@@ -428,12 +482,13 @@
         // Initialize Icons
         lucide.createIcons();
 
-        // Hover Effect for Arabic
+        // Hover Effect for Arabic (Hanya untuk huruf pendek agar tidak "pecah" layout)
         const letters = document.querySelectorAll('.font-arabic');
         letters.forEach(letter => {
             letter.addEventListener('mouseover', () => {
-                if(letter.textContent.length < 5) { // Only animate single/short letters
-                    letter.style.transform = 'scale(1.2)';
+                // Hanya animasi untuk huruf/kata pendek
+                if(letter.textContent.length < 10) { 
+                    letter.style.transform = 'scale(1.1)';
                     letter.style.transition = 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)';
                     letter.style.display = 'inline-block';
                 }
@@ -445,3 +500,5 @@
     </script>
 </body>
 </html>
+
+
