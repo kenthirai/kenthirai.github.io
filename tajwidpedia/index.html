@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Panduan lengkap hukum Tajwid: Nun Sukun, Mim Sukun, Qalqalah, dan Alif Lam. Belajar mengaji jadi mudah dan interaktif.">
-    <meta name="keywords" content="tajwid, nun sukun, mim sukun, qalqalah, alif lam syamsiyah, qamariyah, belajar mengaji, al quran">
+    <meta name="description" content="Panduan lengkap hukum Tajwid: Nun Sukun, Mim Sukun, Qalqalah, Alif Lam, dan Hukum Mad. Belajar mengaji jadi mudah dan interaktif.">
+    <meta name="keywords" content="tajwid, nun sukun, mim sukun, qalqalah, alif lam, hukum mad, mad thabi'i, belajar mengaji, al quran">
     <meta name="author" content="TajwidPedia">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:title" content="TajwidPedia - Belajar Tajwid Lengkap">
-    <meta property="og:description" content="Pelajari hukum Nun Sukun, Mim Sukun, Qalqalah & lainnya dengan ilustrasi menarik.">
+    <meta property="og:description" content="Pelajari hukum Nun Sukun, Mim Sukun, Qalqalah, Mad & lainnya dengan ilustrasi menarik.">
     <meta property="og:image" content="https://kenthir.my.id/tajwidpedia/tajwidpedia.jpg">
     <meta property="og:type" content="website">
 
@@ -44,7 +44,6 @@
         }
         
         /* CSS FIX: Font Stack Super Lengkap */
-        /* Ini akan mencoba font satu per satu sampai menemukan yang ada di HP/Laptop user */
         .font-arabic {
             font-family: 
                 'Amiri',                  /* Google Font utama */
@@ -61,7 +60,6 @@
             unicode-bidi: embed;
         }
         
-        /* Memperbesar ukuran font arab sedikit agar lebih jelas jika fallback ke Arial */
         .font-arabic-lg {
             font-size: 1.2em; 
         }
@@ -79,6 +77,19 @@
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+        
+        /* Animasi indikator harakat */
+        .harakat-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #cbd5e1;
+            margin-right: 2px;
+        }
+        .active-dot {
+            background-color: #10b981; /* Emerald 500 */
         }
     </style>
 </head>
@@ -104,6 +115,7 @@
                     <a href="#mim-sukun" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Mim Sukun</a>
                     <a href="#qalqalah" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Qalqalah</a>
                     <a href="#alif-lam" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Alif Lam</a>
+                    <a href="#hukum-mad" class="whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Hukum Mad</a>
                 </div>
             </div>
         </div>
@@ -457,6 +469,89 @@
             </div>
         </section>
 
+        <!-- SECTION 5: HUKUM MAD -->
+        <section id="hukum-mad" class="scroll-mt-28 border-t border-slate-200 pt-12">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="bg-rose-100 text-rose-700 p-3 rounded-xl">
+                    <span class="font-arabic font-arabic-lg text-2xl font-bold" lang="ar">ٓ</span>
+                </span>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Hukum Mad</h2>
+                    <p class="text-slate-500">Memanjangkan bunyi huruf (Panjang-Pendek).</p>
+                </div>
+            </div>
+
+            <!-- Mad Thabi'i (Asli) -->
+            <div class="mb-8">
+                <div class="bg-white rounded-2xl p-6 border-l-4 border-rose-500 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-rose-100 text-rose-600 px-3 py-1 rounded-bl-lg text-sm font-bold">DASAR</div>
+                    <h3 class="text-xl font-bold text-rose-600 mb-2">Mad Thabi'i (Mad Asli)</h3>
+                    <p class="text-slate-600 text-sm mb-4">Terjadi apabila:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-rose-50 p-3 rounded-lg border border-rose-100 text-center">
+                            <span class="block text-xs font-bold text-rose-500 mb-1">Fathah + Alif</span>
+                            <span class="font-arabic text-2xl text-slate-800" lang="ar">ـَ ا</span>
+                        </div>
+                        <div class="bg-rose-50 p-3 rounded-lg border border-rose-100 text-center">
+                            <span class="block text-xs font-bold text-rose-500 mb-1">Kasrah + Ya Sukun</span>
+                            <span class="font-arabic text-2xl text-slate-800" lang="ar">ـِ يْ</span>
+                        </div>
+                        <div class="bg-rose-50 p-3 rounded-lg border border-rose-100 text-center">
+                            <span class="block text-xs font-bold text-rose-500 mb-1">Dhommah + Waw Sukun</span>
+                            <span class="font-arabic text-2xl text-slate-800" lang="ar">ـُ وْ</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-slate-600 bg-slate-50 p-2 rounded">
+                        <span>Panjang: <strong>2 Harakat</strong> (1 Alif)</span>
+                        <div class="flex ml-2"><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mad Far'i (Cabang) -->
+            <h4 class="text-lg font-bold text-slate-700 mb-4 border-l-4 border-slate-300 pl-3">Mad Far'i (Cabang Utama)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 1. Wajib Muttashil -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:border-purple-300 transition-all">
+                    <h3 class="font-bold text-purple-600 mb-1">Mad Wajib Muttashil</h3>
+                    <p class="text-xs text-slate-500 mb-3">Mad Thabi'i bertemu Hamzah dalam <strong>1 kata</strong>.</p>
+                    <div class="bg-purple-50 p-3 rounded text-center mb-3">
+                        <span class="font-arabic text-xl text-slate-800" lang="ar">جَاءَ</span>
+                    </div>
+                    <div class="flex items-center text-xs text-slate-500">
+                        <span>4-5 Harakat</span>
+                        <div class="flex ml-auto"><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span></div>
+                    </div>
+                </div>
+
+                <!-- 2. Jaiz Munfashil -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:border-blue-300 transition-all">
+                    <h3 class="font-bold text-blue-600 mb-1">Mad Jaiz Munfashil</h3>
+                    <p class="text-xs text-slate-500 mb-3">Mad Thabi'i bertemu Hamzah di <strong>lain kata</strong>.</p>
+                    <div class="bg-blue-50 p-3 rounded text-center mb-3">
+                        <span class="font-arabic text-xl text-slate-800" lang="ar">إِنَّا أَعْطَيْنَاكَ</span>
+                    </div>
+                    <div class="flex items-center text-xs text-slate-500">
+                        <span>2, 4, 5 Harakat</span>
+                        <div class="flex ml-auto"><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span></div>
+                    </div>
+                </div>
+
+                <!-- 3. Arid Lissukun -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:border-orange-300 transition-all">
+                    <h3 class="font-bold text-orange-600 mb-1">Mad 'Aridh Lissukun</h3>
+                    <p class="text-xs text-slate-500 mb-3">Mad Thabi'i bertemu huruf hidup dibaca mati karena <strong>waqaf</strong>.</p>
+                    <div class="bg-orange-50 p-3 rounded text-center mb-3">
+                        <span class="font-arabic text-xl text-slate-800" lang="ar">الْعَالَمِينَ</span>
+                    </div>
+                    <div class="flex items-center text-xs text-slate-500">
+                        <span>2, 4, 6 Harakat</span>
+                        <div class="flex ml-auto"><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span><span class="harakat-dot active-dot"></span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="mt-20 border-t border-slate-200 bg-white">
@@ -473,7 +568,7 @@
                 </div>
             </div>
             <div class="text-center text-xs text-slate-400 mt-8">
-                &copy; 2025 TajwidPedia. Dibuat dengan cinta untuk Al-Qur'an.
+                &copy; 2024 TajwidPedia. Dibuat dengan cinta untuk Al-Qur'an.
             </div>
         </div>
     </footer>
@@ -500,5 +595,3 @@
     </script>
 </body>
 </html>
-
-
