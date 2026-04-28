@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterclass: Website Gemini & Cloudflare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .code-block { background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 0.75rem; font-family: 'Courier New', Courier, monospace; position: relative; }
+        .step-num { @apply flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-xl mb-4; }
+        .nav-link:hover { @apply text-blue-600 bg-blue-50; }
+        .active-dot { width: 8px; height: 8px; background: #2563eb; border-radius: 50%; display: inline-block; margin-right: 8px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="lg:w-72 bg-white border-r border-slate-200 p-6 lg:fixed lg:h-full overflow-y-auto">
+            <div class="mb-10 text-2xl font-bold text-blue-700 flex items-center">
+                <i class="fas fa-microchip mr-2 text-3xl"></i> TutorialPro
+            </div>
+            <nav class="space-y-1">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 px-3">Daftar Isi</p>
+                <a href="#intro" class="nav-link block px-4 py-3 rounded-lg transition font-medium text-slate-600">Pendahuluan</a>
+                <a href="#gemini" class="nav-link block px-4 py-3 rounded-lg transition font-medium text-slate-600">1. Coding AI (Gemini)</a>
+                <a href="#github" class="nav-link block px-4 py-3 rounded-lg transition font-medium text-slate-600">2. Repositori GitHub</a>
+                <a href="#domain" class="nav-link block px-4 py-3 rounded-lg transition font-medium text-slate-600">3. Beli Domain .my.id</a>
+                <a href="#cloudflare" class="nav-link block px-4 py-3 rounded-lg transition font-medium text-slate-600">4. Setup Cloudflare</a>
+                <a href="#pages" class="nav-link block px-4 py-3 rounded-lg transition font-medium text-slate-600">5. Cloudflare Pages</a>
+                <a href="#final" class="nav-link block px-4 py-3 rounded-lg transition font-medium text-slate-600">6. Custom Domain Mapping</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-72 p-6 lg:p-12 max-w-4xl">
+            
+            <section id="intro" class="mb-20">
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold uppercase tracking-wider">Lengkap & Detail</span>
+                <h1 class="text-4xl lg:text-5xl font-extrabold mt-6 mb-8 leading-tight">Membangun Web Modern dengan Gemini & Ekosistem Cloudflare</h1>
+                <p class="text-xl text-slate-600 leading-relaxed">Panduan teknis langkah-demi-langkah dari nol hingga website Anda online dengan domain profesional hanya seharga kopi sachet.</p>
+                
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
+                        <div class="text-blue-600 mb-2"><i class="fas fa-clock"></i></div>
+                        <p class="font-bold">Estimasi Waktu</p>
+                        <p class="text-sm text-slate-500">45 - 60 Menit</p>
+                    </div>
+                    <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
+                        <div class="text-green-600 mb-2"><i class="fas fa-wallet"></i></div>
+                        <p class="font-bold">Estimasi Biaya</p>
+                        <p class="text-sm text-slate-500">Rp 3.000 (Tahun I)</p>
+                    </div>
+                    <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
+                        <div class="text-purple-600 mb-2"><i class="fas fa-tools"></i></div>
+                        <p class="font-bold">Level Kesulitan</p>
+                        <p class="text-sm text-slate-500">Pemula - Menengah</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 1: Gemini -->
+            <section id="gemini" class="mb-24 scroll-mt-10">
+                <div class="step-num">1</div>
+                <h2 class="text-3xl font-bold mb-6">Fase 1: AI Prompting dengan Gemini</h2>
+                <p class="mb-6 text-slate-600">Jangan sekadar meminta "buatkan web". Gunakan framework **Role-Task-Context-Format** untuk hasil maksimal.</p>
+                
+                <div class="bg-blue-900 rounded-xl overflow-hidden mb-8">
+                    <div class="px-4 py-2 bg-blue-800 text-blue-100 text-xs font-bold uppercase">Prompt yang Disarankan</div>
+                    <div class="p-6 text-blue-50 font-mono text-sm">
+                        "Bertindaklah sebagai Senior Frontend Developer. Buatkan saya sebuah file tunggal HTML yang berisi: 1. Tailwind CSS via CDN. 2. Desain Landing Page Modern untuk Jasa Fotografi. 3. Dark mode toggler. 4. Animasi halus menggunakan AOS.js. 5. Bagian Pricing, Portfolio Grid, dan Footer. Berikan komentar pada setiap blok kode."
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6">
+                    <p class="text-amber-800 font-bold mb-1"><i class="fas fa-exclamation-triangle mr-2"></i>Penting:</p>
+                    <p class="text-amber-700 text-sm">Setelah Gemini memberikan kode, simpan file tersebut dengan nama <strong>index.html</strong> di dalam folder baru di komputer Anda.</p>
+                </div>
+            </section>
+
+            <!-- Section 2: GitHub -->
+            <section id="github" class="mb-24 scroll-mt-10">
+                <div class="step-num">2</div>
+                <h2 class="text-3xl font-bold mb-6">Fase 2: Persiapan Repositori GitHub</h2>
+                <p class="mb-6 text-slate-600">Menyimpan kode di GitHub memungkinkan Cloudflare Pages melakukan auto-update setiap kali ada perubahan.</p>
+                
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start">
+                        <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-sm font-bold mr-3 mt-1">A</span>
+                        <span>Buat akun di <a href="https://github.com" class="text-blue-600 font-semibold underline">GitHub.com</a>.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-sm font-bold mr-3 mt-1">B</span>
+                        <span>Klik tombol <strong>"New Repository"</strong>, beri nama misalnya <code>my-website</code>, set ke <b>Public</b>.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-sm font-bold mr-3 mt-1">C</span>
+                        <span>Upload file <code>index.html</code> Anda langsung melalui browser (Upload files) atau gunakan Git CLI:</span>
+                    </li>
+                </ul>
+
+                <div class="code-block text-xs md:text-sm">
+                    git init<br>
+                    git add .<br>
+                    git commit -m "Initial commit from Gemini"<br>
+                    git branch -M main<br>
+                    git remote add origin https://github.com/USERNAME/my-website.git<br>
+                    git push -u origin main
+                </div>
+            </section>
+
+            <!-- Section 3: Domain -->
+            <section id="domain" class="mb-24 scroll-mt-10">
+                <div class="step-num">3</div>
+                <h2 class="text-3xl font-bold mb-6">Fase 3: Eksekusi Domain .my.id (Rp 3.000)</h2>
+                <p class="mb-6 text-slate-600">IDWebhost sering mengadakan promo .my.id seharga Rp 3.000 atau Rp 5.000 (belum termasuk PPN 11%).</p>
+                
+                <div class="space-y-4">
+                    <div class="p-5 border rounded-xl bg-white shadow-sm hover:border-blue-300 transition">
+                        <h4 class="font-bold mb-2">1. Pencarian</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Cari domain di kolom pencarian. Pilih yang harganya 3rb/5rb. Pastikan durasi pilih <strong>1 Tahun</strong> (karena promo hanya berlaku di tahun pertama).</p>
+                    </div>
+                    <div class="p-5 border rounded-xl bg-white shadow-sm hover:border-blue-300 transition">
+                        <h4 class="font-bold mb-2">2. Lewati Add-on</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Saat ditawarkan Hosting, SSL Berbayar, atau Proteksi ID, cukup pilih <strong>"No Thanks"</strong> atau lewati. Kita akan menggunakan Cloudflare untuk semua itu secara gratis.</p>
+                    </div>
+                    <div class="p-5 border rounded-xl bg-white shadow-sm hover:border-blue-300 transition">
+                        <h4 class="font-bold mb-2">3. Aktivasi Akun</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Isi data diri dengan benar. Khusus domain .id, terkadang diperlukan verifikasi email atau nomor HP agar domain segera aktif.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Cloudflare -->
+            <section id="cloudflare" class="mb-24 scroll-mt-10">
+                <div class="step-num">4</div>
+                <h2 class="text-3xl font-bold mb-6">Fase 4: Setup DNS di Cloudflare</h2>
+                <p class="mb-6 text-slate-600">Kita memindahkan "otak" domain Anda dari IDWebhost ke Cloudflare agar performa website lebih kencang.</p>
+                
+                <ol class="list-decimal ml-6 space-y-4 text-slate-700">
+                    <li>Daftar/Login di <a href="https://dash.cloudflare.com" class="text-blue-600 font-semibold underline">Cloudflare</a>.</li>
+                    <li>Pilih <strong>"Add Site"</strong> dan masukkan domain Anda (contoh: <code>namaku.my.id</code>).</li>
+                    <li>Pilih paket <strong>Free (Gratis)</strong>.</li>
+                    <li>Cloudflare akan mendeteksi record DNS yang ada. Klik <b>Continue</b>.</li>
+                    <li><strong>Bagian Krusial:</strong> Cloudflare akan memberikan 2 Nameserver (Contoh: <code>alice.ns.cloudflare.com</code>).</li>
+                    <li>Buka Panel IDWebhost, cari menu <b>Domain > Nameservers</b>, hapus yang lama dan ganti dengan milik Cloudflare tadi.</li>
+                    <li>Tunggu masa propagasi (biasanya 15 menit - 2 jam).</li>
+                </ol>
+            </section>
+
+            <!-- Section 5: Pages -->
+            <section id="pages" class="mb-24 scroll-mt-10">
+                <div class="step-num">5</div>
+                <h2 class="text-3xl font-bold mb-6">Fase 5: Deploy ke Cloudflare Pages</h2>
+                <p class="mb-6 text-slate-600">Ini adalah tempat website Anda akan "tinggal". Gratis selamanya untuk traffic personal.</p>
+                
+                <div class="bg-white border rounded-2xl overflow-hidden shadow-lg">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fab fa-github text-2xl mr-3"></i>
+                            <span class="font-bold">Hubungkan GitHub</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-6">Di dashboard Cloudflare, buka <strong>Workers & Pages</strong> > <strong>Create Application</strong> > <strong>Pages</strong> > <strong>Connect to Git</strong>.</p>
+                        <div class="p-4 bg-slate-50 border border-dashed rounded-lg mb-4">
+                            <p class="text-xs text-slate-500 mb-2 uppercase font-bold tracking-tighter">Konfigurasi Build</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-slate-400">Framework Preset</p>
+                                    <p class="font-semibold italic">None / Plain HTML</p>
+                                </div>
+                                <div>
+                                    <p class="text-slate-400">Build Command</p>
+                                    <p class="font-semibold italic">(Kosongkan)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600">Klik <strong>Save and Deploy</strong>. Website Anda akan online dalam 10 detik di alamat unik seperti <code>my-website.pages.dev</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6: Custom Domain -->
+            <section id="final" class="mb-24 scroll-mt-10">
+                <div class="step-num">6</div>
+                <h2 class="text-3xl font-bold mb-6">Fase Akhir: Mapping Domain .my.id</h2>
+                <p class="mb-6 text-slate-600">Langkah terakhir agar website <code>.pages.dev</code> Anda tampil di domain <code>.my.id</code> Anda.</p>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start bg-green-50 p-6 rounded-xl border border-green-100">
+                        <i class="fas fa-check-circle text-green-600 text-xl mt-1 mr-4"></i>
+                        <div>
+                            <p class="font-bold text-green-900">Setting Custom Domain</p>
+                            <p class="text-sm text-green-800 leading-relaxed mt-1">Di dalam proyek Pages Anda di Cloudflare, buka tab <strong>"Custom Domains"</strong> > Klik <strong>"Set up a custom domain"</strong>. Masukkan domain <code>namaku.my.id</code> Anda.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-blue-50 p-6 rounded-xl border border-blue-100">
+                        <i class="fas fa-info-circle text-blue-600 text-xl mt-1 mr-4"></i>
+                        <div>
+                            <p class="font-bold text-blue-900">Konfirmasi CNAME</p>
+                            <p class="text-sm text-blue-800 leading-relaxed mt-1">Cloudflare akan bertanya "Activate domain?". Klik <strong>Yes</strong>. Cloudflare secara otomatis akan membuatkan record CNAME di DNS Anda. Sangat mudah!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-20 text-center p-12 bg-slate-900 rounded-3xl text-white">
+                    <h3 class="text-3xl font-bold mb-4">Selamat! 🎉</h3>
+                    <p class="text-slate-400 mb-8 max-w-md mx-auto">Anda sekarang memiliki website profesional yang ditenagai AI, diamankan oleh Cloudflare, dan dideploy otomatis oleh GitHub.</p>
+                    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold transition shadow-xl">Kembali ke Atas</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer Mobile -->
+    <footer class="lg:hidden bg-white border-t border-slate-200 p-6 text-center">
+        <p class="text-sm text-slate-500">© 2026 Tutorial Website Gemini</p>
+    </footer>
+
+</body>
+</html>
