@@ -1,19 +1,123 @@
+/* main.js - Premium Interactive Logic */
+
 document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('mobile-menu');
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const body = document.body;
+
+    // Check for saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        body.classList.add('light-mode');
+        if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
+        const mobileIcon = document.getElementById('theme-icon-mobile');
+        if (mobileIcon) mobileIcon.classList.replace('fa-moon', 'fa-sun');
+    }
+
+    if (themeToggle) {
+        const toggleAction = () => {
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            
+            // Save preference
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+
+            // Switch icons (Desktop & Mobile)
+            const icons = [themeIcon, document.getElementById('theme-icon-mobile')];
+            icons.forEach(icon => {
+                if (!icon) return;
+                if (isLight) {
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    icon.classList.replace('fa-sun', 'fa-moon');
+                }
+                
+                anime({
+                    targets: icon,
+                    rotate: isLight ? '360deg' : '0deg',
+                    scale: [1, 1.2, 1],
+                    duration: 500,
+                    easing: 'easeInOutBack'
+                });
+            });
+        };
+
+        themeToggle.addEventListener('click', toggleAction);
+        
+        const mobileToggle = document.getElementById('theme-toggle-mobile');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', toggleAction);
+        }
+    }
+
+    // Mobile Menu Logic
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
     const mobileLinks = document.querySelectorAll('.mobile-link');
 
-    // Toggle menu saat tombol ditekan
-    if (btn && menu) {
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
+    if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                anime({
+                    targets: mobileMenu,
+                    opacity: [0, 1],
+                    translateY: [-20, 0],
+                    easing: 'easeOutExpo',
+                    duration: 600
+                });
+            } else {
+                anime({
+                    targets: mobileMenu,
+                    opacity: [1, 0],
+                    translateY: [0, -20],
+                    easing: 'easeInExpo',
+                    duration: 400,
+                    complete: () => mobileMenu.classList.add('hidden')
+                });
+            }
+        });
+
+        // Close menu on link click
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
         });
     }
 
-    // Sembunyikan menu saat link diklik (khusus mobile)
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (menu) menu.classList.add('hidden');
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('nav');
+        if (window.scrollY > 50) {
+            nav.classList.add('py-2');
+            nav.classList.remove('py-4');
+        } else {
+            nav.classList.add('py-4');
+            nav.classList.remove('py-2');
+        }
+    });
+
+    // Smooth Scroll Offset Adjustment
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const navHeight = document.querySelector('nav').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
         });
     });
 });

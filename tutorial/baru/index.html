@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Tutorial Web Statis | Domain .my.id, GitHub, Cloudflare</title>
+    <title>Pendidikan Digital | Master Static Web Hosting</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,184 +12,317 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Custom CSS Terpisah -->
+    <!-- AnimeJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="./style.css">
+
+    <style>
+        /* Floating shapes animation */
+        .shape {
+            position: absolute;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+        .shape-1 { top: 10%; left: 5%; width: 400px; height: 400px; background: #3b82f6; border-radius: 50%; }
+        .shape-2 { top: 40%; right: 5%; width: 500px; height: 500px; background: #8b5cf6; border-radius: 50%; }
+        .shape-3 { bottom: 10%; left: 20%; width: 300px; height: 300px; background: #d946ef; border-radius: 50%; }
+    </style>
 </head>
-<body class="antialiased overflow-x-hidden">
+<body class="antialiased overflow-x-hidden selection:bg-blue-500/30">
+
+    <div class="mesh-bg"></div>
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
 
     <!-- NAVBAR -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
-        <div class="max-w-6xl mx-auto px-5 sm:px-8 py-4 flex flex-wrap justify-between items-center">
-            <div class="flex items-center gap-3 text-black">
-                <i class="fa-solid fa-code text-2xl"></i>
-                <span class="font-bold text-xl tracking-tight">Web<span class="font-light">Pintar</span></span>
+    <nav class="fixed top-0 left-0 w-full z-[100] glass-nav">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+                    <i class="fa-solid fa-bolt text-white"></i>
+                </div>
+                <span class="font-outfit font-bold text-2xl tracking-tight text-white">Web<span class="text-blue-400">Pintar</span></span>
             </div>
             
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
-                <a href="#konsep" class="hover:text-black transition">Konsep</a>
-                <a href="#buat-web" class="hover:text-black transition">Buat Web</a>
-                <a href="#domain" class="hover:text-black transition">Beli Domain</a>
-                <a href="#github" class="hover:text-black transition">GitHub</a>
-                <a href="#cloudflare" class="hover:text-black transition">Cloudflare</a>
-                <a href="#tips" class="flex items-center gap-2 border border-black text-black rounded-full px-4 py-1.5 hover:bg-black hover:text-white transition">
-                    <i class="fa-solid fa-lightbulb text-yellow-500"></i>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#konsep" class="text-slate-400 hover:text-white transition-colors">Konsep</a>
+                <a href="#buat-web" class="text-slate-400 hover:text-white transition-colors">Buat Web</a>
+                <a href="#domain" class="text-slate-400 hover:text-white transition-colors">Domain</a>
+                <a href="#github" class="text-slate-400 hover:text-white transition-colors">GitHub</a>
+                <a href="#cloudflare" class="text-slate-400 hover:text-white transition-colors">Cloudflare</a>
+                <a href="#tips" class="btn-secondary py-2 px-6 !text-sm">
+                    <i class="fa-solid fa-lightbulb text-yellow-400"></i>
                     <span>Tips</span>
                 </a>
+                
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="w-10 h-10 rounded-full glass border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-colors">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
             </div>
 
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-black focus:outline-none">
-                <i class="fa-solid fa-bars text-2xl"></i>
+            <button id="mobile-menu-btn" class="md:hidden text-white p-2">
+                <i class="fa-solid fa-bars-staggered text-2xl"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute left-0 w-full shadow-lg">
-            <div class="flex flex-col px-5 py-4 space-y-4 text-sm font-medium text-gray-700">
-                <a href="#konsep" class="mobile-link hover:text-black">Konsep</a>
-                <a href="#buat-web" class="mobile-link hover:text-black">Buat Web</a>
-                <a href="#domain" class="mobile-link hover:text-black">Beli Domain</a>
-                <a href="#github" class="mobile-link hover:text-black">GitHub</a>
-                <a href="#cloudflare" class="mobile-link hover:text-black">Cloudflare</a>
-                <a href="#tips" class="mobile-link text-blue-600 font-semibold">Tips & Solusi</a>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass m-4 mt-0 p-6 absolute w-[calc(100%-2rem)] shadow-2xl border-white/10">
+            <div class="flex flex-col space-y-6 text-lg font-medium text-slate-300">
+                <a href="#konsep" class="mobile-link">Konsep Dasar</a>
+                <a href="#buat-web" class="mobile-link">Buat Web AI</a>
+                <a href="#domain" class="mobile-link">Beli Domain</a>
+                <a href="#github" class="mobile-link">GitHub Deploy</a>
+                <a href="#cloudflare" class="mobile-link">Cloudflare Setup</a>
+                <a href="#tips" class="mobile-link text-blue-400">Tips & Solusi</a>
+                <div class="pt-4 border-t border-white/10 flex justify-between items-center">
+                    <span class="text-slate-400">Ganti Tema</span>
+                    <button id="theme-toggle-mobile" class="w-10 h-10 rounded-full glass border-white/10 flex items-center justify-center text-white">
+                        <i id="theme-icon-mobile" class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
-    <section class="max-w-6xl mx-auto px-5 sm:px-8 py-12 md:py-20 text-center md:text-left">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-10">
-            <div class="flex-1 space-y-5 fade-up" style="animation-delay: 0.1s;">
-                <span class="inline-block bg-black text-white text-xs font-mono px-3 py-1 rounded-full tracking-wide">PANDUAN PEMULA</span>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight flex flex-col md:block">
-                    <span>Bikin Web Statis</span>
-                    <span class="inline-flex items-center gap-3 mt-2 md:mt-0">
-                        <span class="border-b-4 border-black pb-1">+ Domain .my.id</span> 
-                        <i class="fa-solid fa-check-circle text-green-500 text-4xl"></i>
+    <section class="relative pt-40 pb-24 md:pt-52 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center">
+                <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold tracking-widest uppercase mb-8">
+                    <span class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                    Panduan Eksklusif Pemula
+                </div>
+                <h1 class="reveal text-5xl md:text-7xl lg:text-8xl font-outfit font-extrabold text-white leading-[1.1] mb-8 tracking-tight">
+                    Bikin Web Statis <br>
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-magenta-400">
+                        + Domain .my.id
                     </span>
                 </h1>
-                <p class="text-gray-600 text-lg max-w-xl mx-auto md:mx-0">Panduan langkah demi langkah dari nol — pakai Google AI Studio, GitHub, Cloudflare, dan domain murah. Cocok untuk pelajar & personal.</p>
-                <div class="flex flex-wrap gap-3 justify-center md:justify-start pt-2">
-                    <a href="#buat-web" class="flex items-center gap-2 bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition shadow-md">
-                        <i class="fa-solid fa-rocket"></i>
-                        Mulai Sekarang
+                <p class="reveal text-slate-400 text-lg md:text-xl max-w-3xl mx-auto mb-12 leading-relaxed">
+                    Panduan langkah demi langkah dari nol — pakai Google AI Studio, GitHub, Cloudflare, dan domain murah. Dirancang khusus untuk pelajar dan personal yang ingin tampil profesional.
+                </p>
+                <div class="reveal flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#buat-web" class="btn-primary w-full sm:w-auto text-lg">
+                        Mulai Belajar Sekarang
+                        <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
                     </a>
-                    <a href="#ringkasan" class="flex items-center gap-2 bg-white border border-gray-300 text-gray-800 px-6 py-3 rounded-full font-medium hover:border-black hover:bg-gray-50 transition">
-                        <i class="fa-solid fa-book-open"></i>
-                        Ringkasan
+                    <a href="#ringkasan" class="btn-secondary w-full sm:w-auto text-lg">
+                        Lihat Ringkasan
                     </a>
                 </div>
             </div>
-            <div class="flex-1 flex justify-center fade-up" style="animation-delay: 0.2s;">
-                <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 shadow-sm w-full max-w-sm">
-                    <i class="fa-solid fa-globe text-4xl mb-4 text-black block"></i>
-                    <h3 class="font-bold text-lg text-gray-900">Hasil akhir yang kamu dapat:</h3>
-                    <ul class="mt-4 space-y-3 text-sm text-gray-700">
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-green-600 text-lg"></i>
-                            Website statis modern
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-green-600 text-lg"></i>
-                            Domain .my.id (Mulai Rp9.900/th)
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-green-600 text-lg"></i>
-                            Hosting gratis (GitHub Pages)
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-green-600 text-lg"></i>
-                            Keamanan SSL & CDN (Cloudflare)
-                        </li>
-                    </ul>
+
+            <!-- Dashboard Preview / Info Box -->
+            <div class="reveal mt-20 max-w-4xl mx-auto">
+                <div class="glass p-1 border-white/5 shadow-2xl">
+                    <div class="bg-slate-900/50 rounded-[22px] p-8 md:p-12 border border-white/5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <div class="space-y-2">
+                                <div class="text-blue-400 mb-4"><i class="fa-solid fa-wand-magic-sparkles text-2xl"></i></div>
+                                <h4 class="font-bold text-white">Modern</h4>
+                                <p class="text-slate-400 text-sm">Desain web statis kekinian.</p>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="text-purple-400 mb-4"><i class="fa-solid fa-id-card text-2xl"></i></div>
+                                <h4 class="font-bold text-white">Identity</h4>
+                                <p class="text-slate-400 text-sm">Domain .my.id premium.</p>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="text-green-400 mb-4"><i class="fa-solid fa-cloud-arrow-up text-2xl"></i></div>
+                                <h4 class="font-bold text-white">Free Hosting</h4>
+                                <p class="text-slate-400 text-sm">GitHub Pages gratis.</p>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="text-yellow-400 mb-4"><i class="fa-solid fa-shield-halved text-2xl"></i></div>
+                                <h4 class="font-bold text-white">Secure</h4>
+                                <p class="text-slate-400 text-sm">SSL & CDN Cloudflare.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- BAB 0 - KONSEP DASAR -->
-    <section id="konsep" class="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-gray-100">
-        <div class="text-center mb-12">
-            <span class="inline-flex items-center gap-2 text-sm font-mono bg-gray-100 px-3 py-1 rounded-full font-semibold text-gray-600">
-                <i class="fa-solid fa-book-open text-xs"></i>
-                BAB 0
-            </span>
-            <h2 class="text-3xl md:text-4xl font-bold mt-4">Pahami Dulu Konsep Dasarnya</h2>
-            <p class="text-gray-500 max-w-2xl mx-auto mt-3 text-lg">Biar gak bingung saat melakukan pengaturan & troubleshooting.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="border border-gray-200 rounded-2xl p-6 card-hover bg-white">
-                <div class="w-14 h-14 bg-black text-white rounded-full flex items-center justify-center mb-5">
-                    <i class="fa-solid fa-globe text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Domain</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">Alamat unik website seperti <code>namakamu.my.id</code>. Ibarat alamat rumah di dunia digital. Manusia mengingat nama, komputer membutuhkan deretan angka (IP Address).</p>
+    <section id="konsep" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="reveal text-center mb-16">
+                <div class="section-marker">Bab 00</div>
+                <h2 class="text-4xl md:text-5xl font-outfit font-bold text-white mb-4">Pahami Dulu Konsep Dasarnya</h2>
+                <p class="text-slate-400 text-lg">Biar gak bingung saat melakukan pengaturan & troubleshooting.</p>
             </div>
-            <div class="border border-gray-200 rounded-2xl p-6 card-hover bg-white">
-                <div class="w-14 h-14 bg-black text-white rounded-full flex items-center justify-center mb-5">
-                    <i class="fa-solid fa-address-book text-2xl"></i>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Domain Card -->
+                <div class="reveal glass p-8 card-premium border-white/5">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 border border-blue-500/20">
+                        <i class="fa-solid fa-globe text-2xl text-blue-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Domain</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Alamat unik website seperti <code class="text-blue-400">namakamu.my.id</code>. Ibarat alamat rumah di dunia digital. Manusia mengingat nama, komputer membutuhkan deretan angka (IP Address).
+                    </p>
                 </div>
-                <h3 class="text-xl font-bold mb-2">DNS</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">Domain Name System = buku telepon internet. Tugasnya menerjemahkan domain menjadi IP address. Tanpanya, kita harus hafal deretan angka seperti <code>185.199.108.153</code>.</p>
-            </div>
-            <div class="border border-gray-200 rounded-2xl p-6 card-hover bg-white">
-                <div class="w-14 h-14 bg-black text-white rounded-full flex items-center justify-center mb-5">
-                    <i class="fa-solid fa-clock text-2xl"></i>
+                
+                <!-- DNS Card -->
+                <div class="reveal glass p-8 card-premium border-white/5" style="transition-delay: 0.1s;">
+                    <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 border border-purple-500/20">
+                        <i class="fa-solid fa-address-book text-2xl text-purple-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">DNS</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Domain Name System = buku telepon internet. Tugasnya menerjemahkan domain menjadi IP address. Tanpanya, kita harus hafal deretan angka seperti <code class="text-purple-400">185.199.108.153</code>.
+                    </p>
                 </div>
-                <h3 class="text-xl font-bold mb-2">Propagasi DNS</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">Waktu sinkronisasi (bisa memakan waktu 1-24 jam) setelah mengubah pengaturan NameServer atau DNS. Seluruh server internet butuh waktu memperbarui data. Sabar ya!</p>
+                
+                <!-- Propagasi Card -->
+                <div class="reveal glass p-8 card-premium border-white/5" style="transition-delay: 0.2s;">
+                    <div class="w-14 h-14 bg-magenta-500/10 rounded-2xl flex items-center justify-center mb-6 border border-pink-500/20">
+                        <i class="fa-solid fa-clock text-2xl text-pink-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Propagasi DNS</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Waktu sinkronisasi (bisa memakan waktu 1-24 jam) setelah mengubah NameServer atau DNS. Seluruh server internet butuh waktu memperbarui data. Sabar ya!
+                    </p>
+                </div>
             </div>
         </div>
     </section>
+    <!-- ALUR KERJA (ROADMAP) -->
+    <section id="roadmap" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="reveal text-center mb-16">
+                <div class="section-marker">Overview</div>
+                <h2 class="text-4xl md:text-5xl font-outfit font-bold text-white mb-6">Alur Kerja (Roadmap)</h2>
+                <p class="text-slate-400 text-xl max-w-3xl mx-auto">Gambaran besar proses pembuatan website dari nol hingga online dengan domain pribadi.</p>
+            </div>
 
-    <!-- BAB 1: Buat web pakai Google AI Studio -->
-    <section id="buat-web" class="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-gray-100">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
-            <div class="md:col-span-1 bg-gray-50 p-8 rounded-3xl border border-gray-200 sticky top-24">
-                <i class="fa-solid fa-tools text-4xl mb-5 text-black block"></i>
-                <h2 class="text-2xl font-bold">Bab 1: Buat Web dengan AI</h2>
-                <p class="text-gray-600 text-sm mt-3 leading-relaxed">Bikin website statis tanpa perlu jago coding — cukup berikan instruksi ke Google AI Studio!</p>
-                <div class="mt-6 bg-white p-4 rounded-xl border-l-4 border-black shadow-sm">
-                    <div class="flex items-center gap-2 mb-2">
-                        <i class="fa-solid fa-lightbulb text-yellow-500"></i>
-                        <span class="font-semibold text-sm">Contoh Prompt:</span>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+                <!-- Garis Penghubung (Desktop) -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 -translate-y-1/2 z-0"></div>
+
+                <!-- Step 1 -->
+                <div class="reveal glass p-8 border-white/5 relative z-10 hover:border-blue-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 border border-blue-500/20 group-hover:bg-blue-500 group-hover:text-white transition-all mx-auto md:mx-0">
+                        <i class="fa-solid fa-robot text-3xl text-blue-400 group-hover:text-white"></i>
                     </div>
-                    <p class="text-xs italic text-gray-600 bg-gray-50 p-3 rounded-lg border border-gray-100">"Buat website portofolio untuk fotografer dengan tema gelap, foto profil melingkar, daftar layanan, dan tombol WhatsApp."</p>
+                    <div class="absolute -top-4 -right-4 w-10 h-10 bg-slate-900 border border-blue-500/30 rounded-full flex items-center justify-center text-blue-400 font-bold shadow-lg">1</div>
+                    <h3 class="text-xl font-bold text-white mb-3 font-outfit">Kreasi AI</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Gunakan ChatGPT/Gemini untuk membuat kode <code>index.html</code>. Ini adalah fondasi website Anda.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="reveal glass p-8 border-white/5 relative z-10 hover:border-purple-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 border border-purple-500/20 group-hover:bg-purple-500 group-hover:text-white transition-all mx-auto md:mx-0">
+                        <i class="fa-brands fa-github text-3xl text-purple-400 group-hover:text-white"></i>
+                    </div>
+                    <div class="absolute -top-4 -right-4 w-10 h-10 bg-slate-900 border border-purple-500/30 rounded-full flex items-center justify-center text-purple-400 font-bold shadow-lg">2</div>
+                    <h3 class="text-xl font-bold text-white mb-3 font-outfit">Deploy GitHub</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Simpan kode di GitHub dan aktifkan GitHub Pages agar website bisa diakses gratis secara publik.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="reveal glass p-8 border-white/5 relative z-10 hover:border-pink-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-pink-500/10 rounded-2xl flex items-center justify-center mb-6 border border-pink-500/20 group-hover:bg-pink-500 group-hover:text-white transition-all mx-auto md:mx-0">
+                        <i class="fa-solid fa-globe text-3xl text-pink-400 group-hover:text-white"></i>
+                    </div>
+                    <div class="absolute -top-4 -right-4 w-10 h-10 bg-slate-900 border border-pink-500/30 rounded-full flex items-center justify-center text-pink-400 font-bold shadow-lg">3</div>
+                    <h3 class="text-xl font-bold text-white mb-3 font-outfit">Beli Domain</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Amankan nama domain (misal: <code>.my.id</code>) agar alamat website lebih profesional dan mudah diingat.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="reveal glass p-8 border-white/5 relative z-10 hover:border-orange-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mb-6 border border-orange-500/20 group-hover:bg-orange-500 group-hover:text-white transition-all mx-auto md:mx-0">
+                        <i class="fa-solid fa-shield-halved text-3xl text-orange-400 group-hover:text-white"></i>
+                    </div>
+                    <div class="absolute -top-4 -right-4 w-10 h-10 bg-slate-900 border border-orange-500/30 rounded-full flex items-center justify-center text-orange-400 font-bold shadow-lg">4</div>
+                    <h3 class="text-xl font-bold text-white mb-3 font-outfit">Cloudflare</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Hubungkan domain ke GitHub via Cloudflare untuk proteksi SSL gratis dan performa maksimal.</p>
                 </div>
             </div>
-            <div class="md:col-span-2 space-y-6 pt-2">
-                <div class="flex gap-4 items-start">
-                    <div class="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0 mt-0.5 font-bold">1</div>
-                    <div>
-                        <h4 class="font-bold text-lg mb-1">Buka Google AI Studio</h4>
-                        <p class="text-gray-600">Kunjungi <a href="https://aistudio.google.com" target="_blank" class="text-blue-600 hover:underline font-medium">aistudio.google.com</a> dan login menggunakan akun Google Anda.</p>
+        </div>
+    </section>
+    <!-- BAB 1: Buat web pakai AI -->
+    <section id="buat-web" class="py-24 bg-slate-900/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                <div class="reveal lg:col-span-5">
+                    <div class="section-marker">Bab 01</div>
+                    <h2 class="text-4xl md:text-5xl font-outfit font-bold text-white mb-6">Buat Web dengan AI</h2>
+                    <p class="text-slate-400 text-lg mb-8">Bikin website statis tanpa perlu jago coding — cukup berikan instruksi ke AI favorit Anda seperti ChatGPT, Gemini, atau DeepSeek!</p>
+                    
+                    <div class="glass p-6 border-blue-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10">
+                            <i class="fa-solid fa-quote-right text-6xl"></i>
+                        </div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-lightbulb text-yellow-400"></i>
+                            </div>
+                            <span class="font-bold text-white">Contoh Prompt:</span>
+                        </div>
+                        <p class="text-slate-300 italic bg-slate-950/50 p-4 rounded-xl border border-white/5">
+                            "Buat website portofolio untuk fotografer dengan tema gelap, menggunakan Tailwind CSS, foto profil melingkar, daftar layanan, dan tombol WhatsApp."
+                        </p>
                     </div>
                 </div>
-                <div class="flex gap-4 items-start">
-                    <div class="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0 mt-0.5 font-bold">2</div>
-                    <div>
-                        <h4 class="font-bold text-lg mb-1">Pilih Mode Web</h4>
-                        <p class="text-gray-600">Pastikan Anda memilih template atau mode yang mendukung output kode HTML/CSS/JS.</p>
+
+                <div class="lg:col-span-7 space-y-12">
+                    <!-- Steps with numbers -->
+                    <div class="reveal flex gap-8">
+                        <div class="shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/20">1</div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-3 font-outfit">Pilih Tool AI Favoritmu</h4>
+                            <p class="text-slate-400 text-lg leading-relaxed">
+                                Anda bisa menggunakan <span class="text-white font-semibold">ChatGPT </span>, <span class="text-white font-semibold">Google Gemini (Canvas)</span>, <span class="text-white font-semibold">Google AI Studio</span>, <span class="text-white font-semibold">DeepSeek</span>, atau <span class="text-white font-semibold">Claude</span>. Pilih yang paling nyaman bagi Anda.
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="flex gap-4 items-start">
-                    <div class="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0 mt-0.5 font-bold">3</div>
-                    <div>
-                        <h4 class="font-bold text-lg mb-1">Berikan Instruksi (Prompt)</h4>
-                        <p class="text-gray-600">Ketik prompt sesuai dengan imajinasi Anda. Jangan ragu untuk meminta AI merevisi desain jika ada yang kurang cocok.</p>
+
+                    <div class="reveal flex gap-8">
+                        <div class="shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-purple-500/20">2</div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-3 font-outfit">Pilih Mode Web</h4>
+                            <p class="text-slate-400 text-lg leading-relaxed">
+                                Pastikan Anda memilih template atau mode yang mendukung output kode HTML/CSS/JS untuk hasil terbaik.
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="flex gap-4 items-start">
-                    <div class="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0 mt-0.5 font-bold">4</div>
-                    <div>
-                        <h4 class="font-bold text-lg mb-1">Download Kode</h4>
-                        <p class="text-gray-600">Salin kodenya dan simpan ke dalam satu file komputer Anda dengan nama persis <code>index.html</code>.</p>
-                        <div class="mt-3 bg-blue-50 text-blue-800 p-3 text-sm rounded-lg border border-blue-100 flex items-start gap-3">
-                            <i class="fa-solid fa-info-circle text-lg mt-0.5 shrink-0"></i>
-                            <span>File <code>index.html</code> adalah pintu masuk utama website Anda yang akan dibaca pertama kali oleh browser.</span>
+
+                    <div class="reveal flex gap-8">
+                        <div class="shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-magenta-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-magenta-500/20">3</div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-3 font-outfit">Berikan Instruksi</h4>
+                            <p class="text-slate-400 text-lg leading-relaxed">
+                                Ketik prompt sesuai imajinasi Anda. AI akan merancang struktur dan gaya secara otomatis. Minta revisi jika perlu.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="reveal flex gap-8">
+                        <div class="shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-magenta-600 to-pink-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-pink-500/20">4</div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-3 font-outfit">Download Kode</h4>
+                            <p class="text-slate-400 text-lg leading-relaxed mb-4">
+                                Salin kodenya dan simpan ke dalam satu file di komputer Anda dengan nama persis <code class="text-magenta-400">index.html</code>.
+                            </p>
+                            <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl flex gap-4">
+                                <i class="fa-solid fa-info-circle text-blue-400 text-xl mt-1"></i>
+                                <p class="text-sm text-blue-100">
+                                    File <code class="bg-blue-500/20 px-1 rounded text-blue-300">index.html</code> adalah pintu masuk utama website Anda yang akan dibaca pertama kali oleh browser.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -198,173 +331,464 @@
     </section>
 
     <!-- BAB 2: Beli domain -->
-    <section id="domain" class="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-gray-100">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl md:text-4xl font-bold">Bab 2: Beli Domain .my.id</h2>
-            <p class="text-gray-500 mt-2 text-lg">Identitas website Anda di internet, contoh menggunakan layanan IDwebhost.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div class="space-y-5">
-                <div class="flex gap-4">
-                    <span class="font-bold text-xl text-gray-300">01</span> 
-                    <p class="text-gray-700 mt-0.5">Kunjungi <a href="https://idwebhost.com" class="text-blue-600 font-medium hover:underline" target="_blank">idwebhost.com</a> atau penyedia layanan domain lokal lainnya.</p>
-                </div>
-                <div class="flex gap-4">
-                    <span class="font-bold text-xl text-gray-300">02</span> 
-                    <p class="text-gray-700 mt-0.5">Cari nama domain idaman Anda di kolom pencarian dengan akhiran <code>.my.id</code>.</p>
-                </div>
-                <div class="flex gap-4">
-                    <span class="font-bold text-xl text-gray-300">03</span> 
-                    <p class="text-gray-700 mt-0.5">Jika berstatus <strong>Tersedia</strong> (warna hijau), klik <strong>Beli</strong>.</p>
-                </div>
-                <div class="flex gap-4">
-                    <span class="font-bold text-xl text-gray-300">04</span> 
-                    <p class="text-gray-700 mt-0.5">Isi detail akun dan KTP (Domain .id wajib menggunakan KTP sesuai regulasi PANDI).</p>
-                </div>
-                <div class="flex gap-4">
-                    <span class="font-bold text-xl text-gray-300">05</span> 
-                    <p class="text-gray-700 mt-0.5">Lakukan pembayaran. Domain Anda akan aktif dalam beberapa menit!</p>
-                </div>
+    <section id="domain" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="reveal text-center mb-16">
+                <div class="section-marker">Bab 02</div>
+                <h2 class="text-4xl md:text-5xl font-outfit font-bold text-white mb-4">Beli Domain .my.id</h2>
+                <p class="text-slate-400 text-lg">Identitas website Anda di internet, contoh menggunakan layanan IDwebhost.</p>
             </div>
-            <div class="bg-gray-900 text-white rounded-3xl p-8 shadow-xl flex flex-col items-center justify-center text-center h-full relative overflow-hidden">
-                <i class="fa-solid fa-tag text-8xl text-gray-700 absolute -top-4 -right-4 opacity-50 transform rotate-12"></i>
-                <div class="z-10">
-                    <p class="font-mono text-4xl font-bold text-white mb-3 tracking-wider">.my.id</p>
-                    <div class="w-16 h-1 bg-blue-500 mx-auto mb-4"></div>
-                    <p class="text-gray-300">Domain paling pas untuk portofolio personal, UMKM, dan pelajar. Murah, unik, dan menunjukkan identitas Indonesia.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="reveal glass p-6 border-white/5 flex gap-6 items-center hover:bg-white/5 transition-colors group">
+                        <span class="text-4xl font-black text-white/10 group-hover:text-blue-500/20 transition-colors">01</span>
+                        <p class="text-slate-300 text-lg leading-snug">Kunjungi <a href="https://idwebhost.com" class="text-blue-400 hover:underline" target="_blank">idwebhost.com</a> atau penyedia layanan domain lokal lainnya.</p>
+                    </div>
+                    <div class="reveal glass p-6 border-white/5 flex gap-6 items-center hover:bg-white/5 transition-colors group">
+                        <span class="text-4xl font-black text-white/10 group-hover:text-blue-500/20 transition-colors">02</span>
+                        <p class="text-slate-300 text-lg leading-snug">Cari nama domain idaman Anda di kolom pencarian dengan akhiran <code class="text-blue-400">.my.id</code>.</p>
+                    </div>
+                    <div class="reveal glass p-6 border-white/5 flex gap-6 items-center hover:bg-white/5 transition-colors group">
+                        <span class="text-4xl font-black text-white/10 group-hover:text-blue-500/20 transition-colors">03</span>
+                        <p class="text-slate-300 text-lg leading-snug">Jika berstatus <strong>Tersedia</strong> (warna hijau), langsung klik <strong>Beli</strong>.</p>
+                    </div>
+                    <div class="reveal glass p-6 border-white/5 flex gap-6 items-center hover:bg-white/5 transition-colors group">
+                        <span class="text-4xl font-black text-white/10 group-hover:text-blue-500/20 transition-colors">04</span>
+                        <p class="text-slate-300 text-lg leading-snug">Isi detail akun dan KTP (Domain .id wajib verifikasi KTP sesuai regulasi PANDI).</p>
+                    </div>
+                    <div class="reveal glass p-6 border-white/5 flex gap-6 items-center hover:bg-white/5 transition-colors group">
+                        <span class="text-4xl font-black text-white/10 group-hover:text-blue-500/20 transition-colors">05</span>
+                        <p class="text-slate-300 text-lg leading-snug">Lakukan pembayaran. Domain Anda akan aktif dalam beberapa menit!</p>
+                    </div>
+                </div>
+
+                <div class="reveal lg:pl-12">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-[32px] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                        <div class="relative glass p-12 text-center overflow-hidden">
+                            <i class="fa-solid fa-tag text-9xl absolute -top-8 -right-8 text-white/5 transform rotate-12"></i>
+                            <div class="relative z-10">
+                                <span class="inline-block px-4 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-bold mb-6">REKOMENDASI</span>
+                                <h3 class="text-6xl font-black text-white mb-4 tracking-tighter">.my.id</h3>
+                                <p class="text-slate-400 text-lg leading-relaxed">
+                                    Domain paling pas untuk portofolio personal, UMKM, dan pelajar. Murah, unik, dan menunjukkan identitas Indonesia yang modern.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- BAB 3: GitHub -->
-    <section id="github" class="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-gray-100">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div class="order-2 md:order-1">
-                <div class="flex items-center gap-4 mb-4">
-                    <i class="fa-brands fa-github text-4xl"></i>
-                    <h2 class="text-3xl font-bold">Bab 3: GitHub Repo</h2>
+    <section id="github" class="py-24 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <div class="section-marker">Bab 03</div>
+                    <div class="flex items-center gap-6 mb-8">
+                        <div class="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
+                            <i class="fa-brands fa-github text-4xl text-white"></i>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-outfit font-bold text-white">GitHub Repo</h2>
+                    </div>
+                    <p class="text-slate-400 text-xl mb-10 leading-relaxed">Tempat menyimpan kode website agar bisa diakses internet 24/7 secara gratis dengan performa tinggi.</p>
+                    
+                    <ul class="space-y-6">
+                        <li class="flex gap-4 items-start group">
+                            <div class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 mt-1 transition-colors group-hover:bg-blue-500 group-hover:text-white">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span class="text-slate-300 text-lg">Daftar dan login di <strong>github.com</strong> menggunakan email aktif.</span>
+                        </li>
+                        <li class="flex gap-4 items-start group">
+                            <div class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 mt-1 transition-colors group-hover:bg-blue-500 group-hover:text-white">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span class="text-slate-300 text-lg">Klik <strong>"New"</strong> untuk membuat repository baru. Beri nama bebas (misal: <code class="text-blue-400">web-portofolio</code>).</span>
+                        </li>
+                        <li class="flex gap-4 items-start group">
+                            <div class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 mt-1 transition-colors group-hover:bg-blue-500 group-hover:text-white">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span class="text-slate-300 text-lg">Pastikan visibilitas diset ke <strong>Public</strong> agar fitur GitHub Pages bisa aktif secara gratis.</span>
+                        </li>
+                        <li class="flex gap-4 items-start group">
+                            <div class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 mt-1 transition-colors group-hover:bg-blue-500 group-hover:text-white">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span class="text-slate-300 text-lg">Klik <strong>"uploading an existing file"</strong>. Drag & drop file <code class="text-blue-400">index.html</code> (dan file pendukung lainnya seperti <code>style.css</code>) ke kotak yang tersedia.</span>
+                        </li>
+                        <li class="flex gap-4 items-start group">
+                            <div class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 mt-1 transition-colors group-hover:bg-blue-500 group-hover:text-white">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span class="text-slate-300 text-lg">Tulis pesan singkat di kolom "Commit changes" (misal: <em>"Initial web upload"</em>) lalu klik tombol hijau.</span>
+                        </li>
+                    </ul>
+
+                    <!-- Fitur Penting GitHub -->
+                    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white/5 p-5 rounded-2xl border border-white/5 hover:border-blue-500/20 transition-all">
+                            <h5 class="text-white font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-code-commit text-blue-400"></i>
+                                Commit
+                            </h5>
+                            <p class="text-slate-500 text-xs leading-relaxed">Setiap kali Anda mengubah kode dan menyimpannya, itu disebut "Commit". GitHub merekam sejarah setiap perubahan yang Anda lakukan.</p>
+                        </div>
+                        <div class="bg-white/5 p-5 rounded-2xl border border-white/5 hover:border-purple-500/20 transition-all">
+                            <h5 class="text-white font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-code-branch text-purple-400"></i>
+                                Branch
+                            </h5>
+                            <p class="text-slate-500 text-xs leading-relaxed">Cabang dari kode Anda. Secara default kita menggunakan <code>main</code> sebagai cabang utama yang akan ditampilkan online.</p>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-gray-600 mb-6 text-lg">Tempat menyimpan kode website agar bisa diakses internet 24/7 secara gratis.</p>
-                <ul class="space-y-4 text-gray-700">
-                    <li class="flex gap-3 items-start">
-                        <i class="fa-solid fa-check-circle text-black mt-1"></i>
-                        <div>Daftar dan login di <strong>github.com</strong></div>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <i class="fa-solid fa-check-circle text-black mt-1"></i>
-                        <div>Klik <strong>"New"</strong> untuk membuat repository baru. Beri nama bebas (misal: <code>web-portofolio</code>).</div>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <i class="fa-solid fa-check-circle text-black mt-1"></i>
-                        <div>Pastikan visibilitas diset ke <strong>Public</strong>.</div>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <i class="fa-solid fa-check-circle text-black mt-1"></i>
-                        <div>Di halaman repo, klik <strong>Add file → Upload files</strong>. Drag & drop file <code>index.html</code> yang Anda buat di Bab 1.</div>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <i class="fa-solid fa-check-circle text-black mt-1"></i>
-                        <div>Klik tombol hijau <strong>Commit changes</strong>.</div>
-                    </li>
-                </ul>
-            </div>
-            <div class="order-1 md:order-2 bg-gray-50 p-8 rounded-3xl border border-gray-200">
-                <h3 class="font-bold text-xl flex items-center gap-3 mb-4">
-                    <i class="fa-solid fa-rocket text-blue-600"></i>
-                    Bab 4: Deploy (Online-kan)
-                </h3>
-                <ol class="list-decimal list-inside space-y-3 text-gray-700">
-                    <li>Di dalam Repo GitHub Anda, masuk ke tab <strong>Settings</strong>.</li>
-                    <li>Lihat menu kiri, klik <strong>Pages</strong>.</li>
-                    <li>Pada bagian Source, pilih <strong>Deploy from a branch</strong>.</li>
-                    <li>Di dropdown branch, pilih <strong>main</strong> lalu klik <strong>Save</strong>.</li>
-                    <li>Tunggu 1-2 menit lalu <em>refresh</em> halaman. Akan muncul URL website sementara Anda.</li>
-                </ol>
-                <div class="mt-5 bg-gray-900 p-4 rounded-xl shadow-inner">
-                    <p class="text-xs text-gray-400 mb-1">Website Anda kini online di:</p>
-                    <code class="block bg-transparent text-green-400 p-0 text-sm font-mono">https://username.github.io/nama-repo/</code>
+
+                <div class="reveal space-y-8">
+                    <!-- Deploy Card -->
+                    <div class="glass p-10 border-blue-500/20 relative">
+                        <div class="absolute -top-6 -right-6 w-20 h-20 bg-blue-500/20 rounded-full blur-2xl"></div>
+                        <div class="section-marker !bg-purple-500/10 !text-purple-400 !border-purple-500/20">Langkah Deploy</div>
+                        <h3 class="text-3xl font-bold text-white mb-8 flex items-center gap-4 font-outfit">
+                            <i class="fa-solid fa-rocket text-blue-400 animate-bounce"></i>
+                            Online-kan Website
+                        </h3>
+                        <ol class="space-y-6 text-slate-300 text-lg">
+                            <li class="flex gap-4">
+                                <span class="font-bold text-blue-400">1.</span>
+                                <span>Masuk ke tab <strong>Settings</strong> di navigasi atas Repo Anda.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="font-bold text-blue-400">2.</span>
+                                <span>Klik menu <strong>Pages</strong> di bagian "Code and automation" (sisi kiri).</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="font-bold text-blue-400">3.</span>
+                                <span>Pada bagian Build and deployment, pilih <strong>Deploy from a branch</strong>.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="font-bold text-blue-400">4.</span>
+                                <span>Pilih branch <strong>main</strong>, pilih folder <strong>/ (root)</strong>, lalu klik <strong>Save</strong>.</span>
+                            </li>
+                        </ol>
+                        <div class="mt-10 bg-slate-950 p-6 rounded-2xl border border-white/5 shadow-inner">
+                            <p class="text-xs text-slate-500 mb-3 uppercase tracking-widest font-bold">Live URL Preview:</p>
+                            <code class="block text-green-400 text-lg font-mono truncate">https://username.github.io/nama-repo/</code>
+                        </div>
+                    </div>
+
+                    <!-- Cara Update Web -->
+                    <div class="glass p-8 border-white/5 bg-blue-500/5">
+                        <h4 class="text-white font-bold mb-4 flex items-center gap-3">
+                            <i class="fa-solid fa-arrows-rotate text-blue-400"></i>
+                            Cara Update Tampilan Web:
+                        </h4>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">Ingin mengubah desain atau teks? Cukup edit file di komputer Anda, lalu upload ulang file yang baru ke GitHub Repo Anda dengan cara yang sama seperti di langkah awal. GitHub akan otomatis melakukan "re-deploy" dalam beberapa detik!</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- BAB 5: Cloudflare (KRUSIAL) -->
-    <section id="cloudflare" class="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-gray-100">
-        <h2 class="text-3xl md:text-4xl font-bold text-center">Bab 5: Integrasi Cloudflare</h2>
-        <p class="text-center text-gray-500 max-w-2xl mx-auto mt-3 text-lg">Hubungkan domain .my.id dengan GitHub Pages, sekaligus mengamankan website dengan SSL Gratis dari Cloudflare.</p>
-        
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded-r-lg mt-8 mb-10 max-w-4xl mx-auto">
-            <h4 class="font-bold text-yellow-800 flex items-center gap-2">
-                <i class="fa-solid fa-exclamation-triangle"></i>
-                PERHATIAN PENTING (Sering Salah)
-            </h4>
-            <p class="text-sm text-yellow-800 mt-1">Ikuti urutan langkah di bawah ini dengan persis. <strong>Jangan aktifkan Proxy (Awan Orange) di Cloudflare sebelum GitHub Pages berhasil menerbitkan sertifikat SSL.</strong></p>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            <!-- Step 1 -->
-            <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-                <h3 class="font-bold text-xl mb-3"><span class="bg-gray-100 text-gray-600 px-2 rounded mr-2 text-sm">1</span> Daftar & Arahkan NameServer</h3>
-                <p class="text-sm text-gray-600 mb-3">Buat akun di <strong>cloudflare.com</strong>. Klik "Add site", masukkan domain <code>namakamu.my.id</code>, dan pilih paket Free.</p>
-                <p class="text-sm text-gray-600">Cloudflare akan memberi 2 NameServer (misal: <em>elias.ns.cloudflare.com</em>). Login ke IDwebhost, masuk ke pengaturan domain Anda, dan ubah NameServer bawaan menjadi NameServer dari Cloudflare.</p>
+    <section id="cloudflare" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="reveal text-center mb-16">
+                <div class="section-marker">Bab 05</div>
+                <h2 class="text-4xl md:text-5xl font-outfit font-bold text-white mb-4">Integrasi Cloudflare</h2>
+                <p class="text-slate-400 text-xl max-w-3xl mx-auto">Hubungkan domain .my.id dengan GitHub Pages, sekaligus mengamankan website dengan SSL Gratis dari Cloudflare.</p>
             </div>
             
-            <!-- Step 2 -->
-            <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-                <h3 class="font-bold text-xl mb-3"><span class="bg-gray-100 text-gray-600 px-2 rounded mr-2 text-sm">2</span> Tambahkan DNS Record</h3>
-                <p class="text-sm text-gray-600 mb-2">Di dashboard Cloudflare, buka menu <strong>DNS</strong>. Masukkan 4 record IP GitHub Pages dan 1 CNAME.</p>
-                <pre class="text-xs mt-2 overflow-x-auto">
-Type A     Name: @    Value: 185.199.108.153
-Type A     Name: @    Value: 185.199.109.153
-Type A     Name: @    Value: 185.199.110.153
-Type A     Name: @    Value: 185.199.111.153
-Type CNAME Name: www  Target: username.github.io</pre>
-                <p class="text-sm text-red-600 font-semibold mt-3 flex items-start gap-2">
-                    <i class="fa-solid fa-ban shrink-0 mt-0.5"></i>
-                    <span>PENTING: Matikan Proxy status (Awan harus abu-abu / DNS Only) untuk semua record di atas!</span>
-                </p>
+            <div class="reveal bg-orange-500/10 border-l-4 border-orange-500 p-8 rounded-r-2xl mb-16 max-w-4xl mx-auto glass">
+                <div class="flex gap-4 items-start">
+                    <div class="shrink-0 w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center text-orange-400">
+                        <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-orange-400 mb-2 uppercase tracking-tight">Perhatian Penting (Sering Salah)</h4>
+                        <p class="text-slate-300 leading-relaxed">
+                            Ikuti urutan langkah di bawah ini dengan persis. <strong>Jangan aktifkan Proxy (Awan Orange) di Cloudflare sebelum GitHub Pages berhasil menerbitkan sertifikat SSL.</strong>
+                        </p>
+                    </div>
+                </div>
+            </di            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <!-- Step 1 -->
+                <div class="reveal glass p-8 border-white/5 hover:border-blue-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-slate-950 rounded-xl flex items-center justify-center text-white font-bold text-xl border border-white/10 group-hover:bg-blue-600 transition-colors">1</div>
+                        <i class="fa-solid fa-server text-3xl text-slate-800 group-hover:text-blue-500/20 transition-colors"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 font-outfit">Arahkan NameServer</h3>
+                    <p class="text-slate-400 leading-relaxed mb-4">Cloudflare bertindak sebagai "polisi lalu lintas" di depan domain Anda. Untuk mengaktifkannya, domain harus "dikendalikan" oleh Cloudflare.</p>
+                    <div class="bg-white/5 p-4 rounded-xl border border-white/5 mb-4">
+                        <p class="text-slate-400 text-sm">Ganti NameServer di <strong>IDwebhost</strong> (atau registrar lain) menjadi:</p>
+                        <ul class="text-xs font-mono text-blue-400 mt-2 space-y-1">
+                            <li>dexter.ns.cloudflare.com</li>
+                            <li>mimi.ns.cloudflare.com</li>
+                        </ul>
+                    </div>
+                    <p class="text-slate-500 text-xs italic">*Nama NS mungkin berbeda untuk setiap akun.</p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="reveal glass p-8 border-white/5 hover:border-purple-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-slate-950 rounded-xl flex items-center justify-center text-white font-bold text-xl border border-white/10 group-hover:bg-purple-600 transition-colors">2</div>
+                        <i class="fa-solid fa-list-check text-3xl text-slate-800 group-hover:text-purple-500/20 transition-colors"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 font-outfit">Input DNS Wajib</h3>
+                    <p class="text-slate-400 leading-relaxed mb-6">Masukkan 5 record ini agar domain tersambung ke server GitHub. Gunakan <code>@</code> untuk domain utama.</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="bg-slate-950/80 p-4 rounded-xl border border-white/5 font-mono text-[10px] md:text-xs">
+                            <div class="flex justify-between border-b border-white/10 pb-1 mb-1 text-slate-500"><span>TYPE</span><span>NAME</span><span>CONTENT / VALUE</span></div>
+                            <div class="flex justify-between text-blue-400"><span>A</span><span>@</span><span>185.199.108.153</span></div>
+                            <div class="flex justify-between text-blue-400"><span>A</span><span>@</span><span>185.199.109.153</span></div>
+                            <div class="flex justify-between text-blue-400"><span>A</span><span>@</span><span>185.199.110.153</span></div>
+                            <div class="flex justify-between text-blue-400"><span>A</span><span>@</span><span>185.199.111.153</span></div>
+                            <div class="flex justify-between text-purple-400"><span>CNAME</span><span>www</span><span>username.github.io</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
+                        <p class="text-red-400 font-bold text-xs flex items-start gap-2 leading-relaxed">
+                            <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+                            STATUS: Pastikan Proxy diset ke "DNS Only" (Awan Abu-abu). Jangan "Proxied" (Awan Orange) dulu!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="reveal glass p-8 border-white/5 hover:border-magenta-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-slate-950 rounded-xl flex items-center justify-center text-white font-bold text-xl border border-white/10 group-hover:bg-pink-600 transition-colors">3</div>
+                        <i class="fa-solid fa-gear text-3xl text-slate-800 group-hover:text-pink-500/20 transition-colors"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 font-outfit">Sertifikat SSL GitHub</h3>
+                    <p class="text-slate-400 leading-relaxed mb-4">GitHub perlu menerbitkan sertifikat SSL khusus untuk domain Anda agar bisa diakses via <strong>https://</strong>.</p>
+                    <ul class="text-slate-400 text-sm space-y-3 mb-4">
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 w-4 h-4 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-400 shrink-0"><i class="fa-solid fa-check text-[8px]"></i></div>
+                            <span>Masukkan domain di <strong>GitHub > Settings > Pages</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 w-4 h-4 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-400 shrink-0"><i class="fa-solid fa-check text-[8px]"></i></div>
+                            <span>Tunggu sampai muncul tulisan <em>"DNS check successful"</em>.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 w-4 h-4 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-400 shrink-0"><i class="fa-solid fa-check text-[8px]"></i></div>
+                            <span>Centang <strong>"Enforce HTTPS"</strong>. Selesai!</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="reveal glass p-8 border-white/5 hover:border-green-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-slate-950 rounded-xl flex items-center justify-center text-white font-bold text-xl border border-white/10 group-hover:bg-green-600 transition-colors">4</div>
+                        <i class="fa-solid fa-shield-check text-3xl text-slate-800 group-hover:text-green-500/20 transition-colors"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 font-outfit">Aktifkan Fitur Sultan</h3>
+                    <p class="text-slate-400 leading-relaxed mb-4">Sekarang website sudah online. Aktifkan kembali Proxy (<span class="text-orange-500">Awan Orange</span>) untuk menikmati fitur premium Cloudflare.</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <div class="bg-slate-950 p-3 rounded-lg border border-white/5 flex items-center gap-3">
+                            <i class="fa-solid fa-bolt text-yellow-400 text-xs"></i>
+                            <span class="text-slate-400 text-[10px]"><strong>Caching:</strong> Web Anda jadi 10x lebih cepat.</span>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-lg border border-white/5 flex items-center gap-3">
+                            <i class="fa-solid fa-user-shield text-blue-400 text-xs"></i>
+                            <span class="text-slate-400 text-[10px]"><strong>WAF:</strong> Blokir bot jahat dan serangan DDoS.</span>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-lg border border-white/5 flex items-center gap-3">
+                            <i class="fa-solid fa-chart-line text-green-400 text-xs"></i>
+                            <span class="text-slate-400 text-[10px]"><strong>Analytics:</strong> Pantau berapa banyak pengunjung tiap hari.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Step 3 -->
-            <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-                <h3 class="font-bold text-xl mb-3"><span class="bg-gray-100 text-gray-600 px-2 rounded mr-2 text-sm">3</span> Setting di GitHub Pages</h3>
-                <p class="text-sm text-gray-600">Kembali ke GitHub Repo > Settings > Pages. Di kolom <strong>Custom domain</strong>, ketikkan domain Anda (<code>namakamu.my.id</code>) lalu Save.</p>
-                <p class="text-sm text-gray-600 mt-2">Tunggu proses verifikasi DNS (butuh beberapa menit hingga jam jika DNS belum menyebar). Jika sudah berhasil, centang <strong>"Enforce HTTPS"</strong>.</p>
+            <!-- FAQ & Troubleshooting -->
+            <div class="reveal mt-16 glass p-8 border-white/5 bg-slate-900/40">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                            <i class="fa-solid fa-circle-info text-blue-400"></i>
+                            Kenapa Awan Harus Abu-abu (DNS Only)?
+                        </h4>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            GitHub Pages perlu melakukan "kontak langsung" dengan domain Anda untuk memverifikasi kepemilikan dan menerbitkan sertifikat SSL (Let's Encrypt).
+                        </p>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Jika Proxy aktif (Awan Orange), Cloudflare akan menutupi server asli Anda. GitHub tidak bisa melihat record DNS Anda, sehingga verifikasi akan gagal terus menerus (stuck di "Waiting for DNS").
+                        </p>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-bold text-white mb-6">Troubleshooting Umum</h4>
+                        <div class="bg-slate-950 p-5 rounded-2xl border border-white/5">
+                            <p class="text-slate-200 text-xs font-bold mb-2">Error 525 / 526 SSL Handshake?</p>
+                            <p class="text-slate-500 text-[10px]">Pastikan mode SSL/TLS di Cloudflare diset ke <strong>Full (Strict)</strong>. Error ini terjadi karena GitHub menggunakan sertifikat SSL sendiri, dan Cloudflare bingung cara menyambungnya jika diset ke mode lain.</p>
+                        </div>
+                        <div class="bg-slate-950 p-5 rounded-2xl border border-white/5">
+                            <p class="text-slate-200 text-xs font-bold mb-2">Domain belum aktif?</p>
+                            <p class="text-slate-500 text-[10px]">Proses perambatan DNS (Propagasi) butuh waktu 5 menit hingga 24 jam. Sabar adalah kunci!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cloudflare Workers vs Pages -->
+    <section id="workers-vs-pages" class="py-24 bg-slate-950/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="reveal text-center mb-16">
+                <div class="section-marker !bg-orange-500/10 !text-orange-400 !border-orange-500/20">Advanced</div>
+                <h2 class="text-4xl font-outfit font-bold text-white mb-6">Workers vs Pages: Apa Bedanya?</h2>
+                <p class="text-slate-400 text-lg max-w-3xl mx-auto">Seringkali pemula bingung memilih dua fitur utama ini. Mari kita bedah perbedaannya.</p>
             </div>
 
-            <!-- Step 4 -->
-            <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-                <h3 class="font-bold text-xl mb-3"><span class="bg-gray-100 text-gray-600 px-2 rounded mr-2 text-sm">4</span> Nyalakan Proteksi Penuh</h3>
-                <p class="text-sm text-gray-600">Setelah website berhasil diakses via HTTPS secara normal, kembali ke Cloudflare.</p>
-                <p class="text-sm text-gray-600 mt-2">1. Masuk ke menu DNS > Edit record sebelumnya > Nyalakan kembali Proxy (<span class="text-orange-500 font-bold">Awan Orange</span>).</p>
-                <p class="text-sm text-gray-600 mt-1">2. Masuk ke menu <strong>SSL/TLS</strong> > Overview > Pilih mode <strong>Full (strict)</strong>.</p>
-                <p class="text-sm text-green-700 font-bold mt-3">SELESAI! Website Anda super cepat dan aman.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                <!-- Pages Card -->
+                <div class="reveal glass p-8 border-white/5 border-l-4 border-l-orange-500 group">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center text-orange-400"><i class="fa-solid fa-file-code text-2xl"></i></div>
+                        <h3 class="text-2xl font-bold text-white">Cloudflare Pages</h3>
+                    </div>
+                    <p class="text-slate-400 mb-6 leading-relaxed">Dirancang khusus untuk **Hosting Website**. Sangat mirip dengan GitHub Pages, namun dengan integrasi CDN Cloudflare yang lebih mendalam.</p>
+                    <div class="bg-slate-950 p-5 rounded-2xl border border-white/5">
+                        <span class="text-xs text-slate-500 font-bold uppercase tracking-widest block mb-3">Kegunaan:</span>
+                        <ul class="text-sm text-slate-400 space-y-2">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500 text-[10px]"></i> Hosting Landing Page / Portofolio</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500 text-[10px]"></i> Web Statis (HTML, CSS, JS)</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500 text-[10px]"></i> Framework (Next.js, Astro, React)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Workers Card -->
+                <div class="reveal glass p-8 border-white/5 border-l-4 border-l-blue-500 group">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400"><i class="fa-solid fa-gears text-2xl"></i></div>
+                        <h3 class="text-2xl font-bold text-white">Cloudflare Workers</h3>
+                    </div>
+                    <p class="text-slate-400 mb-6 leading-relaxed">Platform **Serverless Code**. Tempat untuk menjalankan fungsi logic di "Edge" (server terdekat dengan user) tanpa perlu menyewa server VPS.</p>
+                    <div class="bg-slate-950 p-5 rounded-2xl border border-white/5">
+                        <span class="text-xs text-slate-500 font-bold uppercase tracking-widest block mb-3">Kegunaan:</span>
+                        <ul class="text-sm text-slate-400 space-y-2">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500 text-[10px]"></i> Membuat API / Backend Ringan</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500 text-[10px]"></i> Redirect link secara custom</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500 text-[10px]"></i> Modifikasi request/response HTTP</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="reveal glass overflow-hidden border-white/5">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-white/5 border-b border-white/10">
+                            <th class="p-4 text-white font-bold">Fitur</th>
+                            <th class="p-4 text-orange-400 font-bold">Cloudflare Pages</th>
+                            <th class="p-4 text-blue-400 font-bold">Cloudflare Workers</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-400 text-sm">
+                        <tr class="border-b border-white/5">
+                            <td class="p-4 font-bold text-slate-300">Fokus Utama</td>
+                            <td class="p-4">Konten / File Website</td>
+                            <td class="p-4">Logika / Kode Program</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="p-4 font-bold text-slate-300">Cara Pakai</td>
+                            <td class="p-4">Konek ke GitHub / Upload Folder</td>
+                            <td class="p-4">Tulis Script (JS/Rust)</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="p-4 font-bold text-slate-300">Kemudahan</td>
+                            <td class="p-4">Sangat Mudah (Tanpa Coding)</td>
+                            <td class="p-4">Menengah (Butuh Coding)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-300">Analogi</td>
+                            <td class="p-4">Gudang penyimpanan barang</td>
+                            <td class="p-4">Robot yang mengerjakan tugas</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- How to use -->
+            <div class="reveal mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/5 p-8 rounded-3xl border border-white/5">
+                <div>
+                    <h4 class="text-white font-bold mb-4">Cara Menggunakan Pages:</h4>
+                    <p class="text-slate-500 text-sm mb-4">Jika Anda ingin memindahkan website dari GitHub Pages ke Cloudflare secara penuh:</p>
+                    <ol class="text-xs text-slate-400 space-y-3 list-decimal ml-4">
+                        <li>Buka dashboard Cloudflare > menu <strong>Build</strong> > <strong>Compute</strong> > <strong>Workers & Pages</strong>.</li>
+                        <li>Klik <strong>Create application</strong> > Tab <strong>Pages</strong> > <strong>Connect to Git</strong>.</li>
+                        <li><strong>Otorisasi GitHub</strong>: Anda akan diarahkan ke GitHub. Jika baru pertama kali, Anda harus menginstal aplikasi <strong>"Cloudflare Workers and Pages"</strong>.</li>
+                        <li class="bg-blue-500/10 p-2 rounded border border-blue-500/20">
+                            <strong>Tips:</strong> Pilih <em>"All repositories"</em> agar semua repo masa depan otomatis terbaca, atau <em>"Only select repositories"</em> jika ingin memilih repo tertentu saja.
+                        </li>
+                        <li>Setelah aplikasi terinstal, pilih Repository website Anda dari daftar yang muncul di Cloudflare.</li>
+                        <li><strong>Build Settings</strong>: Untuk website statis HTML, pilih Framework preset <strong>"None"</strong> dan biarkan Build command kosong.</li>
+                        <li>Klik <strong>Save and Deploy</strong>. Cloudflare akan membaca file Anda dan memberitahukan jika proses "Success".</li>
+                    </ol>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Cara Menggunakan Workers:</h4>
+                    <p class="text-slate-500 text-sm mb-4">Jika Anda ingin membuat fitur dinamis (misal: redirect atau API):</p>
+                    <ol class="text-xs text-slate-400 space-y-2 list-decimal ml-4">
+                        <li>Buka dashboard Cloudflare > menu <strong>Build</strong> > <strong>Compute</strong> > <strong>Workers & Pages</strong>.</li>
+                        <li>Klik <strong>Create application</strong> > Tab <strong>Workers</strong>.</li>
+                        <li>Klik <strong>Create Worker</strong> dan mulai tulis kode JavaScript Anda.</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- BAB 6: Ringkasan Tabel -->
-    <section id="ringkasan" class="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-gray-100">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold">Ringkasan Terminologi</h2>
-        </div>
-        <div class="max-w-4xl mx-auto bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-sm">
+    <section id="ringkasan" class="py-24 bg-slate-900/10">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="reveal text-center mb-16">
+                <h2 class="text-4xl font-outfit font-bold text-white mb-4">Ringkasan Terminologi</h2>
+            </div>
+            <div class="reveal glass overflow-hidden border-white/5">
+                <table class="w-full text-left">
                     <thead>
-                        <tr>
-                            <th class="w-1/3">Konsep</th>
-                            <th>Penjelasan Singkat</th>
+                        <tr class="bg-white/5">
+                            <th class="p-6 text-blue-400 uppercase tracking-widest text-xs font-bold w-1/3">Konsep</th>
+                            <th class="p-6 text-blue-400 uppercase tracking-widest text-xs font-bold">Penjelasan Singkat</th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-700">
-                        <tr><td class="font-semibold text-black">Domain</td><td>Alamat unik website, seperti alamat rumah digital.</td></tr>
-                        <tr><td class="font-semibold text-black">DNS</td><td>Sistem penerjemah nama domain ke IP Address angka.</td></tr>
-                        <tr><td class="font-semibold text-black">Propagasi DNS</td><td>Waktu tunggu sinkronisasi server seluruh dunia (1-48 jam).</td></tr>
-                        <tr><td class="font-semibold text-black">Website Statis</td><td>File web mentah (HTML/CSS/JS) tanpa sistem database/backend.</td></tr>
-                        <tr><td class="font-semibold text-black">GitHub Pages</td><td>Fasilitas hosting statis gratis dari GitHub.</td></tr>
-                        <tr><td class="font-semibold text-black">Cloudflare</td><td>Jaringan CDN & Keamanan gratis agar website cepat diakses dari mana saja.</td></tr>
+                    <tbody class="divide-y divide-white/5">
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="p-6 font-bold text-white">Domain</td>
+                            <td class="p-6 text-slate-400">Alamat unik website, seperti alamat rumah digital.</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="p-6 font-bold text-white">DNS</td>
+                            <td class="p-6 text-slate-400">Sistem penerjemah nama domain ke IP Address angka.</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="p-6 font-bold text-white">Propagasi DNS</td>
+                            <td class="p-6 text-slate-400">Waktu tunggu sinkronisasi server seluruh dunia (1-48 jam).</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="p-6 font-bold text-white">Website Statis</td>
+                            <td class="p-6 text-slate-400">File web mentah (HTML/CSS/JS) tanpa sistem database/backend.</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="p-6 font-bold text-white">GitHub Pages</td>
+                            <td class="p-6 text-slate-400">Fasilitas hosting statis gratis dari GitHub.</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="p-6 font-bold text-white">Cloudflare</td>
+                            <td class="p-6 text-slate-400">Jaringan CDN & Keamanan gratis agar website cepat diakses.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -372,44 +796,112 @@ Type CNAME Name: www  Target: username.github.io</pre>
     </section>
 
     <!-- MASALAH UMUM & SOLUSI -->
-    <section id="tips" class="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-gray-100">
-        <div class="bg-gray-900 text-white p-8 md:p-10 rounded-3xl shadow-xl">
-            <div class="flex gap-4 items-center mb-8">
-                <div class="bg-yellow-500 w-12 h-12 rounded-full flex items-center justify-center shrink-0">
-                    <i class="fa-solid fa-wrench text-gray-900 text-xl"></i>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold">Tips Saat Menghadapi Masalah</h2>
-            </div>
-            <div class="grid md:grid-cols-2 gap-x-10 gap-y-6 text-gray-300 text-sm">
-                <div class="border-b border-gray-700 pb-4">
-                    <span class="font-bold text-white block mb-1 text-base">Website tidak muncul / Error 404</span>
-                    Pastikan file bernama tepat <code class="text-yellow-400 bg-gray-800">index.html</code> (huruf kecil semua) dan berada di bagian root terluar repository, bukan di dalam folder lain.
-                </div>
-                <div class="border-b border-gray-700 pb-4">
-                    <span class="font-bold text-white block mb-1 text-base">Error 525/526 saat pasang domain</span>
-                    GitHub belum menerbitkan sertifikat SSL. Matikan fitur Proxy (Awan Orange jadi Awan Abu-abu) di Cloudflare sementara waktu, lalu cek kembali GitHub Pages.
-                </div>
-                <div class="border-b border-gray-700 pb-4">
-                    <span class="font-bold text-white block mb-1 text-base">Tampilan rusak / CSS tidak meload</span>
-                    Jika Anda menggunakan asset eksternal (gambar/css), pastikan menggunakan *Relative Path* (seperti <code>./gambar.jpg</code>) atau masukkan ke folder repository.
-                </div>
-                <div class="border-b border-gray-700 pb-4">
-                    <span class="font-bold text-white block mb-1 text-base">Domain sudah dipakai (IDwebhost)</span>
-                    Nama domain bersifat *First Come, First Served*. Jika sudah diambil orang lain, coba gunakan angka, singkatan, atau kombinasi nama lain.
+    <section id="tips" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="reveal relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-950 rounded-[40px] border border-white/5 shadow-2xl"></div>
+                <div class="relative p-12 md:p-16">
+                    <div class="flex flex-col md:flex-row gap-8 items-center mb-12">
+                        <div class="w-20 h-20 bg-yellow-400/10 rounded-3xl flex items-center justify-center border border-yellow-400/20">
+                            <i class="fa-solid fa-screwdriver-wrench text-3xl text-yellow-400"></i>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-outfit font-bold text-white">Troubleshooting Tips</h2>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="reveal space-y-4">
+                            <h4 class="text-xl font-bold text-white flex items-center gap-3">
+                                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                                Website tidak muncul / Error 404
+                            </h4>
+                            <p class="text-slate-400 leading-relaxed pl-5">
+                                Pastikan file bernama tepat <code class="text-yellow-400">index.html</code> (huruf kecil semua) dan berada di root terluar repository, bukan di dalam folder lain.
+                            </p>
+                        </div>
+                        <div class="reveal space-y-4">
+                            <h4 class="text-xl font-bold text-white flex items-center gap-3">
+                                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                                Error 525/526 saat pasang domain
+                            </h4>
+                            <p class="text-slate-400 leading-relaxed pl-5">
+                                GitHub belum menerbitkan sertifikat SSL. Matikan fitur Proxy (Awan Abu-abu) di Cloudflare sementara waktu, lalu cek kembali GitHub Pages.
+                            </p>
+                        </div>
+                        <div class="reveal space-y-4">
+                            <h4 class="text-xl font-bold text-white flex items-center gap-3">
+                                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                                Tampilan rusak / CSS tidak meload
+                            </h4>
+                            <p class="text-slate-400 leading-relaxed pl-5">
+                                Jika menggunakan asset eksternal, pastikan menggunakan *Relative Path* (seperti <code class="text-blue-400">./style.css</code>) agar terpanggil dengan benar.
+                            </p>
+                        </div>
+                        <div class="reveal space-y-4">
+                            <h4 class="text-xl font-bold text-white flex items-center gap-3">
+                                <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                                Domain sudah dipakai (IDwebhost)
+                            </h4>
+                            <p class="text-slate-400 leading-relaxed pl-5">
+                                Nama domain bersifat *First Come, First Served*. Jika sudah diambil, coba gunakan angka, singkatan, atau kombinasi nama kreatif lainnya.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="border-t border-gray-200 bg-gray-50 py-12 mt-10">
-        <div class="max-w-6xl mx-auto px-5 sm:px-8 text-center text-gray-500 text-sm">
-            <p>🎓 Tutorial untuk pendidikan — Semoga bermanfaat! Website ini dibangun dengan HTML Statis dan Tailwind CSS.</p>
-            <p class="mt-2 text-gray-600 font-semibold">📌 Selamat mencoba, jangan takut ber-eksperimen! 🚀</p>
+    <footer class="py-20 border-t border-white/5 bg-slate-950/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-bolt text-white text-sm"></i>
+                    </div>
+                    <span class="font-outfit font-bold text-xl text-white tracking-tight">Web<span class="text-blue-400">Pintar</span></span>
+                </div>
+                <div class="text-slate-500 text-sm text-center">
+                    <p>© 2026 Pendidikan Digital. Tutorial Statis untuk Masa Depan.</p>
+                    <p class="mt-2">📌 Dibangun dengan <span class="text-white">HTML5, Tailwind CSS, & AnimeJS</span></p>
+                </div>
+                <div class="flex gap-6">
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors text-xl"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors text-xl"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors text-xl"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- Include Javascript Terpisah -->
+    <!-- Scripts -->
     <script src="./main.js"></script>
+    <script>
+        // Reveal animation on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // AnimeJS Entrance
+        anime({
+            targets: '.shape',
+            translateX: () => anime.random(-50, 50),
+            translateY: () => anime.random(-50, 50),
+            duration: 10000,
+            direction: 'alternate',
+            loop: true,
+            easing: 'easeInOutQuad'
+        });
+    </script>
 </body>
 </html>
