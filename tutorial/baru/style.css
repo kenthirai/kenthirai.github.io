@@ -24,6 +24,65 @@ body.light-mode {
     --nav-bg: rgba(248, 250, 252, 0.8);
 }
 
+/* Global Light Mode Overrides for Contrast */
+body.light-mode .text-white,
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode .text-slate-200,
+body.light-mode .text-slate-100 {
+    color: var(--text-primary) !important;
+}
+
+body.light-mode .text-slate-400,
+body.light-mode .text-slate-300,
+body.light-mode .text-slate-500,
+body.light-mode p,
+body.light-mode li {
+    color: var(--text-secondary) !important;
+}
+
+/* Darker Hero Gradient for Light Mode */
+body.light-mode .bg-clip-text {
+    background-image: linear-gradient(to right, #2563eb, #7c3aed, #db2777) !important;
+}
+
+body.light-mode .glass {
+    background: var(--bg-card);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+}
+
+body.light-mode .bg-slate-900\/50,
+body.light-mode .bg-slate-950,
+body.light-mode .bg-slate-900,
+body.light-mode .bg-slate-900\/20,
+body.light-mode .from-slate-900,
+body.light-mode .to-slate-950 {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+    background-image: none !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+body.light-mode .bg-slate-950 p,
+body.light-mode .bg-slate-950 h2,
+body.light-mode .bg-slate-950 h4 {
+    color: var(--text-primary) !important;
+}
+
+body.light-mode .btn-secondary {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-primary) !important;
+}
+
+body.light-mode .section-marker {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--accent-blue);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -72,6 +131,22 @@ h1, h2, h3, h4, .font-outfit {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--glass-border);
+}
+
+.glass-nav a, .glass-nav span {
+    color: var(--text-primary);
+}
+
+.glass-nav a:hover {
+    color: var(--accent-blue);
+}
+
+.glass-nav .text-slate-400 {
+    color: var(--text-secondary);
+}
+
+.glass-nav .text-white {
+    color: var(--text-primary);
 }
 
 /* Premium Button Styling */
