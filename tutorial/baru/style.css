@@ -295,3 +295,24 @@ td {
 tr:last-child td {
     border-bottom: none;
 }
+
+/* Prompt Section Styles */
+#prompt-text {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#prompt-overlay {
+    transition: opacity 0.5s ease-in-out;
+}
+
+body.light-mode #prompt-overlay {
+    background: linear-gradient(to top, var(--bg-dark), transparent) !important;
+}
+
+body.light-mode #prompt-text {
+    background-color: rgba(0, 0, 0, 0.03) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: var(--text-primary) !important;
+}
+

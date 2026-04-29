@@ -120,4 +120,54 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Prompt Section Interactivity
+    const btnCopyPrompt = document.getElementById('btn-copy-prompt');
+    const promptText = document.getElementById('prompt-text');
+    const btnLoadMorePrompt = document.getElementById('btn-load-more-prompt');
+    const promptContainer = document.getElementById('prompt-container');
+    const promptOverlay = document.getElementById('prompt-overlay');
+    const loadMoreIcon = document.getElementById('load-more-icon');
+
+    if (btnCopyPrompt && promptText) {
+        btnCopyPrompt.addEventListener('click', () => {
+            navigator.clipboard.writeText(promptText.innerText).then(() => {
+                const originalText = btnCopyPrompt.innerHTML;
+                btnCopyPrompt.innerHTML = '<i class="fa-solid fa-check"></i> <span>Tersalin!</span>';
+                btnCopyPrompt.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                
+                setTimeout(() => {
+                    btnCopyPrompt.innerHTML = originalText;
+                    btnCopyPrompt.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                }, 2000);
+            });
+        });
+    }
+
+    if (btnLoadMorePrompt && promptContainer) {
+        btnLoadMorePrompt.addEventListener('click', () => {
+            const isExpanded = promptContainer.style.maxHeight && promptContainer.style.maxHeight !== '220px';
+            
+            if (!isExpanded) {
+                // Expand
+                promptContainer.style.maxHeight = promptContainer.scrollHeight + 'px';
+                promptOverlay.style.opacity = '0';
+                btnLoadMorePrompt.querySelector('span').innerText = 'Lihat Lebih Sedikit';
+                loadMoreIcon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            } else {
+                // Collapse
+                promptContainer.style.maxHeight = '220px';
+                promptOverlay.style.opacity = '1';
+                btnLoadMorePrompt.querySelector('span').innerText = 'Lihat Selengkapnya';
+                loadMoreIcon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                
+                // Scroll back to container top if it's out of view
+                const rect = promptContainer.getBoundingClientRect();
+                if (rect.top < 0) {
+                    window.scrollBy({ top: rect.top - 100, behavior: 'smooth' });
+                }
+            }
+        });
+    }
 });
+
