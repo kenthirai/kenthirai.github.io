@@ -110,14 +110,17 @@
             </div>
 
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium">
                 <a href="#konsep" class="text-slate-400 hover:text-white transition-colors">Konsep</a>
                 <a href="#buat-web" class="text-slate-400 hover:text-white transition-colors">Buat Web</a>
                 <a href="#domain" class="text-slate-400 hover:text-white transition-colors">Domain</a>
                 <a href="#github" class="text-slate-400 hover:text-white transition-colors">GitHub</a>
                 <a href="#cloudflare" class="text-slate-400 hover:text-white transition-colors">Cloudflare</a>
                 <a href="#faq" class="text-slate-400 hover:text-white transition-colors">FAQ</a>
-                <a href="#tips" class="btn-secondary py-2 px-6 !text-sm">
+                <a href="https://kenthir.my.id/shopee-aff/" target="_blank" class="text-orange-400 hover:text-orange-300 transition-colors flex items-center gap-1">
+                    <i class="fa-solid fa-shop"></i> Demo Affiliate
+                </a>
+                <a href="#tips" class="btn-secondary py-2 px-6 !text-sm ml-2">
                     <i class="fa-solid fa-lightbulb text-yellow-400"></i>
                     <span>Tips</span>
                 </a>
@@ -144,6 +147,7 @@
                 <a href="#domain" class="mobile-link">Beli Domain</a>
                 <a href="#github" class="mobile-link">GitHub Deploy</a>
                 <a href="#cloudflare" class="mobile-link">Cloudflare Setup</a>
+                <a href="https://kenthir.my.id/shopee-aff/" target="_blank" class="mobile-link text-orange-400 flex items-center gap-2"><i class="fa-solid fa-shop"></i> Demo Web Affiliate</a>
                 <a href="#tips" class="mobile-link text-blue-400">Tips & Solusi</a>
                 <div class="pt-4 border-t border-white/10 flex justify-between items-center">
                     <span class="text-slate-400">Ganti Tema</span>
@@ -184,6 +188,9 @@
                     </a>
                     <a href="#ringkasan" class="btn-secondary w-full sm:w-auto text-lg">
                         Lihat Ringkasan
+                    </a>
+                    <a href="https://kenthir.my.id/shopee-aff/" target="_blank" class="w-full sm:w-auto text-lg px-8 py-3 rounded-xl bg-orange-500/10 text-orange-400 border border-orange-500/30 hover:bg-orange-500/20 transition-all font-semibold flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-laptop-code"></i> Live Demo Affiliate
                     </a>
                 </div>
             </div>
@@ -405,18 +412,24 @@
                         <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                             <i class="fa-solid fa-quote-right text-6xl"></i>
                         </div>
-                        <div class="flex items-center justify-between mb-4 relative z-10">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 relative z-10">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
                                     <i class="fa-solid fa-lightbulb text-yellow-400"></i>
                                 </div>
                                 <span class="font-bold text-white">Contoh Prompt:</span>
                             </div>
-                            <button id="btn-copy-prompt"
-                                class="text-xs bg-white/5 hover:bg-white/10 text-slate-300 py-1 px-3 rounded-lg border border-white/10 transition-all flex items-center gap-2">
-                                <i class="fa-regular fa-copy"></i>
-                                <span>Salin</span>
-                            </button>
+                            <div class="flex items-center gap-2">
+                                <a href="https://kenthir.my.id/shopee-aff/" target="_blank" class="text-xs bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 py-1.5 px-3 rounded-lg border border-orange-500/20 transition-all flex items-center gap-2">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span>Lihat Hasil Live</span>
+                                </a>
+                                <button id="btn-copy-prompt"
+                                    class="text-xs bg-white/5 hover:bg-white/10 text-slate-300 py-1.5 px-3 rounded-lg border border-white/10 transition-all flex items-center gap-2">
+                                    <i class="fa-regular fa-copy"></i>
+                                    <span>Salin</span>
+                                </button>
+                            </div>
                         </div>
 
                         <div id="prompt-wrapper" class="relative">
@@ -560,6 +573,7 @@
         </div>
     </section>
 
+    <!-- (Sisa kode BAB 2, BAB 3, BAB 5, dan ke bawahnya tetap sama persis seperti aslinya...) -->
     <!-- BAB 2: Beli domain -->
     <section id="domain" class="py-24 overflow-hidden">
         <div class="max-w-[1440px] mx-auto px-6">
