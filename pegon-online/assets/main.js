@@ -471,7 +471,7 @@ function showHelpGuide() {
 
 // Fungsi utilitas
 async function postChatCompletion(messages, options = {}) {
-    const response = await fetch("https://text.pollinations.ai/openai", {
+    const response = await fetch("https://gen.pollinations.ai/openai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
