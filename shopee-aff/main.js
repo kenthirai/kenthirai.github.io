@@ -74,9 +74,34 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
+            // Tutup menu mobile jika sedang terbuka
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                const menuToggle = document.getElementById('mobile-menu');
+                menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+            }
+
             target.scrollIntoView({
                 behavior: 'smooth'
             });
         }
     });
 });
+
+// --- Mobile Menu Toggle ---
+const mobileMenu = document.getElementById('mobile-menu');
+const navLinks = document.querySelector('.nav-links');
+
+if (mobileMenu && navLinks) {
+    mobileMenu.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        
+        // Ubah ikon hamburger ke X saat aktif
+        if (navLinks.classList.contains('active')) {
+            mobileMenu.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        } else {
+            mobileMenu.innerHTML = '<i class="fa-solid fa-bars"></i>';
+        }
+    });
+}
