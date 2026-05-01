@@ -619,9 +619,8 @@ footer {
         top: 70px;
         left: -100%;
         flex-direction: column;
-        background: var(--glass-bg);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        background: var(--white);
+        border-top: 1px solid #f0f0f0;
         width: 100%;
         height: calc(100vh - 70px);
         text-align: center;
