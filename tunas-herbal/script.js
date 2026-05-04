@@ -8,9 +8,11 @@
 
         function toggleCart() {
     const modal = document.getElementById('cart-modal');
+    if (!modal) return;
     modal.classList.toggle('hidden');
     modal.classList.toggle('flex');
 }
+function openCart() { toggleCart(); }
 
         function addToCart(name, price) {
             const existingItem = cart.find(item => item.name === name);
@@ -59,12 +61,11 @@
         });
     }
 
-const cartCount = document.getElementById('cart-count');
-if (cartCount) {
-    cartCount.innerText = totalItems;
+const cartCountNav = document.getElementById('cart-count-nav');
+if (cartCountNav) {
+    cartCountNav.innerText = totalItems;
 }
 
-// Tambahan untuk floating cart
 const floatingCount = document.getElementById('cart-count-floating');
 if (floatingCount) {
     floatingCount.innerText = totalItems;
@@ -183,7 +184,8 @@ function resetCart() {
 
 
 function flyCartIcon(startElement) {
-    const cartBtn = document.querySelector('[onclick="toggleCart()"]');
+    const cartBtn = document.querySelector('[onclick="toggleCart()"]') || document.querySelector('[onclick="openCart()"]');
+    if (!cartBtn) return;
     const startRect = startElement.getBoundingClientRect();
     const cartRect = cartBtn.getBoundingClientRect();
 
@@ -303,14 +305,36 @@ function openProductModal(imgEl) {
     const img = imgEl.src;
     const title = card.querySelector('h4')?.innerText || '';
     const desc = card.getAttribute('data-long-desc') || '';
+    
+    // Extract price
+    const priceText = card.querySelector('.real-price')?.innerText || '0';
+    const price = parseInt(priceText.replace(/[^0-9]/g, ''));
 
     document.getElementById('modal-img').src = img;
     document.getElementById('modal-title').innerText = title;
     document.getElementById('modal-desc').innerText = desc;
+    
+    // Store price and name for the "Add to Cart" button
+    const modalBtn = document.querySelector('#product-modal button[onclick="addToCartFromModal()"]');
+    if (modalBtn) {
+        modalBtn.setAttribute('data-name', title);
+        modalBtn.setAttribute('data-price', price);
+    }
 
     const modal = document.getElementById('product-modal');
     modal.classList.remove('hidden');
     modal.classList.add('flex');
+}
+
+function addToCartFromModal() {
+    const btn = document.querySelector('#product-modal button[onclick="addToCartFromModal()"]');
+    const name = btn.getAttribute('data-name');
+    const price = parseInt(btn.getAttribute('data-price'));
+    
+    if (name && price) {
+        addToCart(name, price);
+        closeProductModal();
+    }
 }
 function closeProductModal() {
     const modal = document.getElementById('product-modal');
