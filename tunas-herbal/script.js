@@ -958,7 +958,10 @@ function scrollToTop() {
 }
 window.addEventListener("scroll", () => {
     const btn = document.getElementById("scrollTopBtn");
+    const contactBtns = document.getElementById("contact-buttons");
+    const footer = document.getElementById("kontak");
 
+    // Scroll to top button visibility
     if (window.scrollY > 300) {
         if (btn) {
             btn.classList.remove("opacity-0", "pointer-events-none");
@@ -968,6 +971,19 @@ window.addEventListener("scroll", () => {
         if (btn) {
             btn.classList.add("opacity-0", "pointer-events-none");
             btn.classList.remove("opacity-100");
+        }
+    }
+
+    // Hide contact buttons when footer is visible to prevent overlap
+    if (footer && contactBtns) {
+        const footerRect = footer.getBoundingClientRect();
+        // Jika bagian atas footer sudah masuk ke layar
+        if (footerRect.top < window.innerHeight) {
+            contactBtns.classList.add("opacity-0", "pointer-events-none", "translate-y-10");
+            contactBtns.classList.remove("opacity-100", "translate-y-0");
+        } else {
+            contactBtns.classList.remove("opacity-0", "pointer-events-none", "translate-y-10");
+            contactBtns.classList.add("opacity-100", "translate-y-0");
         }
     }
 });
