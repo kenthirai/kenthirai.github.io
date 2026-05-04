@@ -1,0 +1,2427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tunas Herbal - Solusi Herbal Keluarga</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+   <link rel="stylesheet" href="style.css"> 
+  
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Top Bar -->
+    <div class="bg-teal-600 text-white py-2 px-4 text-center text-sm">
+        <p>Layanan Pengiriman Aktif Untuk Semua Pesanan | Hubungi Kami: <a href="tel:+6289637737721" class="font-bold underline">0896-3773-7721</a></p>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i data-lucide="cross" class="text-teal-600 fill-teal-600"></i>
+                <h1 class="text-2xl font-bold text-teal-700">Tunas<span class="text-gray-800">Herbal</span></h1>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8 font-medium">
+                <a href="#" class="hover:text-teal-600">Beranda</a>
+                <a href="#produk" class="hover:text-teal-600">Produk</a>
+                <a href="#layanan" class="hover:text-teal-600">Layanan</a>
+                <a href="#kontak" class="hover:text-teal-600">Kontak</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button onclick="toggleCart()" 
+class="fixed bottom-6 right-6 z-[999] p-4 bg-teal-600 text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-200">
+
+                    <i data-lucide="shopping-cart"></i>
+                    <span id="cart-count" class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </button>
+                <button onclick="toggleMenu()" class="md:hidden p-2">
+    <i data-lucide="menu"></i>
+</button>
+            </div>
+        </div>
+    </header>
+<!-- Mobile Slide Menu -->
+<div id="mobile-drawer" class="fixed inset-0 z-[999] hidden">
+    
+    <!-- background gelap -->
+    <div class="absolute inset-0 bg-black bg-opacity-50" onclick="toggleMenu()"></div>
+
+    <!-- panel menu -->
+    <div id="drawer-panel"
+         class="absolute left-0 top-0 h-full w-64 bg-white shadow-xl p-6 transform -translate-x-full transition-transform duration-300">
+
+        <h2 class="text-xl font-bold mb-6 text-teal-600">Menu</h2>
+
+        <a href="#" onclick="toggleMenu()" class="block py-2 hover:text-teal-600">
+    Beranda
+</a>
+
+<a href="javascript:void(0)" 
+   onclick="scrollToPilihProduk(); toggleMenu()" 
+   class="block py-2 hover:text-teal-600">
+    Produk
+</a>
+
+<a href="javascript:void(0)" 
+   onclick="scrollToLayanan(); toggleMenu()" 
+   class="block py-2 hover:text-teal-600">
+    Layanan
+</a>
+
+<a href="javascript:void(0)" 
+   onclick="scrollToBottom(); toggleMenu()" 
+   class="block py-2 hover:text-teal-600">
+    Kontak
+</a>
+
+    </div>
+</div>
+    <!-- Hero Section -->
+<section class="relative bg-teal-50 py-16 md:py-24 overflow-hidden">
+    <div class="container mx-auto px-4 flex flex-col-reverse md:flex-row items-center">
+
+        <div class="md:w-1/2 mb-10 md:mb-0 z-10">
+            <h2 class="text-3xl md:text-4xl font-bold leading-tight mb-6 text-gray-900">
+                Kesehatan Anda, <br><span class="text-teal-600">Prioritas Utama Kami</span>
+            </h2>
+
+            <p class="text-base text-gray-600 mb-8">
+                Dapatkan produk herbal berkualitas, Madu murni pilihan, dan Jaminan keaslian dari setiap produk kami dengan pengiriman cepat langsung ke rumah Anda.
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+                <button onclick="scrollToPilihProduk()"
+                    class="bg-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-700 transition text-lg">
+                    Lihat Produk
+                </button>
+
+                <h5 onclick="openChatbot()"
+                    class="text-xl font-bold cursor-pointer inline-block px-4 py-2 rounded-lg shadow-sm bg-yellow-500 text-white hover:bg-yellow-600 transition">
+                    Konsultasi Chatbot
+                </h5>
+            </div>
+        </div>
+
+        <div class="md:w-1/2 relative">
+            <div class="w-full h-80 md:h-96 bg-teal-200 rounded-full absolute -top-10 -right-10 blur-3xl opacity-30"></div>
+
+            <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/logo.png"
+                class="logo-anim rounded-2xl shadow-2xl relative z-10 w-full object-cover h-48 md:h-96 -mt-4 md:mt-0"
+                onclick="animateLogo()"
+                alt="TUNAS HERBAL"
+                onerror="this.src='https://via.placeholder.com/800x600?text=Tunas+Herbal'">
+        </div>
+
+    </div>
+</section>
+
+<!-- Produk Terlaris -->
+<section class="px-4 pb-10 mt-10 md:mt-16">
+
+    <div class="container mx-auto">
+        <h3 class="text-xl font-bold mb-4 text-gray-800">
+            🔥 Produk Terlaris
+        </h3>
+
+        <div class="grid grid-cols-2 gap-4 md:flex md:overflow-x-auto md:gap-6 md:pb-4 md:scroll-smooth">
+
+    <!-- Produk 1 -->
+    <div class="bg-white rounded-xl shadow-sm p-3 min-w-[150px] md:min-w-[220px] cursor-pointer"
+         onclick="openProductModal(this)"
+         data-name="Madu Gholiban 1 kg"
+         data-long-desc="Madu murni Kalimantan berkualitas tinggi.">
+
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/gholiban-1kg.png"
+             class="w-full h-28 md:h-40 object-contain rounded-lg mb-2">
+
+        <span class="text-xs font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded">
+            Produk Madu
+        </span>
+
+        <h4 class="text-sm md:text-base font-semibold mt-2">
+            Madu Gholiban 1 kg
+        </h4>
+
+        <p class="text-gray-400 line-through text-xs">Rp 60.000</p>
+        <p class="text-teal-700 font-bold text-sm md:text-base">Rp 50.000</p>
+    </div>
+
+
+    <!-- Produk 2 -->
+    <div class="bg-white rounded-xl shadow-sm p-3 min-w-[150px] md:min-w-[220px] cursor-pointer"
+         onclick="openProductModal(this)"
+         data-name="Madu Lambung Asyifa"
+         data-long-desc="Membantu menjaga kesehatan lambung.">
+
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/lambung-asyifa.png"
+             class="w-full h-28 md:h-40 object-contain rounded-lg mb-2">
+
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">
+            Produk Herbal
+        </span>
+
+        <h4 class="text-sm md:text-base font-semibold mt-2">
+            Madu Lambung Asyifa
+        </h4>
+
+        <p class="text-gray-400 line-through text-xs">Rp 55.000</p>
+        <p class="text-teal-700 font-bold text-sm md:text-base">Rp 45.000</p>
+    </div>
+
+
+    <!-- Produk 3 -->
+    <div class="bg-white rounded-xl shadow-sm p-3 min-w-[150px] md:min-w-[220px] cursor-pointer"
+         onclick="openProductModal(this)"
+         data-name="Madu Angkak Darusyifa"
+         data-long-desc="Membantu meningkatkan trombosit.">
+
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/madu-angkak-darusyifa.png"
+             class="w-full h-28 md:h-40 object-contain rounded-lg mb-2">
+
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">
+            Produk Herbal
+        </span>
+
+        <h4 class="text-sm md:text-base font-semibold mt-2">
+            Madu Angkak Darusyifa
+        </h4>
+
+        <p class="text-gray-400 line-through text-xs">Rp 60.000</p>
+        <p class="text-teal-700 font-bold text-sm md:text-base">Rp 50.000</p>
+    </div>
+
+
+    <!-- Produk 4 -->
+    <div class="bg-white rounded-xl shadow-sm p-3 min-w-[150px] md:min-w-[220px] cursor-pointer"
+         onclick="openProductModal(this)"
+         data-name="Minyak But But HNI"
+         data-long-desc="Minyak herbal untuk pijat dan relaksasi.">
+
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/minyaksinergi.png"
+             class="w-full h-28 md:h-40 object-contain rounded-lg mb-2">
+
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">
+            Produk Minyak
+        </span>
+
+        <h4 class="text-sm md:text-base font-semibold mt-2">
+            Minyak But But HNI
+        </h4>
+
+        <p class="text-gray-400 line-through text-xs">Rp 50.000</p>
+        <p class="text-teal-700 font-bold text-sm md:text-base">Rp 45.000</p>
+    </div>
+
+
+    <!-- Produk 5 -->
+    <div class="bg-white rounded-xl shadow-sm p-3 min-w-[150px] md:min-w-[220px] cursor-pointer"
+         onclick="openProductModal(this)"
+         data-name="Susu Skygoat"
+         data-long-desc="Susu kambing bubuk berkualitas.">
+
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/skygoat.png"
+             class="w-full h-28 md:h-40 object-contain rounded-lg mb-2">
+
+        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">
+            Produk Susu
+        </span>
+
+        <h4 class="text-sm md:text-base font-semibold mt-2">
+            Susu Skygoat
+        </h4>
+
+        <p class="text-gray-400 line-through text-xs">Rp 38.000</p>
+        <p class="text-teal-700 font-bold text-sm md:text-base">Rp 30.000</p>
+    </div>
+
+
+    <!-- Produk 6 -->
+    <div class="bg-white rounded-xl shadow-sm p-3 min-w-[150px] md:min-w-[220px] cursor-pointer"
+         onclick="openProductModal(this)"
+         data-name="Minyak Zaitun Le Rice"
+         data-long-desc="Minyak zaitun untuk kesehatan dan perawatan.">
+
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/Lerice.png"
+             class="w-full h-28 md:h-40 object-contain rounded-lg mb-2">
+
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">
+            Produk Minyak
+        </span>
+
+        <h4 class="text-sm md:text-base font-semibold mt-2">
+            Minyak Zaitun Le Rice
+        </h4>
+
+        <p class="text-gray-400 line-through text-xs">Rp 50.000</p>
+        <p class="text-teal-700 font-bold text-sm md:text-base">Rp 45.000</p>
+    </div>
+
+</div>
+
+</section>
+    
+    <!-- Search Section -->
+    <section class="bg-white py-8 border-b">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto flex items-center bg-yellow-100 rounded-xl p-2 px-4 border focus-within:border-yellow-500 transition">
+                <i data-lucide="search" class="text-gray-800"></i>
+                <input type="text" id="productSearch"
+    onkeydown="handleEnter(event)"
+    placeholder="Cari produk herbal dan jenis madu..."
+    class="bg-transparent border-none focus:ring-0 w-full px-4 py-2">
+            </div>
+        </div>
+    </section>
+
+    <!-- PERBAIKAN BAGIAN PRODUCTS SECTION -->
+<div class="py-10 flex justify-center relative">
+    
+    <div class="relative inline-block">
+        
+        <div class="arrow-guide arrow-left">❯❯❯❯❯</div>
+
+        <button onclick="openCategoryModal()"
+            class="bg-teal-600 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-lg hover:bg-teal-700 transition">
+            Pilih Produk
+        </button>
+
+        <div class="arrow-guide arrow-right">❮❮❮❮❮</div>
+
+    </div>
+
+</div>
+
+<div id="category-modal"
+     onclick="handleOutsideClick(event)"
+     class="fixed inset-0 bg-black bg-opacity-60 z-[999] hidden items-center justify-center p-4">
+
+    <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+
+        <h3 class="text-xl font-bold mb-4 text-center">Pilih Kategori</h3>
+
+        <div class="space-y-3">
+
+            <button onclick="filterCategory('Produk Madu')" class="w-full bg-yellow-100 hover:bg-yellow-200 p-3 rounded-lg font-semibold">
+                🐝 Produk Madu
+            </button>
+
+            <button onclick="filterCategory('Produk Herbal')" class="w-full bg-green-100 hover:bg-green-200 p-3 rounded-lg font-semibold">
+                🌿 Produk Herbal
+            </button>
+
+            <button onclick="filterCategory('Produk Susu')" class="w-full bg-blue-100 hover:bg-blue-200 p-3 rounded-lg font-semibold">
+                🥛 Produk Susu
+            </button>
+
+            <button onclick="filterCategory('Produk Stamina')" class="w-full bg-red-100 hover:bg-red-200 p-3 rounded-lg font-semibold">
+                🔥 Produk Stamina
+            </button>
+            
+            <button onclick="filterCategory('Produk Hiu Herbalindo')" class="w-full bg-amber-200 hover:bg-amber-100 p-3 rounded-lg font-semibold">
+        🍀 Produk Hiu Herbalindo
+            </button>
+            
+            <button onclick="filterCategory('Produk Minyak')" class="w-full bg-yellow-100 hover:bg-yellow-200 p-3 rounded-lg font-semibold">
+        🫒 Produk Minyak
+            </button>
+    
+            <button onclick="filterCategory('all')" class="w-full bg-gray-200 hover:bg-gray-300 p-3 rounded-lg font-semibold">
+                📦 Semua Produk
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+<section id="produk" class="py-16 container mx-auto px-4">
+    <div class="flex justify-between items-end mb-10">
+        <div>
+            <h3 class="text-3xl font-bold mb-2">Kualitas Produk Terjamin</h3>
+            <p class="text-gray-600">Pilihan terbaik untuk kesehatan keluarga Anda</p>
+        </div>
+        <div class="hidden md:block">
+            <span onclick="showAllProducts()" class="text-teal-600 font-semibold cursor-pointer">
+    Lihat Semua →
+</span>
+        </div>
+    </div>
+
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      <!-- Product 1 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Gholiban 500 gram madu kalimantan"
+     data-long-desc="Madu Gholiban ini adalah madu murni dari Kalimantan yang dipanen secara alami tanpa campuran gula. Memiliki rasa khas, kaya antioksidan, membantu meningkatkan daya tahan tubuh, menjaga stamina, dan baik untuk konsumsi harian keluarga.">
+    
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/gholiban-500g.png"
+    alt="Madu Gholiban 500 gram"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded">Produk Madu</span>
+        <h4 class="text-lg font-bold mt-2">Madu Gholiban 500 gram</h4>
+        <p class="text-sm text-gray-500 mb-4">Madu Kalimantan murni untuk segala kebutuhan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 40.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 35.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Gholiban 500 gram', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Gholiban 500 gram', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 2 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Gholiban 1 kg madu kalimantan"
+     data-long-desc="Madu Gholiban 1 kg ini adalah madu murni asli dari Kalimantan yang dipanen secara alami tanpa campuran gula atau bahan kimia. Memiliki rasa manis alami yang khas, kaya antioksidan, serta baik untuk menjaga daya tahan tubuh, meningkatkan stamina, dan membantu kesehatan keluarga secara keseluruhan.">
+    
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/gholiban-1kg.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded">Produk Madu</span>
+        <h4 class="text-lg font-bold mt-2">Madu Gholiban 1 kg</h4>
+        <p class="text-sm text-gray-500 mb-4">Madu Kalimantan murni untuk segala kebutuhan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 60.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 50.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Gholiban 1 kg', 50000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Gholiban 1 kg', 50000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 3 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Assamulin"
+     data-long-desc="Assamulin adalah suplemen herbal isi 30 kapsul yang membantu menjaga kesehatan otot dan sendi. Terbuat dari bahan herbal pilihan yang mendukung kelancaran aktivitas harian, mengurangi rasa pegal, rematik, asam urat, meriang, menurunkan kolesterol, menurunkan zat purin di dalam tubuh, serta menjaga fleksibilitas tubuh agar tetap sehat dan bugar.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/assamulin.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Assamulin</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 30 kapsul. Menjaga kesehatan otot dan sendi.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 72.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 65.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Assamulin', 65000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Assamulin', 65000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product 4 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Super Top Libido STL"
+     data-long-desc="Super Top Libido (STL) adalah suplemen herbal isi 4 kapsul yang membantu meningkatkan stamina pria, memperkuat energi, serta mendukung durasi dan performa. Diracik dari bahan herbal pilihan yang aman digunakan dan membantu meningkatkan vitalitas secara alami.">
+
+   <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/STL.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded">Produk Stamina</span>
+        <h4 class="text-lg font-bold mt-2">Super Top Libido (STL)</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 4 kapsul. Menambah stamina pria dan durasi.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 65.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 50.000</p>
+        </div>
+    </div>
+
+     <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Super Top Libido (STL)', 50000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Super Top Libido (STL)', 50000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product 5 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Kopi Jantan Original"
+     data-long-desc="Kopi Jantan Original adalah minuman herbal berbentuk kopi sachet yang dirancang untuk membantu meningkatkan stamina, energi, daya tahan tubuh dan juga menambah durasi . Cocok untuk aktivitas harian agar tetap bertenaga lebih lama secara alami.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/kopi-jantan.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded">Produk Stamina</span>
+        <h4 class="text-lg font-bold mt-2">Kopi JANTAN ORIGINAL</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 1 sachet. Menambah stamina dan durasi.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 20.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 15.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Kopi JANTAN ORIGINAL', 15000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Kopi JANTAN ORIGINAL', 15000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product 6 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Lambung Asyifa"
+     data-long-desc="Madu Lambung Asyifa adalah madu herbal alami isi 280 gram yang diformulasikan untuk membantu penyembuhan penyakit lambung dan pencernaan. Membantu meredakan rasa tidak nyaman di perut, menjaga asam lambung tetap stabil, serta mendukung kesehatan pencernaan secara alami serta cocok untuk segala umur.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/lambung-asyifa.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Lambung Asyifa</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 280 gram. Membantu lambung dan pencernaan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 55.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 45.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Lambung Asyifa', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Lambung Asyifa', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 7 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Angkak Darusyifa"
+     data-long-desc="Madu Angkak Darusyifa adalah madu herbal alami isi 470 gram yang membantu mendukung kesehatan darah, membantu meningkatkan kadar trombosit, serta menjaga daya tahan tubuh agar tetap optimal. Cocok untuk penderita DBD, penderita tipes / typus , gejala imun turun, membantu mempercepat pemulihan dan menjaga kondisi tubuh tetap fit.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/madu-angkak-darusyifa.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Angkak Darusyifa</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 470 gram. Membantu menambah trombosit.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 60.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 50.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Angkak Darusyifa', 50000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Angkak Darusyifa', 50000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 8 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Batuk BATGUR"
+     data-long-desc="Madu Batuk BATGUR adalah madu herbal alami isi 280 gram yang diformulasikan untuk membantu meredakan batuk kering, batuk berdahak, rasa menggatal di tenggorokan, radang tenggorokan, pilek, dan gejala flu ringan. Membantu melegakan tenggorokan, meningkatkan daya tahan tubuh, serta mendukung pemulihan secara alami.">
+
+   <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/madu-batgur.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Batuk BATGUR</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 280 gram. Untuk batuk, pilek, demam.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 40.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 35.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Batuk BATGUR', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Batuk BATGUR', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 9 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Susu Skygoat 200 gram"
+     data-long-desc="Susu Skygoat 200 gram adalah susu kambing bubuk berkualitas yang terdiri dari 8 sachet (25 gram/sachet). Mengandung nutrisi yang baik untuk kesehatan tubuh, membantu menjaga daya tahan, membantu penyembuhan pernapasan, membantu menguat kekuatan tulang, membantu menjaga kesehatan pencernaan, serta mendukung kebutuhan gizi harian secara alami.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/skygoat.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">Produk Susu</span>
+        <h4 class="text-lg font-bold mt-2">Susu Skygoat 200 gram</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 8 sachet (25 gram/sachet)</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 38.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 30.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Susu Skygoat 200 gram', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Susu Skygoat 200 gram', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 10 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak Zaitun Le Rice 300 ml"
+     data-long-desc="Minyak Zaitun Le Rice 300 ml adalah minyak zaitun premium yang diekstrak dari buah zaitun pilihan berkualitas tinggi. Kaya akan antioksidan dan lemak sehat yang baik untuk tubuh. Membantu menjaga kesehatan jantung, merawat kulit dan rambut, serta dapat digunakan untuk konsumsi harian maupun perawatan luar tubuh secara alami.">
+
+   <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/Lerice.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak Zaitun Le Rice 300 ml</h4>
+        <p class="text-sm text-gray-500 mb-4">Minyak zaitun alami untuk kesehatan dan perawatan tubuh.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 50.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 45.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak Zaitun Le Rice 300 ml', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak Zaitun Le Rice 300 ml', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 11 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Susu kambing Etawalin 200 gram"
+     data-long-desc="Susu kambing Etawalin adalah susu kambing bubuk berkualitas tinggi yang diformulasikan untuk membantu menjaga kesehatan tubuh secara menyeluruh. Mengandung nutrisi penting yang baik untuk tulang, sendi, dan stamina. Cocok untuk membantu meredakan pegal, nyeri sendi, serta menjaga daya tahan tubuh agar tetap optimal.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/susuetawalin.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">Produk Susu</span>
+        <h4 class="text-lg font-bold mt-2">Susu Kambing Etawalin</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 200 gram. Baik untuk tulang, sendi, dan stamina tubuh.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 105.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 95.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Susu Kambing Etawalin', 95000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Susu Kambing Etawalin', 95000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 12  -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Susu Kambing Etawaku 200 gram"
+     data-long-desc="Susu Kambing Etawaku adalah susu kambing bubuk berkualitas yang diformulasikan untuk membantu menjaga kesehatan tubuh, meningkatkan stamina, serta membantu meredakan pegal dan nyeri sendi. Mengandung nutrisi penting yang baik untuk tulang, pencernaan, dan daya tahan tubuh, sehingga cocok dikonsumsi setiap hari.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/susuetawaku.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">Produk Susu</span>
+        <h4 class="text-lg font-bold mt-2">Susu Kambing Etawaku</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 200 gram. Bantu stamina, tulang, dan pencernaan lebih sehat.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 95.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 85.000</p>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Susu Kambing Etawaku', 85000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Susu Kambing Etawaku', 85000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 13 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Susu Kambing HNI Etta Goatmilk 200 gram"
+     data-long-desc="Susu Kambing HNI Etta Goatmilk adalah susu kambing bubuk premium yang diformulasikan untuk membantu menjaga kesehatan tubuh secara alami. Mengandung nutrisi penting yang baik untuk daya tahan tubuh, membantu melancarkan pencernaan, serta mendukung kesehatan tulang dan stamina harian. Cocok dikonsumsi oleh semua usia sebagai suplemen kesehatan alami.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/susuetawahni.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">Produk Susu</span>
+        <h4 class="text-lg font-bold mt-2">Susu Kambing HNI Etta Goatmilk</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 200 gram. Bantu daya tahan tubuh & pencernaan lebih sehat.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 85.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 75.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Susu Kambing HNI Etta Goatmilk', 75000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Susu Kambing HNI Etta Goatmilk', 75000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product Baru 14 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Susu Kambing Fresh Etawa 200 gram"
+     data-long-desc="Susu Kambing Fresh Etawa adalah susu kambing bubuk praktis dengan isi total 200 gram (10 sachet @20 gram). Membantu menjaga daya tahan tubuh, meningkatkan energi, serta mendukung kesehatan tulang dan pencernaan. Cocok dikonsumsi setiap hari untuk semua usia.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/susuetawafreshetawa.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">Produk Susu</span>
+        <h4 class="text-lg font-bold mt-2">Susu Kambing Fresh Etawa</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 200 gram (10 sachet @20 gram)</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 40.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 35.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Susu Kambing Fresh Etawa', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Susu Kambing Fresh Etawa', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product Baru 15  -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Susu Kambing Etawa AMH Original Jahe 200 gram"
+     data-long-desc="Susu Kambing Etawa AMH hadir dalam varian Original dan Jahe dengan isi total 200 gram (10 sachet @20 gram). Mengandung nutrisi alami dari susu kambing yang membantu menjaga daya tahan tubuh, menghangatkan badan (varian jahe), serta baik untuk stamina dan kesehatan pencernaan. Cocok dikonsumsi harian untuk menjaga kebugaran tubuh.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/susuetawaamh.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">Produk Susu</span>
+        <h4 class="text-lg font-bold mt-2">Susu Kambing Etawa AMH Original / Jahe</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 200 gram (10 sachet @20 gram)</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 30.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 25.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Susu Kambing Etawa AMH Original / Jahe', 25000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Susu Kambing Etawa AMH Original / Jahe', 25000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 16  -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Lambung Zestmag"
+     data-long-desc="Madu Lambung Zestmag adalah madu herbal premium isi 280 gram yang diformulasikan khusus untuk membantu menjaga kesehatan lambung dan sistem pencernaan. Membantu meredakan gejala maag, asam lambung, perih di perut, serta menjaga keseimbangan asam lambung secara alami. Cocok untuk dikonsumsi rutin agar lambung tetap nyaman dan sehat.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/zestmag.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Lambung Zestmag</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 280 gram. Menjaga kesehatan lambung & pencernaan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 150.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 135.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Lambung Zestmag', 135000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Lambung Zestmag', 135000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 17 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Lambung Vitagerd"
+     data-long-desc="Madu Lambung Vitagerd adalah madu herbal premium isi 350 gram yang diformulasikan khusus untuk membantu mengatasi masalah lambung seperti maag, asam lambung naik, perih, dan kembung. Mengandung bahan alami pilihan yang membantu menenangkan lambung, memperbaiki sistem pencernaan, serta menjaga kesehatan lambung secara menyeluruh. Cocok untuk penderita lambung kronis maupun pemeliharaan harian.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/vitagerd.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Lambung Vitagerd</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 350 gram. Solusi lambung kronis & pencernaan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 180.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 165.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Lambung Vitagerd', 165000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Lambung Vitagerd', 165000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 18 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Lambung Masambung"
+     data-long-desc="Madu Lambung Masambung adalah madu herbal isi 350 gram yang diformulasikan untuk membantu meredakan gangguan lambung seperti maag, perih, kembung, dan asam lambung naik. Dibuat dari bahan alami pilihan yang membantu menenangkan lambung, memperbaiki sistem pencernaan, serta menjaga kesehatan lambung secara alami untuk penggunaan harian.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/masambung.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Lambung Masambung</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 350 gram. Membantu meredakan maag & asam lambung.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 75.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 65.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Lambung Masambung', 65000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Lambung Masambung', 65000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 19 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Lambung HLV"
+     data-long-desc="Madu Lambung HLV adalah madu herbal isi 170 gram yang diformulasikan untuk membantu meredakan gangguan lambung seperti maag, perih, kembung, dan asam lambung naik. Dengan kandungan bahan alami pilihan, produk ini membantu menenangkan lambung serta menjaga kesehatan pencernaan agar tetap nyaman untuk aktivitas sehari-hari.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/lambungHlv.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Lambung HLV</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 170 gram. Solusi praktis untuk lambung ringan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 45.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 40.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Lambung HLV', 40000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Lambung HLV', 40000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 20  -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Lambung Freshmag"
+     data-long-desc="Madu Lambung Freshmag adalah madu herbal isi 200 ml yang diformulasikan untuk membantu mengatasi gangguan lambung seperti maag, asam lambung naik, perih, dan kembung. Dengan bahan alami pilihan, produk ini membantu menenangkan lambung, menjaga keseimbangan asam lambung, serta mendukung kesehatan pencernaan secara menyeluruh. Cocok untuk penggunaan rutin bagi yang memiliki masalah lambung.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/feshmag.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Lambung Freshmag</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 200 ml. Menenangkan lambung & pencernaan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 160.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 145.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Lambung Freshmag', 145000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Lambung Freshmag', 145000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 21 -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Kuning Sehat Lambung Attaubah"
+     data-long-desc="Madu Kuning Sehat Lambung Attaubah adalah madu herbal isi 350 ml yang diformulasikan untuk membantu menjaga kesehatan lambung dan pencernaan. Membantu meredakan gejala maag, asam lambung naik, perih, dan kembung. Dengan kandungan alami berkualitas, produk ini membantu menenangkan lambung serta menjaga kenyamanan pencernaan untuk aktivitas sehari-hari.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/attaubahmadukuning.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Kuning Sehat Lambung Attaubah</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 350 ml. Menjaga kesehatan lambung & pencernaan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 120.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 105.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Kuning Sehat Lambung Attaubah', 105000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Kuning Sehat Lambung Attaubah', 105000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 22  -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Lambung Aslamago"
+     data-long-desc="Madu Lambung Aslamago adalah madu herbal isi 230 ml yang diformulasikan untuk membantu meredakan gangguan lambung seperti maag, asam lambung naik, perih, dan kembung. Dibuat dari bahan alami pilihan yang membantu menenangkan lambung, memperbaiki sistem pencernaan, serta menjaga kesehatan lambung agar tetap stabil dan nyaman untuk aktivitas sehari-hari.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/aslamago.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Lambung Aslamago</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 230 ml. Menjaga lambung tetap nyaman.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 65.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 55.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Lambung Aslamago', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Lambung Aslamago', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product - Mecca Gurah -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Batuk Mecca Gurah"
+     data-long-desc="Madu Batuk Mecca Gurah adalah madu herbal isi 160 gram yang diformulasikan untuk membantu meredakan batuk kering maupun berdahak, tenggorokan gatal, pilek, dan flu ringan. Dengan bahan alami pilihan, produk ini membantu melegakan pernapasan, menghangatkan tubuh, serta mendukung daya tahan tubuh agar tetap fit. Cocok dikonsumsi saat cuaca tidak menentu atau kondisi tubuh menurun.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/meccamadugurah.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Batuk Mecca Gurah</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 160 gram. Untuk batuk & tenggorokan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 35.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 30.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Batuk Mecca Gurah', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Batuk Mecca Gurah', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product - Herbatuk Sherin -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Batuk Herbatuk Sherin"
+     data-long-desc="Madu Batuk Herbatuk Sherin adalah madu herbal isi 160 gram yang diformulasikan untuk membantu meredakan batuk kering, batuk berdahak, tenggorokan gatal, dan gejala flu ringan. Dengan bahan alami pilihan, produk ini membantu melegakan tenggorokan, menghangatkan tubuh, serta mendukung daya tahan tubuh agar tetap fit. Cocok dikonsumsi saat kondisi tubuh kurang fit atau saat cuaca tidak menentu.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/batukmeccaherbatuk.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Batuk Herbatuk Sherin</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 160 gram. Redakan batuk & tenggorokan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 35.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 30.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Batuk Herbatuk Sherin', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Batuk Herbatuk Sherin', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product - Jasmine F&B -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Batuk Jasmine F&B"
+     data-long-desc="Madu Batuk Jasmine F&B adalah madu herbal isi 150 gram yang diformulasikan untuk membantu meredakan batuk kering, batuk berdahak, tenggorokan gatal, serta gejala flu ringan. Dengan kandungan bahan alami, membantu melegakan tenggorokan, menjaga daya tahan tubuh, dan mempercepat pemulihan secara alami. Cocok dikonsumsi harian saat kondisi kurang fit.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/jasminef&b.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Batuk Jasmine F&B</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 150 gram. Meredakan batuk & tenggorokan.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 32.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 28.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Batuk Jasmine F&B', 28000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Batuk Jasmine F&B', 28000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product - Gurah Fit -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Batuk Gurah Fit"
+     data-long-desc="Madu Batuk Gurah Fit adalah madu herbal premium isi 280 gram yang diformulasikan khusus untuk membantu meredakan batuk kering, batuk berdahak, tenggorokan gatal, radang, serta gejala flu. Mengandung bahan herbal pilihan berkualitas tinggi yang bekerja lebih maksimal dalam melegakan pernapasan, membersihkan tenggorokan, serta mempercepat pemulihan. Cocok untuk kondisi batuk berat maupun ringan dan sangat direkomendasikan sebagai produk terbaik di kelasnya.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/gurafitmadu.jpeg"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+
+        <h4 class="text-lg font-bold mt-2">Madu Batuk Gurah Fit</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 280 gram. Solusi batuk & tenggorokan paling maksimal.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 150.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 135.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Batuk Gurah Fit', 135000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Batuk Gurah Fit', 135000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product - Parugo -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Batuk Parugo"
+     data-long-desc="Madu Batuk Parugo adalah madu herbal isi 150 gram yang diformulasikan untuk membantu meredakan gangguan pernapasan, terutama yang berkaitan dengan paru-paru dan flek. Membantu mengencerkan dahak, melegakan saluran pernapasan, serta meredakan batuk berdahak dan sesak ringan. Cocok untuk yang mengalami batuk berkepanjangan atau masalah flek di paru-paru.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/batukparugo.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+
+        <h4 class="text-lg font-bold mt-2">Madu Batuk Parugo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 150 gram. Untuk flek & kesehatan paru-paru.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 40.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 35.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Batuk Parugo', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Batuk Parugo', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product - HLV -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Batuk HLV"
+     data-long-desc="Madu Batuk HLV adalah madu herbal alami isi 165 gram yang diformulasikan untuk membantu meredakan batuk kering maupun berdahak, serta menjaga kesehatan tenggorokan dan pernapasan. Memiliki rasa yang lebih ringan dan tidak terlalu pedas, sehingga nyaman dikonsumsi oleh anak-anak maupun dewasa. Cocok untuk yang ingin manfaat madu batuk tanpa rasa menyengat, serta membantu meningkatkan daya tahan tubuh secara alami.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/batukhlv.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+
+        <h4 class="text-lg font-bold mt-2">Madu Batuk HLV</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 165 gram. Rasa ringan, tidak pedas, cocok untuk anak & dewasa.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 45.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 35.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Batuk HLV', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Batuk HLV', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product Madu Batuk Asyifa Gurah -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Batuk Asyifa Gurah"
+     data-long-desc="Madu Batuk Asyifa Gurah adalah madu herbal alami isi 150 gram yang diformulasikan untuk membantu meredakan batuk berdahak kamu juga bisa untuk mengobati batuk kering juga, tenggorokan gatal, serta membantu melegakan pernapasan. Cocok untuk keluhan batuk dahak tapi bisa juga untuk batuk kering. Membantu menjaga daya tahan tubuh dan pemulihan secara alami.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/asyifabatukgurah.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Batuk Asyifa Gurah</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 150 gram. Cocok untuk batuk kering & tenggorokan gatal.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 40.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 35.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Batuk Asyifa Gurah', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Batuk Asyifa Gurah', 35000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product Madu Batuk Asyifa 9 in 1-->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Madu Batuk Asyifa 9 in 1"
+     data-long-desc="Madu Batuk Asyifa 9 in 1 adalah madu herbal alami isi 175 gram yang diformulasikan dengan berbagai bahan pilihan untuk membantu meredakan batuk kering maupun berdahak, melegakan tenggorokan, serta membantu menjaga kesehatan pernapasan. Mengandung kombinasi herbal yang mendukung daya tahan tubuh dan mempercepat pemulihan secara alami. Produk ini merupakan salah satu yang paling laris karena manfaatnya yang lengkap dan cocok untuk berbagai keluhan batuk.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/asyifa9in1.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Produk Herbal</span>
+        <h4 class="text-lg font-bold mt-2">Madu Batuk Asyifa 9 in 1</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 175 gram. Lengkap untuk batuk kering & berdahak (paling laris).</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 38.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 33.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Madu Batuk Asyifa 9 in 1', 33000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Madu Batuk Asyifa 9 in 1', 33000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product Minyak Zaitun Aroma Therapy-->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak Zaitun Aroma Therapy"
+     data-long-desc="Minyak Zaitun Aroma Therapy adalah minyak zaitun aromaterapi isi 60 ml yang digunakan khusus untuk perawatan luar tubuh. Tidak untuk dikonsumsi. Mengandung aroma lembut yang membantu relaksasi tubuh, melembapkan kulit, membantu pijat tradisional, serta memberikan efek menenangkan setelah aktivitas padat. Cocok digunakan sebagai minyak pijat, perawatan kulit kering, dan aromaterapi harian.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/zaitunwangi.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak Zaitun Aroma Therapy</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 ml. Untuk pijat & aromaterapi (tidak untuk diminum).</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 25.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 20.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak Zaitun Aroma Therapy', 20000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak Zaitun Aroma Therapy', 20000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak Zaitun Ath-Thoyyibah"
+     data-long-desc="Minyak Zaitun Ath-Thoyyibah adalah minyak zaitun murni dalam kemasan ekonomis isi 60 ml. Mengandung minyak zaitun alami yang kaya manfaat untuk kesehatan dan perawatan tubuh. Dapat digunakan untuk membantu melembapkan kulit, perawatan rambut, pijat tradisional, serta mendukung kesehatan tubuh secara alami dari luar. Produk ini praktis digunakan sehari-hari dengan kualitas minyak zaitun murni.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/zaitunaththoyibah.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak Zaitun Ath-Thoyyibah</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 ml. Minyak zaitun murni kemasan ekonomis.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 25.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 20.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak Zaitun Ath-Thoyyibah', 20000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak Zaitun Ath-Thoyyibah', 20000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak Zaitun Al Arobi"
+     data-long-desc="Minyak Zaitun Al Arobi adalah minyak zaitun murni berkualitas tinggi isi 285 ml yang dapat dikonsumsi maupun digunakan untuk perawatan luar tubuh. Kaya akan antioksidan dan lemak sehat yang baik untuk membantu menjaga kesehatan jantung, mendukung sistem pencernaan, serta meningkatkan daya tahan tubuh. Selain untuk konsumsi, minyak ini juga bermanfaat untuk perawatan kulit dan rambut secara alami.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/zaitunAlArabibeling.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak Zaitun Al Arobi</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 285 ml. Bisa dikonsumsi & perawatan tubuh.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 80.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 70.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak Zaitun Al Arobi', 70000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak Zaitun Al Arobi', 70000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak Zaitun Zevo Zaituna"
+     data-long-desc="Minyak Zaitun Zevo Zaituna adalah minyak zaitun murni berkualitas dalam bentuk kapsul isi 100 kapsul. Mengandung minyak zaitun yang kaya antioksidan dan lemak sehat yang bermanfaat untuk membantu menjaga kesehatan jantung, meningkatkan daya tahan tubuh, serta mendukung kesehatan pencernaan dari dalam. Bentuk kapsul membuatnya lebih praktis dan mudah dikonsumsi tanpa rasa minyak, serta tetap menjaga kualitas dan kemurnian minyak zaitun di dalamnya.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/zevo.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak Zaitun Zevo Zaituna</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 100 kapsul. Praktis & mudah dikonsumsi.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 45.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 40.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak Zaitun Zevo Zaituna', 40000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak Zaitun Zevo Zaituna', 40000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak VCO VICO OIL"
+     data-long-desc="Minyak VCO VICO OIL adalah Virgin Coconut Oil (VCO) murni isi 125 ml yang dapat dikonsumsi. Terbuat dari kelapa pilihan dengan proses alami tanpa bahan kimia, sehingga tetap menjaga kandungan nutrisi alaminya. VCO dikenal membantu mendukung kesehatan tubuh, membantu menjaga kadar kolesterol, meningkatkan daya tahan tubuh, serta mendukung kesehatan pencernaan. Selain dikonsumsi, VCO juga dapat digunakan untuk perawatan kulit dan rambut secara alami.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+        <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/VCOVico.png"
+        class="max-h-full max-w-full object-contain cursor-pointer"
+        onclick="openProductModal(this)">
+    </div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak VCO VICO OIL</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 125 ml. Virgin Coconut Oil murni.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 35.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 30.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak VCO VICO OIL', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak VCO VICO OIL', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak VCO Classic UMS"
+     data-long-desc="Minyak VCO Classic UMS adalah Virgin Coconut Oil (VCO) murni isi 500 ml yang dapat dikonsumsi. Diproses dari kelapa pilihan secara alami tanpa bahan kimia sehingga menjaga kualitas dan nutrisi alaminya. VCO ini dikenal membantu mendukung kesehatan tubuh, membantu menjaga kadar kolesterol, meningkatkan metabolisme, serta mendukung kesehatan jantung dan pencernaan. Selain untuk konsumsi, juga dapat digunakan untuk perawatan kulit dan rambut secara alami.">
+
+    <<div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/Vcojerigen.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak VCO Classic UMS</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 500 ml. Virgin Coconut Oil murni (jerigen).</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 70.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 60.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak VCO Classic UMS', 60000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak VCO Classic UMS', 60000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product  -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak But But Wahida"
+     data-long-desc="Minyak But But Wahida adalah minyak herbal tradisional untuk pemakaian luar tubuh isi 60 ml. Difungsikan untuk membantu relaksasi tubuh melalui pijat, mengurangi rasa pegal, serta memberikan sensasi hangat pada tubuh. Minyak ini biasanya digunakan untuk perawatan luar seperti pijat tradisional, membantu meredakan kelelahan otot setelah aktivitas padat, serta memberikan rasa nyaman dan rileks. Tidak untuk dikonsumsi.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/butbutWahida.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak But But Wahida</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 ml. Minyak pijat tradisional penghangat tubuh.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 35.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 30.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak But But Wahida', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak But But Wahida', 30000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product  -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak But But Herba Jawi 99"
+     data-long-desc="Minyak But But Herba Jawi 99 adalah minyak herbal tradisional untuk pemakaian luar tubuh isi 75 ml. Difungsikan untuk membantu relaksasi tubuh, mengurangi rasa pegal dan lelah, serta memberikan sensasi hangat saat dipijatkan ke tubuh. Minyak ini cocok digunakan setelah aktivitas berat, saat badan terasa kaku, atau untuk pijat tradisional agar tubuh lebih rileks dan nyaman. Tidak untuk dikonsumsi.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/herbaJawi.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak But But Herba Jawi 99</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 75 ml. Minyak pijat herbal penghangat tubuh.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 30.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 25.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak But But Herba Jawi 99', 25000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak But But Herba Jawi 99', 25000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product  -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Minyak But But HNI (Minyak Herba Sinergi)"
+     data-long-desc="Minyak But But HNI (Minyak Herba Sinergi) adalah minyak herbal tradisional premium isi 100 ml yang digunakan untuk pemakaian luar tubuh. Produk ini merupakan versi lebih lengkap dan lebih populer dibanding minyak but-but biasa, diformulasikan untuk membantu relaksasi tubuh, mengurangi pegal linu, serta memberikan sensasi hangat dan nyaman saat dipijat. Cocok digunakan setelah aktivitas berat, kelelahan, atau untuk terapi pijat tradisional. Minyak ini tidak untuk dikonsumsi dan digunakan khusus pemakaian luar.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/minyaksinergi.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">Produk Minyak</span>
+        <h4 class="text-lg font-bold mt-2">Minyak But But HNI (Minyak Herba Sinergi)</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 100 ml. Versi lengkap & paling laris untuk pijat herbal.</p>
+
+        <div class="price-box">
+            <div class="promo-price text-gray-400 line-through text-sm">Rp 50.000</div>
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 45.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Minyak But But HNI (Minyak Herba Sinergi)', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Minyak But But HNI (Minyak Herba Sinergi)', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product Tempuyung -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Tempuyung Herbalindo"
+     data-long-desc="Tempuyung Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu menjaga kesehatan saluran kemih dan fungsi tubuh secara alami.
+Manfaat:
+- Batu saluran kencing, batu ginjal dan batu empedu  
+- Radang usus buntu (apendisitis) dan radang payudara (mastitis)  
+- Disentri, diare, beser mani  
+- Darah tinggi, asam urat, kolesterol  
+- Rematik, memar dan bisul">
+
+    <div class="w-full h-64 flex items-center justify-center bg-white p-2 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/tempuyung.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Tempuyung Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk kesehatan saluran kemih dan tubuh.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 45.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Tempuyung Herbalindo', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Tempuyung Herbalindo', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product Kumis Kucing -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Kumis Kucing Herbalindo"
+     data-long-desc="Kumis Kucing Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu menjaga kesehatan ginjal dan saluran kemih secara alami.
+Manfaat:
+- Tekanan darah tinggi  
+- Asam urat  
+- Rematik gout  
+- Kencing manis  
+- Kencing batu  
+- Infeksi kandung kencing  
+- Infeksi saluran kencing  
+- Infeksi ginjal akut dan kronis  
+- Sembab/bengkak karena timbunan cairan di jaringan">
+
+   <div class="w-full h-64 flex items-center justify-center bg-white p-2 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/kumiskucingherbalindo.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Kumis Kucing Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk kesehatan ginjal dan saluran kemih.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 45.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Kumis Kucing Herbalindo', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Kumis Kucing Herbalindo', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product Daun Ungu -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Daun Ungu Herbalindo"
+     data-long-desc="Daun Ungu Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu menjaga kesehatan pencernaan dan peredaran tubuh secara alami.
+
+Manfaat:
+- Mengobati wasir (hemoroid), sembelit (konstipasi), rematik, dan bisul  
+- Memperlancar haid  
+- Melancarkan buang air kecil  
+- Melancarkan buang air besar  
+- Mengobati radang dan nyeri">
+
+    <div class="w-full h-64 flex items-center justify-center bg-white p-2 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/daunungu.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Daun Ungu Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk kesehatan pencernaan dan tubuh.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 45.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Daun Ungu Herbalindo', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Daun Ungu Herbalindo', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product HIU TDR -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="HIU TDR Herbalindo"
+     data-long-desc="HIU TDR Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu mendukung kualitas tidur secara alami dan membuat tubuh lebih rileks.
+
+Manfaat:
+- Mengatasi sulit tidur  
+- Mengatasi gangguan insomnia  
+- Meningkatkan kualitas tidur  
+- Membantu bangun lebih segar dan bugar">
+
+    <div class="w-full h-64 flex items-center justify-center bg-white p-2 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/tdr.jpg"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">HIU TDR Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk membantu kualitas tidur lebih baik.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 55.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'HIU TDR Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'HIU TDR Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product Neotensi -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Neotensi Herbalindo"
+     data-long-desc="Neotensi Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu mendukung kesehatan tekanan darah dan sistem kardiovaskular secara alami.">
+
+    <div class="w-full h-64 flex items-center justify-center bg-white p-2 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/neotensi.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Neotensi Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk membantu menjaga tekanan darah.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 55.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Neotensi Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Neotensi Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product Mengkudu -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Mengkudu Herbalindo"
+     data-long-desc="Mengkudu Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu menjaga kesehatan tekanan darah, gula darah, dan sistem pernapasan secara alami.
+Manfaat:
+- Mencegah tekanan darah tinggi dan kencing manis  
+- Menormalkan kolesterol tinggi  
+- Mencegah stroke dan gangguan pembuluh jantung  
+- Batuk, asma, bronkhitis dan gangguan saluran pernafasan  
+- Terapi pendukung penyakit TBC  
+- Memperbaiki gangguan menstruasi">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/mengkudu.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Mengkudu Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk membantu menjaga kesehatan tubuh.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 45.000</p>
+        </div>
+    </div>
+
+     <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Mengkudu Herbalindo', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Mengkudu Herbalindo', 45000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product Koleshiu -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Koleshiu Herbalindo"
+     data-long-desc="Koleshiu Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu mendukung kesehatan pembuluh darah dan metabolisme lemak secara alami.
+Manfaat:
+- Membantu meluruhkan lemak dalam darah  
+- Menurunkan kadar lemak (kolesterol)  
+- Mencegah penyakit jantung koroner (PJK)  
+- Mencegah gangguan peredaran darah  
+- Melancarkan peredaran darah">
+
+    <div class="w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg mb-4 overflow-hidden">
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/koleshiu.png"
+    class="max-h-full max-w-full object-contain cursor-pointer"
+    onclick="openProductModal(this)">
+</div>
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Koleshiu Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk membantu menjaga kolesterol.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 55.000</p>
+        </div>
+    </div>
+
+     <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Koleshiu Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Koleshiu Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product Karsifit -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Karsifit Herbalindo"
+     data-long-desc="Karsifit Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu mendukung daya tahan tubuh dan kesehatan secara alami.
+
+Manfaat:
+- Membantu mendukung kondisi tubuh pada gangguan serius seperti kanker (sebagai pendukung)  
+- Membantu meredakan gejala arthritis    
+- Membantu mengatasi miom  
+- Melancarkan peredaran darah  
+- Membantu meredakan peradangan">
+
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/karsifit.png"
+    class="w-full h-64 object-contain bg-white rounded-lg mb-4 cursor-pointer p-2"
+    onclick="openProductModal(this)">
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Karsifit Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk mendukung kesehatan tubuh secara menyeluruh.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 65.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Karsifit Herbalindo', 65000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Karsifit Herbalindo', 65000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product HIU PROS -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="HIU PROS Herbalindo"
+     data-long-desc="HIU PROS Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu menjaga kesehatan saluran kemih pria dan mendukung fungsi prostat secara alami.
+
+Manfaat:
+- Mengobati radang kelenjar prostat (prostatitis)  
+- Meredakan rasa nyeri  
+- Mengatasi peradangan / pembengkakan  
+- Melancarkan air kencing">
+
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/hiupros.png"
+    class="w-full h-64 object-contain bg-white rounded-lg mb-4 cursor-pointer p-2"
+    onclick="openProductModal(this)">
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">HIU PROS Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk membantu kesehatan prostat.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 55.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'HIU PROS Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'HIU PROS Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product Gurah Fluba -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Gurah Fluba Herbalindo"
+     data-long-desc="Gurah Fluba Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu meredakan gangguan sinus dan pernapasan bagian atas secara alami.
+
+Manfaat:
+- Sinusitis dan gangguan sinus  
+- Hidung tersumbat  
+- Pilek dan flu  
+- Nyeri kepala akibat sinus  
+- Tekanan pada area wajah dan hidung  
+- Pusing akibat gangguan pernapasan">
+
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/gurahfluba.jpeg"
+    class="w-full h-64 object-contain bg-white rounded-lg mb-4 cursor-pointer p-2"
+    onclick="openProductModal(this)">
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Gurah Fluba Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk membantu sinus dan pernapasan.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 55.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Gurah Fluba Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Gurah Fluba Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product Hiu Cardiocare -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Hiu Cardiocare Herbalindo"
+     data-long-desc="Hiu Cardiocare Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu mendukung kesehatan jantung dan menjaga kadar kolesterol secara alami.
+
+Manfaat:
+- Membantu menjaga kesehatan jantung  
+- Membantu menurunkan dan mengontrol kolesterol  
+- Membantu melancarkan peredaran darah  
+- Membantu mengurangi risiko penyumbatan pembuluh darah  
+- Membantu menjaga tekanan darah tetap stabil  
+- Mendukung fungsi kardiovaskular secara alami">
+
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/cardiocare.png"
+    class="w-full h-64 object-contain bg-white rounded-lg mb-4 cursor-pointer p-2"
+    onclick="openProductModal(this)">
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Hiu Cardiocare Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk menjaga kesehatan jantung dan kolesterol.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 55.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Hiu Cardiocare Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Hiu Cardiocare Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+<!-- Product Bantugin -->
+<div class="product-card bg-white rounded-xl shadow-sm border overflow-hidden p-4 flex flex-col h-full"
+     data-name="Bantugin Herbalindo"
+     data-long-desc="Bantugin Herbalindo adalah kapsul herbal isi 60 kapsul yang membantu menjaga kesehatan ginjal dan saluran kemih secara alami.
+
+Manfaat:
+- Menjaga kesehatan ginjal  
+- Meredakan nyeri pinggang  
+- Melancarkan kencing  
+- Mengobati radang ginjal  
+- Mengobati radang saluran kencing  
+- Menghancurkan batu ginjal dan batu kemih  
+- Menghancurkan batu empedu  
+- Mencegah pembentukan endapan ginjal">
+
+    <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/bantugin.png"
+    class="w-full h-64 object-contain bg-white rounded-lg mb-4 cursor-pointer p-2"
+    onclick="openProductModal(this)">
+
+    <div class="flex-grow">
+        <span class="text-xs font-bold text-white bg-green-800 px-2 py-1 rounded">Produk Hiu Herbalindo</span>
+        <h4 class="text-lg font-bold mt-2">Bantugin Herbalindo</h4>
+        <p class="text-sm text-gray-500 mb-4">Isi 60 kapsul. Herbal alami untuk membantu kesehatan ginjal dan saluran kemih.</p>
+
+        <div class="price-box">
+            <p class="real-price text-teal-700 font-bold text-xl">Rp 55.000</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="flex items-center justify-between bg-gray-100 rounded-lg p-2">
+            <button onclick="changeQtyDirect(this, -1, 'Bantugin Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">-</button>
+            <span class="font-bold text-lg qty">0</span>
+            <button onclick="changeQtyDirect(this, 1, 'Bantugin Herbalindo', 55000)" class="bg-teal-500 text-white px-3 py-1 rounded active:scale-90 transition">+</button>
+        </div>
+        <p class="text-xs text-gray-500 mt-1 text-center">Atur jumlah sebelum checkout</p>
+    </div>
+</div>
+
+
+
+
+
+
+    </div>
+</section>
+
+    <!-- Services Info -->
+    <section id="layanan" class="bg-teal-700 py-16 text-white">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="flex flex-col items-center">
+                <div class="bg-teal-600 p-4 rounded-full mb-4">
+                    <i data-lucide="truck" class="w-8 h-8"></i>
+                </div>
+                <h5 class="text-xl font-bold mb-2 cursor-pointer hover:underline" onclick="openOngkirModal()">
+    Pengiriman Cepat
+</h5>
+
+<p onclick="openOngkirModal()" class="text-teal-100 cursor-pointer hover:underline">
+    Pesanan diproses dan dikirim secepatnya untuk area sekitar.
+</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="bg-teal-600 p-4 rounded-full mb-4">
+                    <i data-lucide="shield-check" class="w-8 h-8"></i>
+                </div>
+                <h5 onclick="openAsliModal()" class="text-xl font-bold mb-2 cursor-pointer hover:underline">
+    Produk 100% Asli
+</h5>
+                <p class="text-teal-100">Semua produk kami terjamin keasliannya dan terdaftar di BPOM.</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="bg-teal-600 p-4 rounded-full mb-4">
+                    <i data-lucide="user-check" class="w-8 h-8"></i>
+                </div>
+                <h5 class="text-xl font-bold mb-2">
+    <a href="https://wa.me/6289637737721" target="_blank" class="hover:underline">
+        Konsultasi Gratis
+    </a>
+</h5>
+                <p class="text-teal-100">Tanyakan keluhan Anda kepada kami melalui WhatsApp.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- TESTIMONI -->
+<section class="bg-white py-16">
+    <div class="container mx-auto px-4">
+
+        <h3 class="text-3xl font-bold text-center mb-2">
+            ⭐ Testimoni Pelanggan
+        </h3>
+        <p class="text-center text-gray-500 mb-10">
+            Apa kata mereka tentang Tunas Herbal
+        </p>
+
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+            <!-- 1 -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Rahmat Purwantono</h4>
+                <div class="text-yellow-400 mb-2">★★★★★</div>
+                <p class="text-gray-600">
+                    "Recomen untuk nyari madu murni dan madu herbal lainnya."
+                </p>
+            </div>
+
+            <!-- 2 -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Chandra Sutrisno</h4>
+                <div class="text-yellow-400 mb-2">★★★★★</div>
+                <p class="text-gray-600">
+                    "Alhamdulillah sangat membantu buat yang mencari obat herbal murah."
+                </p>
+            </div>
+
+            <!-- 3 -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Arie Susanto</h4>
+                <div class="text-yellow-400 mb-2">★★★★★</div>
+                <p class="text-gray-600">
+                    "Bagus, barang lumayan lengkap, pelayanan ramah."
+                </p>
+            </div>
+
+            <!-- 4 -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Abu Ahnaf</h4>
+                <div class="text-yellow-400 mb-2">★★★★★</div>
+                <p class="text-gray-600">
+                    "Tempatnya strategis, pelayananya ramah, harganya pas."
+                </p>
+            </div>
+
+            <!-- 5 -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Norma Fawzia Rahmani</h4>
+                <div class="text-yellow-400 mb-2">★★★★★</div>
+                <p class="text-gray-600">
+                    "I like herbal ;)"
+                </p>
+            </div>
+
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-10">
+            <a href="https://maps.app.goo.gl/WAUTsVrXkPTXjUG37"
+               target="_blank"
+               class="inline-block bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700 transition">
+               Lihat Review Lainnya di Google
+            </a>
+        </div>
+
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer id="kontak" class="bg-gray-900 text-gray-300 pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-6">
+                        <i data-lucide="cross" class="text-teal-500 fill-teal-500"></i>
+                        <h1 class="text-2xl font-bold text-white">Tunas<span class="text-teal-500">Herbal</span></h1>
+                    </div>
+                    <p class="mb-6">Kesehatan Anda Adalah Tujuan Utama Kami. Melayani dengan hati untuk masyarakat sehat.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="hover:text-white transition"><i data-lucide="facebook"></i></a>
+                        <a href="#" class="hover:text-white transition"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="hover:text-white transition"><i data-lucide="twitter"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h6 class="text-white font-bold mb-6">Tautan Cepat</h6>
+                    <ul class="space-y-4">
+    <li><a onclick="openInfo('about')" class="hover:text-teal-500 transition cursor-pointer">Tentang Kami</a></li>
+    <li><a onclick="openInfo('product')" class="hover:text-teal-500 transition cursor-pointer">Produk Terbaru</a></li>
+    <li><a onclick="openInfo('terms')" class="hover:text-teal-500 transition cursor-pointer">Syarat & Ketentuan</a></li>
+    <li><a onclick="openInfo('privacy')" class="hover:text-teal-500 transition cursor-pointer">Kebijakan Privasi</a></li>
+</ul>
+                </div>
+                <div>
+                    <h6 class="text-white font-bold mb-6">Metode Pembayaran</h6>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div onclick="navigator.clipboard.writeText('3432245923'); alert('Nomor BCA disalin: 3432245923');" class="bg-gray-800 p-2 rounded text-xs text-center cursor-pointer hover:bg-gray-700">
+  BCA
+</div>
+                        <div onclick="navigator.clipboard.writeText('725801009447508'); alert('Nomor BRI disalin: 725801009447508');" class="bg-gray-800 p-2 rounded text-xs text-center cursor-pointer hover:bg-gray-700">
+  BRI
+</div>
+                        <div onclick="navigator.clipboard.writeText('089637737721'); alert('Nomor DANA disalin: 089637737721');" class="bg-gray-800 p-2 rounded text-xs text-center cursor-pointer hover:bg-gray-700">
+  DANA
+</div>
+                        
+                    </div>
+                </div>
+                <div>
+                    <h6 class="text-white font-bold mb-6">Hubungi Kami</h6>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+    <a href="https://maps.app.goo.gl/T8sVZ8ED1F5mfVoF7"
+       target="_blank"
+       class="flex items-start gap-3 hover:text-teal-400 transition">
+
+        <i data-lucide="map-pin" class="text-teal-500 shrink-0 mt-1"></i>
+
+        <span>
+            Jl. Raya Jagawana, depan Masjid Jamie Al-Wasilah RT:03 RW:05,
+            Ds. Sukarukun, Kec. Sukatani, Kabupaten Bekasi,
+            Jawa Barat 17630
+        </span>
+
+    </a>
+    </li>
+<li class="flex items-center gap-3">
+    <i data-lucide="phone" class="text-teal-500 shrink-0"></i>
+
+    <a href="https://wa.me/6289637737721"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="hover:text-teal-400 transition">
+       0896-3773-7721
+    </a>
+</li>
+                        <li class="flex items-center gap-3">
+    <i data-lucide="mail" class="text-teal-500 shrink-0"></i>
+
+    <a href="https://www.instagram.com/tunasherbal123?igsh=dW9zc2NkbHh2Y3o0"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="hover:text-teal-400 transition">
+       @tunasherbal123
+    </a>
+</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-sm">
+                <p>&copy; 2026 Tunas Herbal. Semua Hak Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+   <!-- Shopping Cart Modal -->
+<div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden items-center justify-center p-4">
+
+    <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+
+        <!-- HEADER -->
+        <div class="p-6 border-b flex justify-between items-center bg-teal-600 text-white">
+            <h3 class="text-xl font-bold flex items-center gap-2">
+                <i data-lucide="shopping-bag"></i> Keranjang Belanja
+            </h3>
+            <button onclick="toggleCart()" class="text-white hover:text-gray-200">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <!-- CART ITEMS -->
+        <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
+            <p id="empty-cart-msg" class="text-center text-gray-500 py-10">
+                Keranjang Anda masih kosong.
+            </p>
+        </div>
+
+        <!-- FOOTER -->
+        <div id="cart-footer" class="p-6 border-t bg-gray-50 hidden relative shrink-0">
+
+            <!-- RESET BUTTON -->
+            <button 
+                onclick="resetCart()"
+                class="absolute top-1 left-3 bg-red-500 text-white text-xs px-3 py-1 rounded-full active:scale-95 transition-transform duration-150">
+                Reset
+            </button>
+
+            <!-- TOTAL -->
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600 font-medium">Total Estimasi</span>
+                <span id="cart-total" class="text-2xl font-bold text-teal-700">Rp 0</span>
+            </div>
+
+            <!-- 🔥 BUTTON WHATSAPP (WAJIB ADA) -->
+            <button onclick="checkoutWhatsApp()" 
+                class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition flex items-center justify-center gap-2">
+                <i data-lucide="message-circle"></i> Pesan via WhatsApp
+            </button>
+
+            <!-- 🔵 BUTTON ONGKIR -->
+            <button onclick="openOngkirInfo()" 
+                class="w-full mt-3 bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                Informasi Ongkir
+            </button>
+
+        </div>
+    </div>
+</div>
+
+    <!-- Notification Message Box -->
+    <div id="notif-box" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] bg-teal-800 text-white px-6 py-3 rounded-full shadow-lg hidden">
+        Produk ditambahkan ke keranjang!
+    </div>
+
+    
+<!-- Product Detail Modal -->
+<div id="product-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[999] hidden items-center justify-center p-4">
+    
+    <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl relative">
+
+        <!-- Tombol close -->
+        <button onclick="closeProductModal()" 
+            class="absolute top-3 right-3 bg-gray-200 hover:bg-gray-300 w-8 h-8 rounded-full flex items-center justify-center">
+            ✕
+        </button>
+
+        <!-- Gambar -->
+       <div class="w-full h-72 flex items-center justify-center bg-gray-50">
+    <img id="modal-img" src="" class="max-h-full max-w-full object-contain">
+</div>
+
+        <!-- Konten -->
+        <div class="p-5">
+            <h3 id="modal-title" class="text-xl font-bold mb-2"></h3>
+            <p id="modal-desc" class="text-gray-600 text-sm leading-relaxed"></p>
+        </div>
+
+    </div>
+
+</div>
+<!-- Tombol Kembali (Reset Tampilan Produk) -->
+<button id="homeBtn"
+onclick="resetHome()"
+class="fixed bottom-6 left-6 z-[999] bg-teal-600 text-white px-2 py-2 rounded-full shadow-2xl 
+opacity-0 pointer-events-none transition-all duration-300 
+hover:scale-110 active:scale-95 flex items-center justify-center">
+    <span class="font-semibold">🚪🚶</span>
+</button>
+<!-- Ongkir Modal -->
+<div id="ongkir-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[999] hidden items-center justify-center p-4">
+    
+    <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl relative">
+
+        <button onclick="closeOngkirModal()" 
+            class="absolute top-3 right-3 bg-gray-200 hover:bg-gray-300 w-8 h-8 rounded-full flex items-center justify-center">
+            ✕
+        </button>
+
+        <h3 class="text-xl font-bold mb-4 text-teal-700">Informasi Ongkir</h3>
+
+        <p class="text-gray-700 leading-relaxed text-sm">
+            Nikmati gratis ongkir untuk area terdekat (≤3 km).  
+            Pengiriman lokal di atas 3 km dikenakan biaya ringan Rp3.000 –Rp5.000 –Rp7.000 sesuai jarak.  
+            Untuk luar kota, biaya kirim mengikuti tarif J&T / JNE.
+        </p>
+
+    </div>
+</div>
+<!-- Modal Produk Asli -->
+<div id="asli-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[999] hidden items-center justify-center p-4">
+
+    <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl relative">
+
+        <button onclick="closeAsliModal()" 
+            class="absolute top-3 right-3 bg-gray-200 hover:bg-gray-300 w-8 h-8 rounded-full flex items-center justify-center">
+            ✕
+        </button>
+
+        <h3 class="text-xl font-bold mb-4 text-teal-700">Produk 100% Asli</h3>
+
+        <div class="space-y-2 text-gray-700 text-sm">
+            <p>✔ Produk asli & terjamin kualitasnya</p>
+            <p>✔ Disuplai dari distributor terpercaya</p>
+            <p>✔ Dikemas secara higienis</p>
+            <p>✔ Harga ekonomis</p>
+        </div>
+
+    </div>
+</div>
+<!-- CHATBOT MODAL -->
+<div id="chatbot-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[999] hidden items-center justify-center p-4">
+
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-xl flex flex-col h-[500px] overflow-hidden">
+
+        <!-- HEADER -->
+        <div class="bg-teal-600 text-white p-4 flex justify-between items-center">
+            <h3 class="font-bold">Chatbot Herbal Tunas</h3>
+            <button onclick="closeChatbot()">✕</button>
+        </div>
+
+        <!-- CHAT AREA -->
+        <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-2 text-sm bg-gray-50">
+            <div class="bg-gray-200 p-2 rounded-lg w-fit">
+                Halo 👋 Saya chatbot herbal. Silakan ceritakan keluhan Anda.
+            </div>
+        </div>
+
+        <!-- INPUT -->
+        <div class="p-3 border-t flex gap-2">
+            <input id="chat-input" type="text"
+                class="flex-1 border rounded-lg px-3 py-2 text-sm"
+                placeholder="Tulis keluhan Anda...">
+
+            <button onclick="sendChat()"
+                class="bg-teal-600 text-white px-4 rounded-lg">
+                Kirim
+            </button>
+        </div>
+
+    </div>
+</div>
+<button id="scrollTopBtn"
+onclick="scrollToTop()"
+class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[999] bg-teal-600 text-white p-3 rounded-full shadow-xl opacity-0 pointer-events-none transition-all duration-300 hover:scale-105 active:scale-95">
+
+↑
+</button>
+<!-- Ongkir Info Modal -->
+<div id="ongkir-info-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[1000] hidden items-center justify-center p-4">
+
+    <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl relative">
+
+        <!-- tombol close -->
+        <button onclick="closeOngkirInfo()" 
+            class="absolute top-3 right-3 bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center">
+            ✕
+        </button>
+
+        <h3 class="text-xl font-bold mb-4 text-teal-700">Informasi Ongkir</h3>
+
+        <p class="text-gray-700 text-sm leading-relaxed">
+            Nikmati gratis ongkir untuk area terdekat (&lt;3 km).  
+            Pengiriman lokal di atas 3 km dikenakan biaya ringan Rp3.000 – Rp5.000 – Rp7.000 sesuai jarak.  
+            Untuk luar kota, biaya kirim mengikuti tarif J&T / JNE.
+        </p>
+
+    </div>
+</div>
+ <script src="script.js"></script>
+</body>
+<div id="info-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[999] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl relative animate-[pop_0.25s_ease]">
+
+        <button onclick="closeInfo()" 
+            class="absolute top-3 right-3 bg-gray-200 w-8 h-8 rounded-full">✕</button>
+
+        <h3 id="info-title" class="text-xl font-bold mb-3 text-teal-700"></h3>
+        <p id="info-desc" class="text-gray-600 text-sm leading-relaxed"></p>
+
+    </div>
+</div>
+
+</html>
