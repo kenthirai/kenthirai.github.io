@@ -13,14 +13,7 @@
     --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.1);
 }
 
-.dark {
-    --surface: #1e293b;
-    --background: #0f172a;
-    --text-main: #f1f5f9;
-    --text-muted: #94a3b8;
-    --border-color: #334155;
-    --primary-light: rgba(13, 148, 136, 0.1);
-}
+
 
 body {
     background-color: var(--background);
@@ -42,10 +35,7 @@ body {
     border: 1px solid var(--border-color);
 }
 
-.dark .glass {
-    background: rgba(30, 41, 59, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
+
 
 .nav-icon {
     color: var(--primary);
@@ -80,31 +70,7 @@ body {
     border-color: var(--primary);
 }
 
-/* Modal Dark Mode Fixes */
-.dark #product-modal .bg-white,
-.dark #category-modal .bg-white,
-.dark #asli-modal .bg-white,
-.dark #ongkir-info-modal .bg-white,
-.dark #info-modal .bg-white,
-.dark #chatbot-modal .bg-white {
-    background-color: var(--surface);
-    color: var(--text-main);
-    border: 1px solid var(--border-color);
-}
 
-.dark #chat-box {
-    background-color: var(--background);
-}
-
-.dark #chat-box .bg-white {
-    background-color: var(--surface);
-    border-color: var(--border-color);
-}
-
-.dark #chat-input {
-    background-color: var(--background);
-    color: var(--text-main);
-}
 
 .product-card img {
     transition: transform 0.5s ease;

@@ -358,7 +358,6 @@ document.addEventListener("DOMContentLoaded", function () {
     initReveal();
     initHeroSlider();
     initFeaturedSlider();
-    initTheme();
     lucide.createIcons();
 });
 
@@ -400,28 +399,7 @@ function updateLoadMoreButton(totalItems) {
     }
 }
 
-// --- DARK MODE LOGIC ---
-function initTheme() {
-    if (localStorage.getItem('theme') === 'dark' || 
-        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-        updateThemeIcon(true);
-    }
-}
 
-function toggleDarkMode() {
-    const isDark = document.documentElement.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    updateThemeIcon(isDark);
-}
-
-function updateThemeIcon(isDark) {
-    const icon = document.getElementById('theme-icon');
-    if (icon) {
-        icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-        lucide.createIcons();
-    }
-}
 
 // --- FEATURED AUTO SLIDER (Single Card) ---
 let featuredIndex = 0;

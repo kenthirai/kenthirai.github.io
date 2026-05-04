@@ -15,7 +15,7 @@
     </style>
   
 </head>
-<body class="bg-gray-50 text-gray-800 dark:bg-slate-950 dark:text-slate-200 transition-colors duration-300">
+<body class="bg-gray-50 text-gray-800 transition-colors duration-300">
 
     <!-- Top Bar -->
     <div class="bg-teal-700 text-white py-2 px-4 text-center text-[10px] sm:text-xs tracking-wide flex items-center justify-center gap-4 sm:gap-8">
@@ -36,22 +36,19 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="glass sticky top-0 z-50 py-4 px-6 flex items-center justify-between shadow-sm dark:border-slate-800">
+    <nav class="glass sticky top-0 z-50 py-4 px-6 flex items-center justify-between shadow-sm">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center text-white shadow-lg animate-logo">
                 <i data-lucide="leaf" class="w-6 h-6"></i>
             </div>
             <div>
-                <h1 class="text-xl font-bold text-teal-800 dark:text-teal-400 leading-tight">Tunas Herbal</h1>
+                <h1 class="text-xl font-bold text-teal-800 leading-tight">Tunas Herbal</h1>
                 <p class="text-[10px] uppercase tracking-widest text-teal-600 font-bold">Solusi Alami Keluarga</p>
             </div>
         </div>
         
         <div class="flex items-center gap-4">
-            <!-- Dark Mode Toggle -->
-            <button onclick="toggleDarkMode()" class="nav-icon p-2 rounded-xl hover:bg-gray-100 transition-all">
-                <i id="theme-icon" data-lucide="moon" class="w-6 h-6"></i>
-            </button>
+
             
             <button onclick="openCart()" class="nav-icon relative p-2 rounded-xl hover:bg-gray-100 transition-all">
                 <i data-lucide="shopping-cart" class="w-6 h-6"></i>
@@ -61,15 +58,15 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative overflow-hidden bg-gradient-to-br from-teal-50 via-white to-teal-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 py-20 px-6">
+    <header class="relative overflow-hidden bg-gradient-to-br from-teal-50 via-white to-teal-50 py-20 px-6">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="reveal active">
                 <span class="inline-block px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-xs font-bold uppercase tracking-widest mb-6">Premium Herbal Shop</span>
-                <h2 class="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
+                <h2 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
                     Solusi Sehat Dari <br>
                     <span class="text-teal-600">Alam Indonesia</span>
                 </h2>
-                <p class="text-lg text-gray-600 dark:text-slate-400 mb-8 max-w-md leading-relaxed">
+                <p class="text-lg text-gray-600 mb-8 max-w-md leading-relaxed">
                     Dapatkan produk herbal berkualitas, Madu murni pilihan, dan Jaminan keaslian dari setiap produk kami dengan pengiriman cepat langsung ke rumah Anda.
                 </p>
                 
@@ -113,14 +110,14 @@
     </header>
 
 <!-- Produk Terlaris -->
-<section class="px-4 py-20 bg-gray-50/50 dark:bg-slate-900/50">
+<section class="px-4 py-20 bg-gray-50/50">
     <div class="container mx-auto">
         <div class="text-center mb-12">
-            <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">🔥 Produk Terlaris</h3>
-            <p class="text-gray-500 dark:text-slate-400">Produk pilihan yang paling banyak diminati pelanggan kami</p>
+            <h3 class="text-3xl font-bold text-gray-900 mb-2">🔥 Produk Terlaris</h3>
+            <p class="text-gray-500">Produk pilihan yang paling banyak diminati pelanggan kami</p>
         </div>
         <div class="relative max-w-lg mx-auto">
-            <div id="featured-slider" class="overflow-hidden rounded-[2rem] shadow-2xl shadow-teal-100 dark:shadow-none bg-white dark:bg-slate-800">
+            <div id="featured-slider" class="overflow-hidden rounded-[2rem] shadow-2xl shadow-teal-100 bg-white">
                 <div id="featured-track" class="flex transition-transform duration-700 ease-in-out">
                     <!-- Product 1 -->
                     <div class="min-w-full p-8 md:p-12 flex flex-col items-center text-center cursor-pointer"
@@ -141,13 +138,13 @@
                          onclick="openProductModal(this)"
                          data-name="Madu Lambung Asyifa"
                          data-long-desc="Membantu menjaga kesehatan lambung.">
-                        <div class="w-64 h-64 bg-gray-50 dark:bg-slate-700 rounded-3xl p-6 mb-8 flex items-center justify-center">
+                        <div class="w-64 h-64 bg-gray-50 rounded-3xl p-6 mb-8 flex items-center justify-center">
                             <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/lambung-asyifa.png" class="max-h-full object-contain">
                         </div>
                         <span class="text-[10px] font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full uppercase tracking-widest mb-4">Best Seller #2</span>
-                        <h4 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Madu Lambung Asyifa</h4>
+                        <h4 class="text-2xl font-bold text-gray-900 mb-2">Madu Lambung Asyifa</h4>
                         <p class="text-teal-700 font-bold text-2xl mb-4">Rp 45.000</p>
-                        <p class="text-sm text-gray-500 dark:text-slate-400 leading-relaxed max-w-xs">Solusi alami terbaik untuk menjaga kenyamanan lambung dan pencernaan Anda.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed max-w-xs">Solusi alami terbaik untuk menjaga kenyamanan lambung dan pencernaan Anda.</p>
                     </div>
 
                     <!-- Product 3 -->
@@ -159,9 +156,9 @@
                             <img src="https://raw.githubusercontent.com/Havis123/Tunas-herbal-/main/madu-angkak-darusyifa.png" class="max-h-full object-contain">
                         </div>
                         <span class="text-[10px] font-bold text-red-600 bg-red-50 px-3 py-1 rounded-full uppercase tracking-widest mb-4">Best Seller #3</span>
-                        <h4 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Madu Angkak Darusyifa</h4>
+                        <h4 class="text-2xl font-bold text-gray-900 mb-2">Madu Angkak Darusyifa</h4>
                         <p class="text-teal-700 font-bold text-2xl mb-4">Rp 50.000</p>
-                        <p class="text-sm text-gray-500 dark:text-slate-400 leading-relaxed max-w-xs">Bantuan alami untuk meningkatkan trombosit dan menjaga daya tahan tubuh.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed max-w-xs">Bantuan alami untuk meningkatkan trombosit dan menjaga daya tahan tubuh.</p>
                     </div>
                 </div>
             </div>
@@ -174,10 +171,10 @@
             </div>
 
             <!-- Side Buttons (Optional for manual) -->
-            <button onclick="manualFeaturedSlide(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 bg-white dark:bg-slate-800 w-12 h-12 rounded-full shadow-xl flex items-center justify-center text-teal-600 hover:bg-teal-50 transition-all hidden lg:flex">
+            <button onclick="manualFeaturedSlide(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 bg-white w-12 h-12 rounded-full shadow-xl flex items-center justify-center text-teal-600 hover:bg-teal-50 transition-all hidden lg:flex">
                 <i data-lucide="chevron-left"></i>
             </button>
-            <button onclick="manualFeaturedSlide(1)" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 bg-white dark:bg-slate-800 w-12 h-12 rounded-full shadow-xl flex items-center justify-center text-teal-600 hover:bg-teal-50 transition-all hidden lg:flex">
+            <button onclick="manualFeaturedSlide(1)" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 bg-white w-12 h-12 rounded-full shadow-xl flex items-center justify-center text-teal-600 hover:bg-teal-50 transition-all hidden lg:flex">
                 <i data-lucide="chevron-right"></i>
             </button>
         </div>
@@ -185,25 +182,25 @@
 </section>
     
     <!-- Search & Filters Section -->
-    <section class="py-12 bg-white dark:bg-slate-950">
+    <section class="py-12 bg-white">
         <div class="container mx-auto px-4">
             <div class="flex flex-col lg:flex-row gap-8 items-center justify-between">
                 <div class="w-full lg:max-w-md">
-                    <div class="relative flex items-center bg-gray-50 dark:bg-slate-900 rounded-2xl px-6 border border-gray-100 dark:border-slate-800 focus-within:border-teal-500 focus-within:ring-4 focus-within:ring-teal-50 transition-all shadow-inner">
+                    <div class="relative flex items-center bg-gray-50 rounded-2xl px-6 border border-gray-100 focus-within:border-teal-500 focus-within:ring-4 focus-within:ring-teal-50 transition-all shadow-inner">
                         <i data-lucide="search" class="text-teal-600 w-5 h-5"></i>
                         <input type="text" id="productSearch"
                                onkeydown="handleEnter(event)"
                                placeholder="Cari produk herbal favorit Anda..."
-                               class="bg-transparent border-none focus:ring-0 w-full px-4 py-4 text-gray-700 dark:text-slate-200">
+                               class="bg-transparent border-none focus:ring-0 w-full px-4 py-4 text-gray-700">
                     </div>
                 </div>
 
                 <div class="flex flex-wrap justify-center gap-3">
-                    <button onclick="openCategoryModal()" class="flex items-center gap-2 px-6 py-3 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 rounded-2xl font-bold hover:bg-teal-100 transition-all">
+                    <button onclick="openCategoryModal()" class="flex items-center gap-2 px-6 py-3 bg-teal-50 text-teal-700 rounded-2xl font-bold hover:bg-teal-100 transition-all">
                         <i data-lucide="filter" class="w-4 h-4"></i>
                         Kategori Produk
                     </button>
-                    <button onclick="showAllProducts()" class="px-6 py-3 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 border border-gray-100 dark:border-slate-700 rounded-2xl font-bold hover:bg-gray-50 dark:hover:bg-slate-700 transition-all">
+                    <button onclick="showAllProducts()" class="px-6 py-3 bg-white text-gray-600 border border-gray-100 rounded-2xl font-bold hover:bg-gray-50 transition-all">
                         Semua Produk
                     </button>
                 </div>
@@ -221,31 +218,31 @@
 
         <div class="space-y-3">
 
-            <button onclick="filterCategory('Produk Madu')" class="w-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-900 dark:text-yellow-100 hover:bg-yellow-200 p-3 rounded-lg font-semibold">
+            <button onclick="filterCategory('Produk Madu')" class="w-full bg-yellow-100 hover:bg-yellow-200 p-3 rounded-lg font-semibold">
                 🐝 Produk Madu
             </button>
 
-            <button onclick="filterCategory('Produk Herbal')" class="w-full bg-green-100 dark:bg-green-900/30 text-green-900 dark:text-green-100 hover:bg-green-200 p-3 rounded-lg font-semibold">
+            <button onclick="filterCategory('Produk Herbal')" class="w-full bg-green-100 hover:bg-green-200 p-3 rounded-lg font-semibold">
                 🌿 Produk Herbal
             </button>
 
-            <button onclick="filterCategory('Produk Susu')" class="w-full bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 hover:bg-blue-200 p-3 rounded-lg font-semibold">
+            <button onclick="filterCategory('Produk Susu')" class="w-full bg-blue-100 hover:bg-blue-200 p-3 rounded-lg font-semibold">
                 🥛 Produk Susu
             </button>
 
-            <button onclick="filterCategory('Produk Stamina')" class="w-full bg-red-100 dark:bg-red-900/30 text-red-900 dark:text-red-100 hover:bg-red-200 p-3 rounded-lg font-semibold">
+            <button onclick="filterCategory('Produk Stamina')" class="w-full bg-red-100 hover:bg-red-200 p-3 rounded-lg font-semibold">
                 🔥 Produk Stamina
             </button>
             
-            <button onclick="filterCategory('Produk Hiu Herbalindo')" class="w-full bg-amber-200 dark:bg-amber-900/30 text-amber-900 dark:text-amber-100 hover:bg-amber-100 p-3 rounded-lg font-semibold">
+            <button onclick="filterCategory('Produk Hiu Herbalindo')" class="w-full bg-amber-200 hover:bg-amber-100 p-3 rounded-lg font-semibold">
         🍀 Produk Hiu Herbalindo
             </button>
             
-            <button onclick="filterCategory('Produk Minyak')" class="w-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-900 dark:text-yellow-100 hover:bg-yellow-200 p-3 rounded-lg font-semibold">
+            <button onclick="filterCategory('Produk Minyak')" class="w-full bg-yellow-100 hover:bg-yellow-200 p-3 rounded-lg font-semibold">
         🫒 Produk Minyak
             </button>
     
-            <button onclick="filterCategory('all')" class="w-full bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-200 hover:bg-gray-300 p-3 rounded-lg font-semibold">
+            <button onclick="filterCategory('all')" class="w-full bg-gray-200 hover:bg-gray-300 p-3 rounded-lg font-semibold">
                 📦 Semua Produk
             </button>
 
@@ -257,8 +254,8 @@
 <section id="produk" class="py-16 container mx-auto px-4">
     <div class="flex justify-between items-end mb-10">
         <div>
-            <h3 class="text-3xl font-bold mb-2 dark:text-white">Kualitas Produk Terjamin</h3>
-            <p class="text-gray-600 dark:text-slate-400">Pilihan terbaik untuk kesehatan keluarga Anda</p>
+            <h3 class="text-3xl font-bold mb-2">Kualitas Produk Terjamin</h3>
+            <p class="text-gray-600">Pilihan terbaik untuk kesehatan keluarga Anda</p>
         </div>
         <div class="hidden md:block">
             <span onclick="showAllProducts()" class="text-teal-600 font-semibold cursor-pointer">
@@ -1984,59 +1981,59 @@ Manfaat:
     </section>
     
     <!-- TESTIMONI -->
-<section class="bg-white dark:bg-slate-950 py-16">
+<section class="bg-white py-16">
     <div class="container mx-auto px-4">
 
-        <h3 class="text-3xl font-bold text-center mb-2 dark:text-white">
+        <h3 class="text-3xl font-bold text-center mb-2">
             ⭐ Testimoni Pelanggan
         </h3>
-        <p class="text-center text-gray-500 dark:text-slate-400 mb-10">
+        <p class="text-center text-gray-500 mb-10">
             Apa kata mereka tentang Tunas Herbal
         </p>
 
         <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
 
             <!-- 1 -->
-            <div class="bg-gray-50 dark:bg-slate-900 p-6 rounded-xl shadow-sm hover:shadow-md transition">
-                <h4 class="font-bold text-teal-600 dark:text-teal-400 mb-1">Rahmat Purwantono</h4>
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Rahmat Purwantono</h4>
                 <div class="text-yellow-400 mb-2">★★★★★</div>
-                <p class="text-gray-600 dark:text-slate-400">
+                <p class="text-gray-600">
                     "Recomen untuk nyari madu murni dan madu herbal lainnya."
                 </p>
             </div>
 
             <!-- 2 -->
-            <div class="bg-gray-50 dark:bg-slate-900 p-6 rounded-xl shadow-sm hover:shadow-md transition">
-                <h4 class="font-bold text-teal-600 dark:text-teal-400 mb-1">Chandra Sutrisno</h4>
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Chandra Sutrisno</h4>
                 <div class="text-yellow-400 mb-2">★★★★★</div>
-                <p class="text-gray-600 dark:text-slate-400">
+                <p class="text-gray-600">
                     "Alhamdulillah sangat membantu buat yang mencari obat herbal murah."
                 </p>
             </div>
 
             <!-- 3 -->
-            <div class="bg-gray-50 dark:bg-slate-900 p-6 rounded-xl shadow-sm hover:shadow-md transition">
-                <h4 class="font-bold text-teal-600 dark:text-teal-400 mb-1">Arie Susanto</h4>
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Arie Susanto</h4>
                 <div class="text-yellow-400 mb-2">★★★★★</div>
-                <p class="text-gray-600 dark:text-slate-400">
+                <p class="text-gray-600">
                     "Bagus, barang lumayan lengkap, pelayanan ramah."
                 </p>
             </div>
 
             <!-- 4 -->
-            <div class="bg-gray-50 dark:bg-slate-900 p-6 rounded-xl shadow-sm hover:shadow-md transition">
-                <h4 class="font-bold text-teal-600 dark:text-teal-400 mb-1">Abu Ahnaf</h4>
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Abu Ahnaf</h4>
                 <div class="text-yellow-400 mb-2">★★★★★</div>
-                <p class="text-gray-600 dark:text-slate-400">
+                <p class="text-gray-600">
                     "Tempatnya strategis, pelayananya ramah, harganya pas."
                 </p>
             </div>
 
             <!-- 5 -->
-            <div class="bg-gray-50 dark:bg-slate-900 p-6 rounded-xl shadow-sm hover:shadow-md transition">
-                <h4 class="font-bold text-teal-600 dark:text-teal-400 mb-1">Norma Fawzia Rahmani</h4>
+            <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h4 class="font-bold text-teal-600 mb-1">Norma Fawzia Rahmani</h4>
                 <div class="text-yellow-400 mb-2">★★★★★</div>
-                <p class="text-gray-600 dark:text-slate-400">
+                <p class="text-gray-600">
                     "I like herbal ;)"
                 </p>
             </div>
@@ -2203,19 +2200,19 @@ Manfaat:
     
 <!-- Product Detail Modal -->
 <div id="product-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] hidden items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 rounded-[2rem] w-full max-w-2xl overflow-hidden shadow-2xl relative animate-modal-in">
-        <button onclick="closeProductModal()" class="absolute top-6 right-6 z-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md hover:bg-gray-100 dark:hover:bg-slate-700 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all">
-            <i data-lucide="x" class="w-5 h-5 text-gray-800 dark:text-white"></i>
+    <div class="bg-white rounded-[2rem] w-full max-w-2xl overflow-hidden shadow-2xl relative animate-modal-in">
+        <button onclick="closeProductModal()" class="absolute top-6 right-6 z-10 bg-white/80 backdrop-blur-md hover:bg-gray-100 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all">
+            <i data-lucide="x" class="w-5 h-5 text-gray-800"></i>
         </button>
         <div class="flex flex-col md:flex-row h-full">
-            <div class="w-full md:w-1/2 aspect-square flex items-center justify-center bg-gray-50 dark:bg-slate-800 p-8">
+            <div class="w-full md:w-1/2 aspect-square flex items-center justify-center bg-gray-50 p-8">
                 <img id="modal-img" src="" class="max-h-full max-w-full object-contain drop-shadow-2xl">
             </div>
             <div class="p-8 md:w-1/2 flex flex-col justify-center">
-                <span class="text-[10px] font-bold text-teal-600 bg-teal-50 dark:bg-teal-900/30 px-3 py-1 rounded-full uppercase tracking-widest w-fit mb-4">Detail Produk</span>
-                <h3 id="modal-title" class="text-2xl font-bold mb-4 text-gray-900 dark:text-white leading-tight"></h3>
+                <span class="text-[10px] font-bold text-teal-600 bg-teal-50 px-3 py-1 rounded-full uppercase tracking-widest w-fit mb-4">Detail Produk</span>
+                <h3 id="modal-title" class="text-2xl font-bold mb-4 text-gray-900 leading-tight"></h3>
                 <div class="h-1 w-12 bg-teal-500 rounded-full mb-6"></div>
-                <p id="modal-desc" class="text-gray-600 dark:text-slate-400 text-sm leading-relaxed mb-8"></p>
+                <p id="modal-desc" class="text-gray-600 text-sm leading-relaxed mb-8"></p>
                 <button onclick="addToCartFromModal()" class="w-full bg-teal-600 text-white py-4 rounded-2xl font-bold hover:bg-teal-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-teal-100">
                     <i data-lucide="shopping-cart" class="w-5 h-5"></i>
                     Tambah ke Keranjang
@@ -2268,7 +2265,7 @@ Manfaat:
 </div>
 <!-- CHATBOT MODAL -->
 <div id="chatbot-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] hidden items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-[2rem] shadow-2xl flex flex-col h-[600px] overflow-hidden relative animate-modal-in">
+    <div class="bg-white w-full max-w-md rounded-[2rem] shadow-2xl flex flex-col h-[600px] overflow-hidden relative animate-modal-in">
         <div class="bg-teal-600 p-6 flex justify-between items-center text-white">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
@@ -2284,12 +2281,12 @@ Manfaat:
             </button>
         </div>
 
-        <div id="chat-box" class="flex-1 p-6 overflow-y-auto space-y-4 bg-gray-50 dark:bg-slate-950">
+        <div id="chat-box" class="flex-1 p-6 overflow-y-auto space-y-4 bg-gray-50">
             <div class="flex gap-3">
                 <div class="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center shrink-0">
                     <i data-lucide="bot" class="w-4 h-4 text-teal-600"></i>
                 </div>
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 dark:text-slate-200 max-w-[80%] border border-gray-100 dark:border-slate-700">
+                <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[80%] border border-gray-100">
                     Halo 👋 Saya chatbot Tunas Herbal. Silakan ceritakan keluhan kesehatan Anda, saya akan merekomendasikan produk terbaik untuk Anda.
                 </div>
             </div>
@@ -2298,7 +2295,7 @@ Manfaat:
         <div class="p-6 bg-white border-t border-gray-100">
             <div class="relative flex items-center gap-3">
                 <input id="chat-input" type="text"
-                    class="flex-1 bg-gray-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-teal-500 rounded-2xl px-6 py-4 text-sm dark:text-white"
+                    class="flex-1 bg-gray-50 border-none focus:ring-2 focus:ring-teal-500 rounded-2xl px-6 py-4 text-sm"
                     placeholder="Tulis pesan Anda...">
                 <button onclick="sendChat()" class="bg-teal-600 text-white p-4 rounded-2xl hover:bg-teal-700 transition-all shadow-lg shadow-teal-50">
                     <i data-lucide="send" class="w-5 h-5"></i>
@@ -2309,16 +2306,16 @@ Manfaat:
 </div>
 <button id="scrollTopBtn"
     onclick="scrollToTop()"
-    class="fixed bottom-8 right-8 z-[999] bg-teal-600 text-white w-14 h-14 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center group border-4 border-white dark:border-slate-800">
+    class="fixed bottom-8 right-8 z-[999] bg-teal-600 text-white w-14 h-14 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center group border-4 border-white">
     <i data-lucide="chevron-up" class="w-7 h-7 group-hover:-translate-y-1 transition-transform"></i>
 </button>
 
 <!-- Floating Contact Button (WA & Phone) -->
 <div id="contact-buttons" class="fixed bottom-8 left-8 z-[999] flex flex-col gap-4 transition-all duration-300">
-    <a href="tel:+6289637737721" class="w-14 h-14 bg-blue-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all border-4 border-white dark:border-slate-800">
+    <a href="tel:+6289637737721" class="w-14 h-14 bg-blue-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all border-4 border-white">
         <i data-lucide="phone" class="w-7 h-7"></i>
     </a>
-    <a href="https://wa.me/6289637737721" target="_blank" class="w-14 h-14 bg-green-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all border-4 border-white dark:border-slate-800">
+    <a href="https://wa.me/6289637737721" target="_blank" class="w-14 h-14 bg-green-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all border-4 border-white">
         <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.483 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.308 1.656zm6.757-4.247c1.574.933 3.129 1.423 4.631 1.423 5.403 0 9.8-4.397 9.802-9.802 0-2.618-1.02-5.08-2.871-6.932-1.851-1.852-4.313-2.872-6.93-2.872-5.405 0-9.803 4.398-9.806 9.801 0 1.693.475 3.333 1.377 4.747l-.994 3.63 3.791-.995zm11.718-5.308c-.327-.164-1.938-.957-2.239-1.067-.301-.11-.522-.164-.743.164-.221.327-.855 1.067-1.048 1.286-.193.219-.386.246-.713.081-.327-.164-1.381-.51-2.63-1.627-.973-.867-1.63-1.938-1.821-2.265-.191-.327-.02-.504.143-.666.147-.146.327-.382.49-.573.163-.191.218-.328.327-.546.11-.219.055-.409-.028-.573-.083-.164-.743-1.791-1.018-2.458-.267-.644-.539-.556-.743-.566-.191-.01-.409-.011-.628-.011-.218 0-.573.082-.873.409-.3.327-1.146 1.12-1.146 2.727 0 1.605 1.173 3.162 1.336 3.38.164.219 2.308 3.525 5.591 4.945.781.337 1.391.538 1.867.689.784.248 1.497.213 2.06.129.628-.094 1.938-.791 2.21-1.554.271-.764.271-1.42.191-1.554-.08-.137-.295-.219-.622-.383z"/></svg>
     </a>
 </div>
@@ -2346,7 +2343,7 @@ Manfaat:
  <script src="script.js"></script>
 </body>
 <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[999] hidden items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md p-6 shadow-xl relative animate-[pop_0.25s_ease] text-gray-800 dark:text-slate-200">
+    <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl relative animate-[pop_0.25s_ease]">
 
         <button onclick="closeInfo()" 
             class="absolute top-3 right-3 bg-gray-200 w-8 h-8 rounded-full">✕</button>
