@@ -974,16 +974,32 @@ window.addEventListener("scroll", () => {
         }
     }
 
-    // Hide contact buttons when footer is visible to prevent overlap
-    if (footer && contactBtns) {
+    // Hide all floating buttons when footer is visible to prevent overlap
+    if (footer) {
         const footerRect = footer.getBoundingClientRect();
         // Jika bagian atas footer sudah masuk ke layar
         if (footerRect.top < window.innerHeight) {
-            contactBtns.classList.add("opacity-0", "pointer-events-none", "translate-y-10");
-            contactBtns.classList.remove("opacity-100", "translate-y-0");
+            // Hide Contact Buttons (Left)
+            if (contactBtns) {
+                contactBtns.classList.add("opacity-0", "pointer-events-none", "translate-y-10");
+                contactBtns.classList.remove("opacity-100", "translate-y-0");
+            }
+            // Hide Scroll to Top Button (Right)
+            if (btn) {
+                btn.classList.add("opacity-0", "pointer-events-none", "translate-y-10");
+                btn.classList.remove("opacity-100", "translate-y-0");
+            }
         } else {
-            contactBtns.classList.remove("opacity-0", "pointer-events-none", "translate-y-10");
-            contactBtns.classList.add("opacity-100", "translate-y-0");
+            // Show Contact Buttons (Left)
+            if (contactBtns) {
+                contactBtns.classList.remove("opacity-0", "pointer-events-none", "translate-y-10");
+                contactBtns.classList.add("opacity-100", "translate-y-0");
+            }
+            // Show Scroll to Top Button (Right) - only if scroll > 300
+            if (btn && window.scrollY > 300) {
+                btn.classList.remove("opacity-0", "pointer-events-none", "translate-y-10");
+                btn.classList.add("opacity-100", "translate-y-0");
+            }
         }
     }
 });
