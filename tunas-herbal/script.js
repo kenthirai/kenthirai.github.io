@@ -86,18 +86,29 @@ syncProductUI();
 }
 
         function filterProducts() {
-            const query = document.getElementById('productSearch').value.toLowerCase();
-            const products = document.querySelectorAll('.product-card');
-            
-            products.forEach(product => {
-                const name = (product.getAttribute('data-name') || '').toLowerCase();
-                if (name.includes(query)) {
-                    product.style.display = 'flex';
-                } else {
-                    product.style.display = 'none';
-                }
-            });
-        }
+    const query = document.getElementById('productSearch').value.toLowerCase();
+    const source = document.getElementById('product-grid-source');
+    const target = document.getElementById('product-grid');
+    if (!source || !target) return;
+
+    const items = Array.from(source.children);
+    
+    if (query === '') {
+        currentItems = itemsPerPage;
+        initProductGrid();
+        return;
+    }
+
+    target.innerHTML = '';
+    const filtered = items.filter(item => {
+        const name = (item.getAttribute('data-name') || '').toLowerCase();
+        return name.includes(query);
+    });
+
+    filtered.forEach(item => target.appendChild(item.cloneNode(true)));
+    updateLoadMoreButton(0); // Hide button when searching
+    lucide.createIcons();
+}
 
         function showNotification(msg) {
             const notif = document.getElementById('notif-box');
@@ -190,8 +201,8 @@ function flyCartIcon(startElement) {
     icon.style.transform = 'scale(2.0)';
     icon.style.opacity = '1';
 
-    // 🔥 lebih smooth & lebih lambat
-    icon.style.transition = 'all 2.5s cubic-bezier(0.22, 1, 0.36, 1)';
+    // 🔥 lebih smooth & lebih lambat (disesuaikan durasi)
+    icon.style.transition = 'all 1.2s cubic-bezier(0.22, 1, 0.36, 1)';
 
     lucide.createIcons();
 
@@ -318,34 +329,187 @@ function closeCategoryModal() {
     modal.classList.remove('flex');
 }
 function filterCategory(category) {
-    const products = document.querySelectorAll('.product-card');
+    const source = document.getElementById('product-grid-source');
+    const target = document.getElementById('product-grid');
+    if (!source || !target) return;
 
-    products.forEach(product => {
-        const badge = product.querySelector('span')?.innerText || '';
+    const items = Array.from(source.children);
+    target.innerHTML = '';
 
-        if (category === 'all' || badge === category) {
-            product.style.display = 'flex';
-        } else {
-            product.style.display = 'none';
-        }
-    });
+    if (category === 'all') {
+        currentItems = itemsPerPage;
+        initProductGrid();
+    } else {
+        const filtered = items.filter(item => {
+            const badge = item.querySelector('span')?.innerText || '';
+            return badge.includes(category);
+        });
+        
+        filtered.forEach(item => target.appendChild(item.cloneNode(true)));
+        updateLoadMoreButton(0); // Hide button when filtering
+    }
 
     closeCategoryModal();
-
-    // 🔥 tambahan scroll ke produk
-    setTimeout(() => {
-        const section = document.getElementById('produk');
-        if (section) {
-            section.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    }, 200);
+    lucide.createIcons();
+    scrollToGrid();
 }
 document.addEventListener("DOMContentLoaded", function () {
-    resetHome();
+    initProductGrid();
+    initReveal();
+    initHeroSlider();
+    initFeaturedSlider();
+    initTheme();
+    lucide.createIcons();
 });
+
+// --- PRODUCT GRID & LOAD MORE ---
+let currentItems = 5;
+const itemsPerPage = 5;
+
+function initProductGrid() {
+    const source = document.getElementById('product-grid-source');
+    const target = document.getElementById('product-grid');
+    if (!source || !target) return;
+
+    const items = Array.from(source.children);
+    target.innerHTML = '';
+    
+    const initialItems = items.slice(0, currentItems);
+    initialItems.forEach(item => target.appendChild(item.cloneNode(true)));
+    
+    updateLoadMoreButton(items.length);
+}
+
+function loadMoreProducts() {
+    const source = document.getElementById('product-grid-source');
+    const target = document.getElementById('product-grid');
+    const items = Array.from(source.children);
+    
+    const nextItems = items.slice(currentItems, currentItems + itemsPerPage);
+    nextItems.forEach(item => target.appendChild(item.cloneNode(true)));
+    
+    currentItems += itemsPerPage;
+    updateLoadMoreButton(items.length);
+    lucide.createIcons();
+}
+
+function updateLoadMoreButton(totalItems) {
+    const btnContainer = document.getElementById('load-more-container');
+    if (btnContainer) {
+        btnContainer.style.display = currentItems >= totalItems ? 'none' : 'flex';
+    }
+}
+
+// --- DARK MODE LOGIC ---
+function initTheme() {
+    if (localStorage.getItem('theme') === 'dark' || 
+        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        updateThemeIcon(true);
+    }
+}
+
+function toggleDarkMode() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    updateThemeIcon(isDark);
+}
+
+function updateThemeIcon(isDark) {
+    const icon = document.getElementById('theme-icon');
+    if (icon) {
+        icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+        lucide.createIcons();
+    }
+}
+
+// --- FEATURED AUTO SLIDER (Single Card) ---
+let featuredIndex = 0;
+function initFeaturedSlider() {
+    const track = document.getElementById('featured-track');
+    const dots = document.querySelectorAll('#slider-dots div');
+    if (!track) return;
+
+    setInterval(() => {
+        featuredIndex = (featuredIndex + 1) % 3;
+        updateFeaturedSlider();
+    }, 5000);
+}
+
+function updateFeaturedSlider() {
+    const track = document.getElementById('featured-track');
+    const dots = document.querySelectorAll('#slider-dots div');
+    if (!track) return;
+
+    track.style.transform = `translateX(-${featuredIndex * 100}%)`;
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('bg-teal-600', i === featuredIndex);
+        dot.classList.toggle('bg-gray-200', i !== featuredIndex);
+    });
+}
+
+function manualFeaturedSlide(dir) {
+    featuredIndex = (featuredIndex + dir + 3) % 3;
+    updateFeaturedSlider();
+}
+
+// --- HERO AUTO SLIDER ---
+function initHeroSlider() {
+    const slides = document.querySelectorAll('.hero-slide');
+    if (!slides.length) return;
+    
+    let currentSlide = 0;
+    setInterval(() => {
+        slides[currentSlide].style.opacity = 0;
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].style.opacity = 1;
+    }, 4000);
+}
+
+// --- SCROLL REVEAL ---
+function initReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+}
+
+// --- SLIDER NAVIGATION ---
+function scrollSlider(sliderId, direction) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
+    
+    const scrollAmount = slider.clientWidth * 0.8;
+    if (direction === 'left') {
+        slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+        slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+}
+function showAllProducts() {
+    const source = document.getElementById('product-grid-source');
+    const target = document.getElementById('product-grid');
+    if (!source || !target) return;
+
+    const items = Array.from(source.children);
+    target.innerHTML = '';
+    items.forEach(item => target.appendChild(item.cloneNode(true)));
+    
+    updateLoadMoreButton(0); // Hide button as everything is shown
+    lucide.createIcons();
+    scrollToGrid();
+}
+
+function scrollToGrid() {
+    const grid = document.getElementById('produk');
+    if (grid) grid.scrollIntoView({ behavior: 'smooth' });
+}
 function resetHome() {
     const products = document.querySelectorAll('.product-card');
 
@@ -783,18 +947,7 @@ function scrollToLayanan() {
         });
     }
 }
-// tampilkan tombol saat scroll
-window.addEventListener("scroll", () => {
-    const btn = document.getElementById("scrollTopBtn");
 
-    if (window.scrollY > 300) {
-        btn.classList.remove("opacity-0", "pointer-events-none");
-        btn.classList.add("opacity-100");
-    } else {
-        btn.classList.add("opacity-0", "pointer-events-none");
-        btn.classList.remove("opacity-100");
-    }
-});
 
 // fungsi scroll ke atas (smooth)
 function scrollToTop() {
@@ -805,24 +958,17 @@ function scrollToTop() {
 }
 window.addEventListener("scroll", () => {
     const btn = document.getElementById("scrollTopBtn");
-    const homeBtn = document.getElementById("homeBtn");
 
     if (window.scrollY > 300) {
-        // tombol panah atas
-        btn.classList.remove("opacity-0", "pointer-events-none");
-        btn.classList.add("opacity-100");
-
-        // tombol 🚶
-        homeBtn.classList.remove("opacity-0", "pointer-events-none");
-        homeBtn.classList.add("opacity-100");
+        if (btn) {
+            btn.classList.remove("opacity-0", "pointer-events-none");
+            btn.classList.add("opacity-100");
+        }
     } else {
-        // tombol panah atas
-        btn.classList.add("opacity-0", "pointer-events-none");
-        btn.classList.remove("opacity-100");
-
-        // tombol 🚶
-        homeBtn.classList.add("opacity-0", "pointer-events-none");
-        homeBtn.classList.remove("opacity-100");
+        if (btn) {
+            btn.classList.add("opacity-0", "pointer-events-none");
+            btn.classList.remove("opacity-100");
+        }
     }
 });
 function handleOutsideClick(e) {
@@ -832,6 +978,23 @@ function handleOutsideClick(e) {
     if (!modalContent.contains(e.target)) {
         closeCategoryModal();
     }
+}
+// Add reveal class to sections on load if they don't have it
+window.addEventListener('load', () => {
+    document.querySelectorAll('section').forEach(sec => {
+        if(!sec.classList.contains('reveal')) sec.classList.add('reveal');
+    });
+    initReveal();
+});
+function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    });
+    document.querySelectorAll('.reveal').forEach(sec => observer.observe(sec));
 }
 function showAllProducts() {
     const products = document.querySelectorAll('.product-card');
