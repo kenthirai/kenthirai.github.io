@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap & Arsitektur Pengembangan AI Image Generator</title>
+    
+    <!-- SEO & Open Graph Meta Tags -->
+    <meta name="description" content="Panduan komprehensif tingkat enterprise untuk membangun ekosistem aplikasi AI Image Generator (Mobile App, Backend, Admin Dashboard, & Landing Page) menggunakan Flutter.">
+    <meta name="keywords" content="Flutter, AI Image Generator, DALL-E, Stable Diffusion, Node.js, Arsitektur Aplikasi, Blueprint, Roadmap">
+    <meta name="author" content="AI Developer">
+    <meta property="og:title" content="Roadmap & Arsitektur Pengembangan AI Image Generator">
+    <meta property="og:description" content="Panduan teknis membangun ekosistem aplikasi AI dari nol hingga siap produksi.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <style>
+        :root {
+            --bg-main: #0b0d11;
+            --bg-card: #13161c;
+            --bg-phase: #1a1f29;
+            --bg-phase-hover: #1e2430;
+            --border-color: #282e38;
+            --text-main: #e4e7ec;
+            --text-muted: #94a3b8;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent-1: #a78bfa;
+            --accent-2: #34d399;
+            --danger: #f87171;
+            --warning: #fb923c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding: 6rem 1.5rem 2rem 1.5rem;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation Header */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(19, 22, 28, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .navbar-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #f1f5f9;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-logo span {
+            background: linear-gradient(135deg, var(--accent-1), #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .navbar-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #f1f5f9;
+            user-select: none;
+        }
+        .navbar-top {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 900px) {
+            body { padding-top: 5rem; }
+            .navbar { 
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem 1.5rem; 
+            }
+            .navbar-top {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .hamburger {
+                display: block;
+            }
+            .navbar-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+                padding-top: 1rem;
+                padding-bottom: 0.5rem;
+            }
+            .navbar-links.active {
+                display: flex;
+                animation: fadeIn 0.2s ease;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .navbar-links a {
+                padding: 0.5rem 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .navbar-links a:last-child {
+                border-bottom: none;
+            }
+        }
+
+        /* Container & Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 3rem 2.5rem;
+            border-radius: 32px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Hero Header */
+        .hero-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-1), #60a5fa, var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .hero-header p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            background: #1e293b;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #f1f5f9;
+            margin: 4rem 0 2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        /* Phase Cards */
+        .phase {
+            background: var(--bg-phase);
+            padding: 2rem 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #28303e;
+            border-left: 6px solid var(--primary);
+            transition: all 0.2s ease;
+        }
+
+        .phase:hover {
+            background: var(--bg-phase-hover);
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px -10px rgba(99, 102, 241, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .phase-number {
+            background: var(--primary);
+            color: white;
+            font-weight: 800;
+            font-size: 0.95rem;
+            padding: 0.3rem 1.2rem;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .phase-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            letter-spacing: -0.01em;
+        }
+
+        .phase-sub {
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .phase ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .phase ul li {
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+            color: #cbd5e1;
+            font-size: 1rem;
+        }
+
+        .phase ul li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--accent-1);
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        /* Generic Content Box */
+        .content-box {
+            background: var(--bg-phase);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .content-box h3 {
+            font-size: 1.4rem;
+            color: #f1f5f9;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-box p {
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .content-box ul {
+            margin-left: 1.5rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .content-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            border: 1px dashed rgba(99, 102, 241, 0.3);
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .highlight-box strong {
+            color: var(--accent-1);
+        }
+
+        /* Mermaid Diagram Wrapper */
+        .diagram-wrapper {
+            background: #0f111a;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-color);
+            background: #0f111a !important;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        code[class*="language-"] {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Tech Stack Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tech-card {
+            background: var(--bg-phase);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .tech-card:hover {
+            border-color: var(--accent-1);
+            background: var(--bg-phase-hover);
+            transform: translateY(-5px);
+        }
+
+        .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-card h3 {
+            font-size: 1.25rem;
+            color: #f1f5f9;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Accordion */
+        .accordion-container {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .accordion-item {
+            background: var(--bg-phase);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .accordion-item:hover {
+            border-color: var(--accent-1);
+        }
+
+        .accordion-header {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .accordion-title {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            color: #f1f5f9;
+            font-size: 1.1rem;
+        }
+
+        .accordion-icon {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+            line-height: 1;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 1.5rem;
+            color: #cbd5e1;
+            background: var(--bg-card);
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 1.5rem;
+            max-height: 500px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(45deg);
+            color: var(--accent-1);
+        }
+
+        .accordion-content p {
+            margin-bottom: 0.5rem;
+        }
+        .accordion-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .priority-red { color: #f87171; font-weight: 700; background: rgba(248, 113, 113, 0.1); padding: 0.3rem 0.8rem; border-radius: 8px; }
+        .priority-orange { color: #fb923c; font-weight: 700; background: rgba(251, 146, 60, 0.1); padding: 0.3rem 0.8rem; border-radius: 8px; }
+        .priority-green { color: #4ade80; font-weight: 700; background: rgba(74, 222, 128, 0.1); padding: 0.3rem 0.8rem; border-radius: 8px; }
+
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #back-to-top:hover {
+            background: var(--primary-hover);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            text-align: center;
+            color: #475569;
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+
+        .footer p { margin-bottom: 0.5rem; }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .container { padding: 2rem 1.5rem; }
+            .hero-header h1 { font-size: 2.2rem; }
+            .phase { padding: 1.5rem; }
+            .phase-title { font-size: 1.3rem; }
+            .section-title { font-size: 1.6rem; }
+            /* Removed table-wrapper padding to fix horizontal scroll clipping */
+            th, td { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP NAVIGATION -->
+    <nav class="navbar">
+        <div class="navbar-top">
+            <a href="#" class="navbar-logo">🎨 Roadmap <span>AI Image Generator</span></a>
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+        </div>
+        <div class="navbar-links" id="nav-links">
+            <a href="#fase" onclick="toggleMenu()">Fase Pengembangan</a>
+            <a href="#arsitektur" onclick="toggleMenu()">Arsitektur</a>
+            <a href="#monetisasi" onclick="toggleMenu()">Monetisasi</a>
+            <a href="#compliance" onclick="toggleMenu()">Syarat Toko</a>
+            <a href="#kode" onclick="toggleMenu()">Contoh Kode</a>
+            <a href="#biaya" onclick="toggleMenu()">Estimasi Biaya</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- HEADER HERO -->
+        <div class="hero-header">
+            <h1>Roadmap & Arsitektur Pengembangan AI Image Generator</h1>
+            <p>Panduan komprehensif tingkat enterprise untuk membangun ekosistem aplikasi AI (Mobile App, Backend, Admin Dashboard, & Landing Page) dari nol hingga siap skala produksi.</p>
+            <span class="badge">🚀 Blueprint Standar Industri · Panduan Praktis</span>
+        </div>
+
+        <!-- ================= FASE PENGEMBANGAN ================= -->
+        <h2 class="section-title" id="fase">Roadmap Pengembangan (9 Fase)</h2>
+
+        <!-- FASE 1 -->
+        <div class="phase">
+            <div class="phase-header">
+                <span class="phase-number">Fase 1</span>
+                <span class="phase-title">Perencanaan & Riset Produk</span>
+            </div>
+            <div class="phase-sub">Menentukan arah visi produk, target pasar, dan fondasi bisnis sebelum menulis kode.</div>
+            <ul>
+                <li><strong>Target Platform</strong>: Tentukan target peluncuran awal (Android & iOS). Perencanaan dukungan Web/Desktop untuk fase selanjutnya.</li>
+                <li><strong>User Journey (Alur Pengguna)</strong>: Mapping alur aplikasi (Buka aplikasi → Daftar/Login → Ketik prompt teks → Tunggu loading AI → Lihat hasil → Download/Share gambar).</li>
+                <li><strong>Penyedia Layanan AI</strong>: Riset dan pilih API AI Generator (OpenAI DALL-E 3, Midjourney API, Stability AI, atau Google Imagen).</li>
+                <li><strong>Wireframe & Prototyping UI</strong>: Desain sketsa antarmuka (Figma) untuk Mobile App dan Landing Page.</li>
+                <li><strong>Arsitektur Sistem Web</strong>: <em>(Wajib)</em> Landing Page & Privasi, <em>(Sangat disarankan)</em> Admin Dashboard untuk monitoring API.</li>
+            </ul>
+        </div>
+
+        <!-- FASE 2 -->
+        <div class="phase">
+            <div class="phase-header">
+                <span class="phase-number">Fase 2</span>
+                <span class="phase-title">Persiapan Lingkungan (Setup & Tools)</span>
+            </div>
+            <div class="phase-sub">Inisialisasi repositori, instalasi framework, dan persiapan environment developer.</div>
+            <ul>
+                <li><strong>Flutter SDK & Dart</strong>: Instalasi versi stabil terbaru dan konfigurasi path.</li>
+                <li><strong>Backend Engine</strong>: Setup proyek backend (Node.js/Express, Python/FastAPI, atau BaaS seperti Firebase/Supabase).</li>
+                <li><strong>Database Server</strong>: Inisialisasi PostgreSQL (Supabase/Neon) atau NoSQL (Firebase Firestore/MongoDB).</li>
+                <li><strong>Version Control System</strong>: Setup repository Git (GitHub/GitLab) dengan pemisahan branch strategi (main, dev, feature).</li>
+                <li><strong>CI/CD (Opsional)</strong>: Setup GitHub Actions untuk testing otomatis.</li>
+            </ul>
+        </div>
+
+        <!-- FASE 3 -->
+        <div class="phase">
+            <div class="phase-header">
+                <span class="phase-number">Fase 3</span>
+                <span class="phase-title">Arsitektur Kode & Struktur Folder (Mobile)</span>
+            </div>
+            <div class="phase-sub">Menerapkan arsitektur yang scalable, rapi, dan mudah dirawat untuk jangka panjang.</div>
+            <ul>
+                <li><strong>State Management</strong>: Implementasi pola yang solid (Rekomendasi: <strong>BLoC/Cubit</strong> atau <strong>Riverpod</strong>).</li>
+                <li><strong>Clean Architecture</strong>: Pemisahan lapisan kode: <code>presentation</code> (UI/Widget), <code>domain</code> (Entitas/Model), <code>application</code> (Use case/Logika), dan <code>infrastructure</code> (API/Repository).</li>
+                <li><strong>Sistem Routing</strong>: Konfigurasi navigasi berbasis URL menggunakan paket <code>go_router</code>.</li>
+                <li><strong>Theming & Assets</strong>: Definisi warna utama, typography, dan persiapan folder icon/ilustrasi.</li>
+            </ul>
+        </div>
+
+        <!-- FASE 4 -->
+        <div class="phase">
+            <div class="phase-header">
+                <span class="phase-number">Fase 4</span>
+                <span class="phase-title">Pengembangan Backend & Admin Dashboard</span>
+            </div>
+            <div class="phase-sub">Membangun jembatan komunikasi yang aman antara Aplikasi, Database, dan Provider AI.</div>
+            <ul>
+                <li><strong>RESTful API / GraphQL</strong>: Pembuatan endpoint utama (<code>POST /api/v1/generate</code>).</li>
+                <li><strong>Keamanan API Keys</strong>: <strong>Sangat Penting!</strong> API Key OpenAI/Midjourney wajib diletakkan di backend menggunakan <em>Environment Variables</em> (jangan pernah hardcode di Flutter).</li>
+                <li><strong>Manajemen Database</strong>: Pembuatan tabel untuk <code>Users</code>, <code>Generations</code> (riwayat prompt & URL gambar), dan <code>Transactions</code> (jika ada sistem koin).</li>
+                <li><strong>Web Admin Dashboard</strong>: Panel untuk memantau aktivitas pengguna, mengatur limitasi harian, memblokir kata kasar (NSFW Filter), dan melihat metrik biaya API.</li>
+            </ul>
+        </div>
+
+        <!-- FASE 5 -->
+        <div class="phase">
+            <div class="phase-header">
+                <span class="phase-number">Fase 5</span>
+                <span class="phase-title">Pengembangan Fitur Inti (Flutter UI & Logika)</span>
+            </div>
+            <div class="phase-sub">Coding elemen visual aplikasi mobile dan mengintegrasikannya dengan layanan backend.</div>
+            <ul>
+                <li><strong>Halaman Generator (Home)</strong>: Form input text prompt, pengaturan rasio gambar (1:1, 16:9), dan style art.</li>
+                <li><strong>Service Layer (Integrasi API)</strong>: Setup HTTP client menggunakan <code>dio</code> lengkap dengan interceptor untuk token Auth.</li>
+                <li><strong>UX Loading State</strong>: Animasi lottie atau efek <em>shimmer</em> yang elegan karena AI membutuhkan waktu 5-20 detik untuk render gambar.</li>
+                <li><strong>Halaman Hasil & Aksi</strong>: Widget penampil gambar (<code>cached_network_image</code>), beserta fungsi <strong>Download (Simpan ke Galeri)</strong>, <strong>Share</strong>, dan <strong>Regenerate</strong>.</li>
+            </ul>
+        </div>
+
+        <!-- FASE 6 -->
+        <div class="phase">
+            <div class="phase-header">
+                <span class="phase-number">Fase 6</span>
+                <span class="phase-title">Manajemen Data Lokal & Caching</span>
+            </div>
+            <div class="phase-sub">Optimalisasi performa agar aplikasi cepat, hemat kuota, dan bisa berfungsi luring (sebagian).</div>
+            <ul>
+                <li><strong>Preferensi Pengguna</strong>: Penggunaan <code>shared_preferences</code> untuk menyimpan sesi login, status Dark Mode, dan setting dasar.</li>
+                <li><strong>Riwayat Lokal</strong>: Penggunaan database NoSQL lokal (seperti <code>Hive</code> atau <code>Isar</code>) untuk menyimpan history prompt terakhir pengguna.</li>
+                <li><strong>Image Caching</strong>: Memastikan gambar yang sudah pernah dimuat tidak didownload ulang untuk menghemat bandwidth server dan pengguna.</li>
+            </ul>
+        </div>
+
+        <!-- FASE 7 -->
+        <div class="phase">
+            <div class="phase-header">
+                <span class="phase-number">Fase 7</span>
+                <span class="phase-title">Keamanan, Validasi & Penanganan Error</span>
+            </div>
+            <div class="phase-sub">Menjamin aplikasi tidak mudah crash dan memenuhi standar ketat toko aplikasi.</div>
+            <ul>
+                <li><strong>Validasi Input Teks</strong>: Cek karakter khusus, panjang minimal/maksimal prompt, sebelum dikirim ke API.</li>
+                <li><strong>Global Error Handling</strong>: Penanganan rapi jika server down, timeout, atau koneksi internet terputus dengan <em>snackbar</em> peringatan.</li>
+                <li><strong>Filter NSFW / Safety</strong>: Implementasi sistem moderasi prompt (mencegah pembuatan gambar sensitif/kekerasan).</li>
+                <li><strong>Fitur Pelaporan (Report & Block)</strong>: Tombol lapor/blokir konten <em>(Syarat mutlak agar aplikasi tidak ditolak oleh Apple App Store dan Google Play)</em>.</li>
+            </ul>
+        </div>
+
+        <!-- FASE 8 -->
+        <div class="phase">
+            <div class="phase-header">
+                <span class="phase-number">Fase 8</span>
+                <span class="phase-title">Pembangunan Landing Page (Website Publik)</span>
+            </div>
+            <div class="phase-sub">Membangun etalase produk di internet untuk marketing dan kepatuhan hukum.</div>
+            <ul>
+                <li><strong>Desain Landing Page</strong>: Halaman modern berisi keunggulan aplikasi, showcase galeri gambar yang digenerate AI, dan tombol download App/Play Store.</li>
+                <li><strong>Halaman Legalitas (Wajib)</strong>: Privacy Policy (Kebijakan Privasi), Terms of Service, dan EULA. <strong>Google & Apple akan memeriksa link ini</strong>.</li>
+                <li><strong>Hosting Cepat</strong>: Deploy web statis ke layanan seperti Vercel, Netlify, atau Firebase Hosting dengan Custom Domain.</li>
+            </ul>
+        </div>
+
+        <!-- FASE 9 -->
+        <div class="phase">
+            <div class="phase-header">
+                <span class="phase-number">Fase 9</span>
+                <span class="phase-title">Testing, Rilis (Deployment) & Maintenance</span>
+            </div>
+            <div class="phase-sub">Tahapan finalisasi, peluncuran ke publik, dan pemantauan bug pasca-rilis.</div>
+            <ul>
+                <li><strong>Quality Assurance (QA)</strong>: Melakukan Unit Test, Widget Test, dan Integration Test secara menyeluruh di berbagai ukuran layar.</li>
+                <li><strong>Build & Signing</strong>: Konfigurasi <code>build.gradle</code> dan <code>Info.plist</code>, pembuatan Keystore (Android) & sertifikat distribusi (iOS), serta optimasi ukuran bundle (AAB/IPA).</li>
+                <li><strong>Toko Aplikasi</strong>: Upload screenshot, deskripsi ASO (App Store Optimization), dan rilis di Google Play Console & App Store Connect.</li>
+                <li><strong>Monitoring Produksi</strong>: Integrasi <strong>Firebase Crashlytics</strong> (laporan crash realtime) dan <strong>Google Analytics</strong> untuk melacak perilaku pengguna.</li>
+            </ul>
+        </div>
+
+        <!-- ================= ARSITEKTUR BACKEND ================= -->
+        <h2 class="section-title" id="arsitektur">Arsitektur Backend & Database Diagram</h2>
+        <div class="content-box">
+            <h3>Kenapa Tidak Langsung dari Flutter ke API AI?</h3>
+            <p><strong>Dilarang keras</strong> menaruh API Key (seperti OpenAI API Key) di dalam kode Flutter. Kode aplikasi mobile sangat mudah di-<em>reverse engineer</em>. Jika kunci bocor, kuota Anda bisa dikuras oleh orang lain. Anda wajib menggunakan <strong>Backend Penengah (Middle-tier)</strong>.</p>
+            
+            <h3 style="margin-top: 2rem;">Flowchart Aliran Data AI (Mermaid)</h3>
+            <div class="diagram-wrapper">
+                <div class="mermaid">
+                flowchart TD
+                    A[📱 Aplikasi Flutter] -->|Request Prompt & Token JWT| B(⚙️ Backend Server / Node.js)
+                    B -->|Verifikasi Saldo & Koin| C[(🗄️ Database PostgreSQL)]
+                    C -->|Saldo Cukup| B
+                    B -->|Filter NSFW / Kata Kasar| D{Aman?}
+                    D -- Ya --> E[🤖 Provider AI mis. OpenAI DALL-E]
+                    D -- Tidak --> F[Tolak Request & Kirim Peringatan]
+                    F --> A
+                    E -->|Proses Rendering 5-15 Detik| E
+                    E -->|Return URL Gambar| B
+                    B -->|Simpan URL & Potong Saldo| C
+                    B -->|Return URL Gambar| A
+                    
+                    style A fill:#4f46e5,stroke:#312e81,color:#fff,stroke-width:2px
+                    style B fill:#059669,stroke:#064e3b,color:#fff,stroke-width:2px
+                    style C fill:#0ea5e9,stroke:#075985,color:#fff,stroke-width:2px
+                    style E fill:#a855f7,stroke:#581c87,color:#fff,stroke-width:2px
+                    style F fill:#ef4444,stroke:#7f1d1d,color:#fff,stroke-width:2px
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Rekomendasi Tech Stack Backend Terbaik</h3>
+            <ul style="margin-top: 0.5rem;">
+                <li>🚀 <strong>Untuk Rilis Cepat: <span style="color:var(--accent-1)">Supabase (Backend-as-a-Service)</span></strong>. Anda tidak perlu setup server manual. Gunakan <em>Supabase Edge Functions</em> (TypeScript) untuk memanggil API OpenAI, dan simpan log di PostgreSQL bawaannya.</li>
+                <li>🛠️ <strong>Untuk Skala Penuh & Custom: <span style="color:var(--accent-1)">Node.js (NestJS / Express)</span> + PostgreSQL</strong>. Cocok jika Anda ingin membangun admin panel yang sangat kompleks, memiliki sistem antrean (Queue) saat user sangat ramai, dan integrasi payment gateway.</li>
+            </ul>
+        </div>
+
+
+        <!-- ================= STRATEGI MONETISASI ================= -->
+        <h2 class="section-title" id="monetisasi">Strategi Monetisasi (Pendapatan)</h2>
+        <div class="content-box">
+            <h3>Bagaimana Aplikasi Ini Menghasilkan Uang?</h3>
+            <p>Memanggil API AI seperti DALL-E atau Midjourney membutuhkan biaya per gambar (sekitar $0.02 - $0.08). Oleh karena itu, aplikasi Anda harus memiliki mekanisme pendapatan yang solid sebelum dirilis.</p>
+            
+            <ul style="margin-top: 1rem;">
+                <li>💎 <strong>Model Koin (Credit System)</strong>: Pengguna membeli "Koin AI". 1 kali generate gambar mengonsumsi 10 koin. (Misal: Jual 500 Koin seharga Rp15.000 via In-App Purchase Google/Apple).</li>
+                <li>👑 <strong>Model Langganan (Subscription Premium)</strong>: Pengguna membayar langganan bulanan (misal Rp49.000/bulan) untuk mendapatkan akses "Cepat tanpa antre", "Resolusi 4K", dan "Tanpa Iklan".</li>
+                <li>📺 <strong>Model Iklan (Ad-Driven)</strong>: Pengguna gratis harus menonton Iklan Video (Rewarded Ads via AdMob) selama 30 detik untuk mendapatkan 1x kuota generate gambar.</li>
+            </ul>
+            <div class="highlight-box">
+                <div style="font-size: 1.5rem;">💡</div>
+                <div><strong>Pro Tip:</strong> Kombinasikan Model Iklan untuk pengguna gratis (sebagai alat akuisisi) dan Model Koin untuk pengguna yang tidak suka menunggu iklan.</div>
+            </div>
+        </div>
+
+
+        <!-- ================= CHECKLIST KEPATUHAN TOKO ================= -->
+        <h2 class="section-title" id="compliance">Checklist Wajib Rilis (Play Store & App Store)</h2>
+        <div class="content-box">
+            <h3>Aturan Ketat untuk Aplikasi AI Generatif</h3>
+            <p>Apple App Store dan Google Play Store memiliki kebijakan perlindungan pengguna yang sangat ketat terhadap konten buatan AI (UGC - User Generated Content). Jika poin di bawah ini tidak ada, <strong>aplikasi Anda akan ditolak (Rejected)</strong>.</p>
+            
+            <ul style="margin-top: 1rem;">
+                <li>🛡️ <strong>Filter NSFW (Pornografi & Kekerasan)</strong>: Anda WAJIB memblokir prompt teks yang mengandung unsur pornografi, kebencian, dan kekerasan. (Sebagian API seperti DALL-E 3 sudah memblokirnya dari sisi server, namun pastikan backend Anda juga mengeceknya).</li>
+                <li>🚩 <strong>Fitur Report (Laporkan Konten)</strong>: Harus ada tombol "Laporkan Gambar Ini" di setiap hasil gambar yang digenerate. Jika pengguna lain melihat gambar hasil AI di feed publik aplikasi, mereka harus bisa melaporkannya.</li>
+                <li>🚫 <strong>Fitur Block User (Blokir Pengguna)</strong>: Pengguna harus bisa memblokir pengguna lain agar tidak melihat hasil generasi AI mereka (jika aplikasi Anda memiliki fitur sosial/galeri publik).</li>
+                <li>📄 <strong>Kebijakan Privasi & EULA</strong>: Anda wajib mencantumkan link halaman <em>Privacy Policy</em> dan <em>End User License Agreement</em> (EULA) yang menyatakan bahwa aplikasi Anda tidak menoleransi konten abusif.</li>
+            </ul>
+        </div>
+
+
+        <!-- ================= CONTOH KODE ================= -->
+        <h2 class="section-title" id="kode">Contoh Implementasi Kode</h2>
+
+        <div class="content-box">
+            <h3>1. Backend Server (Node.js / Express)</h3>
+            <p>Contoh endpoint sederhana yang bertindak sebagai jembatan ke OpenAI DALL-E 3, serta mengurangi risiko kebocoran kunci.</p>
+<pre><code class="language-javascript">// server.js (Node.js Backend)
+const express = require('express');
+const axios = require('axios');
+const app = express();
+app.use(express.json());
+
+app.post('/api/generate-image', async (req, res) => {
+    const { prompt, userToken } = req.body;
+    
+    // 1. Verifikasi User (Logika validasi token ditaruh di sini)
+    // 2. Cek Kuota/Saldo Koin User di Database
+    
+    try {
+        // 3. Panggil API AI yang sebenarnya
+        const aiResponse = await axios.post('https://api.openai.com/v1/images/generations', {
+            model: "dall-e-3",
+            prompt: prompt,
+            n: 1,
+            size: "1024x1024"
+        }, {
+            headers: {
+                // API KEY rahasia disimpan di Environment Server
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+            }
+        });
+
+        const imageUrl = aiResponse.data.data[0].url;
+        
+        // 4. Potong saldo koin user & Simpan imageUrl ke Database
+        
+        // 5. Kembalikan URL ke Aplikasi Flutter
+        res.json({ success: true, url: imageUrl });
+        
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Gagal memproses gambar." });
+    }
+});
+
+app.listen(3000, () => console.log('Server berjalan di port 3000'));</code></pre>
+        </div>
+
+        <div class="content-box">
+            <h3>2. Aplikasi Flutter (Service API)</h3>
+            <p>Ini adalah fungsi untuk memanggil API backend buatan kita sendiri dari aplikasi mobile menggunakan package <code>dio</code>.</p>
+<pre><code class="language-dart">// api_service.dart
+import 'package:dio/dio.dart';
+
+class ApiService {
+  final Dio _dio = Dio();
+  
+  // URL Server Backend Anda, BUKAN URL OpenAI!
+  final String backendUrl = 'https://api.domainanda.com/api/generate-image';
+
+  Future&lt;String?&gt; generateImage(String prompt) async {
+    try {
+      final response = await _dio.post(
+        backendUrl,
+        data: {
+          'prompt': prompt,
+          'userToken': 'TOKEN_USER_SAAT_LOGIN', // Untuk verifikasi backend
+        },
+      );
+
+      if (response.data['success']) {
+        return response.data['url']; // Kembalikan URL gambar
+      } else {
+        throw Exception(response.data['message']);
+      }
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+}</code></pre>
+        </div>
+
+
+        <!-- ================= ESTIMASI BIAYA ================= -->
+        <h2 class="section-title" id="biaya">Estimasi Biaya Server & API AI (Produksi)</h2>
+        <div class="accordion-container">
+            <!-- Item 1 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">
+                        <strong>Provider AI (API Image)</strong>
+                        <span class="priority-orange">Pay-as-you-go</span>
+                    </div>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>Layanan:</strong> OpenAI DALL-E 3 atau Stability AI</p>
+                    <p><strong>Estimasi:</strong> $0.04 - $0.08 / gambar</p>
+                    <p><strong>Keterangan:</strong> Biaya paling besar. Pastikan model koin/iklan di aplikasi menutupi biaya ini.</p>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">
+                        <strong>Backend & Database</strong>
+                        <span class="priority-green">~$25.00 / bulan</span>
+                    </div>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>Layanan:</strong> Supabase (Pro Plan) / VPS DigitalOcean</p>
+                    <p><strong>Keterangan:</strong> Untuk menyimpan data pengguna, riwayat gambar, dan sistem login.</p>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">
+                        <strong>Server Hosting Gambar</strong>
+                        <span class="priority-green">Gratis / Sangat Murah</span>
+                    </div>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>Layanan:</strong> AWS S3 / Cloudflare R2</p>
+                    <p><strong>Keterangan:</strong> Jika gambar DALL-E ingin diunduh dan disimpan di server Anda secara permanen.</p>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">
+                        <strong>Landing Page Website</strong>
+                        <span class="priority-green">Gratis ($0)</span>
+                    </div>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>Layanan:</strong> Vercel / Netlify</p>
+                    <p><strong>Keterangan:</strong> Pilih hosting statis gratis, cukup bayar nama domain (~$10/tahun).</p>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">
+                        <strong>Akun Developer Store</strong>
+                        <span class="priority-red">Google: $25 (1x), Apple: $99/Tahun</span>
+                    </div>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>Layanan:</strong> Google Play & App Store</p>
+                    <p><strong>Keterangan:</strong> Syarat mutlak untuk mempublikasikan aplikasi ke publik.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p><strong>Roadmap & Arsitektur Pengembangan AI Image Generator</strong></p>
+            <p>Dokumen ini dirancang sebagai panduan profesional end-to-end dengan fokus keamanan, compliance, dan arsitektur yang <em>scalable</em>.</p>
+            <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
+                Dikembangkan oleh <a href="https://ariftirtana.my.id" target="_blank" style="color: var(--accent-1); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--accent-1);">Arif Tirtana</a>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Back to Top Floating Button -->
+    <a href="#" id="back-to-top" title="Kembali ke Atas">↑</a>
+
+    <!-- Scripts -->
+    <!-- Prism for code syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-dart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    
+    <!-- Mermaid for Flowchart Diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        // Initialize Mermaid in Dark Theme
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+
+        // Toggle Hamburger Menu
+        function toggleMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Back to Top Button Logic
+        const backToTopButton = document.getElementById("back-to-top");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add("show");
+            } else {
+                backToTopButton.classList.remove("show");
+            }
+        });
+
+        // Accordion Logic
+        function toggleAccordion(element) {
+            const item = element.parentElement;
+            // Menutup accordion lain secara otomatis (opsional)
+            const allItems = document.querySelectorAll('.accordion-item');
+            allItems.forEach(i => {
+                if(i !== item) i.classList.remove('active');
+            });
+            
+            item.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
